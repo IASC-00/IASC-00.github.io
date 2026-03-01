@@ -489,6 +489,62 @@ a:hover { color: var(--accent); }
 }
 
 /* ============================================================
+   CREDENTIALS
+   ============================================================ */
+.credentials-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+}
+
+.cred-heading {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+.cred-list { list-style: none; }
+
+.cred-list li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cred-list li:last-child { border-bottom: none; }
+
+.cred-list:not(.cred-list--entries) li {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cred-title {
+    font-weight: 600;
+    color: #fff;
+    font-size: 13px;
+}
+
+.cred-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .credentials-layout { grid-template-columns: 1fr; gap: 36px; }
+}
+
+/* ============================================================
    FOOTER
    ============================================================ */
 .footer {
