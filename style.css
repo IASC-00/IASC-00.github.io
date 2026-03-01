@@ -285,6 +285,16 @@ a:hover { color: var(--accent); }
     letter-spacing: 0.03em;
 }
 
+.card-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+}
+
+.card-link:hover { color: var(--accent-2); }
+
 /* ============================================================
    SKILLS
    ============================================================ */
