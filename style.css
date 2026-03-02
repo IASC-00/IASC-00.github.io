@@ -210,6 +210,24 @@ a:hover { opacity: 0.55; }
     margin-top: 40px;
 }
 
+.hero-contact-line {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--dim);
+}
+
+.hero-contact-line a {
+    color: var(--dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.hero-contact-line a:hover {
+    color: var(--text);
+    border-color: var(--text);
+}
+
 /* ── Buttons ── */
 .btn {
     display: inline-block;
