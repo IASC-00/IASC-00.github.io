@@ -30,9 +30,9 @@
         </div>
     </nav>
 
-    <!-- ── HERO ───────────────────────────────────────────────── -->
-    <section id="hero" class="hero">
-        <div class="hero-inner">
+    <!-- ── INTRO ─────────────────────────────────────────────── -->
+    <div id="hero" class="intro">
+        <div class="intro-text">
             <div class="availability-badge">
                 <span class="avail-dot"></span>
                 available for freelance contracts
@@ -45,7 +45,11 @@
                 <a href="resume.html" class="btn btn-secondary" target="_blank">resume</a>
             </div>
         </div>
-    </section>
+        <div class="intro-canvas-wrap" id="solar-bloom-wrap">
+            <canvas id="solar-bloom-canvas"></canvas>
+            <span class="intro-canvas-label">Solar Bloom &nbsp;·&nbsp; click to pause</span>
+        </div>
+    </div>
 
     <!-- ── PROJECTS ───────────────────────────────────────────── -->
     <section id="projects" class="section">
@@ -342,11 +346,6 @@
                 </div>
 
                 <div class="art-item">
-                    <img src="art/EJCT3607.JPG" alt="Solar Bloom" loading="lazy">
-                    <div class="art-overlay"><span>Solar Bloom</span></div>
-                </div>
-
-                <div class="art-item">
                     <img src="art/IMG_0319.PNG" alt="The Rift" loading="lazy">
                     <div class="art-overlay"><span>The Rift</span></div>
                 </div>
@@ -406,5 +405,64 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <script>
+    (function () {
+        const wrap   = document.getElementById('solar-bloom-wrap');
+        const canvas = document.getElementById('solar-bloom-canvas');
+        if (!wrap || !canvas || typeof THREE === 'undefined') return;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
+
+        const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+        camera.position.z = 4;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+
+        // Texture
+        const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
+
+        // Plane at 16:9 aspect
+        const geo = new THREE.PlaneGeometry(3.6, 2.025);
+        const mat = new THREE.MeshStandardMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+            roughness: 0.45,
+            metalness: 0.0
+        });
+        const plane = new THREE.Mesh(geo, mat);
+        scene.add(plane);
+
+        // Lights
+        scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+        const key = new THREE.DirectionalLight(0xffffff, 0.55);
+        key.position.set(4, 3, 4);
+        scene.add(key);
+
+        // Click to pause / resume
+        let paused = false;
+        canvas.addEventListener('click', function () {
+            paused = !paused;
+        });
+
+        // Animate
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!paused) plane.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize
+        window.addEventListener('resize', function () {
+            camera.aspect = wrap.clientWidth / wrap.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+        });
+    })();
+    </script>
 </body>
 </html>
