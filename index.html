@@ -47,7 +47,7 @@
         </div>
         <div class="intro-canvas-wrap" id="solar-bloom-wrap">
             <canvas id="solar-bloom-canvas"></canvas>
-            <span class="intro-canvas-label">Solar Bloom &nbsp;·&nbsp; click to pause</span>
+            <span class="intro-canvas-label">drag to explore all works</span>
         </div>
     </div>
 
@@ -428,108 +428,35 @@
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-        // Remap UVs so each pentagonal face shows the full image independently
-        function remapUVsPerFace(geometry) {
-            const geo = geometry.toNonIndexed();
-            const pos = geo.attributes.position;
-            const count = pos.count;
-            const uvArray   = new Float32Array(count * 2);
-            const normArray = new Float32Array(count * 3);
-            const groups    = new Map();
-
-            // Compute true geometric face normals from triangle edges (not vertex normals)
-            for (let tri = 0; tri < count / 3; tri++) {
-                const i = tri * 3;
-                const ax = pos.getX(i),   ay = pos.getY(i),   az = pos.getZ(i);
-                const bx = pos.getX(i+1), by = pos.getY(i+1), bz = pos.getZ(i+1);
-                const cx = pos.getX(i+2), cy = pos.getY(i+2), cz = pos.getZ(i+2);
-
-                let nx = (by-ay)*(cz-az) - (bz-az)*(cy-ay);
-                let ny = (bz-az)*(cx-ax) - (bx-ax)*(cz-az);
-                let nz = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax);
-                const len = Math.sqrt(nx*nx + ny*ny + nz*nz) || 1;
-                nx /= len; ny /= len; nz /= len;
-
-                // Store flat normal for each vertex of this triangle
-                for (let j = 0; j < 3; j++) {
-                    normArray[(i+j)*3]   = nx;
-                    normArray[(i+j)*3+1] = ny;
-                    normArray[(i+j)*3+2] = nz;
-                }
-
-                // Group by rounded normal — rounding factor 6 gives ~10° tolerance
-                const key = Math.round(nx*6) + ',' + Math.round(ny*6) + ',' + Math.round(nz*6);
-                if (!groups.has(key)) groups.set(key, []);
-                groups.get(key).push(tri);
-            }
-
-            geo.setAttribute('normal', new THREE.BufferAttribute(normArray, 3));
-
-            // Remap UVs per face group
-            groups.forEach(function(tris) {
-                const verts = [], indices = [];
-                tris.forEach(function(tri) {
-                    for (let j = 0; j < 3; j++) {
-                        const idx = tri * 3 + j;
-                        verts.push(new THREE.Vector3(pos.getX(idx), pos.getY(idx), pos.getZ(idx)));
-                        indices.push(idx);
-                    }
-                });
-
-                // Face center and local coordinate frame
-                const center = new THREE.Vector3();
-                verts.forEach(function(v) { center.add(v); });
-                center.divideScalar(verts.length);
-
-                const b = tris[0] * 3;
-                const v0 = new THREE.Vector3(pos.getX(b),   pos.getY(b),   pos.getZ(b));
-                const v1 = new THREE.Vector3(pos.getX(b+1), pos.getY(b+1), pos.getZ(b+1));
-                const v2 = new THREE.Vector3(pos.getX(b+2), pos.getY(b+2), pos.getZ(b+2));
-                const faceN = v1.clone().sub(v0).cross(v2.clone().sub(v0)).normalize();
-                const ref   = Math.abs(faceN.y) < 0.9 ? new THREE.Vector3(0,1,0) : new THREE.Vector3(1,0,0);
-                const tan   = new THREE.Vector3().crossVectors(ref, faceN).normalize();
-                const bitan = new THREE.Vector3().crossVectors(faceN, tan).normalize();
-
-                const proj = verts.map(function(v) {
-                    const r = v.clone().sub(center);
-                    return { u: r.dot(tan), v: r.dot(bitan) };
-                });
-
-                const us = proj.map(function(p) { return p.u; });
-                const vs = proj.map(function(p) { return p.v; });
-                const minU = Math.min.apply(null, us), maxU = Math.max.apply(null, us);
-                const minV = Math.min.apply(null, vs), maxV = Math.max.apply(null, vs);
-                const range = Math.max(maxU - minU, maxV - minV) * 1.08;
-
-                proj.forEach(function(p, k) {
-                    const idx = indices[k];
-                    uvArray[idx * 2]     = (p.u - minU) / range + (range - (maxU - minU)) / (2 * range);
-                    uvArray[idx * 2 + 1] = (p.v - minV) / range + (range - (maxV - minV)) / (2 * range);
-                });
+        // Load all 6 art pieces — one per face of the cube
+        const loader = new THREE.TextureLoader();
+        const artFiles = [
+            'art/AlteredCarbon.jpeg',  // +x right
+            'art/IMG_0319.PNG',        // -x left
+            'art/EJCT3607.JPG',        // +y top
+            'art/IMG_0339.PNG',        // -y bottom
+            'art/IMG_0320.PNG',        // +z front
+            'art/IMG_0326.PNG',        // -z back
+        ];
+        const materials = artFiles.map(function(src) {
+            return new THREE.MeshStandardMaterial({
+                map: loader.load(src),
+                roughness: 0.30,
+                metalness: 0.08
             });
-
-            geo.setAttribute('uv', new THREE.BufferAttribute(uvArray, 2));
-            return geo;
-        }
-
-        // Texture
-        const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
-
-        // Dodecahedron — 12 pentagonal faces, each showing the full image
-        const geo = remapUVsPerFace(new THREE.DodecahedronGeometry(1.4, 0));
-        const mat = new THREE.MeshStandardMaterial({
-            map: texture,
-            roughness: 0.35,
-            metalness: 0.05
         });
-        const prism = new THREE.Mesh(geo, mat);
+
+        // Cube — 6 faces, 6 art pieces
+        const geo = new THREE.BoxGeometry(2.1, 2.1, 2.1);
+        const prism = new THREE.Mesh(geo, materials);
         prism.rotation.x = 0.25;
+        prism.rotation.y = 0.5;
         prism.castShadow = true;
         scene.add(prism);
 
-        // Shadow catcher beneath the shape
-        const shadowGeo = new THREE.PlaneGeometry(6, 6);
-        const shadowMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+        // Shadow catcher — soft drop shadow beneath
+        const shadowGeo = new THREE.PlaneGeometry(8, 8);
+        const shadowMat = new THREE.ShadowMaterial({ opacity: 0.18 });
         const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
         shadowPlane.rotation.x = -Math.PI / 2;
         shadowPlane.position.y = -1.6;
@@ -541,9 +468,9 @@
         const key = new THREE.DirectionalLight(0xffffff, 0.8);
         key.position.set(4, 6, 5);
         key.castShadow = true;
-        key.shadow.mapSize.width  = 1024;
-        key.shadow.mapSize.height = 1024;
-        key.shadow.radius = 8;
+        key.shadow.mapSize.width  = 2048;
+        key.shadow.mapSize.height = 2048;
+        key.shadow.radius = 6;
         scene.add(key);
         const fill = new THREE.DirectionalLight(0xfff4e8, 0.25);
         fill.position.set(-4, -1, 3);
