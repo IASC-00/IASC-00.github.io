@@ -91,7 +91,60 @@ a:hover { opacity: 0.55; }
 }
 
 /* ============================================================
-   HERO
+   INTRO (3D split)
+   ============================================================ */
+.intro {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    padding-top: 56px; /* nav height */
+}
+
+.intro-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 56px;
+}
+
+.intro-canvas-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+}
+
+#solar-bloom-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.intro-canvas-label {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    pointer-events: none;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .intro {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: auto;
+        min-height: 100vh;
+    }
+    .intro-text { padding: 80px 24px 32px; order: 2; }
+    .intro-canvas-wrap { order: 1; min-height: 50vh; }
+}
+
+/* ============================================================
+   HERO (tagline + buttons — kept for layout below intro)
    ============================================================ */
 .hero {
     min-height: 100vh;
