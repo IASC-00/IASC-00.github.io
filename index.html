@@ -416,7 +416,7 @@
         scene.background = new THREE.Color(0xffffff);
 
         const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
-        camera.position.z = 4;
+        camera.position.z = 5;
 
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -425,22 +425,25 @@
         // Texture
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
 
-        // Plane at 16:9 aspect
-        const geo = new THREE.PlaneGeometry(3.6, 2.025);
+        // Cube — art on all 6 faces
+        const geo = new THREE.BoxGeometry(2.4, 2.4, 2.4);
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
-            side: THREE.DoubleSide,
-            roughness: 0.45,
-            metalness: 0.0
+            roughness: 0.4,
+            metalness: 0.05
         });
-        const plane = new THREE.Mesh(geo, mat);
-        scene.add(plane);
+        const cube = new THREE.Mesh(geo, mat);
+        cube.rotation.x = 0.2; // slight downward tilt for depth
+        scene.add(cube);
 
         // Lights
-        scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-        const key = new THREE.DirectionalLight(0xffffff, 0.55);
-        key.position.set(4, 3, 4);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+        const key = new THREE.DirectionalLight(0xffffff, 0.7);
+        key.position.set(4, 4, 5);
         scene.add(key);
+        const fill = new THREE.DirectionalLight(0xfff0e0, 0.3);
+        fill.position.set(-4, -2, 3);
+        scene.add(fill);
 
         // Click to pause / resume
         let paused = false;
@@ -451,7 +454,7 @@
         // Animate
         function animate() {
             requestAnimationFrame(animate);
-            if (!paused) plane.rotation.y += 0.005;
+            if (!paused) cube.rotation.y += 0.005;
             renderer.render(scene, camera);
         }
         animate();
