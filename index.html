@@ -428,13 +428,11 @@
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-        // Texture — repeat twice around so each facing shows the full image
+        // Texture
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.repeat.set(2, 1);
 
-        // Cylinder
-        const geo = new THREE.CylinderGeometry(1.2, 1.2, 1.8, 64);
+        // Dodecahedron — 12 pentagonal faces
+        const geo = new THREE.DodecahedronGeometry(1.4, 0);
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
             roughness: 0.35,
@@ -445,12 +443,12 @@
         prism.castShadow = true;
         scene.add(prism);
 
-        // Shadow catcher — invisible plane beneath the cylinder
+        // Shadow catcher beneath the shape
         const shadowGeo = new THREE.PlaneGeometry(6, 6);
         const shadowMat = new THREE.ShadowMaterial({ opacity: 0.12 });
         const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
         shadowPlane.rotation.x = -Math.PI / 2;
-        shadowPlane.position.y = -1.2;
+        shadowPlane.position.y = -1.6;
         shadowPlane.receiveShadow = true;
         scene.add(shadowPlane);
 
