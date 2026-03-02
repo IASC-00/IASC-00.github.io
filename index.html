@@ -425,19 +425,20 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(w, h);
 
-        // Texture
+        // Texture — wraps around all 6 side panels as it rotates
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
 
-        // Cube — thicker and wider
-        const geo = new THREE.BoxGeometry(3.2, 3.2, 3.2);
+        // Hexagonal prism: CylinderGeometry(topR, botR, height, sides)
+        const geo = new THREE.CylinderGeometry(1.2, 1.2, 1.8, 6);
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
             roughness: 0.4,
             metalness: 0.05
         });
-        const cube = new THREE.Mesh(geo, mat);
-        cube.rotation.x = 0.2; // slight downward tilt for depth
-        scene.add(cube);
+        const prism = new THREE.Mesh(geo, mat);
+        prism.rotation.x = 0.25;               // tilt to show top face
+        prism.rotation.y = Math.PI / 6;        // flat face toward camera
+        scene.add(prism);
 
         // Lights
         scene.add(new THREE.AmbientLight(0xffffff, 0.8));
@@ -457,7 +458,7 @@
         // Animate
         function animate() {
             requestAnimationFrame(animate);
-            if (!paused) cube.rotation.y += 0.005;
+            if (!paused) prism.rotation.y += 0.005;
             renderer.render(scene, camera);
         }
         animate();
