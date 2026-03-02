@@ -413,7 +413,7 @@
         if (!wrap || !canvas || typeof THREE === 'undefined') return;
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xffffff);
+        // transparent — site background shows through
 
         const w = wrap.clientWidth  || window.innerWidth  * 0.5;
         const h = wrap.clientHeight || window.innerHeight;
@@ -421,31 +421,50 @@
         const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
         camera.position.z = 5;
 
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(w, h);
+        renderer.setClearColor(0x000000, 0);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-        // Texture — wraps around all 6 side panels as it rotates
+        // Texture — repeat twice around so each facing shows the full image
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.repeat.set(2, 1);
 
-        // Cylinder: CylinderGeometry(topR, botR, height, segments)
+        // Cylinder
         const geo = new THREE.CylinderGeometry(1.2, 1.2, 1.8, 64);
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
-            roughness: 0.4,
+            roughness: 0.35,
             metalness: 0.05
         });
         const prism = new THREE.Mesh(geo, mat);
-        prism.rotation.x = 0.25;               // tilt to show top face
+        prism.rotation.x = 0.25;
+        prism.castShadow = true;
         scene.add(prism);
 
+        // Shadow catcher — invisible plane beneath the cylinder
+        const shadowGeo = new THREE.PlaneGeometry(6, 6);
+        const shadowMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+        const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
+        shadowPlane.rotation.x = -Math.PI / 2;
+        shadowPlane.position.y = -1.2;
+        shadowPlane.receiveShadow = true;
+        scene.add(shadowPlane);
+
         // Lights
-        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-        const key = new THREE.DirectionalLight(0xffffff, 0.7);
-        key.position.set(4, 4, 5);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+        const key = new THREE.DirectionalLight(0xffffff, 0.8);
+        key.position.set(4, 6, 5);
+        key.castShadow = true;
+        key.shadow.mapSize.width  = 1024;
+        key.shadow.mapSize.height = 1024;
+        key.shadow.radius = 8;
         scene.add(key);
-        const fill = new THREE.DirectionalLight(0xfff0e0, 0.3);
-        fill.position.set(-4, -2, 3);
+        const fill = new THREE.DirectionalLight(0xfff4e8, 0.25);
+        fill.position.set(-4, -1, 3);
         scene.add(fill);
 
         // Click to pause / resume
