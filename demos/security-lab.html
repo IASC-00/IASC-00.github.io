@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Lab Demo — iswain.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  :root {
+    --bg:#fff; --bg-alt:#f7f5f2; --border:#e8e3db;
+    --text:#1c1c1c; --dim:#888;
+    --green:#1a7a4a; --green-bg:#e8f7ef;
+    --yellow:#92400e; --yellow-bg:#fef3c7;
+    --red:#b91c1c; --red-bg:#fde8e8;
+    --font:'Inter',system-ui,sans-serif;
+  }
+  body { font-family:var(--font); background:var(--bg); color:var(--text); font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .top-bar { background:var(--text); color:rgba(255,255,255,.6); text-align:center; padding:9px 20px; font-size:12px; }
+  .top-bar a { color:#fff; font-weight:600; text-decoration:none; }
+  nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,.94); border-bottom:1px solid var(--border); backdrop-filter:blur(10px); padding:0 36px; height:52px; display:flex; align-items:center; justify-content:space-between; }
+  .nav-brand { font-size:14px; font-weight:700; text-decoration:none; color:var(--text); }
+  .nav-right { font-size:13px; color:var(--dim); }
+  .page { max-width:720px; margin:0 auto; padding:52px 36px 80px; }
+  .page-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--dim); margin-bottom:10px; }
+  .page-title { font-size:clamp(24px,4vw,36px); font-weight:800; letter-spacing:-.03em; margin-bottom:10px; }
+  .page-desc { font-size:15px; color:var(--dim); max-width:540px; margin-bottom:32px; }
+
+  /* ── Categories ── */
+  .category { border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:16px; }
+  .cat-header { padding:14px 18px; background:var(--bg-alt); display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none; }
+  .cat-icon { font-size:18px; }
+  .cat-title { font-size:14px; font-weight:700; flex:1; }
+  .cat-score { font-size:12px; font-weight:700; padding:3px 10px; border-radius:5px; }
+  .cat-toggle { font-size:12px; color:var(--dim); transition:transform .2s; }
+  .cat-toggle.open { transform:rotate(180deg); }
+
+  .cat-body { padding:16px 18px; border-top:1px solid var(--border); display:none; flex-direction:column; gap:10px; }
+  .cat-body.open { display:flex; }
+
+  .question { display:flex; align-items:flex-start; gap:12px; }
+  .question input[type=checkbox] { width:17px; height:17px; margin-top:3px; flex-shrink:0; accent-color:var(--text); cursor:pointer; }
+  .q-label { font-size:13.5px; cursor:pointer; line-height:1.55; }
+  .q-note { font-size:12px; color:var(--dim); display:block; margin-top:2px; }
+
+  /* ── Score ── */
+  .score-section { margin-top:28px; border:1px solid var(--border); border-radius:12px; overflow:hidden; display:none; }
+  .score-section.visible { display:block; }
+  .score-top { padding:24px; display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .score-ring { width:90px; height:90px; flex-shrink:0; }
+  .score-ring circle { transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1); }
+  .score-num { font-size:32px; font-weight:800; }
+  .score-label { font-size:13px; color:var(--dim); }
+  .score-grade { font-size:16px; font-weight:700; padding:6px 14px; border-radius:8px; display:inline-block; margin-top:6px; }
+  .score-grade.high   { background:var(--green-bg); color:var(--green); }
+  .score-grade.medium { background:var(--yellow-bg); color:var(--yellow); }
+  .score-grade.low    { background:var(--red-bg); color:var(--red); }
+
+  .recs { border-top:1px solid var(--border); }
+  .rec-header { padding:12px 18px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--dim); background:var(--bg-alt); }
+  .rec-item { padding:12px 18px; border-bottom:1px solid var(--border); font-size:13.5px; display:flex; gap:10px; align-items:flex-start; }
+  .rec-item:last-child { border-bottom:none; }
+  .rec-icon { flex-shrink:0; margin-top:1px; }
+
+  /* ── Buttons ── */
+  .btn-row { display:flex; gap:10px; margin-top:24px; flex-wrap:wrap; }
+  .calc-btn { padding:11px 24px; border-radius:8px; background:var(--text); color:#fff; font-family:var(--font); font-size:14px; font-weight:700; border:none; cursor:pointer; transition:opacity .15s; }
+  .calc-btn:hover { opacity:.85; }
+  .reset-btn { padding:11px 24px; border-radius:8px; background:var(--bg-alt); color:var(--text); font-family:var(--font); font-size:14px; font-weight:600; border:1.5px solid var(--border); cursor:pointer; transition:border-color .15s; }
+  .reset-btn:hover { border-color:var(--text); }
+</style>
+</head>
+<body>
+<div class="top-bar">Cybersecurity Lab Demo &mdash; personal security self-assessment &mdash; <a href="https://iswain.dev" target="_blank">iswain.dev</a></div>
+<nav>
+  <a class="nav-brand" href="https://iswain.dev">← iswain.dev</a>
+  <span class="nav-right">Cybersecurity Lab &middot; Demo</span>
+</nav>
+<div class="page">
+  <div class="page-label">project demo · security</div>
+  <h1 class="page-title">Security Self-Assessment</h1>
+  <p class="page-desc">A personal security hardening project covering breach exposure, password hygiene, 2FA deployment, and network auditing. Answer the checklist below to get your security score and prioritised recommendations.</p>
+
+  <!-- Passwords -->
+  <div class="category">
+    <div class="cat-header" onclick="toggle(this)">
+      <span class="cat-icon">🔑</span>
+      <span class="cat-title">Password Hygiene</span>
+      <span class="cat-score" id="score-passwords" style="background:var(--bg);border:1px solid var(--border)">0/4</span>
+      <span class="cat-toggle">▾</span>
+    </div>
+    <div class="cat-body open">
+      <label class="question"><input type="checkbox" data-cat="passwords" onchange="updateCat('passwords')"><span class="q-label">I use a password manager for all accounts<span class="q-note">1Password, Bitwarden, Dashlane, etc.</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="passwords" onchange="updateCat('passwords')"><span class="q-label">Every account has a unique password<span class="q-note">No passwords reused across sites</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="passwords" onchange="updateCat('passwords')"><span class="q-label">All passwords are 16+ characters<span class="q-note">Or generated by a password manager</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="passwords" onchange="updateCat('passwords')"><span class="q-label">I've rotated credentials after known breaches<span class="q-note">Checked via HaveIBeenPwned.com</span></span></label>
+    </div>
+  </div>
+
+  <!-- 2FA -->
+  <div class="category">
+    <div class="cat-header" onclick="toggle(this)">
+      <span class="cat-icon">🔐</span>
+      <span class="cat-title">Two-Factor Authentication</span>
+      <span class="cat-score" id="score-2fa" style="background:var(--bg);border:1px solid var(--border)">0/4</span>
+      <span class="cat-toggle">▾</span>
+    </div>
+    <div class="cat-body">
+      <label class="question"><input type="checkbox" data-cat="2fa" onchange="updateCat('2fa')"><span class="q-label">2FA enabled on all financial accounts<span class="q-note">Banking, brokerage, PayPal, etc.</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="2fa" onchange="updateCat('2fa')"><span class="q-label">2FA enabled on primary email accounts<span class="q-note">Gmail, Outlook, iCloud, ProtonMail</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="2fa" onchange="updateCat('2fa')"><span class="q-label">Using app-based 2FA (not SMS) where available<span class="q-note">Google Authenticator, Authy, or hardware key</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="2fa" onchange="updateCat('2fa')"><span class="q-label">2FA enabled on GitHub / cloud storage / social accounts<span class="q-note">GitHub, Google Drive, Instagram, etc.</span></span></label>
+    </div>
+  </div>
+
+  <!-- Privacy -->
+  <div class="category">
+    <div class="cat-header" onclick="toggle(this)">
+      <span class="cat-icon">🕵️</span>
+      <span class="cat-title">Privacy &amp; PII Exposure</span>
+      <span class="cat-score" id="score-privacy" style="background:var(--bg);border:1px solid var(--border)">0/4</span>
+      <span class="cat-toggle">▾</span>
+    </div>
+    <div class="cat-body">
+      <label class="question"><input type="checkbox" data-cat="privacy" onchange="updateCat('privacy')"><span class="q-label">I've checked data broker sites and submitted opt-outs<span class="q-note">Spokeo, Whitepages, BeenVerified, etc.</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="privacy" onchange="updateCat('privacy')"><span class="q-label">Social media privacy settings reviewed and tightened<span class="q-note">Profile visibility, location sharing, tagged photos</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="privacy" onchange="updateCat('privacy')"><span class="q-label">No personal address or phone number on public GitHub / LinkedIn<span class="q-note">Professional info only</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="privacy" onchange="updateCat('privacy')"><span class="q-label">I use a separate email for signups and newsletters<span class="q-note">Reduces spam and breach exposure</span></span></label>
+    </div>
+  </div>
+
+  <!-- Network -->
+  <div class="category">
+    <div class="cat-header" onclick="toggle(this)">
+      <span class="cat-icon">🌐</span>
+      <span class="cat-title">Network &amp; Device Security</span>
+      <span class="cat-score" id="score-network" style="background:var(--bg);border:1px solid var(--border)">0/4</span>
+      <span class="cat-toggle">▾</span>
+    </div>
+    <div class="cat-body">
+      <label class="question"><input type="checkbox" data-cat="network" onchange="updateCat('network')"><span class="q-label">Home Wi-Fi uses WPA3 or WPA2 with a strong password<span class="q-note">Check your router admin panel</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="network" onchange="updateCat('network')"><span class="q-label">Router firmware is up to date<span class="q-note">Check manufacturer site or router admin panel</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="network" onchange="updateCat('network')"><span class="q-label">Device disk encryption enabled<span class="q-note">BitLocker (Windows) or FileVault (Mac)</span></span></label>
+      <label class="question"><input type="checkbox" data-cat="network" onchange="updateCat('network')"><span class="q-label">OS and browser auto-updates are enabled<span class="q-note">Critical patches applied within 72 hours</span></span></label>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="calc-btn" onclick="calcScore()">Calculate My Score</button>
+    <button class="reset-btn" onclick="resetAll()">Reset</button>
+  </div>
+
+  <div class="score-section" id="score-section">
+    <div class="score-top">
+      <svg class="score-ring" viewBox="0 0 90 90">
+        <circle cx="45" cy="45" r="38" fill="none" stroke="#e8e3db" stroke-width="7"/>
+        <circle id="ring-fg" cx="45" cy="45" r="38" fill="none" stroke="#1c1c1c" stroke-width="7"
+          stroke-linecap="round" stroke-dasharray="238.76" stroke-dashoffset="238.76"
+          transform="rotate(-90 45 45)"/>
+      </svg>
+      <div>
+        <div class="score-num" id="score-num">0%</div>
+        <div class="score-label">Security Score</div>
+        <div class="score-grade" id="score-grade"></div>
+      </div>
+    </div>
+    <div class="recs">
+      <div class="rec-header">Priority Recommendations</div>
+      <div id="rec-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var catMax={passwords:4,'2fa':4,privacy:4,network:4};
+
+function toggle(header) {
+  var body=header.nextElementSibling;
+  var arr=header.querySelector('.cat-toggle');
+  body.classList.toggle('open');
+  arr.classList.toggle('open');
+}
+
+function updateCat(cat) {
+  var checks=document.querySelectorAll('[data-cat="'+cat+'"]');
+  var checked=Array.from(checks).filter(function(c){return c.checked;}).length;
+  var el=document.getElementById('score-'+cat);
+  el.textContent=checked+'/'+catMax[cat];
+  var pct=checked/catMax[cat];
+  if(pct>=.75){el.style.background='var(--green-bg)';el.style.color='var(--green)';el.style.border='none';}
+  else if(pct>=.5){el.style.background='var(--yellow-bg)';el.style.color='var(--yellow)';el.style.border='none';}
+  else{el.style.background='var(--red-bg)';el.style.color='var(--red)';el.style.border='none';}
+}
+
+var RECS = [
+  {cat:'passwords',idx:0,icon:'🔑',text:'<strong>Get a password manager.</strong> Bitwarden is free and open-source. It takes 30 minutes to set up and eliminates password reuse permanently.'},
+  {cat:'passwords',idx:1,icon:'♻️',text:'<strong>Audit for reused passwords.</strong> Run a password audit in your manager — most show duplicate/weak passwords in one click.'},
+  {cat:'passwords',idx:3,icon:'🔍',text:'<strong>Check HaveIBeenPwned.com</strong> for your email addresses. Rotate any credentials from breaches in the last 3 years.'},
+  {cat:'2fa',idx:0,icon:'🏦',text:'<strong>Enable 2FA on financial accounts first.</strong> Banking and brokerage accounts are highest risk. Use an authenticator app, not SMS.'},
+  {cat:'2fa',idx:1,icon:'📧',text:'<strong>Secure your email with 2FA.</strong> Email account access = account recovery for everything else. This is the highest-leverage single action.'},
+  {cat:'2fa',idx:2,icon:'📱',text:'<strong>Switch from SMS to app-based 2FA.</strong> SIM swapping attacks bypass SMS codes. Authy or Google Authenticator take 5 minutes to switch.'},
+  {cat:'privacy',idx:0,icon:'🗑️',text:'<strong>Submit data broker opt-outs.</strong> Start with Spokeo, Whitepages, and BeenVerified. DeleteMe automates this for ~$100/year.'},
+  {cat:'privacy',idx:2,icon:'👤',text:'<strong>Audit your GitHub profile.</strong> Remove any personal email, address, or phone from public repos, READMEs, or commit history.'},
+  {cat:'network',idx:1,icon:'📡',text:'<strong>Update your router firmware.</strong> Unpatched routers are the #1 home network vulnerability. Check the admin panel at 192.168.1.1.'},
+  {cat:'network',idx:2,icon:'💾',text:'<strong>Enable disk encryption.</strong> BitLocker (Windows) and FileVault (Mac) are built in and free. Encrypts your data if the device is stolen.'},
+];
+
+function calcScore() {
+  var total=0, max=0;
+  var missing=[];
+  ['passwords','2fa','privacy','network'].forEach(function(cat){
+    var checks=document.querySelectorAll('[data-cat="'+cat+'"]');
+    checks.forEach(function(c,i){
+      max++;
+      if(c.checked){total++;}
+      else{
+        var rec=RECS.find(function(r){return r.cat===cat&&r.idx===i;});
+        if(rec) missing.push(rec);
+      }
+    });
+  });
+  var pct=Math.round((total/max)*100);
+  document.getElementById('score-num').textContent=pct+'%';
+  var offset=238.76*(1-total/max);
+  document.getElementById('ring-fg').style.strokeDashoffset=offset;
+  var grade=document.getElementById('score-grade');
+  if(pct>=80){grade.textContent='Low Risk';grade.className='score-grade high';document.getElementById('ring-fg').style.stroke='var(--green)';}
+  else if(pct>=50){grade.textContent='Medium Risk';grade.className='score-grade medium';document.getElementById('ring-fg').style.stroke='#f59e0b';}
+  else{grade.textContent='High Risk';grade.className='score-grade low';document.getElementById('ring-fg').style.stroke='var(--red)';}
+
+  var list=document.getElementById('rec-list');
+  if(missing.length===0){
+    list.innerHTML='<div class="rec-item"><span class="rec-icon">✅</span><span>All checks passed — excellent security posture. Re-assess quarterly.</span></div>';
+  } else {
+    list.innerHTML=missing.slice(0,5).map(function(r){
+      return '<div class="rec-item"><span class="rec-icon">'+r.icon+'</span><span>'+r.text+'</span></div>';
+    }).join('');
+  }
+  document.getElementById('score-section').classList.add('visible');
+  document.getElementById('score-section').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetAll() {
+  document.querySelectorAll('input[type=checkbox]').forEach(function(c){c.checked=false;});
+  ['passwords','2fa','privacy','network'].forEach(function(cat){updateCat(cat);});
+  document.getElementById('score-section').classList.remove('visible');
+  document.getElementById('ring-fg').style.strokeDashoffset=238.76;
+}
+</script>
+</body>
+</html>

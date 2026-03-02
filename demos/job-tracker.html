@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Search Tracker Demo — iswain.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  :root {
+    --bg:#fff; --bg-alt:#f7f5f2; --border:#e8e3db;
+    --text:#1c1c1c; --dim:#888;
+    --font:'Inter',system-ui,sans-serif;
+    --c-new:#dbeafe; --c-applied:#fef3c7; --c-interview:#e0e7ff; --c-offer:#d1fae5; --c-rejected:#fee2e2;
+    --t-new:#1e40af; --t-applied:#92400e; --t-interview:#3730a3; --t-offer:#065f46; --t-rejected:#991b1b;
+  }
+  body { font-family:var(--font); background:var(--bg); color:var(--text); font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .top-bar { background:var(--text); color:rgba(255,255,255,.6); text-align:center; padding:9px 20px; font-size:12px; }
+  .top-bar a { color:#fff; font-weight:600; text-decoration:none; }
+  nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,.94); border-bottom:1px solid var(--border); backdrop-filter:blur(10px); padding:0 36px; height:52px; display:flex; align-items:center; justify-content:space-between; }
+  .nav-brand { font-size:14px; font-weight:700; text-decoration:none; color:var(--text); }
+  .nav-right { font-size:13px; color:var(--dim); }
+  .page { max-width:1080px; margin:0 auto; padding:52px 24px 80px; }
+  .page-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--dim); margin-bottom:10px; }
+  .page-title { font-size:clamp(24px,4vw,36px); font-weight:800; letter-spacing:-.03em; margin-bottom:10px; }
+  .page-desc { font-size:15px; color:var(--dim); max-width:580px; margin-bottom:28px; }
+
+  /* stats */
+  .stats { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px; }
+  .stat { background:var(--bg-alt); border:1px solid var(--border); border-radius:9px; padding:12px 18px; }
+  .stat-num { font-size:22px; font-weight:800; }
+  .stat-lbl { font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.07em; }
+
+  /* kanban */
+  .board { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; overflow-x:auto; }
+  @media(max-width:800px){ .board{grid-template-columns:repeat(3,1fr);} }
+  @media(max-width:520px){ .board{grid-template-columns:1fr 1fr;} }
+
+  .col-wrap { min-width:0; }
+  .col-header { padding:8px 12px; border-radius:8px 8px 0 0; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; display:flex; justify-content:space-between; align-items:center; }
+  .col-header.new      { background:var(--c-new);      color:var(--t-new); }
+  .col-header.applied  { background:var(--c-applied);  color:var(--t-applied); }
+  .col-header.interview{ background:var(--c-interview); color:var(--t-interview); }
+  .col-header.offer    { background:var(--c-offer);    color:var(--t-offer); }
+  .col-header.rejected { background:var(--c-rejected); color:var(--t-rejected); }
+  .col-count { font-size:13px; font-weight:800; }
+
+  .col-body { border:1px solid var(--border); border-top:none; border-radius:0 0 8px 8px; min-height:180px; padding:8px; background:var(--bg-alt); display:flex; flex-direction:column; gap:6px; }
+
+  .job-card { background:#fff; border:1px solid var(--border); border-radius:8px; padding:11px 12px; cursor:pointer; transition:box-shadow .15s, transform .1s; user-select:none; }
+  .job-card:hover { box-shadow:0 3px 10px rgba(0,0,0,.1); transform:translateY(-1px); }
+  .job-role { font-size:12.5px; font-weight:700; margin-bottom:3px; }
+  .job-company { font-size:12px; color:var(--dim); }
+  .job-meta { font-size:11px; color:#aaa; margin-top:4px; }
+  .job-hint { font-size:10px; color:#bbb; margin-top:5px; font-style:italic; }
+
+  /* AI panel */
+  .ai-section { margin-top:32px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .ai-header { background:var(--text); color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; }
+  .ai-title { font-size:13px; font-weight:700; }
+  .ai-badge { background:rgba(255,255,255,.15); font-size:10px; padding:3px 8px; border-radius:4px; font-weight:700; letter-spacing:.06em; }
+  .ai-body { padding:20px; background:var(--bg-alt); font-size:13.5px; line-height:1.8; color:#333; display:none; }
+  .ai-body.visible { display:block; }
+  .ai-placeholder { padding:28px 20px; text-align:center; color:var(--dim); font-size:13px; }
+  .ai-placeholder.hidden { display:none; }
+  .gen-btn { padding:8px 18px; border-radius:7px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25); color:#fff; font-family:var(--font); font-size:12.5px; font-weight:600; cursor:pointer; transition:background .15s; }
+  .gen-btn:hover { background:rgba(255,255,255,.25); }
+</style>
+</head>
+<body>
+<div class="top-bar">Job Search Tracker Demo &mdash; pipeline tracking &amp; AI resume generation &mdash; <a href="https://iswain.dev" target="_blank">iswain.dev</a></div>
+<nav>
+  <a class="nav-brand" href="https://iswain.dev">← iswain.dev</a>
+  <span class="nav-right">Job Search Tracker &middot; Demo</span>
+</nav>
+<div class="page">
+  <div class="page-label">project demo · cli + ai</div>
+  <h1 class="page-title">Application Pipeline</h1>
+  <p class="page-desc">A CLI tool that aggregates remote job listings, tracks your application pipeline, and AI-generates tailored resumes and cover letters per role. Click any card to advance it through the pipeline.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="st-total">10</div><div class="stat-lbl">Tracked</div></div>
+    <div class="stat"><div class="stat-num" id="st-active">7</div><div class="stat-lbl">Active</div></div>
+    <div class="stat"><div class="stat-num" id="st-interview">2</div><div class="stat-lbl">Interviews</div></div>
+    <div class="stat"><div class="stat-num" id="st-offer">1</div><div class="stat-lbl">Offers</div></div>
+  </div>
+
+  <div class="board">
+    <div class="col-wrap">
+      <div class="col-header new">New <span class="col-count" id="cnt-new">0</span></div>
+      <div class="col-body" id="col-new"></div>
+    </div>
+    <div class="col-wrap">
+      <div class="col-header applied">Applied <span class="col-count" id="cnt-applied">0</span></div>
+      <div class="col-body" id="col-applied"></div>
+    </div>
+    <div class="col-wrap">
+      <div class="col-header interview">Interview <span class="col-count" id="cnt-interview">0</span></div>
+      <div class="col-body" id="col-interview"></div>
+    </div>
+    <div class="col-wrap">
+      <div class="col-header offer">Offer <span class="col-count" id="cnt-offer">0</span></div>
+      <div class="col-body" id="col-offer"></div>
+    </div>
+    <div class="col-wrap">
+      <div class="col-header rejected">Rejected <span class="col-count" id="cnt-rejected">0</span></div>
+      <div class="col-body" id="col-rejected"></div>
+    </div>
+  </div>
+
+  <div class="ai-section">
+    <div class="ai-header">
+      <span class="ai-title">AI Resume &amp; Cover Letter Generator</span>
+      <span style="display:flex;gap:10px;align-items:center;">
+        <span class="ai-badge">Claude Haiku</span>
+        <button class="gen-btn" onclick="showGenerated()">Generate Sample →</button>
+      </span>
+    </div>
+    <div class="ai-placeholder" id="ai-placeholder">Click a card above to select a role, then hit Generate Sample to see an AI-tailored cover letter snippet.</div>
+    <div class="ai-body" id="ai-body"></div>
+  </div>
+</div>
+
+<script>
+var STAGES = ['new','applied','interview','offer','rejected'];
+var NEXT = {new:'applied',applied:'interview',interview:'offer',offer:'rejected',rejected:'new'};
+
+var jobs = [
+  {id:1,role:'Python Developer',company:'Stripe',location:'Remote',salary:'$120–145k',stage:'new'},
+  {id:2,role:'AI Integration Engineer',company:'Notion',location:'Remote',salary:'$130–160k',stage:'new'},
+  {id:3,role:'Backend Engineer (Python)',company:'Linear',location:'Remote',salary:'$115–140k',stage:'applied'},
+  {id:4,role:'Automation Engineer',company:'Zapier',location:'Remote',salary:'$105–130k',stage:'applied'},
+  {id:5,role:'ML Engineer',company:'Hugging Face',location:'Remote',salary:'$140–170k',stage:'applied'},
+  {id:6,role:'Software Engineer, Tools',company:'Vercel',location:'Remote',salary:'$125–155k',stage:'interview'},
+  {id:7,role:'Python Developer',company:'Calendly',location:'Remote',salary:'$110–135k',stage:'interview'},
+  {id:8,role:'Senior Python Engineer',company:'Loom',location:'Remote',salary:'$135–160k',stage:'offer'},
+  {id:9,role:'Data Engineer',company:'Airtable',location:'Remote',salary:'$120–145k',stage:'rejected'},
+  {id:10,role:'API Developer',company:'Twilio',location:'Remote',salary:'$115–140k',stage:'rejected'},
+];
+
+var selected = null;
+
+var SAMPLES = {
+  1: {role:'Python Developer',company:'Stripe',cover:"Dear Stripe Team,\n\nI'm applying for the Python Developer role with five years of experience building robust backend systems and automation pipelines in Python. At my previous role I reduced data processing time by 40% through async refactoring and implemented a real-time alerting system that caught $2M in fraudulent transactions.\n\nStripe's API infrastructure is the gold standard in fintech — I'd be excited to contribute to that mission. I've built several payment-adjacent tools including portfolio analytics systems and financial data pipelines, and I understand the reliability requirements at Stripe's scale.\n\nI'd love to discuss how my background aligns with your team's needs.\n\nBest,\nIan Swain"},
+};
+
+function renderBoard() {
+  STAGES.forEach(function(s){
+    var col=document.getElementById('col-'+s);
+    col.innerHTML='';
+    var filtered=jobs.filter(function(j){return j.stage===s;});
+    document.getElementById('cnt-'+s).textContent=filtered.length;
+    filtered.forEach(function(j){
+      var card=document.createElement('div');
+      card.className='job-card';
+      card.innerHTML='<div class="job-role">'+j.role+'</div><div class="job-company">'+j.company+'</div><div class="job-meta">'+j.location+' &middot; '+j.salary+'</div><div class="job-hint">Click to advance →</div>';
+      card.onclick=function(){ advance(j.id); };
+      col.appendChild(card);
+    });
+  });
+  updateStats();
+}
+
+function advance(id) {
+  var j=jobs.find(function(x){return x.id===id;});
+  if(j){ selected=j; j.stage=NEXT[j.stage]; renderBoard(); }
+}
+
+function updateStats() {
+  var active=jobs.filter(function(j){return j.stage!=='rejected';}).length;
+  var interviews=jobs.filter(function(j){return j.stage==='interview';}).length;
+  var offers=jobs.filter(function(j){return j.stage==='offer';}).length;
+  document.getElementById('st-active').textContent=active;
+  document.getElementById('st-interview').textContent=interviews;
+  document.getElementById('st-offer').textContent=offers;
+}
+
+function showGenerated() {
+  var target=selected||jobs[0];
+  var sample=SAMPLES[target.id]||SAMPLES[1];
+  document.getElementById('ai-placeholder').classList.add('hidden');
+  var body=document.getElementById('ai-body');
+  body.classList.add('visible');
+  body.innerHTML='<div style="margin-bottom:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);">Generated for: '+target.role+' @ '+target.company+'</div>'+
+    '<pre style="white-space:pre-wrap;font-family:var(--font);font-size:13.5px;line-height:1.8;">'+sample.cover+'</pre>'+
+    '<div style="margin-top:14px;font-size:12px;color:var(--dim);">In the real tool, Claude generates this from your master resume, the job description, and company context — tailored per application.</div>';
+}
+
+renderBoard();
+</script>
+</body>
+</html>
