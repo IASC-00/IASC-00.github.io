@@ -407,7 +407,7 @@
     <script src="script.js"></script>
     <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
     <script>
-    (function () {
+    window.addEventListener('load', function () {
         const wrap   = document.getElementById('solar-bloom-wrap');
         const canvas = document.getElementById('solar-bloom-canvas');
         if (!wrap || !canvas || typeof THREE === 'undefined') return;
@@ -415,18 +415,21 @@
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
 
-        const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+        const w = wrap.clientWidth  || window.innerWidth  * 0.5;
+        const h = wrap.clientHeight || window.innerHeight;
+
+        const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
         camera.position.z = 5;
 
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+        renderer.setSize(w, h);
 
         // Texture
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
 
-        // Cube — art on all 6 faces
-        const geo = new THREE.BoxGeometry(2.4, 2.4, 2.4);
+        // Cube — thicker and wider
+        const geo = new THREE.BoxGeometry(3.2, 3.2, 3.2);
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
             roughness: 0.4,
@@ -461,11 +464,13 @@
 
         // Resize
         window.addEventListener('resize', function () {
-            camera.aspect = wrap.clientWidth / wrap.clientHeight;
+            const rw = wrap.clientWidth  || window.innerWidth  * 0.5;
+            const rh = wrap.clientHeight || window.innerHeight;
+            camera.aspect = rw / rh;
             camera.updateProjectionMatrix();
-            renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+            renderer.setSize(rw, rh);
         });
-    })();
+    });
     </script>
 </body>
 </html>
