@@ -1,3 +1,13 @@
+// Live local time in nav
+const timeEl = document.getElementById('nav-time');
+function updateTime() {
+    timeEl.textContent = new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit', minute: '2-digit', hour12: false
+    });
+}
+updateTime();
+setInterval(updateTime, 1000);
+
 // Active nav link highlight based on scroll position
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');

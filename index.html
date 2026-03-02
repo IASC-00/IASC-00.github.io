@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ian Swain — Software Engineer. Building tools that think: Python, AI, Finance.">
     <title>Ian Swain — Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,20 +26,18 @@
                 <li><a href="#contact">contact</a></li>
                 <li><a href="resume.html" target="_blank">resume</a></li>
             </ul>
+            <span class="nav-time" id="nav-time"></span>
         </div>
     </nav>
 
     <!-- ── HERO ───────────────────────────────────────────────── -->
     <section id="hero" class="hero">
         <div class="hero-inner">
-            <div class="hero-prompt">
-                <span class="prompt-char">&gt;</span>
-                <h1 class="hero-name">Ian Swain<span class="cursor">_</span></h1>
-            </div>
             <div class="availability-badge">
                 <span class="avail-dot"></span>
                 available for freelance contracts
             </div>
+            <h1 class="hero-name">Ian Swain</h1>
             <p class="hero-tagline">Software engineer focused on AI tools and financial systems. Based in Philadelphia, PA.</p>
             <div class="hero-links">
                 <a href="https://github.com/IASC-00" class="btn btn-primary" target="_blank" rel="noopener noreferrer">github.com/IASC-00</a>
@@ -49,13 +50,13 @@
     <!-- ── PROJECTS ───────────────────────────────────────────── -->
     <section id="projects" class="section">
         <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>projects</h2>
+            <h2 class="section-title">projects</h2>
             <div class="projects-grid">
 
-                <article class="project-card">
+                <article class="project-card card--blue">
                     <div class="card-header">
                         <span class="card-tag">python &middot; ai &middot; finance</span>
-                        <span class="card-status status-active">active</span>
+                        <span class="card-status">active</span>
                     </div>
                     <h3 class="card-title">Investment Committee</h3>
                     <p class="card-desc">An AI system where four roles &mdash; fundamental analyst, macro analyst, bear analyst, and decision engine &mdash; each evaluate a stock and produce a final BUY or AVOID. Runs on Claude API with a local Ollama fallback, paper trades automatically using Kelly Criterion sizing, and schedules around market hours.</p>
@@ -68,10 +69,10 @@
                     <a href="https://github.com/IASC-00/investment-team" class="card-link" target="_blank" rel="noopener noreferrer">github.com/IASC-00/investment-team</a>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card card--beige">
                     <div class="card-header">
                         <span class="card-tag">python &middot; cli &middot; ai</span>
-                        <span class="card-status status-active">active</span>
+                        <span class="card-status">active</span>
                     </div>
                     <h3 class="card-title">Invest Manager</h3>
                     <p class="card-desc">A command-line portfolio tracker with live P&amp;L, FIFO cost basis calculation, z-score anomaly detection, and AI commentary on individual positions. Built with Click and Rich, backed by SQLAlchemy.</p>
@@ -84,10 +85,10 @@
                     <a href="https://github.com/IASC-00/invest-manager" class="card-link" target="_blank" rel="noopener noreferrer">github.com/IASC-00/invest-manager</a>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card card--violet">
                     <div class="card-header">
                         <span class="card-tag">python &middot; cli &middot; ai</span>
-                        <span class="card-status status-active">active</span>
+                        <span class="card-status">active</span>
                     </div>
                     <h3 class="card-title">Job Search Tracker</h3>
                     <p class="card-desc">CLI tool that aggregates job listings from multiple sources, tracks an application pipeline, and AI-generates tailored resumes and cover letters per role using concurrent Claude API calls. Runs on SQLAlchemy with an async aiosqlite backend.</p>
@@ -99,10 +100,10 @@
                     </ul>
                 </article>
 
-                <article class="project-card">
+                <article class="project-card card--sage">
                     <div class="card-header">
                         <span class="card-tag">python &middot; security</span>
-                        <span class="card-status status-complete">complete</span>
+                        <span class="card-status">complete</span>
                     </div>
                     <h3 class="card-title">Cybersecurity Lab</h3>
                     <p class="card-desc">A personal security hardening project covering breach exposure, PII audit, 2FA deployment, network scanning, and a Python automation suite for ongoing risk scoring. Structured across eight phases and fully documented.</p>
@@ -118,10 +119,57 @@
         </div>
     </section>
 
+    <!-- ── SERVICES ───────────────────────────────────────────── -->
+    <section id="services" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">services</h2>
+            <div class="services-grid">
+
+                <div class="service-card card--coral">
+                    <div class="service-tier">basic</div>
+                    <h3 class="service-title">Automation Script</h3>
+                    <p class="service-desc">A focused Python script or CLI tool that automates a specific task &mdash; data fetching, file processing, scheduled jobs, or workflow automation.</p>
+                    <ul class="service-list">
+                        <li>Single-purpose tool</li>
+                        <li>CLI interface</li>
+                        <li>Documented and ready to run</li>
+                    </ul>
+                    <div class="service-price">from $75</div>
+                </div>
+
+                <div class="service-card card--rose">
+                    <div class="service-tier">standard</div>
+                    <h3 class="service-title">AI Integration</h3>
+                    <p class="service-desc">Add AI capabilities to an existing tool or workflow. Claude/GPT integration, structured outputs, and multi-step agent pipelines.</p>
+                    <ul class="service-list">
+                        <li>LLM integration (Claude, GPT)</li>
+                        <li>Structured output / JSON schemas</li>
+                        <li>Error handling + fallback logic</li>
+                    </ul>
+                    <div class="service-price">from $200</div>
+                </div>
+
+                <div class="service-card card--teal">
+                    <div class="service-tier">premium</div>
+                    <h3 class="service-title">Full Tool Build</h3>
+                    <p class="service-desc">End-to-end delivery: data layer, backend logic, and a clean web or CLI interface. Built with your stack or a sensible default (Python + Flask or FastAPI).</p>
+                    <ul class="service-list">
+                        <li>Database + API layer</li>
+                        <li>Web UI or CLI dashboard</li>
+                        <li>Deployed and documented</li>
+                    </ul>
+                    <div class="service-price">from $450</div>
+                </div>
+
+            </div>
+            <p class="services-cta">All projects include a discovery call, full source code, and a 2-week support window. <a href="#contact">Get in touch</a> to discuss your project.</p>
+        </div>
+    </section>
+
     <!-- ── SKILLS ─────────────────────────────────────────────── -->
     <section id="skills" class="section">
         <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>skills</h2>
+            <h2 class="section-title">skills</h2>
             <div class="skills-grid">
 
                 <div class="skill-group">
@@ -177,10 +225,76 @@
         </div>
     </section>
 
+    <!-- ── ABOUT ──────────────────────────────────────────────── -->
+    <section id="about" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">about</h2>
+            <div class="about-content">
+                <p>Thirteen years in operations, retail management, social promotions, and client relations. Self-taught in software. Based in Philadelphia, PA.</p>
+                <p>My goal is to build things that are genuinely useful &mdash; tools that make complex systems easier to understand and act on. Whether that's tracking a portfolio, analyzing an investment, or knowing where you stand online, the aim is always the same: make it clearer and make it work. The projects here reflect that.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── EXPERIENCE ─────────────────────────────────────────── -->
+    <section id="experience" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">experience</h2>
+            <div class="experience-list">
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3 class="exp-role">Certified Sales Representative</h3>
+                        <span class="exp-company">GreenLabs &mdash; Baltimore, MD</span>
+                        <span class="exp-date">Sep 2024 &ndash; Oct 2025</span>
+                    </div>
+                    <p class="exp-desc">Delivered compliance-focused client service in a regulated environment. Maintained inventory systems, proposed process improvements, and earned multiple Employee of the Month recognitions.</p>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3 class="exp-role">Model &amp; Brand Representative</h3>
+                        <span class="exp-company">Greg Gorman / LA Eyeworks &mdash; Los Angeles, CA</span>
+                        <span class="exp-date">Feb 2024 &ndash; Sep 2024</span>
+                    </div>
+                    <p class="exp-desc">Selected for international ad campaigns including collaborative work in the EU. Featured in worldwide brand campaign; built professional relationships across diverse creative and cultural teams.</p>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3 class="exp-role">Team Manager</h3>
+                        <span class="exp-company">Charm City Hemp LLC &mdash; Baltimore, MD</span>
+                        <span class="exp-date">May 2022 &ndash; Nov 2023</span>
+                    </div>
+                    <p class="exp-desc">Directed daily operations across three retail locations simultaneously. Coached and supervised staff, led product launch logistics, and improved customer retention metrics.</p>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3 class="exp-role">General Manager</h3>
+                        <span class="exp-company">Harbor Vapor LLC &mdash; Baltimore, MD</span>
+                        <span class="exp-date">Oct 2017 &ndash; Nov 2020</span>
+                    </div>
+                    <p class="exp-desc">Oversaw all store operations: training, scheduling, onboarding, and inventory. Built efficient systems that drove repeat business and maintained consistent team culture.</p>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <h3 class="exp-role">Social Marketing Director &amp; Sales Manager</h3>
+                        <span class="exp-company">The Gathering / Baltimore Food Truck Festivals &mdash; Baltimore, MD</span>
+                        <span class="exp-date">Apr 2012 &ndash; Dec 2015</span>
+                    </div>
+                    <p class="exp-desc">Led all promotional strategy for Taste of Baltimore and multi-city events. Ran multi-channel campaigns for 50+ independent businesses; grew audience to over 1 million views and 200,000+ followers.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- ── CREDENTIALS ───────────────────────────────────────── -->
     <section id="credentials" class="section">
         <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>credentials</h2>
+            <h2 class="section-title">credentials</h2>
             <div class="credentials-layout">
 
                 <div class="cred-col">
@@ -215,86 +329,10 @@
         </div>
     </section>
 
-    <!-- ── ABOUT ──────────────────────────────────────────────── -->
-    <section id="about" class="section">
-        <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>about</h2>
-            <div class="about-content">
-                <p>Thirteen years in operations, retail management, social promotions, and client relations. Self-taught in software. Based in Philadelphia, PA.</p>
-                <p>My goal is to build things that are genuinely useful &mdash; tools that make complex systems easier to understand and act on. Whether that's tracking a portfolio, analyzing an investment, or knowing where you stand online, the aim is always the same: make it clearer and make it work. The projects here reflect that.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ── EXPERIENCE ─────────────────────────────────────────── -->
-    <section id="experience" class="section">
-        <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>experience</h2>
-            <div class="experience-list">
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <h3 class="exp-role">Certified Sales Representative</h3>
-                            <span class="exp-company">GreenLabs &mdash; Baltimore, MD</span>
-                        </div>
-                        <span class="exp-date">Sep 2024 &ndash; Oct 2025</span>
-                    </div>
-                    <p class="exp-desc">Delivered compliance-focused client service in a regulated environment. Maintained inventory systems, proposed process improvements, and earned multiple Employee of the Month recognitions.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <h3 class="exp-role">Model &amp; Brand Representative</h3>
-                            <span class="exp-company">Greg Gorman / LA Eyeworks &mdash; Los Angeles, CA</span>
-                        </div>
-                        <span class="exp-date">Feb 2024 &ndash; Sep 2024</span>
-                    </div>
-                    <p class="exp-desc">Selected for international ad campaigns including collaborative work in the EU. Featured in worldwide brand campaign; built professional relationships across diverse creative and cultural teams.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <h3 class="exp-role">Team Manager</h3>
-                            <span class="exp-company">Charm City Hemp LLC &mdash; Baltimore, MD</span>
-                        </div>
-                        <span class="exp-date">May 2022 &ndash; Nov 2023</span>
-                    </div>
-                    <p class="exp-desc">Directed daily operations across three retail locations simultaneously. Coached and supervised staff, led product launch logistics, and improved customer retention metrics.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <h3 class="exp-role">General Manager</h3>
-                            <span class="exp-company">Harbor Vapor LLC &mdash; Baltimore, MD</span>
-                        </div>
-                        <span class="exp-date">Oct 2017 &ndash; Nov 2020</span>
-                    </div>
-                    <p class="exp-desc">Oversaw all store operations: training, scheduling, onboarding, and inventory. Built efficient systems that drove repeat business and maintained consistent team culture.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <div>
-                            <h3 class="exp-role">Social Marketing Director &amp; Sales Manager</h3>
-                            <span class="exp-company">The Gathering / Baltimore Food Truck Festivals &mdash; Baltimore, MD</span>
-                        </div>
-                        <span class="exp-date">Apr 2012 &ndash; Dec 2015</span>
-                    </div>
-                    <p class="exp-desc">Led all promotional strategy for Taste of Baltimore and multi-city events. Ran multi-channel campaigns for 50+ independent businesses; grew audience to over 1 million views and 200,000+ followers.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
     <!-- ── ART ───────────────────────────────────────────────── -->
     <section id="art" class="section">
         <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>art</h2>
+            <h2 class="section-title">art</h2>
             <p class="art-intro">Digital paintings &mdash; more available on request.</p>
             <div class="art-grid">
 
@@ -332,60 +370,12 @@
         </div>
     </section>
 
-    <!-- ── SERVICES ───────────────────────────────────────────── -->
-    <section id="services" class="section">
-        <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>services</h2>
-            <div class="services-grid">
-
-                <div class="service-card">
-                    <div class="service-tier">basic</div>
-                    <h3 class="service-title">Automation Script</h3>
-                    <p class="service-desc">A focused Python script or CLI tool that automates a specific task &mdash; data fetching, file processing, scheduled jobs, or workflow automation.</p>
-                    <ul class="service-list">
-                        <li>Single-purpose tool</li>
-                        <li>CLI interface</li>
-                        <li>Documented and ready to run</li>
-                    </ul>
-                    <div class="service-price">from $75</div>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-tier">standard</div>
-                    <h3 class="service-title">AI Integration</h3>
-                    <p class="service-desc">Add AI capabilities to an existing tool or workflow. Claude/GPT integration, structured outputs, and multi-step agent pipelines.</p>
-                    <ul class="service-list">
-                        <li>LLM integration (Claude, GPT)</li>
-                        <li>Structured output / JSON schemas</li>
-                        <li>Error handling + fallback logic</li>
-                    </ul>
-                    <div class="service-price">from $200</div>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-tier">premium</div>
-                    <h3 class="service-title">Full Tool Build</h3>
-                    <p class="service-desc">End-to-end delivery: data layer, backend logic, and a clean web or CLI interface. Built with your stack or a sensible default (Python + Flask or FastAPI).</p>
-                    <ul class="service-list">
-                        <li>Database + API layer</li>
-                        <li>Web UI or CLI dashboard</li>
-                        <li>Deployed and documented</li>
-                    </ul>
-                    <div class="service-price">from $450</div>
-                </div>
-
-            </div>
-            <p class="services-cta">All projects include a discovery call, full source code, and a 2-week support window. <a href="#contact">Get in touch</a> to discuss your project.</p>
-        </div>
-    </section>
-
     <!-- ── CONTACT ────────────────────────────────────────────── -->
     <section id="contact" class="section">
         <div class="section-inner">
-            <h2 class="section-title"><span class="comment">// </span>contact</h2>
+            <h2 class="section-title">contact</h2>
             <div class="contact-content">
                 <p class="contact-email">
-                    <span class="prompt-char">&gt;</span>
                     <a href="mailto:contact@iswain.dev">contact@iswain.dev</a>
                 </p>
                 <p class="contact-note">Proton Mail &mdash; end-to-end encrypted</p>
