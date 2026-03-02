@@ -160,7 +160,6 @@ a:hover { opacity: 0.55; }
 .availability-badge {
     display: inline-flex;
     align-items: center;
-    align-self: flex-start;
     gap: 8px;
     background: #edfaf5;
     border: 1px solid #b2e8d0;
@@ -170,7 +169,6 @@ a:hover { opacity: 0.55; }
     letter-spacing: 0.04em;
     padding: 6px 14px;
     border-radius: 99px;
-    margin-bottom: 28px;
 }
 
 .avail-dot {
@@ -212,9 +210,13 @@ a:hover { opacity: 0.55; }
 }
 
 .hero-contact-line {
-    margin-top: 14px;
+    margin-top: 16px;
     font-size: 13px;
     color: var(--dim);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
 }
 
 .hero-contact-line a {
