@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ian Swain — Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg:       #0a0e1a;
-            --bg-card:  #0f1624;
-            --border:   #1e1b33;
-            --text:     #c9d1d9;
-            --text-dim: #5a6a7a;
-            --accent:   #a78bfa;
-            --accent-2: #67e8f9;
-            --font: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+            --bg:       #ffffff;
+            --bg-alt:   #f7f5f2;
+            --border:   #e8e3db;
+            --text:     #1c1c1c;
+            --text-dim: #888;
+            --font: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         body {
             font-family: var(--font);
             background: var(--bg);
             color: var(--text);
-            font-size: 14px;
-            line-height: 1.7;
+            font-size: 15px;
+            line-height: 1.65;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -32,9 +33,10 @@
             position: sticky;
             top: 0;
             z-index: 10;
-            background: #080c16;
+            background: rgba(255, 255, 255, 0.92);
             border-bottom: 1px solid var(--border);
-            padding: 12px 32px;
+            backdrop-filter: blur(12px);
+            padding: 12px 36px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -45,88 +47,88 @@
             color: var(--text-dim);
             text-decoration: none;
             font-size: 13px;
-            letter-spacing: 0.03em;
+            font-weight: 500;
             transition: color 0.15s;
         }
-        .toolbar a:hover { color: var(--accent); }
+        .toolbar a:hover { color: var(--text); }
 
         .toolbar button {
-            background: var(--accent);
-            color: #0f0a1e;
+            background: var(--text);
+            color: #fff;
             border: none;
-            padding: 8px 20px;
-            border-radius: 4px;
+            padding: 9px 22px;
+            border-radius: 6px;
             font-family: var(--font);
             font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.04em;
+            font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
         }
-        .toolbar button:hover { background: #c4b5fd; }
+        .toolbar button:hover { background: #333; }
 
         /* ── Resume wrapper ── */
         .resume {
             max-width: 820px;
             margin: 48px auto;
-            padding: 0 32px 80px;
+            padding: 0 36px 80px;
         }
 
         /* ── Header ── */
-        .r-header { margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+        .r-header { margin-bottom: 36px; border-bottom: 1px solid var(--border); padding-bottom: 28px; }
 
         .r-name {
-            font-size: 32px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.02em;
-            margin-bottom: 6px;
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
         }
 
         .r-title {
-            font-size: 13px;
-            color: var(--accent);
-            letter-spacing: 0.06em;
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
 
         .r-contact {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-dim);
             display: flex;
             flex-wrap: wrap;
             gap: 8px 20px;
         }
 
-        .r-contact a { color: var(--accent-2); text-decoration: none; }
-        .r-contact a:hover { color: var(--accent); }
+        .r-contact a { color: var(--text); text-decoration: none; }
+        .r-contact a:hover { opacity: 0.55; }
 
         /* ── Sections ── */
-        .r-section { margin-bottom: 36px; }
+        .r-section { margin-bottom: 40px; }
 
         .r-section-title {
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            margin-bottom: 16px;
-            padding-bottom: 6px;
+            letter-spacing: 0.14em;
+            color: var(--text-dim);
+            margin-bottom: 18px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--border);
         }
 
         /* ── Profile ── */
         .r-profile {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text);
-            line-height: 1.85;
+            line-height: 1.8;
             max-width: 720px;
         }
 
         /* ── Skills ── */
         .r-skills {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text);
             line-height: 1.9;
         }
@@ -134,19 +136,15 @@
         /* ── Certs ── */
         .r-cert-list { list-style: none; }
         .r-cert-list li {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text);
-            padding: 5px 0;
+            padding: 8px 0;
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
         .r-cert-list li:last-child { border-bottom: none; }
-        .r-cert-list li::before { content: '>'; color: var(--accent); font-size: 11px; }
 
         /* ── Experience & Internships ── */
-        .r-entry { padding: 20px 0; border-bottom: 1px solid var(--border); }
+        .r-entry { padding: 22px 0; border-bottom: 1px solid var(--border); }
         .r-entry:first-child { padding-top: 0; }
         .r-entry:last-child { border-bottom: none; }
 
@@ -156,33 +154,33 @@
             align-items: flex-start;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .r-role {
-            font-size: 14px;
-            font-weight: 700;
-            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
             margin-bottom: 3px;
         }
 
         .r-company {
-            font-size: 12px;
-            color: var(--accent-2);
-            letter-spacing: 0.03em;
+            font-size: 13px;
+            color: var(--text-dim);
         }
 
         .r-date {
             font-size: 12px;
             color: var(--text-dim);
             white-space: nowrap;
+            padding-top: 2px;
         }
 
         .r-bullets { list-style: none; }
         .r-bullets li {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text);
-            padding: 3px 0;
+            padding: 4px 0;
             padding-left: 18px;
             position: relative;
             line-height: 1.7;
@@ -196,31 +194,9 @@
 
         /* ── Print styles ── */
         @media print {
-            body {
-                background: #fff;
-                color: #111;
-                font-size: 11pt;
-            }
-
+            body { font-size: 11pt; }
             .toolbar { display: none; }
-
-            .resume {
-                max-width: 100%;
-                margin: 0;
-                padding: 20mm 18mm;
-            }
-
-            :root {
-                --bg: #fff;
-                --bg-card: #f8f8f8;
-                --border: #ddd;
-                --text: #222;
-                --text-dim: #666;
-                --accent: #5b3fc4;
-                --accent-2: #0077aa;
-                --font: 'Courier New', monospace;
-            }
-
+            .resume { max-width: 100%; margin: 0; padding: 20mm 18mm; }
             .r-name { font-size: 22pt; }
             .r-section { page-break-inside: avoid; }
             .r-entry { page-break-inside: avoid; }
