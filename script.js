@@ -17,3 +17,18 @@ const observer = new IntersectionObserver(
 );
 
 sections.forEach(s => observer.observe(s));
+
+// Scroll-reveal: fade + slide sections in as they enter the viewport
+const revealObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    },
+    { threshold: 0.08 }
+);
+
+document.querySelectorAll('.section').forEach(el => revealObserver.observe(el));
