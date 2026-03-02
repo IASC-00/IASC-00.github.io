@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment Committee Demo — iswain.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #ffffff;
+    --bg-alt:  #f7f5f2;
+    --border:  #e8e3db;
+    --text:    #1c1c1c;
+    --dim:     #888;
+    --green:   #1a7a4a;
+    --green-bg:#e8f7ef;
+    --red:     #b91c1c;
+    --red-bg:  #fde8e8;
+    --accent:  #1c1c1c;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Top bar ── */
+  .top-bar {
+    background: var(--text);
+    color: rgba(255,255,255,.6);
+    text-align: center;
+    padding: 9px 20px;
+    font-size: 12px;
+  }
+  .top-bar a { color: #fff; font-weight: 600; text-decoration: none; }
+  .top-bar a:hover { text-decoration: underline; }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,.94);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    padding: 0 36px;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-size: 14px; font-weight: 700; text-decoration: none; color: var(--text); }
+  .nav-right  { font-size: 13px; color: var(--dim); }
+
+  /* ── Layout ── */
+  .page { max-width: 900px; margin: 0 auto; padding: 56px 36px 80px; }
+
+  /* ── Header ── */
+  .page-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .12em; color: var(--dim); margin-bottom: 10px;
+  }
+  .page-title {
+    font-size: clamp(26px, 4vw, 38px); font-weight: 800;
+    letter-spacing: -.03em; margin-bottom: 12px;
+  }
+  .page-desc {
+    font-size: 15px; color: var(--dim);
+    max-width: 580px; margin-bottom: 8px;
+  }
+  .disclaimer {
+    display: inline-block;
+    font-size: 11.5px; color: var(--dim);
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px;
+    margin-bottom: 40px;
+  }
+
+  /* ── Ticker selector ── */
+  .ticker-row {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;
+  }
+  .ticker-btn {
+    padding: 10px 20px; border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--bg); color: var(--text);
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .15s;
+  }
+  .ticker-btn:hover { border-color: var(--text); }
+  .ticker-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+  .ticker-btn .sub { font-size: 10px; font-weight: 500; opacity: .65; display: block; margin-top: 1px; }
+
+  /* ── Analysis card ── */
+  .card {
+    border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; display: none;
+  }
+  .card.visible { display: block; }
+
+  .card-top {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .card-ticker { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+  .card-meta   { font-size: 13px; color: var(--dim); margin-top: 2px; }
+
+  .verdict {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 10px;
+    font-size: 17px; font-weight: 800; letter-spacing: .01em;
+    flex-shrink: 0;
+  }
+  .verdict.buy  { background: var(--green-bg); color: var(--green); }
+  .verdict.avoid{ background: var(--red-bg);   color: var(--red); }
+
+  .card-stats {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 32px; flex-wrap: wrap;
+    background: var(--bg-alt);
+  }
+  .stat-item { font-size: 13px; }
+  .stat-label { color: var(--dim); font-size: 11px; text-transform: uppercase;
+                letter-spacing: .08em; margin-bottom: 2px; }
+  .stat-value { font-weight: 700; font-size: 15px; }
+
+  .rationale {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px; line-height: 1.7; color: #333;
+  }
+  .rationale strong { font-weight: 600; color: var(--text); display: block; margin-bottom: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+
+  /* ── Role blocks ── */
+  .roles { padding: 22px 28px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 680px) { .roles { grid-template-columns: 1fr; } }
+
+  .role-block {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+  }
+  .role-name {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--dim); margin-bottom: 8px;
+  }
+  .role-verdict {
+    font-size: 12px; font-weight: 700; margin-bottom: 8px;
+    padding: 3px 8px; border-radius: 4px; display: inline-block;
+  }
+  .role-verdict.bull { background: var(--green-bg); color: var(--green); }
+  .role-verdict.bear { background: var(--red-bg); color: var(--red); }
+  .role-verdict.neutral { background: #f0f0f0; color: #555; }
+  .role-text { font-size: 13px; line-height: 1.6; color: #444; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  AI Investment Committee Demo &mdash; built by
+  <a href="https://iswain.dev" target="_blank">iswain.dev</a>
+  &nbsp;&middot;&nbsp; Not financial advice
+</div>
+
+<nav>
+  <a class="nav-brand" href="https://iswain.dev">← iswain.dev</a>
+  <span class="nav-right">Investment Committee &middot; Demo</span>
+</nav>
+
+<div class="page">
+
+  <div class="page-label">portfolio project demo</div>
+  <h1 class="page-title">Investment Committee</h1>
+  <p class="page-desc">A 4-role AI system where a Fundamental Analyst, Macro Analyst, Bear Analyst, and Decision Engine each evaluate an asset and produce a final BUY or AVOID verdict with confidence score and rationale.</p>
+  <span class="disclaimer">Pre-run demo data &middot; Not financial advice &middot; For illustration only</span>
+
+  <div class="ticker-row">
+    <button class="ticker-btn" onclick="show('NVDA')">NVDA<span class="sub">Stock</span></button>
+    <button class="ticker-btn" onclick="show('AAPL')">AAPL<span class="sub">Stock</span></button>
+    <button class="ticker-btn" onclick="show('BTC')">BTC<span class="sub">Crypto</span></button>
+    <button class="ticker-btn" onclick="show('JPM')">JPM<span class="sub">Stock</span></button>
+    <button class="ticker-btn" onclick="show('PLTR')">PLTR<span class="sub">Stock</span></button>
+  </div>
+
+  <div id="card-NVDA" class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-ticker">NVDA</div>
+        <div class="card-meta">NVIDIA Corporation &middot; Semiconductor &middot; $875.40</div>
+      </div>
+      <div class="verdict buy">▲ BUY</div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><div class="stat-label">Confidence</div><div class="stat-value">81%</div></div>
+      <div class="stat-item"><div class="stat-label">Expected Value</div><div class="stat-value">+18.4%</div></div>
+      <div class="stat-item"><div class="stat-label">Position Size</div><div class="stat-value">4%</div></div>
+      <div class="stat-item"><div class="stat-label">Asset Type</div><div class="stat-value">Stock</div></div>
+    </div>
+    <div class="rationale">
+      <strong>Decision Engine Rationale</strong>
+      NVDA holds a near-monopoly on AI training infrastructure with CUDA's deep ecosystem lock-in. Despite elevated valuation multiples, the data center revenue trajectory and sovereign AI spending programs support continued earnings growth. The Bear Analyst correctly flags concentration risk in hyperscaler capex — a legitimate tail risk — but the probability of a permanent capital loss remains low given the structural demand shift. Positive EV with manageable downside at reduced position size.
+    </div>
+    <div class="roles">
+      <div class="role-block">
+        <div class="role-name">Fundamental &amp; Value</div>
+        <div class="role-verdict bull">Cautious Buy</div>
+        <div class="role-text">Forward P/E of 35x is elevated but justified by 3-year EPS CAGR of 62%. Fair value range $820–$960. Current price inside range — not cheap, but not stretched given the growth rate.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Macro Analyst</div>
+        <div class="role-verdict bull">Positive</div>
+        <div class="role-text">Rate environment neutral to positive for growth. AI capex cycle entering year 3 with no signs of deceleration. USD strength a modest headwind on international revenues. Sector tailwind: sovereign AI programs (UAE, Japan, France) driving incremental demand.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Bear Analyst</div>
+        <div class="role-verdict neutral">Moderate Risk</div>
+        <div class="role-text">Hyperscaler capex concentration — top 4 customers are 45% of revenue. Any guidance cut triggers 25–35% drawdown. AMD Instinct ramp is real competition by 2026. Downside scenario: -28% if hyperscaler spending normalizes. Permanent loss probability: 4%.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="card-AAPL" class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-ticker">AAPL</div>
+        <div class="card-meta">Apple Inc. &middot; Consumer Technology &middot; $274.14</div>
+      </div>
+      <div class="verdict avoid">▼ AVOID</div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><div class="stat-label">Confidence</div><div class="stat-value">91%</div></div>
+      <div class="stat-item"><div class="stat-label">Expected Value</div><div class="stat-value">−22.5%</div></div>
+      <div class="stat-item"><div class="stat-label">Position Size</div><div class="stat-value">0%</div></div>
+      <div class="stat-item"><div class="stat-label">Asset Type</div><div class="stat-value">Stock</div></div>
+    </div>
+    <div class="rationale">
+      <strong>Decision Engine Rationale</strong>
+      At 31x forward earnings with mid-single-digit revenue growth, AAPL is priced for perfection with little margin of safety. Services growth is real but increasingly regulatory-exposed (EU DMA, DOJ antitrust). Hardware refresh cycles are lengthening. The committee finds the risk/reward asymmetric — downside scenarios (-25 to -35%) materially outweigh realistic upside (+8 to +12%). High confidence AVOID: capital is better deployed elsewhere at current levels.
+    </div>
+    <div class="roles">
+      <div class="role-block">
+        <div class="role-name">Fundamental &amp; Value</div>
+        <div class="role-verdict bear">Overvalued</div>
+        <div class="role-text">Fair value range $185–$230. Current price 19–48% above fair value. Services multiple (8x revenue) assumes no regulatory disruption — heroic assumption. Free cash flow yield of 3.2% doesn't compensate for growth deceleration risk.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Macro Analyst</div>
+        <div class="role-verdict neutral">Neutral</div>
+        <div class="role-text">Consumer spending resilient but premium hardware demand softening in China (-15% YoY). USD strength headwind. Rate environment neutral. India market ramp is a multi-year story, not a near-term catalyst. Sector positioning: late cycle consumer tech.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Bear Analyst</div>
+        <div class="role-verdict bear">High Risk</div>
+        <div class="role-text">DOJ antitrust case threatens App Store economics ($20B+ annual revenue at risk). EU DMA compliance cost ongoing. China concentration risk: 19% of revenue from politically sensitive market. Downside: -32% to fair value. Permanent loss probability: 8%.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="card-BTC" class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-ticker">BTC</div>
+        <div class="card-meta">Bitcoin &middot; Crypto / Digital Asset &middot; $84,210</div>
+      </div>
+      <div class="verdict buy">▲ BUY</div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><div class="stat-label">Confidence</div><div class="stat-value">68%</div></div>
+      <div class="stat-item"><div class="stat-label">Expected Value</div><div class="stat-value">+24.0%</div></div>
+      <div class="stat-item"><div class="stat-label">Position Size</div><div class="stat-value">2%</div></div>
+      <div class="stat-item"><div class="stat-label">Asset Type</div><div class="stat-value">Crypto</div></div>
+    </div>
+    <div class="rationale">
+      <strong>Decision Engine Rationale</strong>
+      Post-halving supply dynamics, growing institutional allocation via ETFs, and Bitcoin's role as a macro hedge in debasement environments create positive expected value. Confidence is moderate (68%) given crypto's inherent volatility and regulatory uncertainty. Genuine uncertainty exists — the Bear Analyst's liquidity and regulatory concerns are non-trivial. Sized at 2% to reflect asymmetric upside with controlled drawdown exposure. Reduced size, not avoided.
+    </div>
+    <div class="roles">
+      <div class="role-block">
+        <div class="role-name">Fundamental &amp; Value</div>
+        <div class="role-verdict bull">Positive</div>
+        <div class="role-text">Post-halving supply reduction (3.125 BTC/block) combined with ETF inflow demand (~$500M/day at peak) creates supply/demand imbalance. On-chain metrics: MVRV ratio 2.1x — historically bullish range. Long-term holder accumulation trend intact.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Macro Analyst</div>
+        <div class="role-verdict bull">Tailwind</div>
+        <div class="role-text">Global M2 expansion supportive. USD weakness cycle potential benefit. Sovereign adoption signals (El Salvador, UAE digital asset framework) expanding institutional comfort. Rate cuts expected H2 — historically positive for risk assets including BTC. Geopolitical risk: mild positive (safe haven narrative).</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Bear Analyst</div>
+        <div class="role-verdict bear">Significant Risk</div>
+        <div class="role-text">60–70% drawdowns are historically normal in BTC cycles. Regulatory crackdown risk non-zero (SEC, global coordination). Leverage in crypto derivatives market creates cascade liquidation risk. Downside: -55% in bear scenario. Permanent loss probability: 12% (protocol risk, exchange risk).</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="card-JPM" class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-ticker">JPM</div>
+        <div class="card-meta">JPMorgan Chase &amp; Co. &middot; Banking &middot; $238.50</div>
+      </div>
+      <div class="verdict avoid">▼ AVOID</div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><div class="stat-label">Confidence</div><div class="stat-value">74%</div></div>
+      <div class="stat-item"><div class="stat-label">Expected Value</div><div class="stat-value">−9.8%</div></div>
+      <div class="stat-item"><div class="stat-label">Position Size</div><div class="stat-value">0%</div></div>
+      <div class="stat-item"><div class="stat-label">Asset Type</div><div class="stat-value">Stock</div></div>
+    </div>
+    <div class="rationale">
+      <strong>Decision Engine Rationale</strong>
+      JPM is a best-in-class bank trading at a premium to peers, but the current macro setup is unfavorable. Net interest margin compression as rates decline, combined with elevated credit loss provisions for commercial real estate exposure, creates a headwind to earnings over the next 12 months. At 13x earnings the valuation isn't egregious, but the risk/reward skews slightly negative given the rate cycle turning. AVOID pending a clearer NIM floor or a more attractive entry point.
+    </div>
+    <div class="roles">
+      <div class="role-block">
+        <div class="role-name">Fundamental &amp; Value</div>
+        <div class="role-verdict neutral">Fair Value</div>
+        <div class="role-text">P/E 13x, P/B 2.0x — moderate premium to book for a Tier 1 bank. ROE of 17% is strong but likely to compress. Fair value range $210–$245. Price near top of range. Dividend yield 2.3% provides limited downside cushion given earnings risk.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Macro Analyst</div>
+        <div class="role-verdict bear">Headwind</div>
+        <div class="role-text">Fed rate cuts compress net interest margin — JPM particularly sensitive (large deposit base). Commercial real estate loan book at risk ($55B exposure, 8% of total loans). Yield curve dynamics unfavorable for bank profitability. Credit cycle late-stage: charge-off rates rising from historic lows.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Bear Analyst</div>
+        <div class="role-verdict bear">Moderate Risk</div>
+        <div class="role-text">CRE office exposure could require $3–5B in additional reserves. Capital requirements increasing under Basel III endgame. Trading revenue lumpy — not a reliable earnings driver. Downside: -18% if credit cycle deteriorates. Permanent loss probability: 3% (systemically important, implicit backstop).</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="card-PLTR" class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-ticker">PLTR</div>
+        <div class="card-meta">Palantir Technologies &middot; AI / Defense Software &middot; $92.30</div>
+      </div>
+      <div class="verdict buy">▲ BUY</div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><div class="stat-label">Confidence</div><div class="stat-value">72%</div></div>
+      <div class="stat-item"><div class="stat-label">Expected Value</div><div class="stat-value">+14.6%</div></div>
+      <div class="stat-item"><div class="stat-label">Position Size</div><div class="stat-value">2%</div></div>
+      <div class="stat-item"><div class="stat-label">Asset Type</div><div class="stat-value">Stock</div></div>
+    </div>
+    <div class="rationale">
+      <strong>Decision Engine Rationale</strong>
+      Palantir's AIP platform is gaining commercial traction and its government contract moat is defensible in a geopolitically tense environment. First GAAP-profitable year with accelerating US commercial revenue growth (55% YoY) validates the platform transition. The Bear Analyst's concerns on valuation are legitimate — the stock prices in aggressive growth assumptions — but the strategic positioning in defense AI and the Rule of 40 score (58) support a small BUY at reduced size. Uncertainty is high; sized accordingly at 2%.
+    </div>
+    <div class="roles">
+      <div class="role-block">
+        <div class="role-name">Fundamental &amp; Value</div>
+        <div class="role-verdict neutral">Stretched but Growing</div>
+        <div class="role-text">40x forward revenue is expensive by any traditional metric. But Rule of 40 score of 58 (revenue growth + FCF margin) justifies premium SaaS multiples. First full year of GAAP profitability. Revenue guidance raised three consecutive quarters — credible execution signal.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Macro Analyst</div>
+        <div class="role-verdict bull">Positive</div>
+        <div class="role-text">Defense spending at NATO nations increasing — PLTR primary beneficiary of allied AI infrastructure investment. US government AI budget expansion. Commercial AIP land-and-expand model gaining Fortune 500 adoption. Geopolitical tension: direct positive for defense software vendors.</div>
+      </div>
+      <div class="role-block">
+        <div class="role-name">Bear Analyst</div>
+        <div class="role-verdict bear">Valuation Risk</div>
+        <div class="role-text">40x revenue implies 10–12 years of flawless execution priced in today. Government contract concentration (42% of revenue) creates binary event risk. Insider selling has been elevated. Downside: -45% to fair value on a growth scare. Permanent loss probability: 6%.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(ticker) {
+  document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('visible'); });
+  document.querySelectorAll('.ticker-btn').forEach(function(b) { b.classList.remove('active'); });
+  var card = document.getElementById('card-' + ticker);
+  if (card) card.classList.add('visible');
+  document.querySelectorAll('.ticker-btn').forEach(function(b) {
+    if (b.textContent.trim().startsWith(ticker)) b.classList.add('active');
+  });
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Show first card by default
+show('NVDA');
+</script>
+</body>
+</html>
