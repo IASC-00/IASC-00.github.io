@@ -428,8 +428,8 @@
         // Texture — wraps around all 6 side panels as it rotates
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
 
-        // Hexagonal prism: CylinderGeometry(topR, botR, height, sides)
-        const geo = new THREE.CylinderGeometry(1.2, 1.2, 1.8, 6);
+        // Cylinder: CylinderGeometry(topR, botR, height, segments)
+        const geo = new THREE.CylinderGeometry(1.2, 1.2, 1.8, 64);
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
             roughness: 0.4,
@@ -437,7 +437,6 @@
         });
         const prism = new THREE.Mesh(geo, mat);
         prism.rotation.x = 0.25;               // tilt to show top face
-        prism.rotation.y = Math.PI / 6;        // flat face toward camera
         scene.add(prism);
 
         // Lights
