@@ -428,11 +428,81 @@
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+        // Remap UVs so each pentagonal face shows the full image independently
+        function remapUVsPerFace(geometry) {
+            const geo = geometry.toNonIndexed();
+            geo.computeVertexNormals();
+            const pos = geo.attributes.position;
+            const nor = geo.attributes.normal;
+            const count = pos.count;
+            const uvArray = new Float32Array(count * 2);
+
+            // Group triangles by their pentagon face (similar normals)
+            const groups = new Map();
+            for (let tri = 0; tri < count / 3; tri++) {
+                const i = tri * 3;
+                const nx = Math.round(((nor.getX(i) + nor.getX(i+1) + nor.getX(i+2)) / 3) * 20);
+                const ny = Math.round(((nor.getY(i) + nor.getY(i+1) + nor.getY(i+2)) / 3) * 20);
+                const nz = Math.round(((nor.getZ(i) + nor.getZ(i+1) + nor.getZ(i+2)) / 3) * 20);
+                const key = nx + ',' + ny + ',' + nz;
+                if (!groups.has(key)) groups.set(key, []);
+                groups.get(key).push(tri);
+            }
+
+            groups.forEach(function(tris) {
+                // Collect all vertices for this face
+                const verts = [], indices = [];
+                tris.forEach(function(tri) {
+                    for (let j = 0; j < 3; j++) {
+                        const idx = tri * 3 + j;
+                        verts.push(new THREE.Vector3(pos.getX(idx), pos.getY(idx), pos.getZ(idx)));
+                        indices.push(idx);
+                    }
+                });
+
+                // Face center
+                const center = new THREE.Vector3();
+                verts.forEach(function(v) { center.add(v); });
+                center.divideScalar(verts.length);
+
+                // Local coordinate frame from first triangle
+                const b = tris[0] * 3;
+                const v0 = new THREE.Vector3(pos.getX(b),   pos.getY(b),   pos.getZ(b));
+                const v1 = new THREE.Vector3(pos.getX(b+1), pos.getY(b+1), pos.getZ(b+1));
+                const v2 = new THREE.Vector3(pos.getX(b+2), pos.getY(b+2), pos.getZ(b+2));
+                const faceNormal = v1.clone().sub(v0).cross(v2.clone().sub(v0)).normalize();
+                const ref = Math.abs(faceNormal.y) < 0.9 ? new THREE.Vector3(0,1,0) : new THREE.Vector3(1,0,0);
+                const tangent   = new THREE.Vector3().crossVectors(ref, faceNormal).normalize();
+                const bitangent = new THREE.Vector3().crossVectors(faceNormal, tangent).normalize();
+
+                // Project each vertex onto the face plane
+                const proj = verts.map(function(v) {
+                    const r = v.clone().sub(center);
+                    return { u: r.dot(tangent), v: r.dot(bitangent) };
+                });
+
+                const uVals = proj.map(function(p) { return p.u; });
+                const vVals = proj.map(function(p) { return p.v; });
+                const minU = Math.min.apply(null, uVals), maxU = Math.max.apply(null, uVals);
+                const minV = Math.min.apply(null, vVals), maxV = Math.max.apply(null, vVals);
+                const range = Math.max(maxU - minU, maxV - minV) * 1.1;
+
+                proj.forEach(function(p, i) {
+                    const idx = indices[i];
+                    uvArray[idx * 2]     = (p.u - minU) / range + (range - (maxU - minU)) / (2 * range);
+                    uvArray[idx * 2 + 1] = (p.v - minV) / range + (range - (maxV - minV)) / (2 * range);
+                });
+            });
+
+            geo.setAttribute('uv', new THREE.BufferAttribute(uvArray, 2));
+            return geo;
+        }
+
         // Texture
         const texture = new THREE.TextureLoader().load('art/EJCT3607.JPG');
 
-        // Dodecahedron — 12 pentagonal faces
-        const geo = new THREE.DodecahedronGeometry(1.4, 0);
+        // Dodecahedron — 12 pentagonal faces, each showing the full image
+        const geo = remapUVsPerFace(new THREE.DodecahedronGeometry(1.4, 0));
         const mat = new THREE.MeshStandardMaterial({
             map: texture,
             roughness: 0.35,
