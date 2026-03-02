@@ -160,6 +160,7 @@ a:hover { opacity: 0.55; }
 .availability-badge {
     display: inline-flex;
     align-items: center;
+    align-self: flex-start;
     gap: 8px;
     background: #edfaf5;
     border: 1px solid #b2e8d0;
