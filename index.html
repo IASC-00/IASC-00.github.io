@@ -431,26 +431,42 @@
         // Remap UVs so each pentagonal face shows the full image independently
         function remapUVsPerFace(geometry) {
             const geo = geometry.toNonIndexed();
-            geo.computeVertexNormals();
             const pos = geo.attributes.position;
-            const nor = geo.attributes.normal;
             const count = pos.count;
-            const uvArray = new Float32Array(count * 2);
+            const uvArray   = new Float32Array(count * 2);
+            const normArray = new Float32Array(count * 3);
+            const groups    = new Map();
 
-            // Group triangles by their pentagon face (similar normals)
-            const groups = new Map();
+            // Compute true geometric face normals from triangle edges (not vertex normals)
             for (let tri = 0; tri < count / 3; tri++) {
                 const i = tri * 3;
-                const nx = Math.round(((nor.getX(i) + nor.getX(i+1) + nor.getX(i+2)) / 3) * 20);
-                const ny = Math.round(((nor.getY(i) + nor.getY(i+1) + nor.getY(i+2)) / 3) * 20);
-                const nz = Math.round(((nor.getZ(i) + nor.getZ(i+1) + nor.getZ(i+2)) / 3) * 20);
-                const key = nx + ',' + ny + ',' + nz;
+                const ax = pos.getX(i),   ay = pos.getY(i),   az = pos.getZ(i);
+                const bx = pos.getX(i+1), by = pos.getY(i+1), bz = pos.getZ(i+1);
+                const cx = pos.getX(i+2), cy = pos.getY(i+2), cz = pos.getZ(i+2);
+
+                let nx = (by-ay)*(cz-az) - (bz-az)*(cy-ay);
+                let ny = (bz-az)*(cx-ax) - (bx-ax)*(cz-az);
+                let nz = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax);
+                const len = Math.sqrt(nx*nx + ny*ny + nz*nz) || 1;
+                nx /= len; ny /= len; nz /= len;
+
+                // Store flat normal for each vertex of this triangle
+                for (let j = 0; j < 3; j++) {
+                    normArray[(i+j)*3]   = nx;
+                    normArray[(i+j)*3+1] = ny;
+                    normArray[(i+j)*3+2] = nz;
+                }
+
+                // Group by rounded normal — rounding factor 6 gives ~10° tolerance
+                const key = Math.round(nx*6) + ',' + Math.round(ny*6) + ',' + Math.round(nz*6);
                 if (!groups.has(key)) groups.set(key, []);
                 groups.get(key).push(tri);
             }
 
+            geo.setAttribute('normal', new THREE.BufferAttribute(normArray, 3));
+
+            // Remap UVs per face group
             groups.forEach(function(tris) {
-                // Collect all vertices for this face
                 const verts = [], indices = [];
                 tris.forEach(function(tri) {
                     for (let j = 0; j < 3; j++) {
@@ -460,35 +476,33 @@
                     }
                 });
 
-                // Face center
+                // Face center and local coordinate frame
                 const center = new THREE.Vector3();
                 verts.forEach(function(v) { center.add(v); });
                 center.divideScalar(verts.length);
 
-                // Local coordinate frame from first triangle
                 const b = tris[0] * 3;
                 const v0 = new THREE.Vector3(pos.getX(b),   pos.getY(b),   pos.getZ(b));
                 const v1 = new THREE.Vector3(pos.getX(b+1), pos.getY(b+1), pos.getZ(b+1));
                 const v2 = new THREE.Vector3(pos.getX(b+2), pos.getY(b+2), pos.getZ(b+2));
-                const faceNormal = v1.clone().sub(v0).cross(v2.clone().sub(v0)).normalize();
-                const ref = Math.abs(faceNormal.y) < 0.9 ? new THREE.Vector3(0,1,0) : new THREE.Vector3(1,0,0);
-                const tangent   = new THREE.Vector3().crossVectors(ref, faceNormal).normalize();
-                const bitangent = new THREE.Vector3().crossVectors(faceNormal, tangent).normalize();
+                const faceN = v1.clone().sub(v0).cross(v2.clone().sub(v0)).normalize();
+                const ref   = Math.abs(faceN.y) < 0.9 ? new THREE.Vector3(0,1,0) : new THREE.Vector3(1,0,0);
+                const tan   = new THREE.Vector3().crossVectors(ref, faceN).normalize();
+                const bitan = new THREE.Vector3().crossVectors(faceN, tan).normalize();
 
-                // Project each vertex onto the face plane
                 const proj = verts.map(function(v) {
                     const r = v.clone().sub(center);
-                    return { u: r.dot(tangent), v: r.dot(bitangent) };
+                    return { u: r.dot(tan), v: r.dot(bitan) };
                 });
 
-                const uVals = proj.map(function(p) { return p.u; });
-                const vVals = proj.map(function(p) { return p.v; });
-                const minU = Math.min.apply(null, uVals), maxU = Math.max.apply(null, uVals);
-                const minV = Math.min.apply(null, vVals), maxV = Math.max.apply(null, vVals);
-                const range = Math.max(maxU - minU, maxV - minV) * 1.1;
+                const us = proj.map(function(p) { return p.u; });
+                const vs = proj.map(function(p) { return p.v; });
+                const minU = Math.min.apply(null, us), maxU = Math.max.apply(null, us);
+                const minV = Math.min.apply(null, vs), maxV = Math.max.apply(null, vs);
+                const range = Math.max(maxU - minU, maxV - minV) * 1.08;
 
-                proj.forEach(function(p, i) {
-                    const idx = indices[i];
+                proj.forEach(function(p, k) {
+                    const idx = indices[k];
                     uvArray[idx * 2]     = (p.u - minU) / range + (range - (maxU - minU)) / (2 * range);
                     uvArray[idx * 2 + 1] = (p.v - minV) / range + (range - (maxV - minV)) / (2 * range);
                 });
