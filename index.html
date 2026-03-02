@@ -14,6 +14,7 @@
             <span class="nav-logo">iswain.dev</span>
             <ul class="nav-links">
                 <li><a href="#projects">projects</a></li>
+                <li><a href="#services">services</a></li>
                 <li><a href="#skills">skills</a></li>
                 <li><a href="#about">about</a></li>
                 <li><a href="#experience">experience</a></li>
@@ -31,6 +32,10 @@
             <div class="hero-prompt">
                 <span class="prompt-char">&gt;</span>
                 <h1 class="hero-name">Ian Swain<span class="cursor">_</span></h1>
+            </div>
+            <div class="availability-badge">
+                <span class="avail-dot"></span>
+                available for freelance contracts
             </div>
             <p class="hero-tagline">Software engineer focused on AI tools and financial systems. Based in Philadelphia, PA.</p>
             <div class="hero-links">
@@ -327,6 +332,53 @@
         </div>
     </section>
 
+    <!-- ── SERVICES ───────────────────────────────────────────── -->
+    <section id="services" class="section">
+        <div class="section-inner">
+            <h2 class="section-title"><span class="comment">// </span>services</h2>
+            <div class="services-grid">
+
+                <div class="service-card">
+                    <div class="service-tier">basic</div>
+                    <h3 class="service-title">Automation Script</h3>
+                    <p class="service-desc">A focused Python script or CLI tool that automates a specific task &mdash; data fetching, file processing, scheduled jobs, or workflow automation.</p>
+                    <ul class="service-list">
+                        <li>Single-purpose tool</li>
+                        <li>CLI interface</li>
+                        <li>Documented and ready to run</li>
+                    </ul>
+                    <div class="service-price">from $75</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-tier">standard</div>
+                    <h3 class="service-title">AI Integration</h3>
+                    <p class="service-desc">Add AI capabilities to an existing tool or workflow. Claude/GPT integration, structured outputs, and multi-step agent pipelines.</p>
+                    <ul class="service-list">
+                        <li>LLM integration (Claude, GPT)</li>
+                        <li>Structured output / JSON schemas</li>
+                        <li>Error handling + fallback logic</li>
+                    </ul>
+                    <div class="service-price">from $200</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-tier">premium</div>
+                    <h3 class="service-title">Full Tool Build</h3>
+                    <p class="service-desc">End-to-end delivery: data layer, backend logic, and a clean web or CLI interface. Built with your stack or a sensible default (Python + Flask or FastAPI).</p>
+                    <ul class="service-list">
+                        <li>Database + API layer</li>
+                        <li>Web UI or CLI dashboard</li>
+                        <li>Deployed and documented</li>
+                    </ul>
+                    <div class="service-price">from $450</div>
+                </div>
+
+            </div>
+            <p class="services-cta">All projects include a discovery call, full source code, and a 2-week support window. <a href="#contact">Get in touch</a> to discuss your project.</p>
+        </div>
+    </section>
+
     <!-- ── CONTACT ────────────────────────────────────────────── -->
     <section id="contact" class="section">
         <div class="section-inner">
@@ -337,6 +389,22 @@
                     <a href="mailto:contact@iswain.dev">contact@iswain.dev</a>
                 </p>
                 <p class="contact-note">Proton Mail &mdash; end-to-end encrypted</p>
+
+                <form class="contact-form" action="https://formspree.io/f/REPLACE_WITH_YOUR_ID" method="POST">
+                    <div class="form-row">
+                        <label for="cf-name">name</label>
+                        <input id="cf-name" type="text" name="name" placeholder="your name" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="cf-email">email</label>
+                        <input id="cf-email" type="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="cf-msg">message</label>
+                        <textarea id="cf-msg" name="message" rows="5" placeholder="tell me about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">send message</button>
+                </form>
             </div>
         </div>
     </section>
