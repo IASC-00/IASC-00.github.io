@@ -45,10 +45,6 @@
                 <a href="resume.html" class="btn btn-secondary" target="_blank">resume</a>
             </div>
         </div>
-        <div class="intro-canvas-wrap" id="solar-bloom-wrap">
-            <canvas id="solar-bloom-canvas"></canvas>
-            <span class="intro-canvas-label">drag to explore all works</span>
-        </div>
     </div>
 
     <!-- ── PROJECTS ───────────────────────────────────────────── -->
@@ -138,6 +134,16 @@
             </div>
         </div>
     </section>
+
+    <!-- ── DEMO CALLOUT ───────────────────────────────────────── -->
+    <div class="demo-callout">
+        <div class="section-inner">
+            <p class="demo-label">live example</p>
+            <h2>See a full build in action</h2>
+            <p>Harbor Coffee Co. AI chatbot &mdash; customer support bot with lead capture, conversation memory, and an admin dashboard. Built with Python &amp; Claude, deployed on Render.</p>
+            <a href="https://harbor-coffee-chatbot.onrender.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Try the live demo &rarr;</a>
+        </div>
+    </div>
 
     <!-- ── SERVICES ───────────────────────────────────────────── -->
     <section id="services" class="section">
@@ -422,139 +428,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-    <script>
-    window.addEventListener('load', function () {
-        const wrap   = document.getElementById('solar-bloom-wrap');
-        const canvas = document.getElementById('solar-bloom-canvas');
-        if (!wrap || !canvas || typeof THREE === 'undefined') return;
-
-        const scene = new THREE.Scene();
-        // transparent — site background shows through
-
-        const w = wrap.clientWidth  || window.innerWidth  * 0.5;
-        const h = wrap.clientHeight || window.innerHeight;
-
-        const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
-        camera.position.z = 5;
-
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(w, h);
-        renderer.setClearColor(0x000000, 0);
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-        // Load all 6 art pieces — one per face of the cube
-        const loader = new THREE.TextureLoader();
-        const artFiles = [
-            'art/AlteredCarbon.jpeg',  // +x right
-            'art/IMG_0319.PNG',        // -x left
-            'art/EJCT3607.JPG',        // +y top
-            'art/IMG_0339.PNG',        // -y bottom
-            'art/IMG_0320.PNG',        // +z front
-            'art/IMG_0326.PNG',        // -z back
-        ];
-        const materials = artFiles.map(function(src) {
-            return new THREE.MeshStandardMaterial({
-                map: loader.load(src),
-                roughness: 0.30,
-                metalness: 0.08
-            });
-        });
-
-        // Cube — 6 faces, 6 art pieces
-        const geo = new THREE.BoxGeometry(2.1, 2.1, 2.1);
-        const prism = new THREE.Mesh(geo, materials);
-        prism.rotation.x = 0.25;
-        prism.rotation.y = 0.5;
-        prism.castShadow = true;
-        scene.add(prism);
-
-        // Shadow catcher — soft drop shadow beneath
-        const shadowGeo = new THREE.PlaneGeometry(8, 8);
-        const shadowMat = new THREE.ShadowMaterial({ opacity: 0.18 });
-        const shadowPlane = new THREE.Mesh(shadowGeo, shadowMat);
-        shadowPlane.rotation.x = -Math.PI / 2;
-        shadowPlane.position.y = -1.6;
-        shadowPlane.receiveShadow = true;
-        scene.add(shadowPlane);
-
-        // Lights
-        scene.add(new THREE.AmbientLight(0xffffff, 0.75));
-        const key = new THREE.DirectionalLight(0xffffff, 0.8);
-        key.position.set(4, 6, 5);
-        key.castShadow = true;
-        key.shadow.mapSize.width  = 2048;
-        key.shadow.mapSize.height = 2048;
-        key.shadow.radius = 6;
-        scene.add(key);
-        const fill = new THREE.DirectionalLight(0xfff4e8, 0.25);
-        fill.position.set(-4, -1, 3);
-        scene.add(fill);
-        // Rim light — teal backlight from behind the shape
-        const rim = new THREE.PointLight(0x59e7ca, 1.8, 10);
-        rim.position.set(0, 1, -4);
-        scene.add(rim);
-
-        // Drag-to-rotate state
-        let isDragging = false;
-        let prevX = 0, prevY = 0;
-        let velX = 0, velY = 0;
-        let time = 0;
-        const baseX = 0.25;
-
-        function onDragStart(x, y) {
-            isDragging = true;
-            prevX = x; prevY = y;
-            velX = 0; velY = 0;
-        }
-        function onDragMove(x, y) {
-            if (!isDragging) return;
-            velX = (x - prevX) * 0.012;
-            velY = (y - prevY) * 0.012;
-            prism.rotation.y += velX;
-            prism.rotation.x += velY;
-            prevX = x; prevY = y;
-        }
-        function onDragEnd() { isDragging = false; }
-
-        canvas.addEventListener('mousedown',  function(e) { onDragStart(e.clientX, e.clientY); });
-        window.addEventListener('mousemove',  function(e) { onDragMove(e.clientX, e.clientY); });
-        window.addEventListener('mouseup',    onDragEnd);
-        canvas.addEventListener('touchstart', function(e) { onDragStart(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
-        window.addEventListener('touchmove',  function(e) { if (isDragging) { e.preventDefault(); onDragMove(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
-        window.addEventListener('touchend',   onDragEnd);
-
-        // Animate — auto-rotate Y + drifting X oscillation + drag inertia
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.008;
-
-            if (isDragging) {
-                // pure drag, no auto movement
-            } else {
-                // Auto-rotate Y and oscillating X drift
-                prism.rotation.y += 0.004 + velX;
-                prism.rotation.x  = baseX + Math.sin(time * 0.35) * 0.12 + velY;
-                // Inertia decay
-                velX *= 0.92;
-                velY *= 0.92;
-            }
-
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // Resize
-        window.addEventListener('resize', function () {
-            const rw = wrap.clientWidth  || window.innerWidth  * 0.5;
-            const rh = wrap.clientHeight || window.innerHeight;
-            camera.aspect = rw / rh;
-            camera.updateProjectionMatrix();
-            renderer.setSize(rw, rh);
-        });
-    });
-    </script>
 </body>
 </html>
