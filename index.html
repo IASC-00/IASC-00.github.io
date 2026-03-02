@@ -548,17 +548,56 @@
         const fill = new THREE.DirectionalLight(0xfff4e8, 0.25);
         fill.position.set(-4, -1, 3);
         scene.add(fill);
+        // Rim light — teal backlight from behind the shape
+        const rim = new THREE.PointLight(0x59e7ca, 1.8, 10);
+        rim.position.set(0, 1, -4);
+        scene.add(rim);
 
-        // Click to pause / resume
-        let paused = false;
-        canvas.addEventListener('click', function () {
-            paused = !paused;
-        });
+        // Drag-to-rotate state
+        let isDragging = false;
+        let prevX = 0, prevY = 0;
+        let velX = 0, velY = 0;
+        let time = 0;
+        const baseX = 0.25;
 
-        // Animate
+        function onDragStart(x, y) {
+            isDragging = true;
+            prevX = x; prevY = y;
+            velX = 0; velY = 0;
+        }
+        function onDragMove(x, y) {
+            if (!isDragging) return;
+            velX = (x - prevX) * 0.012;
+            velY = (y - prevY) * 0.012;
+            prism.rotation.y += velX;
+            prism.rotation.x += velY;
+            prevX = x; prevY = y;
+        }
+        function onDragEnd() { isDragging = false; }
+
+        canvas.addEventListener('mousedown',  function(e) { onDragStart(e.clientX, e.clientY); });
+        window.addEventListener('mousemove',  function(e) { onDragMove(e.clientX, e.clientY); });
+        window.addEventListener('mouseup',    onDragEnd);
+        canvas.addEventListener('touchstart', function(e) { onDragStart(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+        window.addEventListener('touchmove',  function(e) { if (isDragging) { e.preventDefault(); onDragMove(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
+        window.addEventListener('touchend',   onDragEnd);
+
+        // Animate — auto-rotate Y + drifting X oscillation + drag inertia
         function animate() {
             requestAnimationFrame(animate);
-            if (!paused) prism.rotation.y += 0.005;
+            time += 0.008;
+
+            if (isDragging) {
+                // pure drag, no auto movement
+            } else {
+                // Auto-rotate Y and oscillating X drift
+                prism.rotation.y += 0.004 + velX;
+                prism.rotation.x  = baseX + Math.sin(time * 0.35) * 0.12 + velY;
+                // Inertia decay
+                velX *= 0.92;
+                velY *= 0.92;
+            }
+
             renderer.render(scene, camera);
         }
         animate();
