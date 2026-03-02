@@ -111,7 +111,7 @@ a:hover { opacity: 0.55; }
 .intro-canvas-wrap {
     position: relative;
     overflow: hidden;
-    background: #fff;
+    background: var(--bg-alt);
 }
 
 #solar-bloom-canvas {
