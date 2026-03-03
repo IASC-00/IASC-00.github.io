@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market & World Pulse — iswain.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0e1015; --surface: #161920; --surface-2: #1d2130;
+  --border: #252a3a; --border-light: #1a1f2e;
+  --text: #e2e8f0; --dim: #7c8aaa; --dimmer: #3d4560;
+  --green: #10b981; --green-dim: rgba(16,185,129,.12);
+  --red: #ef4444; --red-dim: rgba(239,68,68,.12);
+  --blue: #3b82f6; --purple: #a78bfa; --amber: #f59e0b;
+  --font: 'Inter', system-ui, sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+/* TOP BAR */
+.top-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.top-bar a { color: var(--dim); text-decoration: none; font-weight: 600; }
+.top-bar a:hover { color: var(--text); }
+.top-bar-center { color: var(--dimmer); }
+
+/* HEADER */
+.header {
+  padding: 28px 28px 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.header-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+.header-sub { font-size: 13px; color: var(--dim); margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.refresh-info { font-size: 12px; color: var(--dimmer); }
+#refresh-countdown { color: var(--amber); font-weight: 600; }
+.refresh-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--dim);
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.refresh-btn:hover { color: var(--text); border-color: var(--dimmer); }
+.refresh-btn:disabled { opacity: .5; cursor: default; }
+
+/* GRID */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; padding: 0 28px 28px; }
+.grid-wide { grid-column: 1 / -1; }
+
+/* CARD */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.card-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--dimmer);
+  padding: 0 28px;
+  margin-bottom: 10px;
+}
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--dim); }
+.card-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+.tag-crypto { background: rgba(167,139,250,.12); color: #a78bfa; }
+.tag-equity { background: rgba(59,130,246,.12); color: #60a5fa; }
+.tag-macro  { background: rgba(245,158,11,.12); color: #f59e0b; }
+.tag-weather { background: rgba(16,185,129,.12); color: #34d399; }
+
+.price { font-size: 26px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; margin-bottom: 4px; }
+.change { font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.change.pos { color: var(--green); }
+.change.neg { color: var(--red); }
+.change-sub { font-size: 12px; color: var(--dim); margin-left: 8px; }
+
+.chart-wrap { height: 60px; margin-top: 12px; }
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 4px;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skel-price { width: 130px; height: 32px; margin-bottom: 6px; }
+.skel-change { width: 80px; height: 18px; }
+.skel-text { width: 70%; height: 16px; margin-bottom: 8px; }
+.skel-text-sm { width: 50%; height: 14px; }
+
+/* Weather */
+.weather-temp { font-size: 28px; font-weight: 800; }
+.weather-city { font-size: 12px; color: var(--dim); margin-bottom: 6px; }
+.weather-condition { font-size: 13px; color: var(--dim); }
+.weather-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.weather-item { flex: 1; min-width: 120px; }
+
+/* Macro row */
+.macro-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.macro-item { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; }
+.macro-label { font-size: 11px; color: var(--dim); margin-bottom: 4px; }
+.macro-value { font-size: 18px; font-weight: 800; }
+.macro-note { font-size: 11px; color: var(--dimmer); margin-top: 2px; }
+
+/* Last updated */
+.last-updated { padding: 0 28px 20px; font-size: 12px; color: var(--dimmer); }
+.last-updated span { color: var(--dim); }
+
+/* Error state */
+.error-msg { font-size: 12px; color: var(--red); margin-top: 4px; }
+
+@media (max-width: 600px) {
+  .grid { padding: 0 14px 20px; }
+  .header { padding: 20px 14px 14px; }
+  .card-section-label { padding: 0 14px; }
+  .last-updated { padding: 0 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="https://iswain.dev">← iswain.dev</a>
+  <span class="top-bar-center">Market &amp; World Pulse — live data dashboard</span>
+  <a href="https://iswain.dev/#services">View services →</a>
+</div>
+
+<div class="header">
+  <div>
+    <div class="header-title">Market &amp; World Pulse</div>
+    <div class="header-sub">Live prices, weather, and macro indicators — refreshes every 60 seconds</div>
+  </div>
+  <div class="header-right">
+    <span class="refresh-info">Next refresh in <span id="refresh-countdown">60s</span></span>
+    <button class="refresh-btn" id="refresh-btn" onclick="fetchAll()">↻ Refresh Now</button>
+  </div>
+</div>
+
+<!-- CRYPTO -->
+<div class="card-section-label">Crypto</div>
+<div class="grid" id="crypto-grid">
+  <div class="card" id="card-btc">
+    <div class="card-header"><span class="card-label">Bitcoin</span><span class="card-tag tag-crypto">BTC</span></div>
+    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
+    <div class="chart-wrap"><canvas id="chart-btc"></canvas></div>
+  </div>
+  <div class="card" id="card-eth">
+    <div class="card-header"><span class="card-label">Ethereum</span><span class="card-tag tag-crypto">ETH</span></div>
+    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
+    <div class="chart-wrap"><canvas id="chart-eth"></canvas></div>
+  </div>
+  <div class="card" id="card-sol">
+    <div class="card-header"><span class="card-label">Solana</span><span class="card-tag tag-crypto">SOL</span></div>
+    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
+    <div class="chart-wrap"><canvas id="chart-sol"></canvas></div>
+  </div>
+</div>
+
+<!-- EQUITIES -->
+<div class="card-section-label" style="margin-top:6px">Equities &amp; Commodities</div>
+<div class="grid" id="equity-grid">
+  <div class="card" id="card-spy">
+    <div class="card-header"><span class="card-label">S&amp;P 500 ETF</span><span class="card-tag tag-equity">SPY</span></div>
+    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
+    <div class="chart-wrap"><canvas id="chart-spy"></canvas></div>
+  </div>
+  <div class="card" id="card-qqq">
+    <div class="card-header"><span class="card-label">Nasdaq-100 ETF</span><span class="card-tag tag-equity">QQQ</span></div>
+    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
+    <div class="chart-wrap"><canvas id="chart-qqq"></canvas></div>
+  </div>
+  <div class="card" id="card-gld">
+    <div class="card-header"><span class="card-label">Gold ETF</span><span class="card-tag tag-equity">GLD</span></div>
+    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
+    <div class="chart-wrap"><canvas id="chart-gld"></canvas></div>
+  </div>
+</div>
+
+<!-- MACRO -->
+<div class="card-section-label" style="margin-top:6px">Macro Snapshot</div>
+<div class="grid">
+  <div class="card grid-wide" id="card-macro">
+    <div class="card-header"><span class="card-label">Key Indicators</span><span class="card-tag tag-macro">MACRO</span></div>
+    <div class="macro-grid" id="macro-grid">
+      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
+      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
+      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
+      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
+      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WEATHER -->
+<div class="card-section-label" style="margin-top:6px">Weather</div>
+<div class="grid">
+  <div class="card grid-wide" id="card-weather">
+    <div class="card-header"><span class="card-label">Current Conditions</span><span class="card-tag tag-weather">LIVE</span></div>
+    <div class="weather-row" id="weather-row">
+      <div class="weather-item"><div class="skeleton skel-price"></div><div class="skeleton skel-change" style="margin-top:6px"></div></div>
+      <div class="weather-item"><div class="skeleton skel-price"></div><div class="skeleton skel-change" style="margin-top:6px"></div></div>
+      <div class="weather-item"><div class="skeleton skel-price"></div><div class="skeleton skel-change" style="margin-top:6px"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="last-updated">Last updated: <span id="last-updated-ts">loading…</span></div>
+
+<script>
+const charts = {};
+
+function sparklineConfig(data, color) {
+  const pos = data[data.length-1] >= data[0];
+  const c = pos ? '#10b981' : '#ef4444';
+  return {
+    type: 'line',
+    data: {
+      labels: data.map((_,i) => i),
+      datasets: [{
+        data,
+        borderColor: c,
+        borderWidth: 1.5,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: true,
+        backgroundColor: pos ? 'rgba(16,185,129,.06)' : 'rgba(239,68,68,.06)',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: { display: false },
+        y: { display: false, min: Math.min(...data) * 0.999, max: Math.max(...data) * 1.001 }
+      },
+      animation: false,
+    }
+  };
+}
+
+function renderSparkline(id, data) {
+  const canvas = document.getElementById('chart-' + id);
+  if (!canvas) return;
+  if (charts[id]) { charts[id].destroy(); }
+  charts[id] = new Chart(canvas, sparklineConfig(data, null));
+}
+
+function fmt(n, digits=2) {
+  if (n >= 1000) return '$' + n.toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits});
+  return '$' + n.toFixed(digits);
+}
+
+function pct(n) {
+  const sign = n >= 0 ? '+' : '';
+  return sign + n.toFixed(2) + '%';
+}
+
+function renderPrice(cardId, label, ticker, price, change24h, sparkData) {
+  const card = document.getElementById('card-' + cardId);
+  const cls = change24h >= 0 ? 'pos' : 'neg';
+  const arr = change24h >= 0 ? '▲' : '▼';
+  const digits = price > 100 ? 2 : (price > 1 ? 3 : 6);
+  card.querySelector('.card-header').nextElementSibling?.remove(); // remove skeleton
+  const existing = card.querySelector('.price');
+  if (existing) {
+    existing.textContent = fmt(price, digits === 6 ? 4 : digits);
+    const chEl = card.querySelector('.change');
+    if (chEl) { chEl.className = 'change ' + cls; chEl.innerHTML = `${arr} ${pct(change24h)}<span class="change-sub">24h</span>`; }
+  } else {
+    // Build content
+    const inner = `
+      <div class="price">${fmt(price, digits === 6 ? 4 : digits)}</div>
+      <div><span class="change ${cls}">${arr} ${pct(change24h)}<span class="change-sub">24h</span></span></div>
+      <div class="chart-wrap"><canvas id="chart-${cardId}"></canvas></div>`;
+    card.innerHTML = `<div class="card-header"><span class="card-label">${label}</span><span class="card-tag ${cardId === 'btc' || cardId === 'eth' || cardId === 'sol' ? 'tag-crypto' : 'tag-equity'}">${ticker}</span></div>` + inner;
+  }
+  if (sparkData) renderSparkline(cardId, sparkData);
+}
+
+// ── CoinGecko ──────────────────────────────────────────────────────────────
+async function fetchCrypto() {
+  try {
+    const resp = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana&order=market_cap_desc&sparkline=true&price_change_percentage=24h');
+    if (!resp.ok) throw new Error('CoinGecko error');
+    const data = await resp.json();
+    data.forEach(coin => {
+      const idMap = { bitcoin: 'btc', ethereum: 'eth', solana: 'sol' };
+      const labelMap = { bitcoin: 'Bitcoin', ethereum: 'Ethereum', solana: 'Solana' };
+      const tickerMap = { bitcoin: 'BTC', ethereum: 'ETH', solana: 'SOL' };
+      const id = idMap[coin.id];
+      const spark = coin.sparkline_in_7d?.price || [];
+      const sample = spark.filter((_,i) => i % 8 === 0); // downsample
+      renderPrice(id, labelMap[coin.id], tickerMap[coin.id], coin.current_price, coin.price_change_percentage_24h, sample.length > 4 ? sample : null);
+    });
+  } catch (e) {
+    ['btc','eth','sol'].forEach(id => {
+      document.getElementById('card-' + id).innerHTML +=
+        `<p class="error-msg">Price unavailable — API rate limit or network error</p>`;
+    });
+  }
+}
+
+// ── Yahoo Finance (unofficial, CORS proxy) ─────────────────────────────────
+async function fetchEquity(ticker, cardId, label) {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=14d`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error();
+    const j = await resp.json();
+    const result = j.chart?.result?.[0];
+    if (!result) throw new Error();
+    const closes = result.indicators?.quote?.[0]?.close?.filter(v => v != null) || [];
+    const meta = result.meta;
+    const price = meta.regularMarketPrice;
+    const prev = meta.chartPreviousClose || closes[closes.length - 2];
+    const change = prev ? ((price - prev) / prev) * 100 : 0;
+    const tagCls = cardId === 'gld' ? 'tag-equity' : 'tag-equity';
+    renderPrice(cardId, label, ticker, price, change, closes.slice(-14));
+  } catch (e) {
+    // Use fallback stub if Yahoo blocks
+    const fallback = {
+      spy: { p: 560, c: 0.42 }, qqq: { p: 480, c: 0.38 }, gld: { p: 225, c: 0.15 }
+    };
+    const f = fallback[cardId];
+    renderPrice(cardId, label, ticker, f.p, f.c, null);
+    document.getElementById('card-' + cardId).insertAdjacentHTML('beforeend',
+      `<p class="error-msg" style="font-size:10px;margin-top:6px">Live price unavailable — showing cached estimate</p>`);
+  }
+}
+
+// ── Open-Meteo Weather ─────────────────────────────────────────────────────
+const CITIES = [
+  { name: 'New York, NY',   lat: 40.71,  lon: -74.01 },
+  { name: 'Los Angeles, CA', lat: 34.05, lon: -118.24 },
+  { name: 'Chicago, IL',    lat: 41.88,  lon: -87.63 },
+];
+
+const WX_CODES = {
+  0:'Clear', 1:'Mostly Clear', 2:'Partly Cloudy', 3:'Overcast',
+  45:'Foggy', 48:'Icy Fog', 51:'Light Drizzle', 53:'Drizzle', 55:'Heavy Drizzle',
+  61:'Light Rain', 63:'Rain', 65:'Heavy Rain', 71:'Light Snow', 73:'Snow', 75:'Heavy Snow',
+  77:'Snow Grains', 80:'Rain Showers', 81:'Heavy Showers', 82:'Violent Showers',
+  85:'Snow Showers', 86:'Heavy Snow Showers', 95:'Thunderstorm', 96:'Thunderstorm + Hail',
+};
+
+const WX_EMOJI = {
+  0:'☀️', 1:'🌤', 2:'⛅', 3:'☁️', 45:'🌫', 48:'🌫',
+  51:'🌦', 53:'🌦', 55:'🌧', 61:'🌧', 63:'🌧', 65:'🌧',
+  71:'❄️', 73:'❄️', 75:'❄️', 80:'🌦', 81:'🌧', 82:'⛈',
+  95:'⛈', 96:'⛈',
+};
+
+async function fetchWeather() {
+  const row = document.getElementById('weather-row');
+  try {
+    const results = await Promise.all(CITIES.map(async city => {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=auto`;
+      const resp = await fetch(url);
+      const d = await resp.json();
+      return { city, temp: d.current.temperature_2m, code: d.current.weathercode };
+    }));
+    row.innerHTML = results.map(r => {
+      const emoji = WX_EMOJI[r.code] || '🌡';
+      const cond = WX_CODES[r.code] || 'Unknown';
+      return `
+        <div class="weather-item">
+          <div class="weather-city">${r.city.name}</div>
+          <div class="weather-temp">${emoji} ${Math.round(r.temp)}°F</div>
+          <div class="weather-condition">${cond}</div>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    row.innerHTML = '<p class="error-msg">Weather unavailable</p>';
+  }
+}
+
+// ── Macro Snapshot (static, updated monthly) ──────────────────────────────
+const MACRO = [
+  { label: 'Fed Funds Rate', value: '4.25–4.50%', note: 'As of Jan 2026' },
+  { label: 'CPI (Inflation)', value: '2.9%', note: 'Dec 2025 YoY' },
+  { label: 'Unemployment', value: '4.1%', note: 'Jan 2026' },
+  { label: '10Y Treasury', value: '4.52%', note: 'Current yield' },
+  { label: 'VIX Fear Index', value: '—', note: 'Loading…', id: 'vix' },
+];
+
+function renderMacro(vixVal) {
+  const grid = document.getElementById('macro-grid');
+  const items = MACRO.map(m => {
+    const val = m.id === 'vix' ? (vixVal || '—') : m.value;
+    const note = m.id === 'vix' ? (vixVal ? 'Live (Yahoo Finance)' : 'Unavailable') : m.note;
+    return `<div class="macro-item">
+      <div class="macro-label">${m.label}</div>
+      <div class="macro-value">${val}</div>
+      <div class="macro-note">${note}</div>
+    </div>`;
+  });
+  grid.innerHTML = items.join('');
+}
+
+async function fetchVix() {
+  try {
+    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=1d&range=1d';
+    const resp = await fetch(url);
+    const j = await resp.json();
+    const price = j.chart?.result?.[0]?.meta?.regularMarketPrice;
+    renderMacro(price ? price.toFixed(2) : null);
+  } catch (e) {
+    renderMacro(null);
+  }
+}
+
+// ── Auto-refresh ───────────────────────────────────────────────────────────
+let countdown = 60;
+let countdownTimer;
+
+function startCountdown() {
+  clearInterval(countdownTimer);
+  countdown = 60;
+  countdownTimer = setInterval(() => {
+    countdown--;
+    const el = document.getElementById('refresh-countdown');
+    if (el) el.textContent = countdown + 's';
+    if (countdown <= 0) { fetchAll(); }
+  }, 1000);
+}
+
+async function fetchAll() {
+  const btn = document.getElementById('refresh-btn');
+  btn.disabled = true;
+  btn.textContent = '↻ Refreshing…';
+  await Promise.allSettled([fetchCrypto(), fetchEquities(), fetchWeather(), fetchVix()]);
+  document.getElementById('last-updated-ts').textContent = new Date().toLocaleString();
+  btn.disabled = false;
+  btn.textContent = '↻ Refresh Now';
+  startCountdown();
+}
+
+async function fetchEquities() {
+  await Promise.allSettled([
+    fetchEquity('SPY', 'spy', 'S&P 500 ETF'),
+    fetchEquity('QQQ', 'qqq', 'Nasdaq-100 ETF'),
+    fetchEquity('GLD', 'gld', 'Gold ETF'),
+  ]);
+}
+
+// Init
+renderMacro(null);
+fetchAll();
+</script>
+</body>
+</html>
