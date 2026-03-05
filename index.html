@@ -9,6 +9,85 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Niche callout ───────────────────────────────────────── */
+        .niche-callout {
+            background: #1c1c1c;
+            color: #fff;
+            padding: 64px 40px;
+        }
+        .niche-callout .section-inner {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .niche-callout .demo-label {
+            color: rgba(255,255,255,.45);
+        }
+        .niche-callout h2 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .niche-callout > .section-inner > p {
+            color: rgba(255,255,255,.6);
+            font-size: 16px;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+        .niche-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .niche-card {
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 12px;
+            padding: 24px 22px;
+        }
+        .niche-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        .niche-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 14px;
+        }
+        .niche-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+        }
+        .niche-card ul li {
+            font-size: 13.5px;
+            color: rgba(255,255,255,.6);
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .niche-card ul li:last-child { border-bottom: none; }
+        .niche-card a {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,.3);
+            padding-bottom: 1px;
+            transition: border-color .15s;
+        }
+        .niche-card a:hover { border-color: #fff; }
+        @media (max-width: 640px) {
+            .niche-callout { padding: 48px 20px; }
+        }
+
+        /* ── Section subtitle ────────────────────────────────────── */
+        .section-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-top: -28px;
+            margin-bottom: 36px;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,10 +95,10 @@
         <div class="nav-inner">
             <span class="nav-logo">iswain.dev</span>
             <ul class="nav-links">
-                <li><a href="#projects">projects</a></li>
                 <li><a href="#services">services</a></li>
-                <li><a href="#skills">skills</a></li>
+                <li><a href="#work">work</a></li>
                 <li><a href="#about">about</a></li>
+                <li><a href="#skills">skills</a></li>
                 <li><a href="#experience">experience</a></li>
                 <li><a href="#credentials">credentials</a></li>
                 <li><a href="#contact">contact</a></li>
@@ -49,10 +128,217 @@
         </div>
     </div>
 
-    <!-- ── PROJECTS ───────────────────────────────────────────── -->
-    <section id="projects" class="section">
+    <!-- ── SERVICES ───────────────────────────────────────────── -->
+    <section id="services" class="section">
         <div class="section-inner">
-            <h2 class="section-title">projects</h2>
+            <h2 class="section-title">services</h2>
+            <div class="services-grid">
+
+                <div class="service-card card--coral">
+                    <div class="service-tier">basic</div>
+                    <h3 class="service-title">Automate a Task</h3>
+                    <p class="service-desc">Got something you do manually every day? I'll build a tool that handles it automatically &mdash; saving you time and cutting out human error.</p>
+                    <ul class="service-list">
+                        <li>Handles one specific job</li>
+                        <li>Runs on a schedule or on demand</li>
+                        <li>Ready to use with clear instructions</li>
+                    </ul>
+                    <div class="service-price">from $75</div>
+                    <a href="/demos/automation.html" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Market Data Automation →</a>
+                </div>
+
+                <div class="service-card card--rose">
+                    <div class="service-tier">standard</div>
+                    <h3 class="service-title">Add AI to Your Business</h3>
+                    <p class="service-desc">Already have a website, tool, or workflow? I'll plug AI into it so it can write, respond, summarize, or decide &mdash; without you lifting a finger.</p>
+                    <ul class="service-list">
+                        <li>Works with your existing setup</li>
+                        <li>Responds and acts in plain English</li>
+                        <li>Handles errors automatically</li>
+                    </ul>
+                    <div class="service-price">from $200</div>
+                    <a href="https://ai-market-brief.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: AI Market Brief →</a>
+                </div>
+
+                <div class="service-card card--teal">
+                    <div class="service-tier">premium</div>
+                    <h3 class="service-title">Custom Business Tool</h3>
+                    <p class="service-desc">Need something built from the ground up? I'll design, build, and deploy a complete tool around your workflow &mdash; you just use it.</p>
+                    <ul class="service-list">
+                        <li>Designed around your business</li>
+                        <li>Includes a web interface</li>
+                        <li>Fully deployed and ready to go</li>
+                    </ul>
+                    <div class="service-price">from $450</div>
+                    <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: AI Business Chatbot →</a>
+                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Restaurant Chatbot →</a>
+                    <a href="https://stockpilot-inni.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Inventory Manager →</a>
+                    <a href="https://process-audit-q9mx.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Business Efficiency Audit →</a>
+                </div>
+
+                <div class="service-card card--violet">
+                    <div class="service-tier">add-on</div>
+                    <h3 class="service-title">Social Media Starter Pack</h3>
+                    <p class="service-desc">Get your social media up and running with a clear voice, a platform strategy, and 30 days of content ready to post &mdash; all tailored to your business.</p>
+                    <ul class="service-list">
+                        <li>Custom brand voice + strategy</li>
+                        <li>30-day content calendar</li>
+                        <li>Ready to post from day one</li>
+                    </ul>
+                    <div class="service-price">from $150</div>
+                    <a href="https://contentpilot-eq1y.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Social Media Post Generator →</a>
+                </div>
+
+            </div>
+            <p class="services-cta">All projects include a discovery call, full source code, and a 2-week support window. Monthly retainer available for ongoing maintenance and updates. <a href="#contact">Get in touch</a> to discuss your project.</p>
+        </div>
+    </section>
+
+    <!-- ── NICHE CALLOUT ──────────────────────────────────────── -->
+    <div class="niche-callout">
+        <div class="section-inner">
+            <p class="demo-label">who I work with</p>
+            <h2>Built for local businesses</h2>
+            <p>If you run a restaurant, rental property, or real estate operation in Philadelphia, I build the tools your team actually uses — chatbots, review managers, inventory systems, and more. Live demos below.</p>
+            <div class="niche-grid">
+
+                <div class="niche-card">
+                    <div class="niche-icon">🍽️</div>
+                    <h3>Restaurants</h3>
+                    <ul>
+                        <li>AI chatbot for reservations &amp; FAQ</li>
+                        <li>Review reply generator</li>
+                        <li>Social media post generator</li>
+                        <li>Catering inquiry handler</li>
+                    </ul>
+                    <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank" rel="noopener noreferrer">See the restaurant demo →</a>
+                </div>
+
+                <div class="niche-card">
+                    <div class="niche-icon">🏠</div>
+                    <h3>Rentals &amp; Property</h3>
+                    <ul>
+                        <li>Tenant inquiry chatbot</li>
+                        <li>Maintenance request intake</li>
+                        <li>Lease renewal reminders</li>
+                        <li>Listing description generator</li>
+                    </ul>
+                    <a href="#contact">Get in touch →</a>
+                </div>
+
+                <div class="niche-card">
+                    <div class="niche-icon">🏡</div>
+                    <h3>Real Estate</h3>
+                    <ul>
+                        <li>Listing description generator</li>
+                        <li>Lead qualification chatbot</li>
+                        <li>Market summary tool</li>
+                        <li>Email follow-up automation</li>
+                    </ul>
+                    <a href="#contact">Get in touch →</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ── BUSINESS DEMOS ─────────────────────────────────────── -->
+    <section id="work" class="section">
+        <div class="section-inner">
+            <h2 class="section-title">built for businesses</h2>
+            <p class="section-subtitle">Live deployments — try them now.</p>
+            <div class="projects-grid">
+
+                <article class="project-card card--beige">
+                    <div class="card-header">
+                        <span class="card-tag">python &middot; ai &middot; flask</span>
+                        <span class="card-status">live demo</span>
+                    </div>
+                    <h3 class="card-title">AI Business Chatbot</h3>
+                    <p class="card-desc">A customer support chatbot that answers questions, remembers past conversations, and captures leads automatically. Fully rebrandable for any business &mdash; drop it onto any website in minutes.</p>
+                    <ul class="card-tags">
+                        <li>Claude API</li>
+                        <li>Flask</li>
+                        <li>SQLAlchemy</li>
+                        <li>Embeddable Widget</li>
+                    </ul>
+                    <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Harbor Coffee Co. — Chat with Maya &rarr;</a>
+                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="margin-top:6px;display:block;font-size:12.5px;" target="_blank" rel="noopener noreferrer">Passyunk Table — Chat with Rosa &rarr;</a>
+                </article>
+
+                <article class="project-card card--amber">
+                    <div class="card-header">
+                        <span class="card-tag">python &middot; flask &middot; ops</span>
+                        <span class="card-status">live demo</span>
+                    </div>
+                    <h3 class="card-title">Inventory Manager</h3>
+                    <p class="card-desc">Track your supply room in real time &mdash; see what's running low, log what comes in and goes out, and get a weekly AI summary of how your stock is moving. Shown for a coffee shop but works for any business.</p>
+                    <ul class="card-tags">
+                        <li>Flask</li>
+                        <li>SQLAlchemy</li>
+                        <li>Claude API</li>
+                        <li>Operations</li>
+                    </ul>
+                    <a href="https://stockpilot-inni.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
+                </article>
+
+                <article class="project-card card--sage">
+                    <div class="card-header">
+                        <span class="card-tag">python &middot; ai &middot; flask</span>
+                        <span class="card-status">live demo</span>
+                    </div>
+                    <h3 class="card-title">Business Efficiency Audit</h3>
+                    <p class="card-desc">Answer 12 questions about how your business runs and get a personalized report showing where you're wasting time, what to automate first, and a step-by-step plan to fix it.</p>
+                    <ul class="card-tags">
+                        <li>Claude API</li>
+                        <li>Flask</li>
+                        <li>Multi-step Form</li>
+                        <li>AI Report Gen</li>
+                    </ul>
+                    <a href="https://process-audit-q9mx.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Take the Free Audit &rarr;</a>
+                </article>
+
+                <article class="project-card card--rose">
+                    <div class="card-header">
+                        <span class="card-tag">python &middot; ai &middot; flask</span>
+                        <span class="card-status">live demo</span>
+                    </div>
+                    <h3 class="card-title">AI Review Responder</h3>
+                    <p class="card-desc">Paste any customer review and get a professional, human-sounding reply in seconds. Handles positive, negative, and mixed reviews with the right tone &mdash; demo mode works without an API key.</p>
+                    <ul class="card-tags">
+                        <li>Claude API</li>
+                        <li>Flask</li>
+                        <li>Prompt Engineering</li>
+                        <li>Local Business</li>
+                    </ul>
+                    <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
+                </article>
+
+                <article class="project-card card--violet">
+                    <div class="card-header">
+                        <span class="card-tag">python &middot; ai &middot; flask</span>
+                        <span class="card-status">live demo</span>
+                    </div>
+                    <h3 class="card-title">Social Media Post Generator</h3>
+                    <p class="card-desc">Generate a week of social media posts across Twitter/X, Instagram, and LinkedIn in minutes. Pick from six business presets &mdash; restaurant, real estate, local service, and more &mdash; and get a full posting strategy built in.</p>
+                    <ul class="card-tags">
+                        <li>Claude API</li>
+                        <li>Flask</li>
+                        <li>SQLAlchemy</li>
+                        <li>Content Strategy</li>
+                    </ul>
+                    <a href="https://contentpilot-eq1y.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PERSONAL PROJECTS ───────────────────────────────────── -->
+    <section id="projects" class="section" style="padding-top:0;">
+        <div class="section-inner">
+            <h2 class="section-title">personal projects</h2>
+            <p class="section-subtitle">Tools I built for myself — finance, job search, and security.</p>
             <div class="projects-grid">
 
                 <article class="project-card card--blue">
@@ -120,87 +406,6 @@
                     <a href="/demos/security-lab.html" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
                 </article>
 
-                <article class="project-card card--violet">
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; ai &middot; flask</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">Social Media Post Generator</h3>
-                    <p class="card-desc">Schedule a week of social media posts across Twitter/X, Instagram, and LinkedIn in minutes. Pick from six business presets &mdash; restaurant, real estate, local service, and more &mdash; and get a full posting strategy built in.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Content Strategy</li>
-                    </ul>
-                    <a href="https://contentpilot-eq1y.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
-                </article>
-
-                <article class="project-card card--beige">
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; ai &middot; flask</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">AI Business Chatbot</h3>
-                    <p class="card-desc">A customer support chatbot that answers questions, remembers past conversations, and captures leads automatically. Fully rebrandable for any business &mdash; drop it onto any website in minutes.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Embeddable Widget</li>
-                    </ul>
-                    <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Harbor Coffee Co. — Chat with Maya &rarr;</a>
-                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="margin-top:6px;display:block;font-size:12.5px;" target="_blank" rel="noopener noreferrer">Passyunk Table — Chat with Rosa &rarr;</a>
-                </article>
-
-                <article class="project-card card--amber">
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; flask &middot; ops</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">Inventory Manager</h3>
-                    <p class="card-desc">Track your supply room in real time &mdash; see what's running low, log what comes in and goes out, and get a weekly AI summary of how your stock is moving. Shown for a coffee shop but works for any business.</p>
-                    <ul class="card-tags">
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Claude API</li>
-                        <li>Operations</li>
-                    </ul>
-                    <a href="https://stockpilot-inni.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
-                </article>
-
-                <article class="project-card card--sage">
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; ai &middot; flask</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">Business Efficiency Audit</h3>
-                    <p class="card-desc">Answer 12 questions about how your business runs and get a personalized report showing where you're wasting time, what to automate first, and a step-by-step plan to fix it.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>Multi-step Form</li>
-                        <li>AI Report Gen</li>
-                    </ul>
-                    <a href="https://process-audit-q9mx.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Take the Free Audit &rarr;</a>
-                </article>
-
-                <article class="project-card card--rose">
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; ai &middot; flask</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">AI Review Responder</h3>
-                    <p class="card-desc">Paste any customer review and get a professional, human-sounding reply in seconds. Handles positive, negative, and mixed reviews with the right tone. Business name, type, and preferred tone all feed into the prompt. Demo mode works without an API key.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>Prompt Engineering</li>
-                        <li>Local Business</li>
-                    </ul>
-                    <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
-                </article>
-
                 <article class="project-card card--blue">
                     <div class="card-header">
                         <span class="card-tag">javascript &middot; api &middot; chart.js</span>
@@ -218,89 +423,6 @@
                 </article>
 
             </div>
-        </div>
-    </section>
-
-    <!-- ── DEMO CALLOUT ───────────────────────────────────────── -->
-    <div class="demo-callout">
-        <div class="section-inner">
-            <p class="demo-label">live examples</p>
-            <h2>See finished builds in action</h2>
-            <p>Full deployments available to try now &mdash; AI chatbots for two different businesses, a social media post generator, inventory manager, live data dashboard, and a free automation audit for your business.</p>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
-                <a href="https://harbor-coffee-chatbot.onrender.com" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Harbor Coffee Chatbot &rarr;</a>
-                <a href="https://philly-restaurant-chatbot.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Passyunk Table Chatbot &rarr;</a>
-                <a href="https://contentpilot-eq1y.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Social Media Post Generator &rarr;</a>
-                <a href="https://stockpilot-inni.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Inventory Manager &rarr;</a>
-                <a href="https://process-audit-q9mx.onrender.com" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Free Audit &rarr;</a>
-                <a href="/demos/data-dashboard.html" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Live Dashboard &rarr;</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ── SERVICES ───────────────────────────────────────────── -->
-    <section id="services" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">services</h2>
-            <div class="services-grid">
-
-                <div class="service-card card--coral">
-                    <div class="service-tier">basic</div>
-                    <h3 class="service-title">Automate a Task</h3>
-                    <p class="service-desc">Got something you do manually every day? I'll build a tool that handles it automatically &mdash; saving you time and cutting out human error.</p>
-                    <ul class="service-list">
-                        <li>Handles one specific job</li>
-                        <li>Runs on a schedule or on demand</li>
-                        <li>Ready to use with clear instructions</li>
-                    </ul>
-                    <div class="service-price">from $75</div>
-                    <a href="/demos/automation.html" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Market Data Automation →</a>
-                </div>
-
-                <div class="service-card card--rose">
-                    <div class="service-tier">standard</div>
-                    <h3 class="service-title">Add AI to Your Business</h3>
-                    <p class="service-desc">Already have a website, tool, or workflow? I'll plug AI into it so it can write, respond, summarize, or decide &mdash; without you lifting a finger.</p>
-                    <ul class="service-list">
-                        <li>Works with your existing setup</li>
-                        <li>Responds and acts in plain English</li>
-                        <li>Handles errors automatically</li>
-                    </ul>
-                    <div class="service-price">from $200</div>
-                    <a href="https://ai-market-brief.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: AI Market Brief →</a>
-                </div>
-
-                <div class="service-card card--teal">
-                    <div class="service-tier">premium</div>
-                    <h3 class="service-title">Custom Business Tool</h3>
-                    <p class="service-desc">Need something built from the ground up? I'll design, build, and deploy a complete tool around your workflow &mdash; you just use it.</p>
-                    <ul class="service-list">
-                        <li>Designed around your business</li>
-                        <li>Includes a web interface</li>
-                        <li>Fully deployed and ready to go</li>
-                    </ul>
-                    <div class="service-price">from $450</div>
-                    <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: AI Business Chatbot →</a>
-                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Restaurant Chatbot →</a>
-                    <a href="https://stockpilot-inni.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Inventory Manager →</a>
-                    <a href="https://process-audit-q9mx.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Process Audit Tool →</a>
-                </div>
-
-                <div class="service-card card--violet">
-                    <div class="service-tier">add-on</div>
-                    <h3 class="service-title">Social Media Starter Pack</h3>
-                    <p class="service-desc">Get your social media up and running with a clear voice, a platform strategy, and 30 days of content ready to post &mdash; all tailored to your business.</p>
-                    <ul class="service-list">
-                        <li>Custom brand voice + strategy</li>
-                        <li>30-day content calendar</li>
-                        <li>Ready to post from day one</li>
-                    </ul>
-                    <div class="service-price">from $150</div>
-                    <a href="https://contentpilot-eq1y.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Social Media Post Generator →</a>
-                </div>
-
-            </div>
-            <p class="services-cta">All projects include a discovery call, full source code, and a 2-week support window. Monthly retainer available for ongoing maintenance and updates. <a href="#contact">Get in touch</a> to discuss your project.</p>
         </div>
     </section>
 
@@ -349,7 +471,6 @@
                         <li>systemd</li>
                     </ul>
                 </div>
-
 
             </div>
         </div>
