@@ -301,6 +301,21 @@ a:hover { opacity: 0.55; }
     gap: 16px;
 }
 
+.card-preview {
+    margin: -28px -28px 20px;
+    height: 190px;
+    overflow: hidden;
+    border-radius: 14px 14px 0 0;
+    flex-shrink: 0;
+}
+.card-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
 .project-card {
     border-radius: 14px;
     padding: 28px;
