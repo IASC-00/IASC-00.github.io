@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Set up a local LLM with Ollama on Linux or WSL2, call it from Python, and run AI tasks without API keys or cloud costs.">
+<title>Running Local AI with Ollama — iswain.dev</title>
+<link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --dark: #131313; --dark2: #1c1c1c; --light: #F5F5F3;
+  --dim: #888; --accent: #3DE8D0; --accent-dark: #0a7a5e;
+  --bd: rgba(255,255,255,0.09);
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--dark); color: #e8e8e8; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,15,15,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd);
+  padding: 0 60px; height: 58px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-logo { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; color: #fff; text-decoration: none; white-space: nowrap; }
+.nav-links { display: flex; gap: 28px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.nav-cta { font-size: 12px; font-weight: 700; background: var(--accent); color: var(--dark); padding: 7px 18px; border-radius: 6px; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
+.nav-cta:hover { opacity: 0.85; }
+
+.article-header { padding: 80px 60px 64px; border-bottom: 1px solid var(--bd); max-width: 760px; margin: 0 auto; }
+.back-link { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.3); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 32px; display: inline-block; transition: color .15s; }
+.back-link:hover { color: var(--accent); }
+.article-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+.article-header h1 { font-size: clamp(30px,4vw,48px); font-weight: 900; letter-spacing: -0.03em; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+.article-meta { font-size: 12px; color: rgba(255,255,255,0.25); }
+.article-meta span { margin-right: 20px; }
+
+.article-body { padding: 64px 60px 100px; max-width: 760px; margin: 0 auto; }
+.article-body h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin: 48px 0 16px; }
+.article-body h3 { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.8); margin: 32px 0 12px; }
+.article-body p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 20px; }
+.article-body p strong { color: #fff; font-weight: 700; }
+.article-body ul, .article-body ol { margin: 0 0 20px 20px; }
+.article-body li { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 6px; }
+.article-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(61,232,208,0.3); }
+.article-body a:hover { border-color: var(--accent); }
+pre { background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; line-height: 1.7; color: #cdd9e5; }
+p code, li code { background: rgba(255,255,255,0.07); padding: 2px 7px; border-radius: 4px; font-size: 13.5px; color: rgba(255,255,255,0.75); }
+.callout { background: rgba(61,232,208,0.05); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 18px 24px; margin: 28px 0; }
+.callout p { margin: 0; color: rgba(255,255,255,0.55); font-size: 15px; }
+.callout p strong { color: var(--accent); }
+.divider { border: none; border-top: 1px solid var(--bd); margin: 48px 0; }
+.next-post { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; padding: 32px; margin-top: 64px; text-decoration: none; display: block; transition: border-color .15s; }
+.next-post:hover { border-color: rgba(255,255,255,0.18); }
+.next-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 10px; display: block; }
+.next-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+
+footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.2); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
+footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color .15s; }
+footer a:hover { color: #fff; }
+.footer-links { display: flex; gap: 24px; }
+
+@media (max-width: 960px) {
+  nav { padding-left: 28px; padding-right: 28px; }
+  .article-header, .article-body { padding-left: 28px; padding-right: 28px; }
+  footer { padding-left: 28px; padding-right: 28px; }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  footer { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">iswain.dev</a>
+  <ul class="nav-links">
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/notes/">Notes</a></li>
+    <li><a href="https://github.com/IASC-00" target="_blank">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<div class="article-header">
+  <a href="/notes/" class="back-link">← Notes</a>
+  <span class="article-tag">Ollama &middot; Local AI &middot; Python</span>
+  <h1>Running Local AI with Ollama</h1>
+  <div class="article-meta">
+    <span>March 2026</span>
+    <span>5 min read</span>
+  </div>
+</div>
+
+<div class="article-body">
+
+  <p>Not every AI task needs to go through a paid API. For internal tools, high-volume processing, or anything where privacy matters, running a model locally is often the better choice. Ollama makes this straightforward — a single install, a one-line command to pull a model, and you're running inference on your own machine.</p>
+
+  <h2>What Ollama is</h2>
+
+  <p>Ollama is a tool that manages local LLMs. It handles downloading models, running them as a local server, and exposes a simple REST API that mirrors the OpenAI format — which means you can swap it into most existing code with minimal changes.</p>
+
+  <p>It runs well on Linux, macOS, and Windows. If you're on WSL2, there's one extra step to route requests correctly, covered below.</p>
+
+  <h2>Install and pull a model</h2>
+
+<pre><code># Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Pull a model (llama3.1:8b is a solid general-purpose choice)
+ollama pull llama3.1:8b
+
+# Run it interactively to verify
+ollama run llama3.1:8b</code></pre>
+
+  <p>The 8B model is about 5GB and runs fine on most modern hardware with 8GB+ RAM. If you need something smaller, <code>llama3.2:3b</code> is roughly 2GB and still capable for summarization and classification tasks.</p>
+
+  <div class="callout">
+    <p><strong>WSL2 note:</strong> Ollama runs as a Windows service but WSL2 can reach it via the Windows host IP. Set <code>OLLAMA_HOST=http://$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):11434</code> before your scripts run, or add it to your <code>.bashrc</code>.</p>
+  </div>
+
+  <h2>Calling Ollama from Python</h2>
+
+  <p>Ollama's REST API is OpenAI-compatible. The simplest way to call it from Python is with the <code>requests</code> library — no extra SDK needed.</p>
+
+<pre><code>import requests
+import json
+
+OLLAMA_URL = "http://localhost:11434/api/generate"
+
+def ask(prompt, model="llama3.1:8b"):
+    response = requests.post(OLLAMA_URL, json={
+        "model": model,
+        "prompt": prompt,
+        "stream": False
+    })
+    return response.json()["response"]
+
+result = ask("Summarize this in one sentence: Ollama runs LLMs locally.")
+print(result)</code></pre>
+
+  <p>If you prefer the chat format (system + user messages), use <code>/api/chat</code> instead:</p>
+
+<pre><code>def chat(system, user, model="llama3.1:8b"):
+    response = requests.post("http://localhost:11434/api/chat", json={
+        "model": model,
+        "stream": False,
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user",   "content": user}
+        ]
+    })
+    return response.json()["message"]["content"]</code></pre>
+
+  <h2>A practical use: document classifier</h2>
+
+  <p>Say you have a folder of text files — support tickets, notes, whatever — and you want to sort them into categories automatically. Ollama handles this well because the task is simple and volume might be high.</p>
+
+<pre><code>import os
+
+CATEGORIES = ["billing", "technical", "general", "urgent"]
+
+def classify(text):
+    prompt = f"""Classify this message into exactly one category.
+Categories: {", ".join(CATEGORIES)}
+Reply with only the category name, nothing else.
+
+Message: {text}"""
+    return ask(prompt).strip().lower()
+
+folder = "inbox/"
+for filename in os.listdir(folder):
+    with open(os.path.join(folder, filename)) as f:
+        content = f.read()
+    category = classify(content)
+    print(f"{filename} → {category}")</code></pre>
+
+  <h2>When to use Ollama vs a paid API</h2>
+
+  <p>There's no universal answer, but the tradeoffs are clear:</p>
+
+  <ul>
+    <li><strong>Use Ollama</strong> when volume is high, privacy matters, or you're processing data that shouldn't leave your machine</li>
+    <li><strong>Use Claude or GPT</strong> when quality is critical, context windows need to be large, or the task needs strong reasoning</li>
+    <li><strong>Use both</strong> in a hybrid setup — Ollama for fast/cheap preprocessing, Claude for the final step where quality matters</li>
+  </ul>
+
+  <p>The hybrid pattern is what I use in most projects. A local model handles triage and filtering; a cloud model handles the final output. Costs stay low, quality stays high.</p>
+
+  <h2>Running Ollama as a service</h2>
+
+  <p>On Linux, Ollama installs as a systemd service automatically. To confirm it's running:</p>
+
+<pre><code>systemctl status ollama
+
+# Start it if not running
+systemctl start ollama
+
+# Enable on boot
+systemctl enable ollama</code></pre>
+
+  <p>Once it's a background service, your Python scripts can call it at any time — no need to manually start Ollama before running your automations.</p>
+
+  <hr class="divider">
+
+  <p>Questions about a specific use case? <a href="/#contact">Drop me a message</a> — I'm happy to talk through the tradeoffs.</p>
+
+  <a href="/notes/automating-small-business-workflows.html" class="next-post">
+    <span class="next-label">Next post</span>
+    <div class="next-title">Automating Small Business Workflows →</div>
+  </a>
+
+</div>
+
+<footer>
+  <span>&copy; 2026 Ian Swain</span>
+  <div class="footer-links">
+    <a href="https://github.com/IASC-00" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a>
+    <a href="mailto:contact@iswain.dev">contact@iswain.dev</a>
+  </div>
+</footer>
+
+</body>
+</html>
