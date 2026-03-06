@@ -234,6 +234,26 @@ footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: col
 footer a:hover { color: #fff; }
 .footer-links { display: flex; gap: 24px; }
 
+/* ── Typical Projects ── */
+.typical { background: var(--dark); border-top: 1px solid var(--bd); }
+.typical-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--bd); border-radius: 14px; overflow: hidden; }
+.typical-item { padding: 28px 32px; border-bottom: 1px solid var(--bd); border-right: 1px solid var(--bd); display: flex; align-items: flex-start; gap: 16px; transition: background .15s; }
+.typical-item:hover { background: rgba(255,255,255,0.02); }
+.typical-item:nth-child(even) { border-right: none; }
+.typical-item:nth-last-child(-n+2) { border-bottom: none; }
+.typical-dash { color: var(--accent); font-size: 13px; flex-shrink: 0; padding-top: 1px; }
+.typical-text { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+.typical-text strong { color: #fff; font-weight: 700; display: block; margin-bottom: 2px; }
+
+/* ── Terminal block ── */
+.terminal { background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px 24px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; line-height: 1.8; margin-top: 32px; }
+.term-bar { display: flex; gap: 6px; margin-bottom: 16px; }
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-line { color: rgba(255,255,255,0.35); }
+.term-line .cmd { color: var(--accent); }
+.term-line .out { color: rgba(255,255,255,0.55); }
+.term-line .dim { color: rgba(255,255,255,0.2); }
+
 /* ── How it works ── */
 .process { background: var(--dark2); border-top: 1px solid var(--bd); }
 .process-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; }
@@ -252,6 +272,10 @@ footer a:hover { color: #fff; }
   nav, .hero, .stats, .sec, .contact { padding-left: 28px; padding-right: 28px; }
   .niche-grid { grid-template-columns: 1fr; }
   .process-grid { grid-template-columns: 1fr; }
+  .typical-grid { grid-template-columns: 1fr; }
+  .typical-item:nth-child(even) { border-right: none; }
+  .typical-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--bd); }
+  .typical-item:last-child { border-bottom: none; }
   .process-step { border-right: none; border-bottom: 1px solid var(--bd); }
   .process-step:last-child { border-bottom: none; }
   .svc-row { grid-template-columns: 1fr; gap: 16px; }
@@ -294,7 +318,7 @@ footer a:hover { color: #fff; }
 <section class="hero">
   <img src="/images/swan-logo.png" alt="iswain.dev" class="hero-swan">
   <div class="hero-label">
-    Ian Swain &nbsp;&middot;&nbsp; <span>Available for new projects</span>
+    Ian Swain &nbsp;&middot;&nbsp; AI Automation Engineer &nbsp;&middot;&nbsp; <span>Available for new projects</span>
   </div>
   <h1>AI tools that make<br>your business<br><em>work without<br>the busywork.</em></h1>
   <div class="hero-bottom">
@@ -309,7 +333,7 @@ footer a:hover { color: #fff; }
 <!-- Stats bar -->
 <div class="stats">
   <div class="stat"><div class="stat-num">10<span>+</span></div><div class="stat-label">Live demos built</div></div>
-  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Deployed apps on Render</div></div>
+  <div class="stat"><div class="stat-num">7</div><div class="stat-label">Deployed apps on Render</div></div>
   <div class="stat"><div class="stat-num">100<span>%</span></div><div class="stat-label">Source code delivered</div></div>
   <div class="stat"><div class="stat-num">24<span>hr</span></div><div class="stat-label">Response time guaranteed</div></div>
 </div>
@@ -329,6 +353,7 @@ footer a:hover { color: #fff; }
           <div class="card-meta"><span class="card-tag-d">chatbot &middot; lead capture &middot; embeddable</span><span class="card-badge-d">live</span></div>
           <h3 class="card-title-d">AI Business Chatbot</h3>
           <p class="card-desc-d">Answers questions, captures leads, and remembers past conversations. Fully rebrandable — drop it onto any website in minutes.</p>
+          <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Handles support &amp; lead capture 24/7 — no staff required</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">Embeddable</span></div>
           <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank">Harbor Coffee Co. — Chat with Maya →</a>
           <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link-d" target="_blank">Due Sorelle — Chat with Rosa →</a>
@@ -341,6 +366,7 @@ footer a:hover { color: #fff; }
           <div class="card-meta"><span class="card-tag-d">inventory &middot; AI summaries &middot; operations</span><span class="card-badge-d">live</span></div>
           <h3 class="card-title-d">Inventory Manager</h3>
           <p class="card-desc-d">Track your supply room in real time — see what's running low and get a weekly AI summary of how stock is moving.</p>
+          <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Eliminates manual stock tracking — AI flags issues before they become problems</p>
           <div class="card-tech"><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">Claude API</span></div>
           <a href="https://stockpilot-inni.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
         </div>
@@ -352,6 +378,7 @@ footer a:hover { color: #fff; }
           <div class="card-meta"><span class="card-tag-d">AI audit &middot; workflow analysis &middot; action plan</span><span class="card-badge-d">live</span></div>
           <h3 class="card-title-d">Business Efficiency Audit</h3>
           <p class="card-desc-d">Answer 12 questions about how your business runs and get a personalized report showing where you're wasting time and what to fix first.</p>
+          <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Delivers a prioritized action plan in minutes, not a consultant in weeks</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">AI Report Gen</span></div>
           <a href="https://process-audit-q9mx.onrender.com" class="card-link-d" target="_blank">Take the free audit →</a>
         </div>
@@ -363,6 +390,7 @@ footer a:hover { color: #fff; }
           <div class="card-meta"><span class="card-tag-d">review replies &middot; reputation &middot; local business</span><span class="card-badge-d">live</span></div>
           <h3 class="card-title-d">AI Review Responder</h3>
           <p class="card-desc-d">Paste any customer review and get a professional, human-sounding reply in seconds. Handles positive, negative, and mixed reviews.</p>
+          <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Turns every review into a professional reply in seconds, not hours</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">Prompt Engineering</span></div>
           <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
         </div>
@@ -374,6 +402,7 @@ footer a:hover { color: #fff; }
           <div class="card-meta"><span class="card-tag-d">content calendar &middot; brand voice &middot; social</span><span class="card-badge-d">live</span></div>
           <h3 class="card-title-d">Social Media Post Generator</h3>
           <p class="card-desc-d">Generate a week of posts across Instagram, LinkedIn, and X in minutes — tailored to your business type and voice.</p>
+          <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">A week of content in minutes — no copywriter needed</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span></div>
           <a href="https://contentpilot-eq1y.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
         </div>
@@ -385,6 +414,7 @@ footer a:hover { color: #fff; }
           <div class="card-meta"><span class="card-tag-d">AI brief &middot; market data &middot; automation</span><span class="card-badge-d">live</span></div>
           <h3 class="card-title-d">AI Market Brief</h3>
           <p class="card-desc-d">Pulls live market data and generates a concise, plain-English daily brief — stocks, crypto, and macro signals summarized by AI.</p>
+          <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Daily market intelligence without manually scanning multiple sources</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">Market Data</span></div>
           <a href="https://ai-market-brief.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
         </div>
@@ -586,9 +616,9 @@ footer a:hover { color: #fff; }
       <div>
         <span class="label-sm" style="color:var(--dim);margin-bottom:16px;display:block;">About</span>
         <h2 class="sec-h2 sec-h2-light" style="font-size:clamp(32px,3.5vw,48px);margin-bottom:32px;">Thirteen years in operations.<br>Self-taught in software.</h2>
-        <p>Thirteen years in operations, retail management, social promotions, and client relations. Self-taught in software. Based in Philadelphia, PA — working with clients in the US and abroad.</p>
-        <p>I build AI-powered tools for real problems — chatbots, automation, custom web apps. Take something that eats up time or creates confusion and replace it with something that just works.</p>
-        <p><strong>Fast turnaround. Clean code. Full source delivered.</strong></p>
+        <p>Self-taught developer with 13 years in operations, retail management, and multi-channel marketing. Based in Philadelphia, PA — working with clients in the US and abroad.</p>
+        <p>That background means I don't just write code — I understand the real business problem before I write a single line. I build AI automation systems and custom tools that replace manual workflows with simple, reliable solutions.</p>
+        <p><strong>I replace what's frustrating with something that just works.</strong></p>
         <div class="about-btns">
           <a href="https://github.com/IASC-00" class="btn-light-outline" target="_blank">GitHub</a>
           <a href="https://linkedin.com/in/ian-swain-978326101" class="btn-light-outline" target="_blank">LinkedIn</a>
@@ -612,10 +642,42 @@ footer a:hover { color: #fff; }
           <div class="skill-grp-name">Infrastructure</div>
           <div class="skill-pills"><span class="pill">Linux / WSL2</span><span class="pill">Git / GitHub</span><span class="pill">Render / Gunicorn</span><span class="pill">systemd</span></div>
         </div>
+        <div class="terminal">
+          <div class="term-bar">
+            <div class="term-dot" style="background:#ff5f57;"></div>
+            <div class="term-dot" style="background:#febc2e;"></div>
+            <div class="term-dot" style="background:#28c840;"></div>
+          </div>
+          <div class="term-line"><span class="dim">$</span> <span class="cmd">python</span> automate.py --workflow "weekly_report"</div>
+          <div class="term-line"><span class="out">✓ Fetching data from 3 sources...</span></div>
+          <div class="term-line"><span class="out">✓ Running AI analysis...</span></div>
+          <div class="term-line"><span class="out">✓ Report generated → report_2026-03-06.pdf</span></div>
+          <div class="term-line"><span class="out">✓ Sent to team@yourcompany.com</span></div>
+          <div class="term-line"><span class="dim">Done in 4.2s</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Typical Projects -->
+<div class="sec typical">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Typical projects</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Is this your problem?</h2>
+    <p class="sec-lead sec-lead-dark">If any of these sound familiar, I can probably help.</p>
+    <div class="typical-grid">
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>AI chatbots &amp; assistants</strong>Customer support, FAQ, lead capture — running automatically</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Workflow automation</strong>Repetitive tasks replaced by a script that runs itself</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>API integrations</strong>Connect tools that don't talk to each other yet</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Data pipelines</strong>Automated collection, cleaning, and reporting from any source</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Internal business dashboards</strong>Real-time visibility into the numbers that matter</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Custom CLI tools</strong>Developer-grade automation utilities built for your exact workflow</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>LLM-powered internal tools</strong>AI that reads, summarizes, writes, or decides — plugged into your stack</div></div>
+      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Something that doesn't fit a category</strong>Describe the problem — if it can be automated, it probably can be built</div></div>
+    </div>
+  </div>
+</div>
 
 <!-- Contact (dark) -->
 <section class="contact" id="contact">
