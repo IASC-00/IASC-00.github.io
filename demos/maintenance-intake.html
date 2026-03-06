@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maintenance Request Intake — iswain.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg-alt: #f7f5f2; --border: #e8e3db;
+    --text: #1c1c1c; --dim: #888;
+    --green: #1a7a4a; --green-bg: #e8f7ef; --green-border: #a3d9bc;
+    --yellow: #92400e; --yellow-bg: #fef3c7; --yellow-border: #f9d56e;
+    --red: #b91c1c; --red-bg: #fde8e8; --red-border: #f3a0a0;
+    --blue: #1d4ed8; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  .top-bar { background: var(--text); color: rgba(255,255,255,.6); text-align: center; padding: 9px 20px; font-size: 12px; }
+  .top-bar a { color: #fff; font-weight: 600; text-decoration: none; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); padding: 0 36px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { font-size: 14px; font-weight: 700; text-decoration: none; color: var(--text); }
+  .nav-right { font-size: 13px; color: var(--dim); }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 56px 36px 80px; }
+
+  .page-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 10px; }
+  .page-title { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; }
+  .page-desc { font-size: 15px; color: var(--dim); max-width: 620px; margin-bottom: 36px; }
+
+  /* View toggle */
+  .view-toggle { display: flex; gap: 8px; margin-bottom: 32px; }
+  .toggle-btn {
+    padding: 9px 20px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: var(--bg-alt); font-family: var(--font); font-size: 13px; font-weight: 600;
+    color: var(--dim); cursor: pointer; transition: all .15s;
+  }
+  .toggle-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+  /* Form */
+  .form-section { display: none; }
+  .form-section.active { display: block; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); }
+  input, select, textarea {
+    font-family: var(--font); font-size: 14px; color: var(--text);
+    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; transition: border-color .15s; width: 100%;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--text); }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .urgency-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+  .urgency-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin-bottom: 4px; }
+  .urgency-option { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; background: var(--bg-alt); transition: all .15s; }
+  .urgency-option input[type=radio] { margin-top: 3px; accent-color: var(--text); cursor: pointer; flex-shrink: 0; }
+  .urgency-option:has(input:checked) { border-color: var(--text); background: var(--bg); }
+  .urgency-option.emergency:has(input:checked) { border-color: var(--red); background: var(--red-bg); }
+  .urgency-option.urgent:has(input:checked) { border-color: var(--yellow-border); background: var(--yellow-bg); }
+  .urgency-option.routine:has(input:checked) { border-color: var(--green-border); background: var(--green-bg); }
+  .urg-title { font-weight: 700; font-size: 14px; }
+  .urg-desc { font-size: 12.5px; color: var(--dim); }
+
+  .submit-btn {
+    width: 100%; padding: 14px; border-radius: 10px;
+    background: var(--text); color: #fff;
+    font-family: var(--font); font-size: 15px; font-weight: 700;
+    border: none; cursor: pointer; transition: opacity .15s;
+  }
+  .submit-btn:hover { opacity: .85; }
+  .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* Output */
+  .output { display: none; margin-top: 40px; }
+  .output.visible { display: block; }
+
+  .output-block { border-radius: 12px; border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+  .output-block-header { padding: 12px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; display: flex; align-items: center; justify-content: space-between; }
+  .output-block-header.tenant { background: var(--blue-bg); color: var(--blue); border-bottom: 1.5px solid var(--blue-border); }
+  .output-block-header.manager { background: var(--bg-alt); color: var(--dim); border-bottom: 1.5px solid var(--border); }
+  .output-block-body { padding: 20px 24px; font-size: 14px; line-height: 1.75; white-space: pre-line; }
+
+  .copy-btn {
+    font-family: var(--font); font-size: 11px; font-weight: 600;
+    background: rgba(255,255,255,.7); border: 1.5px solid currentColor; border-radius: 6px;
+    padding: 4px 10px; cursor: pointer; transition: all .15s;
+  }
+  .copy-btn.copied { opacity: .6; }
+
+  .ticket-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .ticket-pill { border-radius: 6px; padding: 3px 10px; font-size: 11.5px; font-weight: 700; }
+  .pill-emergency { background: var(--red-bg); color: var(--red); }
+  .pill-urgent { background: var(--yellow-bg); color: var(--yellow); }
+  .pill-routine { background: var(--green-bg); color: var(--green); }
+  .pill-id { background: var(--bg-alt); color: var(--dim); border: 1px solid var(--border); }
+  .pill-cat { background: var(--blue-bg); color: var(--blue); }
+
+  .skeleton { background: linear-gradient(90deg, #f0ede8 25%, #e8e3db 50%, #f0ede8 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 6px; height: 14px; margin-bottom: 10px; }
+  .skeleton.long { width: 100%; }
+  .skeleton.med { width: 72%; }
+  .skeleton.short { width: 42%; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  .note { font-size: 12.5px; color: var(--dim); background: var(--bg-alt); border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--border); margin-top: 8px; }
+
+  /* Manager dashboard stub */
+  .dashboard-stub { background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 12px; padding: 24px; }
+  .stub-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+  .stub-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+  .stub-row:last-child { border-bottom: none; }
+  .stub-badge { border-radius: 5px; padding: 2px 8px; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .page { padding: 36px 20px 60px; }
+    nav { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  Demo by <a href="https://iswain.dev">iswain.dev</a> &mdash; Custom tools for property managers
+</div>
+
+<nav>
+  <a href="https://iswain.dev" class="nav-brand">iswain.dev</a>
+  <span class="nav-right">Property Management Tools</span>
+</nav>
+
+<div class="page">
+
+  <p class="page-label">Rental Management Demo</p>
+  <h1 class="page-title">Maintenance Request Intake</h1>
+  <p class="page-desc">Tenants submit requests online. AI instantly categorizes the issue, assigns priority, routes it to the right vendor category, and sends a confirmation — no phone tag, no sticky notes.</p>
+
+  <div class="view-toggle">
+    <button class="toggle-btn active" onclick="switchView('tenant')">Tenant View</button>
+    <button class="toggle-btn" onclick="switchView('manager')">Manager Dashboard</button>
+  </div>
+
+  <!-- Tenant Form -->
+  <div class="form-section active" id="tenantSection">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="tenantName">Your Name</label>
+        <input type="text" id="tenantName" placeholder="e.g. Maria Santos">
+      </div>
+      <div class="form-group">
+        <label for="tenantEmail">Email Address</label>
+        <input type="email" id="tenantEmail" placeholder="e.g. maria@email.com">
+      </div>
+      <div class="form-group">
+        <label for="unit">Unit Number</label>
+        <input type="text" id="unit" placeholder="e.g. 3B">
+      </div>
+      <div class="form-group">
+        <label for="category">Issue Type</label>
+        <select id="category">
+          <option value="Plumbing">Plumbing (leak, clog, no hot water)</option>
+          <option value="Electrical">Electrical (outlet, breaker, lighting)</option>
+          <option value="HVAC">HVAC / Heating / Cooling</option>
+          <option value="Appliance">Appliance (fridge, stove, dishwasher)</option>
+          <option value="Pest Control">Pest Control</option>
+          <option value="Structural">Structural / Exterior (roof, door, window)</option>
+          <option value="Common Area">Common Area</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label for="description">Describe the issue</label>
+        <textarea id="description" placeholder="e.g. The kitchen faucet has been dripping constantly for two days and there's a small puddle forming under the sink."></textarea>
+      </div>
+    </div>
+
+    <div class="urgency-group">
+      <div class="urgency-label">How urgent is this?</div>
+      <label class="urgency-option emergency">
+        <input type="radio" name="urgency" value="emergency">
+        <div><div class="urg-title">Emergency</div><div class="urg-desc">Safety hazard, no heat in winter, flooding, no water — needs same-day attention</div></div>
+      </label>
+      <label class="urgency-option urgent">
+        <input type="radio" name="urgency" value="urgent">
+        <div><div class="urg-title">Urgent</div><div class="urg-desc">Affects daily use but not a safety risk — respond within 24–48 hours</div></div>
+      </label>
+      <label class="urgency-option routine">
+        <input type="radio" name="urgency" value="routine" checked>
+        <div><div class="urg-title">Routine</div><div class="urg-desc">Minor issue, can be scheduled — respond within 5–7 days</div></div>
+      </label>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitRequest()">Submit Maintenance Request</button>
+
+    <div class="output" id="output">
+
+      <!-- Tenant confirmation -->
+      <div class="output-block">
+        <div class="output-block-header tenant">
+          <span>Tenant Confirmation Email</span>
+          <button class="copy-btn" onclick="copyBlock('tenantConfirm', this)">Copy</button>
+        </div>
+        <div class="output-block-body" id="tenantConfirm">
+          <div class="skeleton long"></div>
+          <div class="skeleton med"></div>
+          <div class="skeleton long" style="margin-top:12px"></div>
+          <div class="skeleton long"></div>
+          <div class="skeleton short"></div>
+        </div>
+      </div>
+
+      <!-- Manager ticket -->
+      <div class="output-block">
+        <div class="output-block-header manager">
+          <span>Manager Routing Ticket</span>
+          <button class="copy-btn" onclick="copyBlock('managerTicket', this)">Copy</button>
+        </div>
+        <div class="output-block-body" id="managerTicket">
+          <div class="skeleton short" style="margin-bottom:14px"></div>
+          <div class="skeleton long"></div>
+          <div class="skeleton med"></div>
+          <div class="skeleton long" style="margin-top:12px"></div>
+          <div class="skeleton long"></div>
+        </div>
+      </div>
+
+      <p class="note">In your live tool, these messages are generated fresh by AI for every request and emailed automatically — no copy/paste required.</p>
+    </div>
+  </div>
+
+  <!-- Manager Dashboard -->
+  <div class="form-section" id="managerSection">
+    <div class="dashboard-stub">
+      <div class="stub-title">Open Maintenance Requests</div>
+      <div class="stub-row">
+        <span class="stub-badge pill-emergency">EMERGENCY</span>
+        <span>Unit 1A — No heat (HVAC)</span>
+        <span style="margin-left:auto;color:var(--dim);font-size:12px">2 hrs ago</span>
+      </div>
+      <div class="stub-row">
+        <span class="stub-badge pill-urgent">URGENT</span>
+        <span>Unit 3B — Kitchen faucet leak</span>
+        <span style="margin-left:auto;color:var(--dim);font-size:12px">5 hrs ago</span>
+      </div>
+      <div class="stub-row">
+        <span class="stub-badge pill-urgent">URGENT</span>
+        <span>Unit 2F — Dryer not heating</span>
+        <span style="margin-left:auto;color:var(--dim);font-size:12px">1 day ago</span>
+      </div>
+      <div class="stub-row">
+        <span class="stub-badge pill-routine">ROUTINE</span>
+        <span>Unit 4C — Bathroom caulk peeling</span>
+        <span style="margin-left:auto;color:var(--dim);font-size:12px">2 days ago</span>
+      </div>
+      <div class="stub-row">
+        <span class="stub-badge pill-routine">ROUTINE</span>
+        <span>Unit 5A — Window screen torn</span>
+        <span style="margin-left:auto;color:var(--dim);font-size:12px">3 days ago</span>
+      </div>
+    </div>
+    <p class="note" style="margin-top:16px">The manager view shows all open tickets, sorted by priority. Click any ticket to see the AI-generated routing note, tenant history, and suggested vendor. <a href="https://iswain.dev/#contact" style="color:var(--text);font-weight:600">Get in touch</a> to build this for your properties.</p>
+  </div>
+
+</div>
+
+<script>
+let ticketCounter = Math.floor(Math.random() * 900) + 100;
+
+function switchView(view) {
+  document.getElementById('tenantSection').classList.toggle('active', view === 'tenant');
+  document.getElementById('managerSection').classList.toggle('active', view === 'manager');
+  document.querySelectorAll('.toggle-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', (i === 0 && view === 'tenant') || (i === 1 && view === 'manager'));
+  });
+}
+
+const vendorMap = {
+  'Plumbing': 'Licensed plumber',
+  'Electrical': 'Licensed electrician',
+  'HVAC': 'HVAC technician',
+  'Appliance': 'Appliance repair technician',
+  'Pest Control': 'Pest control service',
+  'Structural': 'General contractor',
+  'Common Area': 'Building maintenance staff',
+  'Other': 'General maintenance staff',
+};
+
+const slaMap = {
+  emergency: 'Same day (within 4 hours)',
+  urgent: '24–48 hours',
+  routine: '5–7 business days',
+};
+
+function buildTenantEmail(d) {
+  const ticketId = `MR-${new Date().getFullYear()}-${String(ticketCounter).padStart(4,'0')}`;
+  const name = d.name || 'Tenant';
+  const unit = d.unit || 'your unit';
+  const cat = d.category;
+  const urg = d.urgency;
+  const sla = slaMap[urg];
+
+  const urgLine = urg === 'emergency'
+    ? 'We have flagged this as an EMERGENCY and a technician will contact you within 4 hours.'
+    : urg === 'urgent'
+    ? 'We have marked this as urgent and will have someone reach out within 24–48 hours.'
+    : 'We have scheduled this as a routine request and will be in touch within 5–7 business days to arrange access.';
+
+  return `Subject: Maintenance Request Received — Ticket ${ticketId}
+
+Hi ${name},
+
+Thank you for submitting your maintenance request for Unit ${unit}. We received it and are on it.
+
+Issue: ${cat}
+Ticket #: ${ticketId}
+Status: Open
+
+${urgLine}
+
+If this becomes an emergency before we respond, please call the after-hours line at (215) 555-0192.
+
+Thank you for letting us know — we'll take care of it.
+
+Sunrise Property Management`;
+}
+
+function buildManagerTicket(d) {
+  const ticketId = `MR-${new Date().getFullYear()}-${String(ticketCounter).padStart(4,'0')}`;
+  const name = d.name || 'Tenant';
+  const email = d.email || 'N/A';
+  const unit = d.unit || 'N/A';
+  const cat = d.category;
+  const urg = d.urgency;
+  const desc = d.description || 'No description provided.';
+  const vendor = vendorMap[cat] || 'General maintenance';
+  const sla = slaMap[urg];
+  const urgLabel = urg.toUpperCase();
+
+  const action = urg === 'emergency'
+    ? 'IMMEDIATE ACTION REQUIRED — contact tenant and dispatch vendor now.'
+    : urg === 'urgent'
+    ? 'Schedule vendor visit within 24–48 hours. Confirm with tenant.'
+    : 'Add to vendor queue for next available appointment. Confirm access with tenant.';
+
+  return `TICKET ${ticketId} — ${urgLabel}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tenant: ${name} (${email})
+Unit: ${unit}
+Category: ${cat}
+Priority: ${urgLabel}
+Response SLA: ${sla}
+Suggested Vendor: ${vendor}
+
+Tenant Description:
+"${desc}"
+
+Recommended Action:
+${action}`;
+}
+
+function submitRequest() {
+  const btn = document.getElementById('submitBtn');
+  const output = document.getElementById('output');
+
+  const d = {
+    name: document.getElementById('tenantName').value.trim(),
+    email: document.getElementById('tenantEmail').value.trim(),
+    unit: document.getElementById('unit').value.trim(),
+    category: document.getElementById('category').value,
+    urgency: document.querySelector('input[name="urgency"]:checked')?.value || 'routine',
+    description: document.getElementById('description').value.trim(),
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+  output.classList.add('visible');
+
+  // Skeleton state already in HTML — just scroll to it
+  output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  setTimeout(() => {
+    const tenantText = buildTenantEmail(d);
+    const managerText = buildManagerTicket(d);
+    const urg = d.urgency;
+
+    const pillClass = urg === 'emergency' ? 'pill-emergency' : urg === 'urgent' ? 'pill-urgent' : 'pill-routine';
+
+    document.getElementById('tenantConfirm').textContent = tenantText;
+
+    document.getElementById('managerTicket').innerHTML = `
+      <div class="ticket-meta">
+        <span class="ticket-pill ${pillClass}">${urg.toUpperCase()}</span>
+        <span class="ticket-pill pill-cat">${d.category}</span>
+        <span class="ticket-pill pill-id">Unit ${d.unit || 'N/A'}</span>
+        <span class="ticket-pill pill-id">Vendor: ${vendorMap[d.category] || 'General'}</span>
+      </div>
+      <div style="white-space:pre-line;font-size:14px;line-height:1.75">${managerText}</div>
+    `;
+
+    btn.disabled = false;
+    btn.textContent = 'Submit Another Request';
+    ticketCounter++;
+  }, 1600);
+}
+
+function copyBlock(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.textContent || el.innerText;
+  navigator.clipboard.writeText(text.trim()).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
