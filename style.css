@@ -307,6 +307,7 @@ a:hover { opacity: 0.55; }
     overflow: hidden;
     border-radius: 14px 14px 0 0;
     flex-shrink: 0;
+    position: relative;
 }
 .card-preview img {
     width: 100%;
@@ -315,6 +316,21 @@ a:hover { opacity: 0.55; }
     object-position: top;
     display: block;
 }
+.card-preview::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 64px;
+    pointer-events: none;
+}
+.card--blue   .card-preview::after { background: linear-gradient(to bottom, transparent, #bcd4fd); }
+.card--beige  .card-preview::after { background: linear-gradient(to bottom, transparent, #e3c0a9); }
+.card--violet .card-preview::after { background: linear-gradient(to bottom, transparent, #c9c1ff); }
+.card--sage   .card-preview::after { background: linear-gradient(to bottom, transparent, #91b394); }
+.card--coral  .card-preview::after { background: linear-gradient(to bottom, transparent, #ffa796); }
+.card--rose   .card-preview::after { background: linear-gradient(to bottom, transparent, #f9ccdd); }
+.card--teal   .card-preview::after { background: linear-gradient(to bottom, transparent, #59e7ca); }
+.card--amber  .card-preview::after { background: linear-gradient(to bottom, transparent, #f5c842); }
 
 .project-card {
     border-radius: 14px;
