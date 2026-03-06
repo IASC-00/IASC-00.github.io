@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="How to connect the Claude API to a real business workflow using Python — from a simple script to a system that runs on its own.">
+<title>Building AI Workflow Automation with Python — iswain.dev</title>
+<link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --dark: #131313; --dark2: #1c1c1c; --light: #F5F5F3;
+  --dim: #888; --accent: #3DE8D0; --accent-dark: #0a7a5e;
+  --bd: rgba(255,255,255,0.09);
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--dark); color: #e8e8e8; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,15,15,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd);
+  padding: 0 60px; height: 58px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-logo { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; color: #fff; text-decoration: none; white-space: nowrap; }
+.nav-links { display: flex; gap: 28px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.nav-cta { font-size: 12px; font-weight: 700; background: var(--accent); color: var(--dark); padding: 7px 18px; border-radius: 6px; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
+.nav-cta:hover { opacity: 0.85; }
+
+.article-header { padding: 80px 60px 64px; border-bottom: 1px solid var(--bd); max-width: 760px; margin: 0 auto; }
+.back-link { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.3); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 32px; display: inline-block; transition: color .15s; }
+.back-link:hover { color: var(--accent); }
+.article-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+.article-header h1 { font-size: clamp(30px,4vw,48px); font-weight: 900; letter-spacing: -0.03em; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+.article-meta { font-size: 12px; color: rgba(255,255,255,0.25); }
+.article-meta span { margin-right: 20px; }
+
+.article-body { padding: 64px 60px 100px; max-width: 760px; margin: 0 auto; }
+.article-body h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin: 48px 0 16px; }
+.article-body h3 { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.8); margin: 32px 0 12px; }
+.article-body p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 20px; }
+.article-body p strong { color: #fff; font-weight: 700; }
+.article-body ul, .article-body ol { margin: 0 0 20px 20px; }
+.article-body li { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 6px; }
+.article-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(61,232,208,0.3); }
+.article-body a:hover { border-color: var(--accent); }
+pre { background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; line-height: 1.7; color: #cdd9e5; }
+p code, li code { background: rgba(255,255,255,0.07); padding: 2px 7px; border-radius: 4px; font-size: 13.5px; color: rgba(255,255,255,0.75); }
+.callout { background: rgba(61,232,208,0.05); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 18px 24px; margin: 28px 0; }
+.callout p { margin: 0; color: rgba(255,255,255,0.55); font-size: 15px; }
+.callout p strong { color: var(--accent); }
+.divider { border: none; border-top: 1px solid var(--bd); margin: 48px 0; }
+.next-post { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; padding: 32px; margin-top: 64px; text-decoration: none; display: block; transition: border-color .15s; }
+.next-post:hover { border-color: rgba(255,255,255,0.18); }
+.next-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 10px; display: block; }
+.next-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+
+footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.2); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
+footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color .15s; }
+footer a:hover { color: #fff; }
+.footer-links { display: flex; gap: 24px; }
+
+@media (max-width: 960px) {
+  nav { padding-left: 28px; padding-right: 28px; }
+  .article-header, .article-body { padding-left: 28px; padding-right: 28px; }
+  footer { padding-left: 28px; padding-right: 28px; }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  footer { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">iswain.dev</a>
+  <ul class="nav-links">
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/notes/">Notes</a></li>
+    <li><a href="https://github.com/IASC-00" target="_blank">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<div class="article-header">
+  <a href="/notes/" class="back-link">← Notes</a>
+  <span class="article-tag">Python &middot; Claude API &middot; Automation</span>
+  <h1>Building AI Workflow Automation with Python</h1>
+  <div class="article-meta">
+    <span>March 2026</span>
+    <span>6 min read</span>
+  </div>
+</div>
+
+<div class="article-body">
+
+  <p>Most workflow automation doesn't need to be complicated. A single Python script, a Claude API call, and a cron job will handle 80% of the repetitive tasks most small businesses deal with. This post walks through exactly how to build that — starting from scratch.</p>
+
+  <h2>The pattern</h2>
+
+  <p>Almost every AI automation follows the same shape:</p>
+
+  <ol>
+    <li><strong>Pull data</strong> from somewhere (a file, a database, an API, an email inbox)</li>
+    <li><strong>Send it to an LLM</strong> with a clear instruction</li>
+    <li><strong>Do something with the output</strong> — save it, send it, log it</li>
+  </ol>
+
+  <p>That's it. The complexity in real systems comes from handling edge cases, retries, and scheduling — not from the core logic.</p>
+
+  <h2>Setting up</h2>
+
+  <p>You'll need Python 3.9+ and the Anthropic SDK:</p>
+
+<pre><code>pip install anthropic</code></pre>
+
+  <p>Create a <code>.env</code> file in your project root:</p>
+
+<pre><code>ANTHROPIC_API_KEY=sk-ant-...</code></pre>
+
+  <p>Load it in your script with <code>python-dotenv</code>, or just set the env variable directly in your shell.</p>
+
+  <h2>A real example: daily report summarizer</h2>
+
+  <p>Say you run a small business and every morning you read through a CSV of the previous day's transactions to spot anything unusual. Takes 20 minutes. Here's how to automate it.</p>
+
+  <h3>Step 1 — read the data</h3>
+
+<pre><code>import csv
+import os
+from anthropic import Anthropic
+
+client = Anthropic()
+
+def load_transactions(filepath):
+    with open(filepath, newline='') as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+    return rows
+</code></pre>
+
+  <h3>Step 2 — build the prompt</h3>
+
+  <p>The quality of your output depends heavily on how clearly you frame the task. Be specific about what you want back.</p>
+
+<pre><code>def build_prompt(transactions):
+    data = "\n".join(
+        f"{row['date']} | {row['description']} | ${row['amount']}"
+        for row in transactions
+    )
+    return f"""You are reviewing daily business transactions.
+Below is a list of transactions from yesterday.
+
+{data}
+
+Summarize in 3–5 bullet points:
+- Any unusually large or small amounts
+- Patterns worth noting
+- Anything that looks like it needs follow-up
+
+Be concise. Plain English. No financial advice."""
+</code></pre>
+
+  <h3>Step 3 — call the API</h3>
+
+<pre><code>def get_summary(prompt):
+    message = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=512,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return message.content[0].text
+</code></pre>
+
+  <div class="callout">
+    <p><strong>Model choice matters for cost.</strong> For daily summaries like this, <code>claude-haiku</code> is fast and cheap — fractions of a cent per run. Save Sonnet or Opus for tasks that need deeper reasoning.</p>
+  </div>
+
+  <h3>Step 4 — do something with the output</h3>
+
+  <p>Saving to a file is the simplest option. From there you can email it, push it to Slack, log it to a database — whatever fits your workflow.</p>
+
+<pre><code>from datetime import date
+
+def save_report(summary):
+    filename = f"reports/daily-{date.today()}.txt"
+    os.makedirs("reports", exist_ok=True)
+    with open(filename, "w") as f:
+        f.write(summary)
+    print(f"Saved: {filename}")
+
+if __name__ == "__main__":
+    rows = load_transactions("data/transactions.csv")
+    prompt = build_prompt(rows)
+    summary = get_summary(prompt)
+    save_report(summary)
+    print(summary)
+</code></pre>
+
+  <h2>Running it automatically</h2>
+
+  <p>On Linux (or WSL2), add a cron job to run it every morning at 7am:</p>
+
+<pre><code>crontab -e
+
+# Add this line:
+0 7 * * * /usr/bin/python3 /home/user/reports/daily_summary.py >> /var/log/daily_summary.log 2>&1</code></pre>
+
+  <p>On Windows, use Task Scheduler. On a server, a systemd timer works well for more control over retry behavior.</p>
+
+  <h2>Where to go from here</h2>
+
+  <p>This pattern scales to almost anything:</p>
+
+  <ul>
+    <li><strong>Customer reviews</strong> — pull from Google/Yelp API, summarize sentiment weekly</li>
+    <li><strong>Support emails</strong> — read from Gmail API, draft reply suggestions</li>
+    <li><strong>Inventory alerts</strong> — query a database, flag items below reorder threshold with AI explanation</li>
+    <li><strong>Competitor monitoring</strong> — scrape a few pages, summarize changes</li>
+  </ul>
+
+  <p>The key is keeping each automation focused on one job. Once it's running reliably, adding a second task takes minutes — you already have the scaffolding.</p>
+
+  <hr class="divider">
+
+  <p>If you're trying to automate something specific and running into trouble, <a href="/#contact">get in touch</a> — happy to help think through it.</p>
+
+  <a href="/notes/running-local-ai-ollama.html" class="next-post">
+    <span class="next-label">Next post</span>
+    <div class="next-title">Running Local AI with Ollama →</div>
+  </a>
+
+</div>
+
+<footer>
+  <span>&copy; 2026 Ian Swain</span>
+  <div class="footer-links">
+    <a href="https://github.com/IASC-00" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a>
+    <a href="mailto:contact@iswain.dev">contact@iswain.dev</a>
+  </div>
+</footer>
+
+</body>
+</html>
