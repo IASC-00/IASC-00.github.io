@@ -1,665 +1,583 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ian Swain — Software Engineer based in Philadelphia. I build AI-powered tools for local businesses — chatbots, automation, and custom web apps.">
-    <title>Ian Swain — Software Engineer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* ── Niche callout ───────────────────────────────────────── */
-        .niche-callout {
-            background: #1c1c1c;
-            color: #fff;
-            padding: 64px 40px;
-        }
-        .niche-callout .section-inner {
-            max-width: 960px;
-            margin: 0 auto;
-        }
-        .niche-callout .demo-label {
-            color: rgba(255,255,255,.45);
-        }
-        .niche-callout h2 {
-            color: #fff;
-            margin-bottom: 12px;
-        }
-        .niche-callout > .section-inner > p {
-            color: rgba(255,255,255,.6);
-            font-size: 16px;
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-        .niche-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-        .niche-card {
-            background: rgba(255,255,255,.06);
-            border: 1px solid rgba(255,255,255,.1);
-            border-radius: 12px;
-            padding: 24px 22px;
-        }
-        .niche-icon {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
-        .niche-card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 14px;
-        }
-        .niche-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px;
-        }
-        .niche-card ul li {
-            font-size: 13.5px;
-            color: rgba(255,255,255,.6);
-            padding: 5px 0;
-            border-bottom: 1px solid rgba(255,255,255,.06);
-        }
-        .niche-card ul li:last-child { border-bottom: none; }
-        .niche-card a {
-            font-size: 13px;
-            font-weight: 600;
-            color: #fff;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,.3);
-            padding-bottom: 1px;
-            transition: border-color .15s;
-        }
-        .niche-card a:hover { border-color: #fff; }
-        @media (max-width: 640px) {
-            .niche-callout { padding: 48px 20px; }
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ian Swain — Software engineer building AI tools for businesses. Chatbots, automation, and custom web apps. Remote-friendly, fast turnaround, full source code delivered.">
+<title>Ian Swain — iswain.dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* ── Section subtitle ────────────────────────────────────── */
-        .section-subtitle {
-            font-size: 14px;
-            color: #888;
-            margin-top: -28px;
-            margin-bottom: 36px;
-        }
-    </style>
+:root {
+  --dark:         #131313;
+  --dark2:        #1c1c1c;
+  --light:        #F5F5F3;
+  --white:        #FFFFFF;
+  --dim:          #888;
+  --accent:       #3DE8D0;
+  --accent-dark:  #0a7a5e;
+  --bd:           rgba(255,255,255,0.09);
+  --bl:           rgba(0,0,0,0.09);
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--dark);
+  color: #e8e8e8;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,15,15,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd);
+  padding: 0 60px; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+}
+.nav-logo { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; color: #fff; white-space: nowrap; }
+.nav-links { display: flex; gap: 28px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.nav-time { font-size: 11px; color: rgba(255,255,255,0.25); font-weight: 500; letter-spacing: 0.04em; }
+.nav-cta { font-size: 12px; font-weight: 700; background: var(--accent); color: var(--dark); padding: 7px 18px; border-radius: 6px; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 94vh;
+  background: var(--dark);
+  padding: 0 60px 80px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  border-bottom: 1px solid var(--bd);
+}
+.hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; }
+.hero-label span { color: rgba(255,255,255,0.3); font-weight: 400; }
+.hero h1 {
+  font-size: clamp(52px, 7.5vw, 96px);
+  font-weight: 900; letter-spacing: -0.04em;
+  line-height: 0.92; color: #fff;
+  max-width: 1000px; margin-bottom: 44px;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+.hero-desc { font-size: 16px; color: rgba(255,255,255,0.45); max-width: 460px; line-height: 1.75; }
+.hero-actions { display: flex; gap: 10px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.btn-accent { background: var(--accent); color: var(--dark); padding: 13px 26px; border-radius: 6px; font-size: 13px; font-weight: 800; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
+.btn-accent:hover { opacity: 0.85; }
+.btn-ghost { background: transparent; color: #fff; padding: 13px 26px; border-radius: 6px; font-size: 13px; font-weight: 600; border: 1px solid rgba(255,255,255,0.18); text-decoration: none; transition: border-color .15s; white-space: nowrap; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.6); }
+
+/* ── Stats bar ── */
+.stats { background: var(--dark2); border-bottom: 1px solid var(--bd); padding: 0 60px; display: flex; }
+.stat { flex: 1; padding: 32px 0; border-right: 1px solid var(--bd); padding-right: 40px; margin-right: 40px; }
+.stat:last-child { border-right: none; margin-right: 0; }
+.stat-num { font-size: 38px; font-weight: 900; letter-spacing: -0.04em; color: #fff; line-height: 1; margin-bottom: 6px; }
+.stat-num span { color: var(--accent); }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 500; }
+
+/* ── Section utils ── */
+.sec { padding: 100px 60px; }
+.sec-inner { max-width: 1200px; margin: 0 auto; }
+.label-sm { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; display: block; }
+.label-accent-light { color: var(--accent-dark); }
+.label-accent-dark  { color: rgba(79,255,224,0.7); }
+.sec-h2 { font-size: clamp(38px, 4.5vw, 60px); font-weight: 900; letter-spacing: -0.035em; line-height: 1.0; margin-bottom: 16px; }
+.sec-lead { font-size: 16px; max-width: 520px; line-height: 1.7; margin-bottom: 56px; }
+.sec-h2-dark { color: #fff; }
+.sec-lead-dark { color: rgba(255,255,255,0.4); }
+.sec-h2-light { color: #0f0f0f; }
+.sec-lead-light { color: var(--dim); }
+
+/* ── Niche (light) ── */
+.niche { background: var(--light); color: #0f0f0f; }
+.niche-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.niche-card { background: #fff; border: 1px solid var(--bl); border-radius: 14px; padding: 36px 32px; transition: box-shadow .2s; }
+.niche-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
+.niche-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--accent-dark); margin-bottom: 16px; }
+.niche-card h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; color: #0f0f0f; }
+.niche-card ul { list-style: none; margin-bottom: 24px; }
+.niche-card ul li { font-size: 13.5px; color: var(--dim); padding: 5px 0; border-bottom: 1px solid #f0f0ee; }
+.niche-card ul li:last-child { border-bottom: none; }
+.niche-link { font-size: 12.5px; font-weight: 700; color: #0f0f0f; text-decoration: none; border-bottom: 1.5px solid var(--accent-dark); padding-bottom: 1px; }
+
+/* ── Card grid (demos + projects) ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 16px; }
+
+/* Dark cards (demo section) */
+.card-dark { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
+.card-dark:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-3px); }
+.card-img { height: 190px; overflow: hidden; position: relative; flex-shrink: 0; background: #222; }
+.card-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.card-img-dark::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: linear-gradient(to bottom, transparent, var(--dark2)); pointer-events: none; }
+.card-body { padding: 20px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+.card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.card-tag-d { font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.card-badge-d { font-size: 10.5px; font-weight: 700; color: var(--accent); background: rgba(79,255,224,0.1); padding: 3px 10px; border-radius: 20px; }
+.card-title-d { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; color: #fff; }
+.card-desc-d { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+.card-link-d { font-size: 12.5px; font-weight: 700; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(79,255,224,0.3); padding-bottom: 1px; align-self: flex-start; display: block; margin-top: 4px; }
+.card-tech { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+.tech-pill { font-size: 10.5px; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 2px 9px; border-radius: 20px; }
+
+/* Light cards (personal projects) */
+.card-light { background: #fff; border: 1px solid var(--bl); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; }
+.card-light:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); transform: translateY(-3px); }
+.card-img-light::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: linear-gradient(to bottom, transparent, #fff); pointer-events: none; }
+.card-tag-l { font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #aaa; }
+.card-badge-l { font-size: 10.5px; font-weight: 700; color: var(--accent-dark); background: rgba(10,122,94,0.08); padding: 3px 10px; border-radius: 20px; }
+.card-title-l { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; color: #0f0f0f; }
+.card-desc-l { font-size: 14px; color: var(--dim); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+.card-link-l { font-size: 12.5px; font-weight: 700; color: #0f0f0f; text-decoration: none; border-bottom: 1.5px solid var(--accent-dark); padding-bottom: 1px; align-self: flex-start; display: block; margin-top: 4px; }
+.tech-pill-l { font-size: 10.5px; color: #aaa; background: var(--light); border: 1px solid var(--bl); padding: 2px 9px; border-radius: 20px; }
+
+/* ── Services (dark2, numbered rows) ── */
+.services { background: var(--dark2); border-top: 1px solid var(--bd); }
+.svc-list { border-top: 1px solid var(--bd); }
+.svc-row { display: grid; grid-template-columns: 52px 1fr 240px 180px; gap: 40px; align-items: start; padding: 44px 0; border-bottom: 1px solid var(--bd); }
+.svc-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.2); padding-top: 5px; letter-spacing: 0.06em; }
+.svc-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); background: rgba(79,255,224,0.1); padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
+.svc-main h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 10px; color: #fff; }
+.svc-main p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+.svc-main a { font-size: 12px; color: rgba(79,255,224,0.6); text-decoration: none; display: block; margin-top: 10px; }
+.svc-main a:hover { color: var(--accent); }
+.svc-features { list-style: none; padding-top: 2px; }
+.svc-features li { font-size: 13px; color: rgba(255,255,255,0.35); padding: 6px 0; border-bottom: 1px solid var(--bd); display: flex; gap: 8px; align-items: baseline; }
+.svc-features li:last-child { border-bottom: none; }
+.svc-features li::before { content: '—'; color: var(--accent); font-size: 10px; flex-shrink: 0; }
+.svc-price-col { text-align: right; padding-top: 4px; }
+.svc-price { font-size: 24px; font-weight: 900; letter-spacing: -0.03em; color: #fff; margin-bottom: 14px; }
+.svc-price small { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.35); letter-spacing: 0; }
+.svc-cta { display: inline-block; font-size: 12.5px; font-weight: 700; color: var(--accent); text-decoration: none; border-bottom: 1.5px solid rgba(79,255,224,0.4); padding-bottom: 1px; }
+
+/* ── About (light, 2-col) ── */
+.about { background: var(--light); color: #0f0f0f; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.about p { font-size: 15.5px; color: #666; line-height: 1.85; margin-bottom: 18px; }
+.about p strong { color: #0f0f0f; }
+.about-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px; }
+.btn-light-outline { font-size: 12.5px; font-weight: 700; color: #0f0f0f; border: 1.5px solid var(--bl); padding: 9px 18px; border-radius: 6px; text-decoration: none; transition: border-color .15s; }
+.btn-light-outline:hover { border-color: #0f0f0f; }
+.skills-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 28px; }
+.skill-grp { margin-bottom: 28px; }
+.skill-grp-name { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-dark); margin-bottom: 10px; }
+.skill-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.pill { font-size: 12.5px; color: var(--dim); background: #fff; border: 1px solid var(--bl); padding: 5px 14px; border-radius: 20px; }
+
+/* ── Experience (dark) ── */
+.experience { background: var(--dark); border-top: 1px solid var(--bd); }
+.exp-list { border-top: 1px solid var(--bd); }
+.exp-row { display: grid; grid-template-columns: 52px 1fr 200px; gap: 40px; align-items: start; padding: 40px 0; border-bottom: 1px solid var(--bd); }
+.exp-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.2); padding-top: 4px; letter-spacing: 0.06em; }
+.exp-main h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; color: #fff; }
+.exp-company { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 14px; display: block; }
+.exp-desc { font-size: 13.5px; color: rgba(255,255,255,0.35); line-height: 1.7; }
+.exp-date { font-size: 12px; color: rgba(255,255,255,0.25); text-align: right; padding-top: 4px; line-height: 1.5; }
+
+/* ── Credentials (dark2) ── */
+.credentials { background: var(--dark2); border-top: 1px solid var(--bd); }
+.cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.cred-heading { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 28px; }
+.cred-list { list-style: none; border-top: 1px solid var(--bd); }
+.cred-item { padding: 18px 0; border-bottom: 1px solid var(--bd); }
+.cred-title { font-size: 14.5px; font-weight: 700; color: #fff; display: block; margin-bottom: 4px; }
+.cred-meta { font-size: 12px; color: rgba(255,255,255,0.3); display: block; }
+
+/* ── Contact (dark) ── */
+.contact { background: var(--dark); padding: 120px 60px; border-top: 1px solid var(--bd); }
+.contact-inner { max-width: 640px; }
+.contact .sec-h2 { color: #fff; margin-bottom: 14px; }
+.contact-sub { font-size: 16px; color: rgba(255,255,255,0.4); margin-bottom: 44px; line-height: 1.7; }
+.contact-email { display: block; font-size: clamp(22px,3vw,36px); font-weight: 900; letter-spacing: -0.03em; color: #fff; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin-bottom: 48px; width: fit-content; }
+.contact-email:hover { opacity: 0.75; }
+.form { display: flex; flex-direction: column; gap: 16px; }
+.form label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 7px; }
+.form input, .form textarea { width: 100%; background: var(--dark2); border: 1px solid var(--bd); border-radius: 8px; padding: 13px 16px; font-size: 14px; font-family: inherit; color: #fff; outline: none; transition: border-color .15s; }
+.form input:focus, .form textarea:focus { border-color: var(--accent); }
+.form textarea { resize: vertical; min-height: 110px; }
+.form-submit { align-self: flex-start; background: var(--accent); color: var(--dark); padding: 14px 28px; border-radius: 6px; font-size: 13px; font-weight: 800; border: none; cursor: pointer; transition: opacity .15s; }
+.form-submit:hover { opacity: 0.85; }
+
+/* ── Footer ── */
+footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.2); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
+footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color .15s; }
+footer a:hover { color: #fff; }
+.footer-links { display: flex; gap: 24px; }
+
+/* ── Responsive ── */
+@media (max-width: 1060px) {
+  .svc-row { grid-template-columns: 52px 1fr 160px; }
+  .svc-features { display: none; }
+}
+@media (max-width: 960px) {
+  nav, .hero, .stats, .sec, .contact { padding-left: 28px; padding-right: 28px; }
+  .niche-grid { grid-template-columns: 1fr; }
+  .svc-row { grid-template-columns: 1fr; gap: 16px; }
+  .svc-num { display: none; }
+  .svc-price-col { text-align: left; }
+  .about-grid, .cred-grid { grid-template-columns: 1fr; gap: 52px; }
+  .exp-row { grid-template-columns: 1fr; gap: 8px; }
+  .exp-num { display: none; }
+  .exp-date { text-align: left; }
+  .stats { flex-direction: column; }
+  .stat { border-right: none; border-bottom: 1px solid var(--bd); padding: 24px 0; margin: 0; }
+}
+@media (max-width: 640px) {
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .nav-links { display: none; }
+  footer { flex-direction: column; }
+}
+</style>
 </head>
 <body>
 
-    <nav class="nav">
-        <div class="nav-inner">
-            <span class="nav-logo">iswain.dev</span>
-            <ul class="nav-links">
-                <li><a href="#services">services</a></li>
-                <li><a href="#work">work</a></li>
-                <li><a href="#about">about</a></li>
-                <li><a href="#skills">skills</a></li>
-                <li><a href="#experience">experience</a></li>
-                <li><a href="#credentials">credentials</a></li>
-                <li><a href="#contact">contact</a></li>
-                <li><a href="resume.html" target="_blank">resume</a></li>
-            </ul>
-            <span class="nav-time" id="nav-time"></span>
-        </div>
-    </nav>
+<!-- Nav -->
+<nav>
+  <span class="nav-logo">iswain.dev</span>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://github.com/IASC-00" target="_blank">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-time" id="nav-time"></span>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
 
-    <!-- ── INTRO ─────────────────────────────────────────────── -->
-    <div id="hero" class="intro">
-        <div class="intro-text">
-            <h1 class="hero-name">Ian Swain</h1>
-            <p class="hero-tagline">Software engineer building AI tools for local businesses and personal finance. Based in Philadelphia, PA.</p>
-            <div class="hero-links">
-                <a href="https://github.com/IASC-00" class="btn btn-primary" target="_blank" rel="noopener noreferrer">github.com/IASC-00</a>
-                <a href="https://linkedin.com/in/ian-swain-978326101" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="#contact" class="btn btn-secondary">contact</a>
-                <a href="resume.html" class="btn btn-secondary" target="_blank">resume</a>
-            </div>
-            <div class="hero-contact-line">
-                <span class="availability-badge">
-                    <span class="avail-dot"></span>
-                    available for new projects
-                </span>
-            </div>
-        </div>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-label">
+    Available for new projects &nbsp;&middot;&nbsp; <span>Remote-friendly</span>
+  </div>
+  <h1>AI tools that make<br>your business<br><em>work without<br>the busywork.</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">Custom chatbots, automation, and web apps — built to spec, shipped live, source code included.</p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-accent">See my work</a>
+      <a href="#contact" class="btn-ghost">Get in touch</a>
+      <a href="resume.html" class="btn-ghost" target="_blank">Resume</a>
     </div>
+  </div>
+</section>
 
-    <!-- ── SERVICES ───────────────────────────────────────────── -->
-    <section id="services" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">services</h2>
-            <div class="services-grid">
+<!-- Stats bar -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">10<span>+</span></div><div class="stat-label">Live demos built</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Deployed apps on Render</div></div>
+  <div class="stat"><div class="stat-num">100<span>%</span></div><div class="stat-label">Source code delivered</div></div>
+  <div class="stat"><div class="stat-num">24<span>hr</span></div><div class="stat-label">Response time guaranteed</div></div>
+</div>
 
-                <div class="service-card card--coral">
-                    <div class="service-tier">basic</div>
-                    <h3 class="service-title">Automate a Task</h3>
-                    <p class="service-desc">Got something you do manually every day? I'll build a tool that handles it automatically &mdash; saving you time and cutting out human error.</p>
-                    <ul class="service-list">
-                        <li>Handles one specific job</li>
-                        <li>Runs on a schedule or on demand</li>
-                        <li>Ready to use with clear instructions</li>
-                    </ul>
-                    <div class="service-price">from $75</div>
-                    <a href="/demos/maintenance-intake.html" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Maintenance Request Intake →</a>
-                </div>
+<!-- Business Demos (dark) -->
+<div class="sec" id="work" style="background:var(--dark);border-top:1px solid var(--bd);">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Built for businesses</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Live Demos.</h2>
+    <p class="sec-lead sec-lead-dark">Every card below is deployed and running. Click through and see it in action.</p>
+    <div class="card-grid">
 
-                <div class="service-card card--rose">
-                    <div class="service-tier">standard</div>
-                    <h3 class="service-title">Add AI to Your Business</h3>
-                    <p class="service-desc">Already have a website, tool, or workflow? I'll plug AI into it so it can write, respond, summarize, or decide &mdash; without you lifting a finger.</p>
-                    <ul class="service-list">
-                        <li>Works with your existing setup</li>
-                        <li>Responds and acts in plain English</li>
-                        <li>Handles errors automatically</li>
-                    </ul>
-                    <div class="service-price">from $200</div>
-                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Restaurant Chatbot →</a>
-                </div>
-
-                <div class="service-card card--teal">
-                    <div class="service-tier">full build</div>
-                    <h3 class="service-title">Your App, Built and Launched</h3>
-                    <p class="service-desc">You describe the problem. I build the tool, deploy it live, and hand it over — working, documented, and yours to keep.</p>
-                    <ul class="service-list">
-                        <li>Discovery call to map out exactly what you need</li>
-                        <li>Custom web app built for your business</li>
-                        <li>Deployed live — shareable link, no setup on your end</li>
-                        <li>Full source code you own outright</li>
-                    </ul>
-                    <div class="service-price">from $450</div>
-                    <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: AI Business Chatbot →</a>
-                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Restaurant Chatbot →</a>
-                    <a href="https://stockpilot-inni.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Inventory Manager →</a>
-                    <a href="https://process-audit-q9mx.onrender.com" class="card-link" style="display:block;margin-top:6px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Business Efficiency Audit →</a>
-                </div>
-
-                <div class="service-card card--violet">
-                    <div class="service-tier">add-on</div>
-                    <h3 class="service-title">Social Media Starter Pack</h3>
-                    <p class="service-desc">Get your social media up and running with a clear voice, a platform strategy, and 30 days of content ready to post &mdash; all tailored to your business.</p>
-                    <ul class="service-list">
-                        <li>Custom brand voice + strategy</li>
-                        <li>30-day content calendar</li>
-                        <li>Ready to post from day one</li>
-                    </ul>
-                    <div class="service-price">from $150</div>
-                    <a href="https://contentpilot-eq1y.onrender.com" class="card-link" style="display:block;margin-top:12px;font-size:12.5px;" target="_blank" rel="noopener noreferrer">See live example: Social Media Post Generator →</a>
-                </div>
-
-                <div class="service-card card--sage">
-                    <div class="service-tier">retainer</div>
-                    <h3 class="service-title">Monthly Maintenance</h3>
-                    <p class="service-desc">Keep your tool running, updated, and improving over time. I handle bugs, small feature requests, and platform changes so you never have to think about it.</p>
-                    <ul class="service-list">
-                        <li>Bug fixes and software updates</li>
-                        <li>Priority 48-hour response</li>
-                        <li>Monthly usage report</li>
-                        <li>Up to 2 small feature requests/mo</li>
-                    </ul>
-                    <div class="service-price">from $75/mo</div>
-                </div>
-
-            </div>
-            <p class="services-cta">All projects include a discovery call, full source code, and a 2-week support window. <a href="#contact">Get in touch</a> to discuss your project.</p>
+      <div class="card-dark">
+        <div class="card-img card-img-dark"><img src="/images/demo-chatbot-2.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-d">chatbot &middot; lead capture &middot; embeddable</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">AI Business Chatbot</h3>
+          <p class="card-desc-d">Answers questions, captures leads, and remembers past conversations. Fully rebrandable — drop it onto any website in minutes.</p>
+          <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">Embeddable</span></div>
+          <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank">Harbor Coffee Co. — Chat with Maya →</a>
+          <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link-d" target="_blank">Due Sorelle — Chat with Rosa →</a>
         </div>
-    </section>
+      </div>
 
-    <!-- ── NICHE CALLOUT ──────────────────────────────────────── -->
-    <div class="niche-callout">
-        <div class="section-inner">
-            <p class="demo-label">Who I work with</p>
-            <h2>Built for local businesses</h2>
-            <p>If you own a restaurant, manage rental properties, or run a real estate business in Philadelphia, I build the tools your team actually uses — chatbots, review managers, inventory systems, and more. Live demos below.</p>
-            <div class="niche-grid">
-
-                <div class="niche-card">
-                    <div class="niche-icon">🍽️</div>
-                    <h3>Restaurants</h3>
-                    <ul>
-                        <li>AI chatbot for reservations &amp; FAQ</li>
-                        <li>Review reply generator</li>
-                        <li>Social media post generator</li>
-                        <li>Catering inquiry handler</li>
-                    </ul>
-                    <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank" rel="noopener noreferrer">See the restaurant demo →</a>
-                </div>
-
-                <div class="niche-card">
-                    <div class="niche-icon">🏠</div>
-                    <h3>Rentals &amp; Property</h3>
-                    <ul>
-                        <li>Tenant inquiry chatbot</li>
-                        <li>Maintenance request intake</li>
-                        <li>Lease renewal reminders</li>
-                        <li>Listing description generator</li>
-                    </ul>
-                    <a href="/demos/maintenance-intake.html" target="_blank" rel="noopener noreferrer">See the maintenance intake demo →</a>
-                </div>
-
-                <div class="niche-card">
-                    <div class="niche-icon">🏡</div>
-                    <h3>Real Estate</h3>
-                    <ul>
-                        <li>Listing description generator</li>
-                        <li>Lead qualification chatbot</li>
-                        <li>Market summary tool</li>
-                        <li>Email follow-up automation</li>
-                    </ul>
-                    <a href="/demos/listing-generator.html" target="_blank" rel="noopener noreferrer">See the listing generator demo →</a>
-                </div>
-
-            </div>
+      <div class="card-dark">
+        <div class="card-img card-img-dark"><img src="/images/demo-inventory.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-d">inventory &middot; AI summaries &middot; operations</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">Inventory Manager</h3>
+          <p class="card-desc-d">Track your supply room in real time — see what's running low and get a weekly AI summary of how stock is moving.</p>
+          <div class="card-tech"><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">Claude API</span></div>
+          <a href="https://stockpilot-inni.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
         </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-img card-img-dark"><img src="/images/demo-audit.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-d">AI audit &middot; workflow analysis &middot; action plan</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">Business Efficiency Audit</h3>
+          <p class="card-desc-d">Answer 12 questions about how your business runs and get a personalized report showing where you're wasting time and what to fix first.</p>
+          <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">AI Report Gen</span></div>
+          <a href="https://process-audit-q9mx.onrender.com" class="card-link-d" target="_blank">Take the free audit →</a>
+        </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-img card-img-dark"><img src="/images/demo-review-responder.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-d">review replies &middot; reputation &middot; local business</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">AI Review Responder</h3>
+          <p class="card-desc-d">Paste any customer review and get a professional, human-sounding reply in seconds. Handles positive, negative, and mixed reviews.</p>
+          <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">Prompt Engineering</span></div>
+          <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
+        </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-img card-img-dark"><img src="/images/demo-social.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-d">content calendar &middot; brand voice &middot; social</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">Social Media Post Generator</h3>
+          <p class="card-desc-d">Generate a week of posts across Instagram, LinkedIn, and X in minutes — tailored to your business type and voice.</p>
+          <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span></div>
+          <a href="https://contentpilot-eq1y.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
 
-    <!-- ── BUSINESS DEMOS ─────────────────────────────────────── -->
-    <section id="work" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">built for businesses</h2>
-            <p class="section-subtitle">Live deployments — try them now.</p>
-            <div class="projects-grid">
+<!-- Services (dark2, numbered) -->
+<section class="sec services" id="services">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Services</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Pricing.</h2>
+    <p class="sec-lead sec-lead-dark" style="margin-bottom:56px;">All projects include a discovery call, full source code, and a two-week support window after launch.</p>
+    <div class="svc-list">
 
-                <article class="project-card card--beige">
-                    <div class="card-preview">
-                        <img src="/images/demo-chatbot-2.png" alt="Due Sorelle restaurant chatbot demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">chatbot &middot; lead capture &middot; embeddable</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">AI Business Chatbot</h3>
-                    <p class="card-desc">A customer support chatbot that answers questions, remembers past conversations, and captures leads automatically. Fully rebrandable for any business &mdash; drop it onto any website in minutes.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Embeddable Widget</li>
-                    </ul>
-                    <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Harbor Coffee Co. — Chat with Maya &rarr;</a>
-                    <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link" style="margin-top:6px;display:block;font-size:12.5px;" target="_blank" rel="noopener noreferrer">Due Sorelle — Chat with Rosa &rarr;</a>
-                </article>
-
-                <article class="project-card card--amber">
-                    <div class="card-preview">
-                        <img src="/images/demo-inventory.png" alt="Inventory Manager dashboard demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">inventory &middot; AI summaries &middot; operations</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">Inventory Manager</h3>
-                    <p class="card-desc">Track your supply room in real time &mdash; see what's running low, log what comes in and goes out, and get a weekly AI summary of how your stock is moving. Demoed for a coffee shop, but built for any business.</p>
-                    <ul class="card-tags">
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Claude API</li>
-                        <li>Operations</li>
-                    </ul>
-                    <a href="https://stockpilot-inni.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
-                </article>
-
-                <article class="project-card card--sage">
-                    <div class="card-preview">
-                        <img src="/images/demo-audit.png" alt="Business Efficiency Audit demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">AI audit &middot; workflow analysis &middot; action plan</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">Business Efficiency Audit</h3>
-                    <p class="card-desc">Answer 12 questions about how your business runs and get a personalized report showing where you're wasting time, what to automate first, and a step-by-step plan to fix it.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>Multi-step Form</li>
-                        <li>AI Report Gen</li>
-                    </ul>
-                    <a href="https://process-audit-q9mx.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Take the Free Audit &rarr;</a>
-                </article>
-
-                <article class="project-card card--rose">
-                    <div class="card-preview">
-                        <img src="/images/demo-review-responder.png" alt="AI Review Responder demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">review replies &middot; reputation &middot; local business</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">AI Review Responder</h3>
-                    <p class="card-desc">Paste any customer review and get a professional, human-sounding reply in seconds. Handles positive, negative, and mixed reviews with the right tone &mdash; demo mode works without an API key.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>Prompt Engineering</li>
-                        <li>Local Business</li>
-                    </ul>
-                    <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo &rarr;</a>
-                </article>
-
-                <article class="project-card card--violet">
-                    <div class="card-preview">
-                        <img src="/images/demo-social.png" alt="Social Media Post Generator demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">content calendar &middot; brand voice &middot; social media</span>
-                        <span class="card-status">live demo</span>
-                    </div>
-                    <h3 class="card-title">Social Media Post Generator</h3>
-                    <p class="card-desc">Generate a week of social media posts across Twitter/X, Instagram, and LinkedIn in minutes. Pick from six business presets &mdash; restaurant, real estate, local service, and more &mdash; and a full posting strategy included.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Content Strategy</li>
-                    </ul>
-                    <a href="https://contentpilot-eq1y.onrender.com" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
-                </article>
-
-            </div>
+      <div class="svc-row">
+        <div class="svc-num">01</div>
+        <div class="svc-main">
+          <div class="svc-tag">basic</div>
+          <h3>Automate a Task</h3>
+          <p>Got something you do manually every day? I'll build a script or tool that handles it automatically — saving you time and cutting out human error.</p>
+          <a href="/demos/maintenance-intake.html" target="_blank">Example: Maintenance Request Intake →</a>
         </div>
-    </section>
+        <ul class="svc-features">
+          <li>Handles one specific job</li>
+          <li>Runs on schedule or on demand</li>
+          <li>Documentation included</li>
+        </ul>
+        <div class="svc-price-col"><div class="svc-price">$75 <small>and up</small></div><a href="#contact" class="svc-cta">Get started →</a></div>
+      </div>
 
-    <!-- ── PERSONAL PROJECTS ───────────────────────────────────── -->
-    <section id="projects" class="section" style="padding-top:0;">
-        <div class="section-inner">
-            <h2 class="section-title">personal projects</h2>
-            <p class="section-subtitle">Tools I built for myself — finance, job search, and security.</p>
-            <div class="projects-grid">
-
-                <article class="project-card card--blue">
-                    <div class="card-preview">
-                        <img src="/images/demo-stock-analyst.png" alt="AI Stock Analyst demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; ai &middot; finance</span>
-                        <span class="card-status">active</span>
-                    </div>
-                    <h3 class="card-title">AI Stock Analyst</h3>
-                    <p class="card-desc">Four AI analysts debate every stock, deliver a clear BUY or AVOID verdict, and track a live paper portfolio so you can see how the picks perform over time.</p>
-                    <ul class="card-tags">
-                        <li>Claude API</li>
-                        <li>Flask</li>
-                        <li>yfinance</li>
-                        <li>Paper Trading</li>
-                    </ul>
-                    <a href="/demos/investment-committee.html" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
-                </article>
-
-                <article class="project-card card--beige">
-                    <div class="card-preview">
-                        <img src="/images/demo-portfolio-tracker.png" alt="Portfolio Tracker demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; cli &middot; ai</span>
-                        <span class="card-status">active</span>
-                    </div>
-                    <h3 class="card-title">Portfolio Tracker</h3>
-                    <p class="card-desc">Track your investments from the command line. See your gains and losses live, get alerts when something looks off, and ask AI for a plain-English breakdown of any position.</p>
-                    <ul class="card-tags">
-                        <li>Click</li>
-                        <li>SQLAlchemy</li>
-                        <li>Rich</li>
-                        <li>yfinance</li>
-                    </ul>
-                    <a href="/demos/invest-manager.html" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
-                </article>
-
-                <article class="project-card card--violet">
-                    <div class="card-preview">
-                        <img src="/images/demo-job-tracker.png" alt="Job Application Tracker pipeline demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; cli &middot; ai</span>
-                        <span class="card-status">active</span>
-                    </div>
-                    <h3 class="card-title">Job Application Tracker</h3>
-                    <p class="card-desc">Pulls job listings from multiple sites, keeps your application pipeline organized, and writes a tailored resume and cover letter for each role &mdash; automatically.</p>
-                    <ul class="card-tags">
-                        <li>Click</li>
-                        <li>SQLAlchemy</li>
-                        <li>Anthropic SDK</li>
-                        <li>httpx</li>
-                    </ul>
-                    <a href="/demos/job-listings.html" class="card-link" target="_blank" rel="noopener noreferrer">Browse Live Listings &rarr;</a>
-                    <a href="/demos/job-tracker.html" class="card-link" target="_blank" rel="noopener noreferrer" style="margin-top:6px;display:block;font-size:12.5px;">Application Pipeline Demo &rarr;</a>
-                </article>
-
-                <article class="project-card card--sage">
-                    <div class="card-preview">
-                        <img src="/images/demo-security.png" alt="Personal Security Audit demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">python &middot; security</span>
-                        <span class="card-status">complete</span>
-                    </div>
-                    <h3 class="card-title">Personal Security Audit</h3>
-                    <p class="card-desc">A personal project to lock down my digital life &mdash; checking for data breaches, auditing accounts, scanning my network, and automating ongoing security checks. Documented across eight phases.</p>
-                    <ul class="card-tags">
-                        <li>Nmap</li>
-                        <li>Wireshark</li>
-                        <li>Python</li>
-                        <li>OSINT</li>
-                    </ul>
-                    <a href="/demos/security-lab.html" class="card-link" target="_blank" rel="noopener noreferrer">Live Demo →</a>
-                </article>
-
-                <article class="project-card card--blue">
-                    <div class="card-preview">
-                        <img src="/images/demo-market-dashboard.png" alt="Live Market Dashboard demo" loading="lazy">
-                    </div>
-                    <div class="card-header">
-                        <span class="card-tag">javascript &middot; api &middot; chart.js</span>
-                        <span class="card-status">live</span>
-                    </div>
-                    <h3 class="card-title">Live Market Dashboard</h3>
-                    <p class="card-desc">A real-time dashboard showing crypto prices, stock data, and weather &mdash; all updating automatically every 60 seconds. No login required.</p>
-                    <ul class="card-tags">
-                        <li>Chart.js</li>
-                        <li>CoinGecko API</li>
-                        <li>Open-Meteo</li>
-                        <li>Vanilla JS</li>
-                    </ul>
-                    <a href="/demos/data-dashboard.html" class="card-link" target="_blank" rel="noopener noreferrer">Live Dashboard &rarr;</a>
-                </article>
-
-            </div>
+      <div class="svc-row">
+        <div class="svc-num">02</div>
+        <div class="svc-main">
+          <div class="svc-tag">standard</div>
+          <h3>Add AI to Your Business</h3>
+          <p>Already have a website or workflow? I'll plug AI into it so it can write, respond, or decide for you — without you lifting a finger.</p>
+          <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank">Example: Restaurant Chatbot →</a>
         </div>
-    </section>
+        <ul class="svc-features">
+          <li>Works with your existing setup</li>
+          <li>Responds in plain English</li>
+          <li>Handles errors automatically</li>
+        </ul>
+        <div class="svc-price-col"><div class="svc-price">$200 <small>and up</small></div><a href="#contact" class="svc-cta">Get started →</a></div>
+      </div>
 
-    <!-- ── SKILLS ─────────────────────────────────────────────── -->
-    <section id="skills" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">skills</h2>
-            <div class="skills-grid">
-
-                <div class="skill-group">
-                    <h3 class="skill-group-title">Languages</h3>
-                    <ul class="skill-list">
-                        <li>Python</li>
-                        <li>Bash</li>
-                        <li>HTML / CSS / JS</li>
-                        <li>SQL</li>
-                    </ul>
-                </div>
-
-                <div class="skill-group">
-                    <h3 class="skill-group-title">AI / LLM</h3>
-                    <ul class="skill-list">
-                        <li>Claude API (Anthropic)</li>
-                        <li>Ollama (local inference)</li>
-                        <li>Prompt engineering</li>
-                        <li>Agentic systems</li>
-                    </ul>
-                </div>
-
-                <div class="skill-group">
-                    <h3 class="skill-group-title">Frameworks &amp; Tools</h3>
-                    <ul class="skill-list">
-                        <li>Flask</li>
-                        <li>SQLAlchemy</li>
-                        <li>Click / Rich</li>
-                        <li>yfinance / REST APIs</li>
-                    </ul>
-                </div>
-
-                <div class="skill-group">
-                    <h3 class="skill-group-title">Infrastructure</h3>
-                    <ul class="skill-list">
-                        <li>Linux / WSL2</li>
-                        <li>Git / GitHub</li>
-                        <li>Render / Gunicorn</li>
-                        <li>systemd</li>
-                    </ul>
-                </div>
-
-            </div>
+      <div class="svc-row">
+        <div class="svc-num">03</div>
+        <div class="svc-main">
+          <div class="svc-tag">full build</div>
+          <h3>Your App, Built and Launched</h3>
+          <p>You describe the problem. I build the tool, deploy it live, and hand it over — working, documented, and yours to keep.</p>
+          <a href="https://harbor-coffee-chatbot.onrender.com" target="_blank">Example: AI Business Chatbot →</a>
         </div>
-    </section>
+        <ul class="svc-features">
+          <li>Discovery call to map the build</li>
+          <li>Custom app at a live URL</li>
+          <li>Full source code ownership</li>
+          <li>Two-week support after launch</li>
+        </ul>
+        <div class="svc-price-col"><div class="svc-price">$450 <small>and up</small></div><a href="#contact" class="svc-cta">Get started →</a></div>
+      </div>
 
-    <!-- ── ABOUT ──────────────────────────────────────────────── -->
-    <section id="about" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">about</h2>
-            <div class="about-content">
-                <p>Thirteen years in operations, retail management, social promotions, and client relations. Self-taught in software. Based in Philadelphia, PA.</p>
-                <p>I build AI-powered tools for real problems &mdash; chatbots for local businesses, automation for property managers, listing tools for real estate agents, and personal tools for finance and job search. The through-line is the same: take something that eats up time or creates confusion and replace it with something that just works.</p>
-                <p>Fast turnaround, clean code, full source delivered.</p>
-            </div>
+      <div class="svc-row">
+        <div class="svc-num">04</div>
+        <div class="svc-main">
+          <div class="svc-tag">add-on</div>
+          <h3>Social Media Starter Pack</h3>
+          <p>Custom brand voice, platform strategy, and 30 days of content — ready to post from day one.</p>
+          <a href="https://contentpilot-eq1y.onrender.com" target="_blank">Example: Post Generator →</a>
         </div>
-    </section>
+        <ul class="svc-features">
+          <li>Custom brand voice + strategy</li>
+          <li>30-day content calendar</li>
+          <li>Ready to post from day one</li>
+        </ul>
+        <div class="svc-price-col"><div class="svc-price">$150 <small>and up</small></div><a href="#contact" class="svc-cta">Get started →</a></div>
+      </div>
 
-    <!-- ── EXPERIENCE ─────────────────────────────────────────── -->
-    <section id="experience" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">experience</h2>
-            <div class="experience-list">
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <h3 class="exp-role">Certified Sales Representative</h3>
-                        <span class="exp-company">GreenLabs &mdash; Baltimore, MD</span>
-                        <span class="exp-date">Sep 2024 &ndash; Oct 2025</span>
-                    </div>
-                    <p class="exp-desc">Delivered compliance-focused client service in a regulated environment. Maintained inventory systems, proposed process improvements, and earned multiple Employee of the Month recognitions.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <h3 class="exp-role">Model &amp; Brand Representative</h3>
-                        <span class="exp-company">Greg Gorman / LA Eyeworks &mdash; Los Angeles, CA</span>
-                        <span class="exp-date">Feb 2024 &ndash; Sep 2024</span>
-                    </div>
-                    <p class="exp-desc">Selected for international ad campaigns including collaborative work in the EU. Featured in worldwide brand campaign; built professional relationships across diverse creative and cultural teams.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <h3 class="exp-role">Team Manager</h3>
-                        <span class="exp-company">Charm City Hemp LLC &mdash; Baltimore, MD</span>
-                        <span class="exp-date">May 2022 &ndash; Nov 2023</span>
-                    </div>
-                    <p class="exp-desc">Directed daily operations across three retail locations simultaneously. Coached and supervised staff, led product launch logistics, and improved customer retention metrics.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <h3 class="exp-role">General Manager</h3>
-                        <span class="exp-company">Harbor Vapor LLC &mdash; Baltimore, MD</span>
-                        <span class="exp-date">Oct 2017 &ndash; Nov 2020</span>
-                    </div>
-                    <p class="exp-desc">Oversaw all store operations: training, scheduling, onboarding, and inventory. Built efficient systems that drove repeat business and maintained consistent team culture.</p>
-                </div>
-
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <h3 class="exp-role">Social Marketing Director &amp; Sales Manager</h3>
-                        <span class="exp-company">The Gathering / Baltimore Food Truck Festivals &mdash; Baltimore, MD</span>
-                        <span class="exp-date">Apr 2012 &ndash; Dec 2015</span>
-                    </div>
-                    <p class="exp-desc">Led all promotional strategy for Taste of Baltimore and multi-city events. Ran multi-channel campaigns for 50+ independent businesses; grew audience to over 1 million views and 200,000+ followers.</p>
-                </div>
-
-            </div>
+      <div class="svc-row">
+        <div class="svc-num">05</div>
+        <div class="svc-main">
+          <div class="svc-tag">retainer</div>
+          <h3>Monthly Maintenance</h3>
+          <p>Keep your tool running and improving. Bugs, updates, small feature requests — handled every month.</p>
         </div>
-    </section>
+        <ul class="svc-features">
+          <li>Bug fixes and software updates</li>
+          <li>Priority 48-hour response</li>
+          <li>Up to 2 feature requests/mo</li>
+        </ul>
+        <div class="svc-price-col"><div class="svc-price">$75 <small>/mo</small></div><a href="#contact" class="svc-cta">Get started →</a></div>
+      </div>
 
-    <!-- ── CREDENTIALS ───────────────────────────────────────── -->
-    <section id="credentials" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">credentials</h2>
-            <div class="credentials-layout">
+    </div>
+  </div>
+</section>
 
-                <div class="cred-col">
-                    <h3 class="cred-heading">Certifications</h3>
-                    <ul class="cred-list">
-                        <li>MCA Certified Sales Representative <span class="cred-meta">Maryland</span></li>
-                        <li>QuickBooks Online Certification <span class="cred-meta">Intuit</span></li>
-                        <li>Email Marketing Professional <span class="cred-meta">Intuit Mailchimp</span></li>
-                        <li>Salesforce Essential Training <span class="cred-meta">Salesforce</span></li>
-                    </ul>
-                </div>
+<!-- Personal Projects (light) -->
+<div class="sec" style="background:var(--light);border-top:1px solid var(--bl);" id="projects">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-light">Personal projects</span>
+    <h2 class="sec-h2 sec-h2-light" style="margin-bottom:14px;">Tools.</h2>
+    <p class="sec-lead sec-lead-light">Finance, job search, and security — built because I needed them.</p>
+    <div class="card-grid">
 
-                <div class="cred-col">
-                    <h3 class="cred-heading">Internships &amp; Apprenticeships</h3>
-                    <ul class="cred-list cred-list--entries">
-                        <li>
-                            <span class="cred-title">Lunabotics Mining Competition</span>
-                            <span class="cred-meta">NASA &mdash; Port Canaveral, FL &middot; 2011</span>
-                        </li>
-                        <li>
-                            <span class="cred-title">Carpentry &amp; Remodeling</span>
-                            <span class="cred-meta">Lawrence Earl Evans, Master Carpenter &middot; 2012&ndash;2013</span>
-                        </li>
-                        <li>
-                            <span class="cred-title">Construction &amp; Restoration</span>
-                            <span class="cred-meta">A-Z Construction &mdash; Baltimore, MD &middot; 2007&ndash;2010</span>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
+      <div class="card-light">
+        <div class="card-img card-img-light"><img src="/images/demo-stock-analyst.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-l">python &middot; AI &middot; finance</span><span class="card-badge-l">active</span></div>
+          <h3 class="card-title-l">AI Stock Analyst</h3>
+          <p class="card-desc-l">Four AI analysts debate every stock, deliver a clear BUY or AVOID verdict, and track a live paper portfolio so you can see how the picks perform.</p>
+          <div class="card-tech"><span class="tech-pill-l">Claude API</span><span class="tech-pill-l">Flask</span><span class="tech-pill-l">yfinance</span><span class="tech-pill-l">Paper Trading</span></div>
+          <a href="/demos/investment-committee.html" class="card-link-l" target="_blank">Live demo →</a>
         </div>
-    </section>
+      </div>
 
-    <!-- ── CONTACT ────────────────────────────────────────────── -->
-    <section id="contact" class="section">
-        <div class="section-inner">
-            <h2 class="section-title">contact</h2>
-            <div class="contact-content">
-                <p class="contact-email">
-                    <a href="mailto:contact@iswain.dev">contact@iswain.dev</a>
-                </p>
-                <p class="contact-note">Proton Mail &mdash; end-to-end encrypted</p>
-
-                <form class="contact-form" action="https://formspree.io/f/mzdaldva" method="POST">
-                    <div class="form-row">
-                        <label for="cf-name">name</label>
-                        <input id="cf-name" type="text" name="name" placeholder="your name" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="cf-email">email</label>
-                        <input id="cf-email" type="email" name="email" placeholder="your@email.com" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="cf-msg">message</label>
-                        <textarea id="cf-msg" name="message" rows="5" placeholder="tell me about your project..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">send message</button>
-                </form>
-            </div>
+      <div class="card-light">
+        <div class="card-img card-img-light"><img src="/images/demo-portfolio-tracker.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-l">python &middot; CLI &middot; AI</span><span class="card-badge-l">active</span></div>
+          <h3 class="card-title-l">Portfolio Tracker</h3>
+          <p class="card-desc-l">Track investments from the command line. See gains and losses live, get alerts when something looks off, and ask AI for a plain-English breakdown of any position.</p>
+          <div class="card-tech"><span class="tech-pill-l">Click</span><span class="tech-pill-l">SQLAlchemy</span><span class="tech-pill-l">Rich</span><span class="tech-pill-l">yfinance</span></div>
+          <a href="/demos/invest-manager.html" class="card-link-l" target="_blank">Live demo →</a>
         </div>
-    </section>
+      </div>
 
-    <footer class="footer">
-        <div class="footer-inner">
-            <span>Ian Swain &middot; iswain.dev</span>
+      <div class="card-light">
+        <div class="card-img card-img-light"><img src="/images/demo-job-tracker.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-l">python &middot; CLI &middot; AI</span><span class="card-badge-l">active</span></div>
+          <h3 class="card-title-l">Job Application Tracker</h3>
+          <p class="card-desc-l">Pulls listings from multiple job boards, keeps your pipeline organized, and writes a tailored resume and cover letter for each role — automatically.</p>
+          <div class="card-tech"><span class="tech-pill-l">Click</span><span class="tech-pill-l">SQLAlchemy</span><span class="tech-pill-l">Anthropic SDK</span><span class="tech-pill-l">httpx</span></div>
+          <a href="/demos/job-listings.html" class="card-link-l" target="_blank">Browse live listings →</a>
+          <a href="/demos/job-tracker.html" class="card-link-l" target="_blank">Pipeline demo →</a>
         </div>
-    </footer>
+      </div>
 
-    <script src="script.js"></script>
+      <div class="card-light">
+        <div class="card-img card-img-light"><img src="/images/demo-security.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-l">python &middot; security</span><span class="card-badge-l">complete</span></div>
+          <h3 class="card-title-l">Personal Security Audit</h3>
+          <p class="card-desc-l">A personal project to lock down my digital life — checking for data breaches, auditing accounts, scanning my network, and automating ongoing security checks.</p>
+          <div class="card-tech"><span class="tech-pill-l">Nmap</span><span class="tech-pill-l">Wireshark</span><span class="tech-pill-l">Python</span><span class="tech-pill-l">OSINT</span></div>
+          <a href="/demos/security-lab.html" class="card-link-l" target="_blank">Live demo →</a>
+        </div>
+      </div>
+
+      <div class="card-light">
+        <div class="card-img card-img-light"><img src="/images/demo-market-dashboard.png" alt="" loading="lazy"></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag-l">javascript &middot; API &middot; Chart.js</span><span class="card-badge-l">live</span></div>
+          <h3 class="card-title-l">Live Market Dashboard</h3>
+          <p class="card-desc-l">Real-time crypto prices, stock data, and weather — all updating automatically every 60 seconds. No login required.</p>
+          <div class="card-tech"><span class="tech-pill-l">Chart.js</span><span class="tech-pill-l">CoinGecko API</span><span class="tech-pill-l">Open-Meteo</span><span class="tech-pill-l">Vanilla JS</span></div>
+          <a href="/demos/data-dashboard.html" class="card-link-l" target="_blank">Live dashboard →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- About + Skills (light) -->
+<section class="sec about" id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+      <div>
+        <span class="label-sm" style="color:var(--dim);margin-bottom:16px;display:block;">About</span>
+        <h2 class="sec-h2 sec-h2-light" style="font-size:clamp(32px,3.5vw,48px);margin-bottom:32px;">Thirteen years in operations.<br>Self-taught in software.</h2>
+        <p>Thirteen years in operations, retail management, social promotions, and client relations. Self-taught in software. Based in Philadelphia, PA — working with clients in the US and abroad.</p>
+        <p>I build AI-powered tools for real problems — chatbots, automation, custom web apps. Take something that eats up time or creates confusion and replace it with something that just works.</p>
+        <p><strong>Fast turnaround. Clean code. Full source delivered.</strong></p>
+        <div class="about-btns">
+          <a href="https://github.com/IASC-00" class="btn-light-outline" target="_blank">GitHub</a>
+          <a href="https://linkedin.com/in/ian-swain-978326101" class="btn-light-outline" target="_blank">LinkedIn</a>
+          <a href="resume.html" class="btn-light-outline" target="_blank">Resume</a>
+        </div>
+      </div>
+      <div>
+        <div class="skills-label">Skills</div>
+        <div class="skill-grp">
+          <div class="skill-grp-name">Languages</div>
+          <div class="skill-pills"><span class="pill">Python</span><span class="pill">HTML / CSS / JS</span><span class="pill">SQL</span><span class="pill">Bash</span></div>
+        </div>
+        <div class="skill-grp">
+          <div class="skill-grp-name">AI / LLM</div>
+          <div class="skill-pills"><span class="pill">Claude API</span><span class="pill">Ollama</span><span class="pill">Prompt Engineering</span><span class="pill">Agentic Systems</span></div>
+        </div>
+        <div class="skill-grp">
+          <div class="skill-grp-name">Frameworks &amp; Tools</div>
+          <div class="skill-pills"><span class="pill">Flask</span><span class="pill">SQLAlchemy</span><span class="pill">Click / Rich</span><span class="pill">yfinance / REST APIs</span></div>
+        </div>
+        <div class="skill-grp">
+          <div class="skill-grp-name">Infrastructure</div>
+          <div class="skill-pills"><span class="pill">Linux / WSL2</span><span class="pill">Git / GitHub</span><span class="pill">Render / Gunicorn</span><span class="pill">systemd</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact (dark) -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <span class="label-sm label-accent-dark" style="margin-bottom:16px;display:block;">Contact</span>
+    <h2 class="sec-h2" style="color:#fff;margin-bottom:14px;">Let's build<br>something.</h2>
+    <p class="contact-sub">Tell me about your business and what you need. I'll reply within 24 hours.</p>
+    <a href="mailto:contact@iswain.dev" class="contact-email">contact@iswain.dev</a>
+    <form class="form" action="https://formspree.io/f/mzdaldva" method="POST">
+      <div><label for="n">Name</label><input id="n" type="text" name="name" placeholder="Your name" required></div>
+      <div><label for="e">Email</label><input id="e" type="email" name="email" placeholder="your@email.com" required></div>
+      <div><label for="m">Message</label><textarea id="m" name="message" placeholder="Tell me about your project..." required></textarea></div>
+      <button type="submit" class="form-submit">Send message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <span>Ian Swain &middot; iswain.dev &middot; Philadelphia, PA</span>
+  <div class="footer-links">
+    <a href="https://github.com/IASC-00" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a>
+    <a href="resume.html" target="_blank">Resume</a>
+  </div>
+</footer>
+
+<script>
+  function updateTime() {
+    const t = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' });
+    const el = document.getElementById('nav-time');
+    if (el) el.textContent = t + ' ET';
+  }
+  updateTime();
+  setInterval(updateTime, 10000);
+</script>
+
 </body>
 </html>
