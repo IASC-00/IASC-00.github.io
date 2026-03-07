@@ -6,6 +6,8 @@
 <title>Free Automation Audit — iswain.dev</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('V-R1GPdXfoTD68Tge');</script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -340,6 +342,19 @@ function submitAudit() {
   if (list.children.length === 0) {
     list.innerHTML += resultHTML({ name: 'Custom Automation Assessment', desc: 'Based on your answers, let\'s talk through your workflow in a quick call — I\'ll identify the highest-value automation for your specific situation.' });
   }
+
+  // Build plain-text results for email
+  const resultItems = Array.from(list.querySelectorAll('.result-item')).map(el => {
+    const name = el.querySelector('.result-name')?.textContent || '';
+    const desc = el.querySelector('.result-desc')?.textContent || '';
+    return `• ${name}\n  ${desc}`;
+  });
+
+  // Send results email via EmailJS
+  emailjs.send('service_jz8fdyi', 'template_mfrqoon', {
+    user_email: answers.email,
+    results:    resultItems.join('\n\n'),
+  }).catch(() => {}); // silent fail — don't block UI
 }
 
 function resultHTML(item) {
