@@ -324,6 +324,25 @@ footer a:hover { color: #fff; }
 .demo-video-play { font-size: 36px; color: var(--accent); opacity: 0.6; }
 .demo-video-hint { font-size: 13px; color: rgba(255,255,255,0.2); text-align: center; }
 
+/* ── Lead Magnet ── */
+.lead-magnet-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
+.lead-magnet-card { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; background: rgba(61,232,208,0.04); border: 1px solid rgba(61,232,208,0.15); border-radius: 16px; padding: 52px; }
+.lm-badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark); background: var(--accent); padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
+.lm-title { font-size: clamp(26px,3vw,38px); font-weight: 900; letter-spacing: -0.03em; color: #fff; margin-bottom: 14px; }
+.lm-desc { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 24px; }
+.lm-bullets { list-style: none; margin-bottom: 32px; }
+.lm-bullets li { font-size: 13.5px; color: rgba(255,255,255,0.45); padding: 6px 0; display: flex; gap: 10px; }
+.lm-bullets li::before { content: '—'; color: var(--accent); flex-shrink: 0; }
+.lm-cta { display: inline-block; background: var(--accent); color: var(--dark); font-size: 14px; font-weight: 800; padding: 14px 28px; border-radius: 8px; text-decoration: none; transition: opacity .15s; }
+.lm-cta:hover { opacity: 0.85; }
+.lm-preview-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
+.lm-preview { background: var(--dark); border: 1px solid var(--bd); border-radius: 12px; padding: 24px; }
+.lm-preview-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--bd); font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+.lm-preview-item:last-child { border-bottom: none; }
+.lm-check { color: var(--accent); font-size: 12px; flex-shrink: 0; padding-top: 2px; }
+.lm-blur { filter: blur(4px); opacity: 0.4; user-select: none; pointer-events: none; }
+@media (max-width: 960px) { .lead-magnet-card { grid-template-columns: 1fr; gap: 40px; padding: 36px 28px; } }
+
 /* ── Credibility strip ── */
 .cred-strip { background: var(--dark); border-bottom: 1px solid var(--bd); padding: 16px 60px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .cred-strip-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.25); white-space: nowrap; }
@@ -1124,6 +1143,34 @@ footer a:hover { color: #fff; }
       <div class="faq-item">
         <div class="faq-q">What do I actually own at the end?</div>
         <div class="faq-a">Everything. Full source code, deployment instructions, and documentation. No subscriptions, no lock-in — the tool is yours to keep, modify, or hand to another developer.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lead Magnet -->
+<div class="sec lead-magnet-sec">
+  <div class="sec-inner">
+    <div class="lead-magnet-card">
+      <div class="lm-left">
+        <div class="lm-badge">Free</div>
+        <h2 class="lm-title">Automation Audit</h2>
+        <p class="lm-desc">Answer 5 questions about your business and get a custom list of processes you could automate — sent to your inbox.</p>
+        <ul class="lm-bullets">
+          <li>Takes under 2 minutes</li>
+          <li>No sales pitch — just useful</li>
+          <li>Specific to your industry and team size</li>
+        </ul>
+        <a href="/demos/free-audit.html" class="lm-cta">Get my free audit →</a>
+      </div>
+      <div class="lm-right">
+        <div class="lm-preview-label">You'll get a list like this:</div>
+        <div class="lm-preview">
+          <div class="lm-preview-item"><span class="lm-check">✓</span> Customer follow-up can be automated with an email sequence</div>
+          <div class="lm-preview-item"><span class="lm-check">✓</span> Weekly reports can be generated and sent automatically</div>
+          <div class="lm-preview-item"><span class="lm-check">✓</span> Booking confirmations can be handled without staff</div>
+          <div class="lm-preview-item lm-blur"><span class="lm-check">✓</span> Your lead intake form can route and notify automatically</div>
+        </div>
       </div>
     </div>
   </div>
