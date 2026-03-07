@@ -6,343 +6,506 @@
 <title>MLS Listing Description Generator — iswain.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #ffffff; --bg-alt: #f7f5f2; --border: #e8e3db;
-    --text: #1c1c1c; --dim: #888; --green: #1a7a4a; --green-bg: #e8f7ef;
-    --accent: #2563eb; --accent-bg: #eff6ff;
+    --bg: #0e0e0f; --bg2: #161618; --bg3: #1e1e21;
+    --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.13);
+    --text: #f0ede8; --dim: rgba(255,255,255,.38); --dim2: rgba(255,255,255,.55);
+    --accent: #3de8d0; --accent-dim: rgba(61,232,208,.15);
+    --green: #3de8d0; --green-bg: rgba(61,232,208,.12);
+    --red: #ff6b6b; --red-bg: rgba(255,107,107,.1);
     --font: 'Inter', system-ui, sans-serif;
   }
-  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
-  .top-bar { background: var(--text); color: rgba(255,255,255,.6); text-align: center; padding: 9px 20px; font-size: 12px; }
-  .top-bar a { color: #fff; font-weight: 600; text-decoration: none; }
+  /* ── Top bar ── */
+  .top-bar { background: var(--accent); color: #0e0e0f; text-align: center; padding: 9px 20px; font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+  .top-bar a { color: #0e0e0f; text-decoration: none; font-weight: 900; }
 
-  nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--border); backdrop-filter: blur(10px); padding: 0 36px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
-  .nav-brand { font-size: 14px; font-weight: 700; text-decoration: none; color: var(--text); }
-  .nav-right { font-size: 13px; color: var(--dim); }
+  /* ── Nav ── */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,15,.92); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); padding: 0 36px; height: 54px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { font-size: 14px; font-weight: 800; text-decoration: none; color: var(--text); letter-spacing: -.01em; }
+  .nav-tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
 
-  .page { max-width: 860px; margin: 0 auto; padding: 56px 36px 80px; }
+  /* ── Page ── */
+  .page { max-width: 900px; margin: 0 auto; padding: 60px 36px 100px; }
 
-  .page-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 10px; }
-  .page-title { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -.03em; margin-bottom: 12px; }
-  .page-desc { font-size: 15px; color: var(--dim); max-width: 600px; margin-bottom: 40px; }
+  .page-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); margin-bottom: 12px; }
+  .page-title { font-size: clamp(28px, 4vw, 42px); font-weight: 900; letter-spacing: -.035em; margin-bottom: 14px; line-height: 1.1; }
+  .page-desc { font-size: 15px; color: var(--dim2); max-width: 580px; margin-bottom: 48px; line-height: 1.7; }
 
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  /* ── Form ── */
+  .form-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+  .form-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
   .form-group.full { grid-column: 1 / -1; }
-  label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); }
+  label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--dim); }
   input, select, textarea {
     font-family: var(--font); font-size: 14px; color: var(--text);
-    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 8px;
-    padding: 10px 14px; transition: border-color .15s;
-    width: 100%;
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px;
+    padding: 10px 14px; transition: border-color .15s, box-shadow .15s; width: 100%;
+    -webkit-appearance: none;
   }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--text); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(61,232,208,.1); }
+  input::placeholder, textarea::placeholder { color: var(--dim); }
   textarea { resize: vertical; min-height: 80px; }
+  option { background: #1e1e21; }
 
-  .highlights-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin-bottom: 10px; }
-  .highlights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 24px; }
-  .highlight-chip { display: flex; align-items: center; gap: 8px; background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 12px; cursor: pointer; transition: all .15s; font-size: 13px; }
-  .highlight-chip input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--text); cursor: pointer; flex-shrink: 0; }
-  .highlight-chip:has(input:checked) { background: var(--text); color: #fff; border-color: var(--text); }
+  /* ── Highlights ── */
+  .highlights-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .highlights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+  .chip { display: flex; align-items: center; gap: 9px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 9px 13px; cursor: pointer; transition: all .15s; font-size: 13px; color: var(--dim2); }
+  .chip input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .chip:has(input:checked) { background: var(--accent-dim); border-color: var(--accent); color: var(--text); }
 
+  /* ── Generate button ── */
   .generate-btn {
-    width: 100%; padding: 14px; border-radius: 10px;
-    background: var(--text); color: #fff;
-    font-family: var(--font); font-size: 15px; font-weight: 700;
-    border: none; cursor: pointer; transition: opacity .15s;
-    margin-bottom: 40px;
+    width: 100%; padding: 16px; border-radius: 12px;
+    background: var(--accent); color: #0e0e0f;
+    font-family: var(--font); font-size: 15px; font-weight: 800;
+    border: none; cursor: pointer; transition: opacity .15s, transform .1s;
+    letter-spacing: -.01em; margin-bottom: 40px;
   }
-  .generate-btn:hover { opacity: .85; }
-  .generate-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .generate-btn:hover { opacity: .88; }
+  .generate-btn:active { transform: scale(.99); }
+  .generate-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
 
+  /* ── Output ── */
   .output { display: none; }
   .output.visible { display: block; }
   .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .output-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); }
-  .copy-btn {
-    font-family: var(--font); font-size: 12px; font-weight: 600;
-    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 7px;
-    padding: 6px 14px; cursor: pointer; color: var(--text); transition: all .15s;
+  .output-actions { display: flex; gap: 8px; }
+  .action-btn {
+    font-family: var(--font); font-size: 12px; font-weight: 700;
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: 7px;
+    padding: 7px 14px; cursor: pointer; color: var(--dim2); transition: all .15s;
+    letter-spacing: .01em;
   }
-  .copy-btn:hover { background: var(--text); color: #fff; border-color: var(--text); }
-  .copy-btn.copied { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .action-btn:hover { background: var(--bg2); border-color: var(--accent); color: var(--accent); }
+  .action-btn.copied { background: var(--green-bg); border-color: var(--green); color: var(--green); }
 
-  .listing-card {
-    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 12px;
-    padding: 28px 32px; margin-bottom: 20px;
-  }
-  .listing-headline { font-size: 19px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 14px; }
-  .listing-body { font-size: 14.5px; line-height: 1.75; color: #333; white-space: pre-line; }
+  .listing-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; margin-bottom: 16px; }
+  .listing-headline { font-size: 20px; font-weight: 800; letter-spacing: -.025em; margin-bottom: 8px; color: var(--text); line-height: 1.3; }
+  .listing-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .meta-pill { background: var(--accent-dim); color: var(--accent); border-radius: 5px; padding: 3px 10px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .listing-body p { font-size: 14.5px; line-height: 1.8; color: rgba(255,255,255,.75); margin-bottom: 14px; }
+  .listing-body p:last-child { margin-bottom: 0; }
 
-  .meta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
-  .meta-pill { background: var(--accent-bg); color: var(--accent); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
-
-  .skeleton { background: linear-gradient(90deg, #f0ede8 25%, #e8e3db 50%, #f0ede8 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; border-radius: 6px; height: 16px; margin-bottom: 10px; }
-  .skeleton.long { width: 100%; }
-  .skeleton.med { width: 75%; }
-  .skeleton.short { width: 45%; }
+  .skeleton { background: linear-gradient(90deg, var(--bg3) 25%, var(--bg2) 50%, var(--bg3) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; height: 15px; margin-bottom: 10px; }
+  .skeleton.w100 { width: 100%; }
+  .skeleton.w80 { width: 80%; }
+  .skeleton.w60 { width: 60%; }
+  .skeleton.w40 { width: 40%; }
+  .skeleton.tall { height: 20px; margin-bottom: 16px; }
   @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-  .divider { border: none; border-top: 1.5px solid var(--border); margin: 36px 0; }
+  .error-box { background: var(--red-bg); border: 1px solid rgba(255,107,107,.25); border-radius: 10px; padding: 14px 18px; color: var(--red); font-size: 14px; margin-bottom: 16px; }
+  .demo-note { font-size: 12px; color: var(--dim); background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; line-height: 1.6; }
+  .demo-note strong { color: var(--dim2); }
 
-  .note { font-size: 12.5px; color: var(--dim); background: var(--bg-alt); border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--border); }
-
-  @media (max-width: 600px) {
+  @media (max-width: 620px) {
     .form-grid { grid-template-columns: 1fr; }
     .highlights-grid { grid-template-columns: 1fr 1fr; }
     .page { padding: 36px 20px 60px; }
     nav { padding: 0 20px; }
+    .form-card, .highlights-card { padding: 20px; }
+    .listing-card { padding: 22px; }
   }
 </style>
 </head>
 <body>
 
 <div class="top-bar">
-  Demo by <a href="https://iswain.dev">iswain.dev</a> &mdash; Custom tools for local businesses
+  Built by <a href="https://iswain.dev">iswain.dev</a> — custom tools for local businesses &amp; real estate agents
 </div>
 
 <nav>
   <a href="https://iswain.dev" class="nav-brand">iswain.dev</a>
-  <span class="nav-right">Real Estate Tools</span>
+  <span class="nav-tag">Real Estate Tools</span>
 </nav>
 
 <div class="page">
 
-  <p class="page-label">Real Estate Demo</p>
-  <h1 class="page-title">MLS Listing Description Generator</h1>
-  <p class="page-desc">Fill in the property details and click Generate. AI writes a publish-ready listing description in seconds &mdash; no copywriting experience needed.</p>
+  <p class="page-eyebrow">Live Demo</p>
+  <h1 class="page-title">MLS Listing<br>Description Generator</h1>
+  <p class="page-desc">Enter your property specs and get publish-ready MLS copy in seconds. No copywriting experience needed — just fill in the details.</p>
 
-  <div class="form-grid">
-    <div class="form-group">
-      <label for="address">Street Address</label>
-      <input type="text" id="address" placeholder="e.g. 1842 Passyunk Ave">
-    </div>
-    <div class="form-group">
-      <label for="neighborhood">Neighborhood</label>
-      <select id="neighborhood">
-        <option value="East Passyunk">East Passyunk</option>
-        <option value="Fishtown">Fishtown</option>
-        <option value="South Philly">South Philly</option>
-        <option value="Rittenhouse Square">Rittenhouse Square</option>
-        <option value="Northern Liberties">Northern Liberties</option>
-        <option value="Old City">Old City</option>
-        <option value="Center City">Center City</option>
-        <option value="Fairmount">Fairmount</option>
-        <option value="Manayunk">Manayunk</option>
-        <option value="Chestnut Hill">Chestnut Hill</option>
-        <option value="Roxborough">Roxborough</option>
-        <option value="Graduate Hospital">Graduate Hospital</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="type">Property Type</label>
-      <select id="type">
-        <option value="rowhouse">Rowhouse</option>
-        <option value="single family">Single Family</option>
-        <option value="condo">Condo / Co-op</option>
-        <option value="twin">Twin / Semi-detached</option>
-        <option value="multi-family">Multi-Family</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="price">Asking Price ($)</label>
-      <input type="number" id="price" placeholder="e.g. 385000">
-    </div>
-    <div class="form-group">
-      <label for="beds">Bedrooms</label>
-      <input type="number" id="beds" min="1" max="10" placeholder="e.g. 3">
-    </div>
-    <div class="form-group">
-      <label for="baths">Bathrooms</label>
-      <input type="number" id="baths" min="1" max="10" step="0.5" placeholder="e.g. 2">
-    </div>
-    <div class="form-group">
-      <label for="sqft">Square Footage</label>
-      <input type="number" id="sqft" placeholder="e.g. 1450">
-    </div>
-    <div class="form-group">
-      <label for="year">Year Built</label>
-      <input type="number" id="year" placeholder="e.g. 1925">
-    </div>
-    <div class="form-group full">
-      <label for="notes">Additional Details (optional)</label>
-      <textarea id="notes" placeholder="e.g. Roof replaced 2022, south-facing backyard, steps from the El, seller will leave appliances"></textarea>
+  <div class="form-card">
+    <div class="form-section-label">Property Details</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="address">Street Address</label>
+        <input type="text" id="address" placeholder="e.g. 1842 Passyunk Ave">
+      </div>
+      <div class="form-group">
+        <label for="neighborhood">Neighborhood</label>
+        <select id="neighborhood">
+          <option value="East Passyunk">East Passyunk</option>
+          <option value="Fishtown">Fishtown</option>
+          <option value="South Philly">South Philly</option>
+          <option value="Rittenhouse Square">Rittenhouse Square</option>
+          <option value="Northern Liberties">Northern Liberties</option>
+          <option value="Old City">Old City</option>
+          <option value="Center City">Center City</option>
+          <option value="Fairmount">Fairmount</option>
+          <option value="Manayunk">Manayunk</option>
+          <option value="Chestnut Hill">Chestnut Hill</option>
+          <option value="Roxborough">Roxborough</option>
+          <option value="Graduate Hospital">Graduate Hospital</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="type">Property Type</label>
+        <select id="type">
+          <option value="rowhouse">Rowhouse</option>
+          <option value="single family home">Single Family</option>
+          <option value="condo">Condo / Co-op</option>
+          <option value="twin">Twin / Semi-detached</option>
+          <option value="multi-family">Multi-Family</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="price">Asking Price ($)</label>
+        <input type="number" id="price" placeholder="e.g. 385000">
+      </div>
+      <div class="form-group">
+        <label for="beds">Bedrooms</label>
+        <input type="number" id="beds" min="1" max="10" placeholder="e.g. 3">
+      </div>
+      <div class="form-group">
+        <label for="baths">Bathrooms</label>
+        <input type="number" id="baths" min="1" max="10" step="0.5" placeholder="e.g. 2">
+      </div>
+      <div class="form-group">
+        <label for="sqft">Square Footage</label>
+        <input type="number" id="sqft" placeholder="e.g. 1450">
+      </div>
+      <div class="form-group">
+        <label for="year">Year Built</label>
+        <input type="number" id="year" placeholder="e.g. 1925">
+      </div>
+      <div class="form-group full">
+        <label for="notes">Additional Details <span style="text-transform:none;font-weight:400;color:var(--dim)">(optional)</span></label>
+        <textarea id="notes" placeholder="e.g. Roof replaced 2022, south-facing backyard, steps from the El, seller will leave appliances"></textarea>
+      </div>
     </div>
   </div>
 
-  <div class="highlights-label">Property Highlights</div>
-  <div class="highlights-grid" id="highlights">
-    <label class="highlight-chip"><input type="checkbox" value="Updated kitchen"> Updated kitchen</label>
-    <label class="highlight-chip"><input type="checkbox" value="Hardwood floors"> Hardwood floors</label>
-    <label class="highlight-chip"><input type="checkbox" value="Private outdoor space"> Private outdoor space</label>
-    <label class="highlight-chip"><input type="checkbox" value="Off-street parking"> Off-street parking</label>
-    <label class="highlight-chip"><input type="checkbox" value="Central A/C"> Central A/C</label>
-    <label class="highlight-chip"><input type="checkbox" value="Finished basement"> Finished basement</label>
-    <label class="highlight-chip"><input type="checkbox" value="Home office / flex room"> Home office / flex room</label>
-    <label class="highlight-chip"><input type="checkbox" value="Open floor plan"> Open floor plan</label>
-    <label class="highlight-chip"><input type="checkbox" value="Recently renovated"> Recently renovated</label>
-    <label class="highlight-chip"><input type="checkbox" value="Natural light"> Abundant natural light</label>
-    <label class="highlight-chip"><input type="checkbox" value="Walkable to transit"> Walkable to transit</label>
-    <label class="highlight-chip"><input type="checkbox" value="In-unit laundry"> In-unit laundry</label>
+  <div class="highlights-card">
+    <div class="form-section-label">Property Highlights</div>
+    <div class="highlights-grid" id="highlights">
+      <label class="chip"><input type="checkbox" value="updated kitchen"> Updated kitchen</label>
+      <label class="chip"><input type="checkbox" value="hardwood floors"> Hardwood floors</label>
+      <label class="chip"><input type="checkbox" value="private outdoor space"> Private outdoor space</label>
+      <label class="chip"><input type="checkbox" value="off-street parking"> Off-street parking</label>
+      <label class="chip"><input type="checkbox" value="central A/C"> Central A/C</label>
+      <label class="chip"><input type="checkbox" value="finished basement"> Finished basement</label>
+      <label class="chip"><input type="checkbox" value="home office"> Home office / flex room</label>
+      <label class="chip"><input type="checkbox" value="open floor plan"> Open floor plan</label>
+      <label class="chip"><input type="checkbox" value="recent renovations"> Recently renovated</label>
+      <label class="chip"><input type="checkbox" value="abundant natural light"> Abundant natural light</label>
+      <label class="chip"><input type="checkbox" value="walkable to transit"> Walkable to transit</label>
+      <label class="chip"><input type="checkbox" value="in-unit laundry"> In-unit laundry</label>
+    </div>
   </div>
 
   <button class="generate-btn" id="generateBtn" onclick="generate()">Generate Listing Description</button>
 
   <div class="output" id="output">
+    <div id="errorBox"></div>
     <div class="output-header">
       <span class="output-label">Generated Listing</span>
-      <button class="copy-btn" id="copyBtn" onclick="copyListing()">Copy Text</button>
+      <div class="output-actions">
+        <button class="action-btn" id="copyBtn" onclick="copyListing()">Copy Text</button>
+        <button class="action-btn" onclick="generate()">Regenerate</button>
+      </div>
     </div>
-    <div class="listing-card" id="listingCard">
-      <div class="skeleton long" id="sk1"></div>
-      <div class="skeleton med" id="sk2" style="margin-bottom:18px"></div>
-      <div class="skeleton long" id="sk3"></div>
-      <div class="skeleton long" id="sk4"></div>
-      <div class="skeleton med" id="sk5"></div>
-    </div>
-    <p class="note">This is a demo — in your live tool, descriptions are generated fresh from Claude AI every time, tailored to each property.</p>
+    <div class="listing-card" id="listingCard"></div>
+    <p class="demo-note"><strong>This is a demonstration.</strong> Each generation produces different copy from the same inputs. A custom-built version connects to Claude AI for even more natural, varied output — tailored to your brand voice and specific markets.</p>
   </div>
 
 </div>
 
 <script>
-function formatPrice(n) {
-  if (!n) return '';
-  return '$' + Number(n).toLocaleString();
+const R = () => Math.random();
+const pick = arr => arr[Math.floor(R() * arr.length)];
+const maybe = (prob, val) => R() < prob ? val : '';
+
+const HOOD = {
+  'East Passyunk': {
+    vibe: ['one of South Philly\'s most beloved streets', 'a neighborhood known for its award-winning restaurant row', 'the heart of South Philadelphia\'s culinary scene'],
+    lifestyle: ['steps from some of the city\'s best BYOB dining', 'with the avenue\'s cafes and boutiques at your doorstep', 'walkable to the neighborhood\'s renowned dining and nightlife'],
+    demo: ['young professionals', 'buyers who want the city\'s best walkability', 'those who value neighborhood character'],
+    market: ['one of the city\'s most in-demand zip codes', 'a neighborhood where homes rarely stay on the market long', 'a market that continues to appreciate'],
+  },
+  'Fishtown': {
+    vibe: ['one of Philadelphia\'s most dynamic neighborhoods', 'a creative hub that keeps attracting attention', 'the city\'s arts and music epicenter'],
+    lifestyle: ['surrounded by independent coffee shops, galleries, and nightlife', 'walkable to the neighborhood\'s craft breweries and music venues', 'steps from the energy Fishtown is known for'],
+    demo: ['creative professionals', 'buyers who want to be at the center of it all', 'those looking for neighborhood energy with strong upside'],
+    market: ['a neighborhood where values have consistently climbed', 'one of the most watched markets in the city', 'a zip code that continues to outperform'],
+  },
+  'South Philly': {
+    vibe: ['a neighborhood with the kind of character you can\'t manufacture', 'one of the city\'s most authentic communities', 'classic Philadelphia at its best'],
+    lifestyle: ['close to the Italian Market and the neighborhood\'s beloved corner spots', 'with the South Philly block culture right outside', 'near everything that makes this part of the city special'],
+    demo: ['buyers who appreciate real neighborhood fabric', 'those who know what South Philly offers', 'buyers looking for value with character'],
+    market: ['a market that consistently delivers long-term value', 'a neighborhood where community runs deep', 'one of the city\'s most stable and beloved zip codes'],
+  },
+  'Rittenhouse Square': {
+    vibe: ['steps from one of the city\'s crown jewels', 'in the most sought-after pocket of Center City', 'Philadelphia\'s premier urban address'],
+    lifestyle: ['with the park, five-star dining, and luxury retail all within a few blocks', 'surrounded by the best the city has to offer', 'walkable to everything Center City\'s finest corridor provides'],
+    demo: ['discerning buyers who expect the best', 'professionals who want to walk to everything', 'buyers for whom address matters'],
+    market: ['the most prestigious market in the city', 'a zip code that holds its value through any cycle', 'an address that speaks for itself'],
+  },
+  'Northern Liberties': {
+    vibe: ['a neighborhood that keeps reinventing itself', 'one of the city\'s most talked-about markets', 'where old Philadelphia meets something entirely new'],
+    lifestyle: ['with craft breweries, galleries, and great dining just outside', 'walkable to the neighborhood\'s growing roster of independent spots', 'surrounded by the energy that has defined NoLibs for a decade'],
+    demo: ['buyers who want neighborhood character with upside', 'creative professionals and young families', 'those who got priced out of Fishtown and found something better'],
+    market: ['a neighborhood that still offers room to grow', 'one of the city\'s best value-to-vibe ratios', 'a market that rewards early movers'],
+  },
+  'Old City': {
+    vibe: ['Philadelphia\'s most historic and storied neighborhood', 'cobblestone streets and centuries of character', 'where the city\'s founding history lives on'],
+    lifestyle: ['steps from galleries, boutiques, and waterfront access', 'walkable to the neighborhood\'s unique mix of history and modern dining', 'in one of the most distinctive pockets of the city'],
+    demo: ['buyers who want something genuinely different', 'history enthusiasts and urban professionals alike', 'those who appreciate irreplaceable location'],
+    market: ['a neighborhood where character is the commodity', 'one of the city\'s most unique and enduring markets', 'an address unlike anything else in Philadelphia'],
+  },
+  'Center City': {
+    vibe: ['the heart of Philadelphia', 'an address that puts everything within reach', 'true urban living at the city\'s core'],
+    lifestyle: ['steps from world-class dining, cultural institutions, and transit', 'with everything the city offers at your doorstep', 'walkable to virtually everything Philadelphia has to offer'],
+    demo: ['professionals who live by walkability', 'buyers who want the full city experience', 'those for whom convenience is non-negotiable'],
+    market: ['the city\'s most liquid and consistent market', 'a zip code that performs through every cycle', 'the benchmark address for Philadelphia real estate'],
+  },
+  'Graduate Hospital': {
+    vibe: ['one of the city\'s fastest-growing neighborhoods', 'a market that has transformed over the past decade', 'South Center City\'s most exciting pocket'],
+    lifestyle: ['close to Penn, CHOP, and all that the broader South Philly corridor offers', 'walkable to excellent dining and with easy access to major institutions', 'in a neighborhood that attracts residents who build real community'],
+    demo: ['young families and medical professionals', 'buyers who want proximity to the city\'s major employers', 'those who spot value before the rest of the market does'],
+    market: ['a neighborhood where the fundamentals keep improving', 'one of the best bets in the current Philadelphia market', 'a zip code that rewards buyers who move with conviction'],
+  },
+  'Fairmount': {
+    vibe: ['the Museum District\'s residential heart', 'one of the city\'s most livable and underrated neighborhoods', 'a true Philadelphia neighborhood with art, parks, and community'],
+    lifestyle: ['a short walk from Fairmount Park, the Art Museum, and the Parkway', 'with trails, cultural institutions, and neighborhood restaurants nearby', 'in a pocket that offers genuine quality of life'],
+    demo: ['families, runners, and culture lovers', 'buyers who prioritize livability over trendiness', 'those who want parks, community, and city access all at once'],
+    market: ['a consistently stable and family-friendly market', 'a neighborhood where long-term residents stay for decades', 'a reliable value in the broader Philadelphia landscape'],
+  },
+  'Manayunk': {
+    vibe: ['a neighborhood with Main Street energy and an outdoor recreation backbone', 'one of the city\'s most distinct and walkable village neighborhoods', 'where city living meets genuine natural amenity'],
+    lifestyle: ['steps from Main Street\'s shops, restaurants, and canal trail access', 'walkable to the towpath and Manayunk\'s lively commercial strip', 'with the Wissahickon Valley and Schuylkill River practically out your door'],
+    demo: ['active buyers who want walkability and outdoor access', 'those who want neighborhood feel without sacrificing city convenience', 'buyers drawn to the area\'s unique charm'],
+    market: ['a market with strong community identity and steady demand', 'a neighborhood where character drives long-term value', 'one of the city\'s most distinct and enduring communities'],
+  },
+  'Chestnut Hill': {
+    vibe: ['one of Philadelphia\'s most beautiful and coveted neighborhoods', 'a neighborhood that feels like a destination in itself', 'the city\'s most picturesque and established community'],
+    lifestyle: ['walkable to Germantown Avenue\'s boutiques, dining, and Wissahickon trails', 'with the neighborhood\'s beloved shops and green spaces right outside', 'steps from everything that makes Chestnut Hill one of a kind'],
+    demo: ['buyers seeking the best of both worlds — city access and neighborhood serenity', 'families who want excellent schools and community', 'those who appreciate quality, history, and enduring value'],
+    market: ['one of the most prestigious and stable markets in the region', 'a neighborhood where homes hold their value through every cycle', 'an address that commands respect across all of Greater Philadelphia'],
+  },
+  'Roxborough': {
+    vibe: ['a neighborhood that offers genuine respite from the city\'s pace', 'one of the city\'s most underappreciated and livable communities', 'a residential gem on the Wissahickon\'s doorstep'],
+    lifestyle: ['close to Wissahickon Valley Park trails and easy Ridge Avenue access', 'in a community that offers real neighborhood roots and outdoor amenity', 'walkable to local dining and with park access most city residents can only dream of'],
+    demo: ['nature-loving buyers and families', 'those seeking value without sacrificing community quality', 'buyers who want green space and neighborhood warmth'],
+    market: ['a market that consistently offers strong value per square foot', 'a neighborhood where families put down roots and stay', 'an area with steady appreciation driven by genuine livability'],
+  },
+};
+
+const FEATURE_PHRASES = {
+  'updated kitchen':       ['a fully updated kitchen built for serious cooking', 'a renovated kitchen with modern finishes throughout', 'a chef-ready kitchen that anchors the home'],
+  'hardwood floors':       ['original hardwood floors in exceptional condition', 'gleaming hardwood floors that run throughout the main level', 'warm hardwood floors that lend the home its character'],
+  'private outdoor space': ['a private outdoor space ideal for warm-weather entertaining', 'a quiet rear yard perfect for morning coffee or weekend gatherings', 'dedicated outdoor space — rare at this price point'],
+  'off-street parking':    ['coveted off-street parking', 'private off-street parking — a genuine luxury in this neighborhood', 'off-street parking that adds real daily convenience'],
+  'central A/C':           ['central A/C throughout', 'full central air conditioning', 'central cooling on every floor'],
+  'finished basement':     ['a finished basement that doubles as a media room, gym, or home office', 'a fully finished lower level with real flexibility', 'a finished basement adding meaningful usable square footage'],
+  'home office':           ['a dedicated home office or flex room', 'a private work-from-home setup that actually works', 'a flex room that adapts to your schedule'],
+  'open floor plan':       ['an open layout that breathes', 'a connected main floor designed for how people actually live', 'an airy, open floor plan that maximizes the space'],
+  'recent renovations':    ['thoughtful renovations that honor the home\'s original character', 'recent updates throughout that leave nothing to do', 'renovations done right — quality finishes, no shortcuts'],
+  'abundant natural light':['exceptional natural light throughout the day', 'windows positioned to fill every room with light', 'a brightness that photographs don\'t fully capture'],
+  'walkable to transit':   ['a short walk to public transit', 'easy commute access without needing a car', 'transit-friendly location for the car-optional lifestyle'],
+  'in-unit laundry':       ['in-unit laundry — no trips to the basement or laundromat', 'convenient washer/dryer hookups in-unit', 'in-unit laundry for the full turnkey experience'],
+};
+
+const PARA2_OPENERS = [
+  'Step inside and',
+  'The interior delivers',
+  'Inside,',
+  'Throughout the home,',
+  'The floor plan offers',
+  'Designed for real life,',
+];
+
+const PARA3_OPENERS = [
+  txt => `At ${txt}, this home represents`,
+  txt => `Offered at ${txt},`,
+  txt => `Listed at ${txt} in`,
+  txt => `Priced at ${txt}, this is`,
+];
+
+const URGENCY = [
+  hood => `Properties in ${hood} at this price don't wait. Schedule your showing.`,
+  hood => `Homes like this in ${hood} move fast. Don't let this one pass.`,
+  hood => `This is the ${hood} opportunity buyers have been waiting for. Act accordingly.`,
+  hood => `Demand in ${hood} remains strong. Book your tour before the weekend.`,
+  hood => `Well-priced homes in ${hood} go quickly. Call today.`,
+];
+
+function fmtPrice(n) {
+  if (!n) return null;
+  try { return '$' + Number(n).toLocaleString(); }
+  catch { return null; }
+}
+
+function buildListing(d) {
+  const { address, neighborhood, type, price, beds, baths, sqft, year, notes, highlights } = d;
+  const hood = neighborhood || 'Philadelphia';
+  const hoodData = HOOD[hood] || HOOD['Center City'];
+  const b  = beds  || '3';
+  const ba = baths || '2';
+  const t  = type  || 'rowhouse';
+  const p  = fmtPrice(price);
+  const sf = sqft ? Number(sqft).toLocaleString() : null;
+  const yr = year || null;
+
+  // Headline
+  const headlineTemplates = [
+    () => `${b}BR / ${ba}BA ${t} in ${hood}${p ? ' — ' + p : ''}`,
+    () => `${b}-Bedroom ${t.charAt(0).toUpperCase()+t.slice(1)} — ${hood}${p ? ' · ' + p : ''}`,
+    () => pick(['Move-In Ready', 'Fully Updated', 'Character-Filled', 'Exceptional', 'Rarely Available']) + ` ${b}BR ${t} in ${hood}${p ? ' — ' + p : ''}`,
+  ];
+  const headline = pick(headlineTemplates)();
+
+  // Meta pills
+  const pills = [
+    b + ' bed', ba + ' bath',
+    sf ? sf + ' sqft' : null,
+    yr ? 'Built ' + yr : null,
+    hood,
+  ].filter(Boolean);
+
+  // Paragraph 1: intro / location
+  const addr = address ? `${address} is` : pick([`This ${b}-bedroom ${t} is`, `A ${b}BR ${t} at the heart of`, `Here is`]);
+  const intro = `${addr} ${pick(hoodData.vibe)}, ${pick(hoodData.lifestyle)}. ${pick([
+    `It's the kind of home that suits ${pick(hoodData.demo)}.`,
+    `The location alone puts it ahead of everything else at this price.`,
+    `It offers the lifestyle ${pick(hoodData.demo)} have been searching for.`,
+    `Few properties check this many boxes in ${pick(hoodData.market)}.`,
+  ])}`;
+
+  // Paragraph 2: features
+  const featureKeys = highlights.length > 0
+    ? highlights.filter(h => FEATURE_PHRASES[h])
+    : Object.keys(FEATURE_PHRASES).slice(0, 4);
+
+  const shuffled = featureKeys.sort(() => R() - 0.5);
+  const selected = shuffled.slice(0, Math.min(shuffled.length, 4 + Math.floor(R() * 2)));
+  const phrases  = selected.map(k => pick(FEATURE_PHRASES[k] || [k]));
+
+  let featureTxt = '';
+  if (phrases.length === 0) {
+    featureTxt = `${pick(PARA2_OPENERS)} the floor plan delivers well-proportioned rooms with a practical, livable layout.`;
+  } else if (phrases.length === 1) {
+    featureTxt = `${pick(PARA2_OPENERS)} the home features ${phrases[0]}.`;
+  } else {
+    const last = phrases.pop();
+    featureTxt = `${pick(PARA2_OPENERS)} the home offers ${phrases.join(', ')}, and ${last}.`;
+  }
+
+  const sizeNote = sf && yr
+    ? ` ${sf} square feet of space${maybe(.5, ', built in ' + yr + ' with the craftsmanship of that era')}.`
+    : sf ? ` ${sf} sq ft that lives well.` : yr ? ` Built in ${yr}, with enduring Philadelphia construction.` : '';
+
+  const noteTxt = notes ? `\n\n${notes.trim().charAt(0).toUpperCase() + notes.trim().slice(1)}${notes.trim().match(/[.!?]$/) ? '' : '.'}` : '';
+
+  const para2 = featureTxt + (sizeNote ? ' The layout makes excellent use of' + sizeNote : '') + noteTxt;
+
+  // Paragraph 3: price / call to action
+  let para3;
+  if (p) {
+    const opener = pick(PARA3_OPENERS)(p);
+    const marketNote = pick(hoodData.market);
+    const urgency = pick(URGENCY)(hood);
+    para3 = `${opener} ${marketNote}. ${urgency}`;
+  } else {
+    const urgency = pick(URGENCY)(hood);
+    para3 = `In ${pick(hoodData.market)}, this is exactly the kind of listing that draws serious attention. ${urgency}`;
+  }
+
+  return { headline, pills, paragraphs: [intro, para2, para3] };
 }
 
 function getChecked() {
   return Array.from(document.querySelectorAll('#highlights input:checked')).map(c => c.value);
 }
 
-function buildDescription(d) {
-  const { address, neighborhood, type, price, beds, baths, sqft, year, notes, highlights } = d;
+function generate() {
+  const btn    = document.getElementById('generateBtn');
+  const output = document.getElementById('output');
+  const card   = document.getElementById('listingCard');
+  const errBox = document.getElementById('errorBox');
 
-  const addr = address || '1842 Passyunk Ave';
-  const hood = neighborhood || 'East Passyunk';
-  const propType = type || 'rowhouse';
-  const b = beds || '3';
-  const ba = baths || '2';
-  const sf = sqft ? Number(sqft).toLocaleString() : '1,450';
-  const yr = year || '1925';
-  const p = price ? formatPrice(price) : '$385,000';
-
-  const hl = highlights.length > 0 ? highlights : ['Hardwood floors', 'Updated kitchen', 'Private outdoor space'];
-
-  // Opening hook — varies by neighborhood
-  const hooks = {
-    'Fishtown': `Welcome to ${addr} — a standout ${propType} in the heart of Fishtown, one of Philadelphia's most sought-after neighborhoods.`,
-    'Rittenhouse Square': `Presenting ${addr}, a refined ${propType} just steps from the elegance of Rittenhouse Square.`,
-    'Northern Liberties': `Opportunity meets style at ${addr}, a beautifully maintained ${propType} in vibrant Northern Liberties.`,
-    'Old City': `Step into ${addr} — a character-filled ${propType} in the historic Old City neighborhood.`,
-    'Center City': `${addr} offers the ultimate urban lifestyle — a well-appointed ${propType} in the heart of Center City Philadelphia.`,
-    'Graduate Hospital': `${addr} is a move-in-ready ${propType} in Graduate Hospital, one of South Philly's fastest-growing neighborhoods.`,
-  };
-  const hook = hooks[hood] || `Welcome to ${addr}, a charming ${propType} in the ${hood} neighborhood of Philadelphia.`;
-
-  // Features paragraph
-  const featureLines = [];
-  if (hl.includes('Updated kitchen')) featureLines.push('a chef-ready updated kitchen with modern finishes');
-  if (hl.includes('Hardwood floors')) featureLines.push('gleaming hardwood floors throughout');
-  if (hl.includes('Open floor plan')) featureLines.push('an open floor plan perfect for entertaining');
-  if (hl.includes('Natural light') || hl.includes('Abundant natural light')) featureLines.push('oversized windows flooding the home with natural light');
-  if (hl.includes('Central A/C')) featureLines.push('central A/C for year-round comfort');
-  if (hl.includes('In-unit laundry')) featureLines.push('convenient in-unit laundry');
-  if (hl.includes('Finished basement')) featureLines.push('a finished basement ideal for a media room, gym, or extra storage');
-  if (hl.includes('Home office / flex room')) featureLines.push('a dedicated home office or flex room');
-  if (hl.includes('Recently renovated')) featureLines.push('thoughtful renovations throughout that preserve the home\'s original charm');
-  if (hl.includes('Off-street parking')) featureLines.push('rare off-street parking');
-  if (hl.includes('Private outdoor space')) featureLines.push('a private outdoor space perfect for warm-weather entertaining');
-  if (hl.includes('Walkable to transit')) featureLines.push('steps from public transit for an easy commute');
-
-  let featuresText = '';
-  if (featureLines.length > 0) {
-    if (featureLines.length === 1) {
-      featuresText = `Inside, you'll find ${featureLines[0]}.`;
-    } else {
-      const last = featureLines.pop();
-      featuresText = `Inside, you'll find ${featureLines.join(', ')}, and ${last}.`;
-    }
+  const beds  = document.getElementById('beds').value.trim();
+  const baths = document.getElementById('baths').value.trim();
+  if (!beds && !baths) {
+    errBox.innerHTML = '<div class="error-box">Please enter at least bedrooms and bathrooms.</div>';
+    output.classList.add('visible');
+    card.innerHTML = '';
+    return;
   }
 
-  // Notes paragraph
-  const notesText = notes ? `\n\n${notes.trim().replace(/^[a-z]/, c => c.toUpperCase())}${notes.trim().endsWith('.') ? '' : '.'}` : '';
-
-  // Closing
-  const closings = [
-    `Priced at ${p}, this home delivers exceptional value in ${hood}. Don't miss your chance — schedule a showing today.`,
-    `Offered at ${p}. Properties like this don't last long in ${hood} — book your tour before it's gone.`,
-    `Listed at ${p} in one of Philadelphia's most desirable zip codes. Act fast — ${hood} homes move quickly.`,
-  ];
-  const closing = closings[Math.floor(Math.random() * closings.length)];
-
-  const headline = `${b} Bed / ${ba} Bath ${propType.charAt(0).toUpperCase() + propType.slice(1)} in ${hood} — ${p}`;
-
-  const body = `${hook}
-
-This ${b}-bedroom, ${ba}-bathroom home offers ${sf} sq ft of thoughtfully designed living space, originally built in ${yr} with timeless Philadelphia character. ${featuresText}${notesText}
-
-${closing}`;
-
-  return { headline, body };
-}
-
-function generate() {
-  const btn = document.getElementById('generateBtn');
-  const output = document.getElementById('output');
-  const card = document.getElementById('listingCard');
-
-  const d = {
-    address: document.getElementById('address').value.trim(),
-    neighborhood: document.getElementById('neighborhood').value,
-    type: document.getElementById('type').value,
-    price: document.getElementById('price').value,
-    beds: document.getElementById('beds').value,
-    baths: document.getElementById('baths').value,
-    sqft: document.getElementById('sqft').value,
-    year: document.getElementById('year').value,
-    notes: document.getElementById('notes').value.trim(),
-    highlights: getChecked(),
-  };
-
+  errBox.innerHTML = '';
   btn.disabled = true;
   btn.textContent = 'Generating…';
   output.classList.add('visible');
-
-  // Show skeleton
   card.innerHTML = `
-    <div class="skeleton long"></div>
-    <div class="skeleton med" style="margin-bottom:18px"></div>
-    <div class="skeleton long"></div>
-    <div class="skeleton long"></div>
-    <div class="skeleton long"></div>
-    <div class="skeleton med"></div>
-    <div class="skeleton short"></div>
+    <div class="skeleton tall w80"></div>
+    <div style="display:flex;gap:6px;margin-bottom:20px">
+      <div class="skeleton w40" style="height:22px;border-radius:4px"></div>
+      <div class="skeleton w40" style="height:22px;border-radius:4px"></div>
+    </div>
+    <div class="skeleton w100"></div>
+    <div class="skeleton w100"></div>
+    <div class="skeleton w80" style="margin-bottom:18px"></div>
+    <div class="skeleton w100"></div>
+    <div class="skeleton w100"></div>
+    <div class="skeleton w60" style="margin-bottom:18px"></div>
+    <div class="skeleton w100"></div>
+    <div class="skeleton w80"></div>
   `;
+  output.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   setTimeout(() => {
-    const { headline, body } = buildDescription(d);
+    const result = buildListing({
+      address:      document.getElementById('address').value.trim(),
+      neighborhood: document.getElementById('neighborhood').value,
+      type:         document.getElementById('type').value,
+      price:        document.getElementById('price').value.trim(),
+      beds, baths,
+      sqft:         document.getElementById('sqft').value.trim(),
+      year:         document.getElementById('year').value.trim(),
+      notes:        document.getElementById('notes').value.trim(),
+      highlights:   getChecked(),
+    });
+
+    const pillsHtml = result.pills.map(p => `<span class="meta-pill">${p}</span>`).join('');
+    const bodyHtml  = result.paragraphs.map(p => `<p>${p}</p>`).join('');
 
     card.innerHTML = `
-      <div class="headline-text" style="font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px;">${headline}</div>
-      <div class="listing-body">${body}</div>
+      <div class="listing-headline">${result.headline}</div>
+      <div class="listing-meta">${pillsHtml}</div>
+      <div class="listing-body">${bodyHtml}</div>
     `;
 
     btn.disabled = false;
-    btn.textContent = 'Regenerate';
-    output.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 1800);
+    btn.textContent = 'Generate Again';
+  }, 1600 + Math.floor(R() * 600));
 }
 
 function copyListing() {
-  const card = document.getElementById('listingCard');
-  const headline = card.querySelector('.headline-text')?.textContent || '';
-  const body = card.querySelector('.listing-body')?.textContent || '';
-  const text = headline + '\n\n' + body;
+  const card     = document.getElementById('listingCard');
+  const headline = card.querySelector('.listing-headline')?.textContent || '';
+  const paras    = Array.from(card.querySelectorAll('.listing-body p')).map(p => p.textContent);
+  const text     = [headline, ...paras].join('\n\n').trim();
 
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('copyBtn');
