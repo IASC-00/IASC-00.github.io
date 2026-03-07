@@ -325,6 +325,36 @@ footer a:hover { color: #fff; }
 .outcome-desc { font-size: 14.5px; color: rgba(255,255,255,0.5); line-height: 1.65; }
 .outcome-desc strong { color: #fff; display: block; margin-bottom: 4px; font-size: 15px; }
 
+/* ── Process compare (inside How It Works) ── */
+.process-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--bd); border-radius: 14px; overflow: hidden; margin-top: 56px; }
+.pc-col { padding: 32px 40px; }
+.pc-col-bad { background: rgba(255,255,255,0.02); border-right: 1px solid var(--bd); }
+.pc-col-good { background: rgba(61,232,208,0.03); }
+.pc-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+.pc-col-bad .pc-label { color: rgba(255,100,100,0.5); }
+.pc-col-good .pc-label { color: var(--accent); }
+.pc-list { list-style: none; }
+.pc-list li { font-size: 13.5px; color: rgba(255,255,255,0.45); padding: 10px 0; border-bottom: 1px solid var(--bd); display: flex; gap: 10px; line-height: 1.5; }
+.pc-list li:last-child { border-bottom: none; }
+.pc-col-bad .pc-list li::before { content: '✕'; color: rgba(255,100,100,0.4); font-size: 10px; flex-shrink: 0; padding-top: 2px; }
+.pc-col-good .pc-list li::before { content: '—'; color: var(--accent); font-size: 10px; flex-shrink: 0; padding-top: 2px; }
+.pc-col-good .pc-list li { color: rgba(255,255,255,0.7); }
+
+/* ── Services inline timeline ── */
+.svc-timeline { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--bd); }
+.svct-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 20px; }
+.svct-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--bd); }
+.svct-row:last-of-type { border-bottom: none; }
+.svct-type { font-size: 14px; color: rgba(255,255,255,0.55); }
+.svct-dur { font-size: 14px; font-weight: 700; color: var(--accent); }
+
+/* ── Case Study builds strip ── */
+.case-builds-strip { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--bd); }
+.cbs-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 18px; }
+.cbs-items { display: flex; flex-wrap: wrap; gap: 10px; }
+.cbs-item { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid var(--bd); padding: 6px 14px; border-radius: 20px; }
+.cbs-date { font-size: 11px; color: rgba(255,255,255,0.25); margin-left: 6px; }
+
 /* ── Why Work With Me (dark2) ── */
 .why-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
 .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; }
@@ -410,7 +440,8 @@ footer a:hover { color: #fff; }
   .svc-row { grid-template-columns: 1fr; gap: 16px; }
   .svc-num { display: none; }
   .svc-price-col { text-align: left; }
-  .about-grid, .cred-grid, .case-grid, .why-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-grid, .cred-grid, .case-grid, .why-grid, .process-compare { grid-template-columns: 1fr; }
+  .pc-col-bad { border-right: none; border-bottom: 1px solid var(--bd); }
   .outcomes-grid { grid-template-columns: 1fr; }
   .timeline-row { grid-template-columns: 1fr; gap: 8px; }
   .timeline-dur { text-align: left; }
@@ -615,6 +646,24 @@ footer a:hover { color: #fff; }
         <p class="step-desc">You receive the full source code, documentation, and two weeks of post-launch support. No subscriptions, no lock-in — it's yours to keep and run.</p>
       </div>
     </div>
+    <div class="process-compare">
+      <div class="pc-col pc-col-bad">
+        <div class="pc-label">Most development shops</div>
+        <ul class="pc-list">
+          <li>Monthly retainers — ongoing fees to keep the lights on</li>
+          <li>They keep the code — you're dependent on them forever</li>
+          <li>Weeks of discovery before you see anything</li>
+        </ul>
+      </div>
+      <div class="pc-col pc-col-good">
+        <div class="pc-label">My approach</div>
+        <ul class="pc-list">
+          <li>One flat build — no recurring fees</li>
+          <li>Full source code delivered — it's yours to keep or move</li>
+          <li>Running live in days, not weeks</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -649,35 +698,14 @@ footer a:hover { color: #fff; }
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- Why Work With Me -->
-<div class="sec why-sec">
-  <div class="sec-inner">
-    <span class="label-sm label-accent-dark">Why work with me</span>
-    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Not an agency. Not a retainer.</h2>
-    <p class="sec-lead sec-lead-dark">One build. You own it. No strings attached.</p>
-    <div class="why-grid">
-      <div class="why-col why-col-bad">
-        <div class="why-col-label">Most development shops</div>
-        <ul class="why-list">
-          <li>Charge monthly retainers — ongoing fees just to keep the lights on</li>
-          <li>Keep control of the codebase — you're dependent on them forever</li>
-          <li>Require long contracts before writing a line of code</li>
-          <li>Slow discovery process — weeks before you see anything</li>
-          <li>Bill again for every update or change request</li>
-        </ul>
-      </div>
-      <div class="why-col why-col-good">
-        <div class="why-col-label">My approach</div>
-        <ul class="why-list">
-          <li>One flat build — no recurring fees, no ongoing dependency</li>
-          <li>Full source code delivered — it's yours to keep, modify, or move</li>
-          <li>No contracts — just a clear project scope and a start date</li>
-          <li>Fast turnaround — you see it running live in days, not weeks</li>
-          <li>Two weeks of support included — and a retainer if you want more</li>
-        </ul>
+    <div class="case-builds-strip">
+      <div class="cbs-label">More recent builds</div>
+      <div class="cbs-items">
+        <span class="cbs-item">Business Efficiency Audit <span class="cbs-date">Mar 2026</span></span>
+        <span class="cbs-item">AI Review Responder <span class="cbs-date">Mar 2026</span></span>
+        <span class="cbs-item">Due Sorelle Restaurant Chatbot <span class="cbs-date">Feb 2026</span></span>
+        <span class="cbs-item">Listing Description Generator <span class="cbs-date">Feb 2026</span></span>
+        <span class="cbs-item">AI Market Brief <span class="cbs-date">Jan 2026</span></span>
       </div>
     </div>
   </div>
@@ -760,7 +788,7 @@ footer a:hover { color: #fff; }
         <div class="svc-num">05</div>
         <div class="svc-main">
           <div class="svc-tag">retainer</div>
-          <h3>Monthly Maintenance</h3>
+          <h3>Ongoing Support</h3>
           <p>Keep your tool running and improving. Bugs, updates, small feature requests — handled every month.</p>
         </div>
         <ul class="svc-features">
@@ -772,35 +800,15 @@ footer a:hover { color: #fff; }
       </div>
 
     </div>
+    <div class="svc-timeline">
+      <div class="svct-label">Typical turnaround</div>
+      <div class="svct-row"><span class="svct-type">Small automation tool</span><span class="svct-dur">3–5 days</span></div>
+      <div class="svct-row"><span class="svct-type">AI integration</span><span class="svct-dur">1–2 weeks</span></div>
+      <div class="svct-row"><span class="svct-type">Full custom application</span><span class="svct-dur">2–4 weeks</span></div>
+      <p class="timeline-note" style="margin-top:16px;">You see the working tool before the final invoice.</p>
+    </div>
   </div>
 </section>
-
-<!-- Typical Timeline -->
-<div class="sec timeline-sec">
-  <div class="sec-inner">
-    <span class="label-sm label-accent-dark">Timeline</span>
-    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">How long does it take?</h2>
-    <p class="sec-lead sec-lead-dark">Most projects move faster than clients expect.</p>
-    <div class="timeline-list">
-      <div class="timeline-row">
-        <div class="timeline-type">Small automation tool</div>
-        <div class="timeline-desc">A script or workflow that handles one specific job — scheduling, data entry, notifications, form processing</div>
-        <div class="timeline-dur">3–5 days</div>
-      </div>
-      <div class="timeline-row">
-        <div class="timeline-type">AI integration</div>
-        <div class="timeline-desc">Plugging AI into an existing website or workflow — chatbot, content generator, review responder, report writer</div>
-        <div class="timeline-dur">1–2 weeks</div>
-      </div>
-      <div class="timeline-row">
-        <div class="timeline-type">Full custom application</div>
-        <div class="timeline-desc">A complete web app built from scratch — multi-user, database-backed, deployed at a live URL with full documentation</div>
-        <div class="timeline-dur">2–4 weeks</div>
-      </div>
-    </div>
-    <p class="timeline-note">You see the working tool before the final invoice — no surprises, no scope creep.</p>
-  </div>
-</div>
 
 <!-- Real Estate Pricing -->
 <section class="sec" id="real-estate" style="background:var(--dark2);border-top:1px solid var(--bd);">
@@ -862,8 +870,8 @@ footer a:hover { color: #fff; }
         <div class="svc-num">—</div>
         <div class="svc-main">
           <div class="svc-tag">retainer</div>
-          <h3>Monthly Maintenance</h3>
-          <p>Keep your tools updated and running. Bugs fixed, small feature requests handled, priority response every month.</p>
+          <h3>RE Maintenance Plan</h3>
+          <p>Keep your real estate tools updated and running. Bugs fixed, small feature requests handled, priority response every month.</p>
         </div>
         <ul class="svc-features">
           <li>Bug fixes and updates</li>
@@ -945,40 +953,6 @@ footer a:hover { color: #fff; }
   </div>
 </div>
 
-<!-- Recent Builds -->
-<div class="sec builds-sec">
-  <div class="sec-inner">
-    <span class="label-sm label-accent-dark">Recent builds</span>
-    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">What I've shipped.</h2>
-    <div class="builds-list">
-      <div class="build-row">
-        <div class="build-date">Mar 2026</div>
-        <div><div class="build-name">Business Efficiency Audit</div><div class="build-desc">12-question AI audit that generates a personalized automation action plan with priority ranking</div></div>
-      </div>
-      <div class="build-row">
-        <div class="build-date">Mar 2026</div>
-        <div><div class="build-name">AI Review Responder</div><div class="build-desc">Generates professional replies to customer reviews instantly — positive, negative, or mixed</div></div>
-      </div>
-      <div class="build-row">
-        <div class="build-date">Feb 2026</div>
-        <div><div class="build-name">Due Sorelle Restaurant Chatbot</div><div class="build-desc">Italian restaurant AI assistant handling reservations, menu questions, hours, and lead capture</div></div>
-      </div>
-      <div class="build-row">
-        <div class="build-date">Feb 2026</div>
-        <div><div class="build-name">Listing Description Generator</div><div class="build-desc">MLS-style listing copy generated from address, features, and neighborhood in seconds</div></div>
-      </div>
-      <div class="build-row">
-        <div class="build-date">Jan 2026</div>
-        <div><div class="build-name">Harbor Coffee Co. Chatbot</div><div class="build-desc">Embeddable AI chatbot with lead capture, conversation memory, and a daily owner summary email</div></div>
-      </div>
-      <div class="build-row">
-        <div class="build-date">Jan 2026</div>
-        <div><div class="build-name">AI Market Brief</div><div class="build-desc">Type any ticker — live news headlines summarized into a 3-sentence market brief via Claude API</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- About + Skills (light) -->
 <section class="sec about" id="about">
   <div class="sec-inner">
@@ -1028,25 +1002,6 @@ footer a:hover { color: #fff; }
     </div>
   </div>
 </section>
-
-<!-- Typical Projects -->
-<div class="sec typical">
-  <div class="sec-inner">
-    <span class="label-sm label-accent-dark">Typical projects</span>
-    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Is this your problem?</h2>
-    <p class="sec-lead sec-lead-dark">If any of these sound familiar, I can likely automate them.</p>
-    <div class="typical-grid">
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>AI chatbots &amp; assistants</strong>Customer support, FAQ, lead capture — running automatically</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Workflow automation</strong>Repetitive tasks replaced by a script that runs itself</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>API integrations</strong>Connect tools that don't talk to each other yet</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Data pipelines</strong>Automated collection, cleaning, and reporting from any source</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Internal business dashboards</strong>Real-time visibility into the numbers that matter</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Custom CLI tools</strong>Developer-grade automation utilities built for your exact workflow</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>LLM-powered internal tools</strong>AI that reads, summarizes, writes, or decides — plugged into your stack</div></div>
-      <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Something that doesn't fit a category</strong>Describe the problem — if it can be automated, it probably can be built</div></div>
-    </div>
-  </div>
-</div>
 
 <!-- FAQ -->
 <div class="sec faq-sec" id="faq">
