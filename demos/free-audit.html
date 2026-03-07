@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Automation Audit — iswain.dev</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -195,9 +196,9 @@ nav { background: rgba(15,15,15,0.95); backdrop-filter: blur(12px); border-botto
   <!-- Step 5: Email -->
   <div class="step" id="step-5">
     <div class="step-num">Question 5 of 5</div>
-    <div class="step-q">Where should I send your results?</div>
+    <div class="step-q">Where can I reach you to follow up?</div>
     <input type="email" class="email-input" id="email-input" placeholder="your@email.com" oninput="checkEmail()">
-    <p class="email-note">No spam. Just your automation list and an optional follow-up if you want to talk through it.</p>
+    <p class="email-note">No spam. Your results appear on the next screen — you can download them as a PDF. I may follow up if I have a specific suggestion for your situation.</p>
     <div class="step-actions">
       <button class="btn-back" onclick="prevStep(5)">← Back</button>
       <button class="btn-next" id="next-5" disabled onclick="submitAudit()">Get my results →</button>
@@ -209,6 +210,9 @@ nav { background: rgba(15,15,15,0.95); backdrop-filter: blur(12px); border-botto
     <div class="results-title">Here's what you could automate.</div>
     <p class="results-sub">Based on your answers — specific to your business type and team size.</p>
     <div class="result-list" id="result-list"></div>
+    <div style="margin-bottom:16px;">
+      <button onclick="downloadPDF()" style="width:100%;padding:13px;border-radius:8px;background:var(--accent);color:var(--dark);font-family:inherit;font-size:14px;font-weight:800;border:none;cursor:pointer;letter-spacing:-.01em;">↓ Download Results as PDF</button>
+    </div>
     <div class="results-cta">
       <h3>Want to build one of these?</h3>
       <p>I can have a working prototype running in days. Most of these start at $150–$400. No subscription, full source code.</p>
@@ -340,6 +344,79 @@ function submitAudit() {
 
 function resultHTML(item) {
   return `<div class="result-item"><span class="result-icon">→</span><div class="result-content"><div class="result-name">${item.name}</div><div class="result-desc">${item.desc}</div></div></div>`;
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+
+  const margin = 56;
+  const pageW  = doc.internal.pageSize.getWidth();
+  const maxW   = pageW - margin * 2;
+  let y = margin;
+
+  const line = (txt, size, style, color) => {
+    doc.setFontSize(size);
+    doc.setFont('helvetica', style || 'normal');
+    doc.setTextColor(...(color || [30, 30, 30]));
+    const lines = doc.splitTextToSize(txt, maxW);
+    lines.forEach(l => {
+      if (y > 720) { doc.addPage(); y = margin; }
+      doc.text(l, margin, y);
+      y += size * 1.45;
+    });
+  };
+
+  const gap = n => { y += n; };
+
+  // Header
+  line('Automation Audit Results', 22, 'bold', [30, 30, 30]);
+  gap(4);
+  line('iswain.dev — Custom tools for local businesses', 10, 'normal', [136, 136, 136]);
+  gap(24);
+
+  // Divider
+  doc.setDrawColor(220, 220, 215);
+  doc.line(margin, y, pageW - margin, y);
+  gap(20);
+
+  // Summary
+  const bizLabels = { restaurant:'Restaurant / Cafe', retail:'Retail / E-commerce', realestate:'Real Estate', agency:'Agency / Freelance', service:'Local Service Business', other:'Other' };
+  const sizeLabels = { solo:'Just me', small:'2–10 people', medium:'11–50 people', large:'50+ people' };
+  line('Your Business', 11, 'bold', [100, 100, 100]);
+  gap(4);
+  line((bizLabels[answers.biz] || answers.biz) + ' · ' + (sizeLabels[answers.size] || answers.size), 12, 'normal');
+  gap(20);
+
+  // Results
+  line('Automation Opportunities', 14, 'bold', [30, 30, 30]);
+  gap(12);
+
+  const items = document.querySelectorAll('#result-list .result-item');
+  items.forEach((item, i) => {
+    const name = item.querySelector('.result-name')?.textContent || '';
+    const desc = item.querySelector('.result-desc')?.textContent || '';
+    if (y > 680) { doc.addPage(); y = margin; }
+    doc.setFillColor(247, 245, 242);
+    const blockH = 52 + doc.splitTextToSize(desc, maxW - 16).length * 14.5;
+    doc.roundedRect(margin, y, maxW, blockH, 6, 6, 'F');
+    y += 14;
+    line(`${i + 1}. ${name}`, 12, 'bold');
+    gap(-4);
+    line(desc, 11, 'normal', [80, 80, 80]);
+    gap(10);
+  });
+
+  gap(8);
+  doc.setDrawColor(220, 220, 215);
+  doc.line(margin, y, pageW - margin, y);
+  gap(16);
+
+  line('Want to build one of these?', 13, 'bold');
+  gap(4);
+  line('Most automation projects start at $150–$400. No subscription, full source code delivered. Reach out at iswain.dev/#contact', 11, 'normal', [80, 80, 80]);
+
+  doc.save('automation-audit-iswaindev.pdf');
 }
 </script>
 
