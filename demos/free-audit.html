@@ -354,11 +354,7 @@ function submitAudit() {
   emailjs.send('service_sq9pa4c', 'template_2ag9snu', {
     user_email: answers.email,
     results:    resultItems.join('\n\n'),
-  }).then(() => {
-    console.log('EmailJS: sent successfully');
-  }).catch(err => {
-    console.error('EmailJS error:', JSON.stringify(err));
-  });
+  }).catch(() => {});
 }
 
 function resultHTML(item) {
