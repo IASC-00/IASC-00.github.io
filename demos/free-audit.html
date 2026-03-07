@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Automation Audit — iswain.dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --dark:   #131313;
+  --dark2:  #1c1c1c;
+  --light:  #F5F5F3;
+  --accent: #3DE8D0;
+  --accent-dark: #0a7a5e;
+  --dim:    #888;
+  --bd:     rgba(255,255,255,0.09);
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--dark); color: #e8e8e8; line-height: 1.7; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+/* Nav */
+nav { background: rgba(15,15,15,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--bd); padding: 0 60px; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.nav-logo { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; color: #fff; text-decoration: none; }
+.nav-back { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-back:hover { color: #fff; }
+
+/* Page */
+.page { max-width: 680px; margin: 0 auto; padding: 72px 32px 100px; }
+.page-badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark); background: var(--accent); padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
+.page-title { font-size: clamp(28px,4vw,42px); font-weight: 900; letter-spacing: -0.03em; color: #fff; margin-bottom: 14px; line-height: 1.15; }
+.page-desc { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 52px; }
+
+/* Progress */
+.progress-bar { display: flex; gap: 6px; margin-bottom: 48px; }
+.progress-dot { height: 4px; flex: 1; border-radius: 2px; background: rgba(255,255,255,0.1); transition: background .3s; }
+.progress-dot.active { background: var(--accent); }
+
+/* Step */
+.step { display: none; animation: fadeIn .25s ease; }
+.step.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.step-q { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin-bottom: 28px; line-height: 1.3; }
+
+/* Options */
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.options.single { grid-template-columns: 1fr; }
+.opt { background: var(--dark2); border: 1.5px solid var(--bd); border-radius: 10px; padding: 16px 20px; font-size: 14px; color: rgba(255,255,255,0.65); cursor: pointer; transition: border-color .15s, background .15s, color .15s; user-select: none; }
+.opt:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+.opt.selected { border-color: var(--accent); background: rgba(61,232,208,0.07); color: #fff; }
+.opt-label { font-weight: 700; color: #fff; display: block; margin-bottom: 2px; font-size: 14px; }
+.opt-sub { font-size: 12.5px; color: rgba(255,255,255,0.4); }
+
+/* Checkboxes */
+.checks { display: flex; flex-direction: column; gap: 8px; }
+.check-opt { display: flex; align-items: center; gap: 14px; background: var(--dark2); border: 1.5px solid var(--bd); border-radius: 10px; padding: 14px 18px; cursor: pointer; transition: border-color .15s, background .15s; user-select: none; }
+.check-opt:hover { border-color: rgba(255,255,255,0.2); }
+.check-opt.selected { border-color: var(--accent); background: rgba(61,232,208,0.06); }
+.check-box { width: 18px; height: 18px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .15s, border-color .15s; }
+.check-opt.selected .check-box { background: var(--accent); border-color: var(--accent); }
+.check-tick { font-size: 11px; color: var(--dark); font-weight: 900; display: none; }
+.check-opt.selected .check-tick { display: block; }
+.check-text { font-size: 14px; color: rgba(255,255,255,0.65); }
+.check-opt.selected .check-text { color: #fff; }
+
+/* Text input */
+.text-input { width: 100%; background: var(--dark2); border: 1.5px solid var(--bd); border-radius: 10px; padding: 16px 18px; font-size: 15px; font-family: inherit; color: #fff; outline: none; transition: border-color .15s; resize: vertical; min-height: 100px; }
+.text-input:focus { border-color: var(--accent); }
+.text-input::placeholder { color: rgba(255,255,255,0.25); }
+
+/* Email step */
+.email-input { width: 100%; background: var(--dark2); border: 1.5px solid var(--bd); border-radius: 10px; padding: 16px 18px; font-size: 15px; font-family: inherit; color: #fff; outline: none; transition: border-color .15s; }
+.email-input:focus { border-color: var(--accent); }
+.email-input::placeholder { color: rgba(255,255,255,0.25); }
+.email-note { font-size: 12px; color: rgba(255,255,255,0.25); margin-top: 10px; }
+
+/* Nav buttons */
+.step-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 36px; }
+.btn-next { background: var(--accent); color: var(--dark); font-size: 14px; font-weight: 800; padding: 13px 28px; border-radius: 8px; border: none; cursor: pointer; transition: opacity .15s; font-family: inherit; }
+.btn-next:hover { opacity: 0.85; }
+.btn-next:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-back { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 13px; cursor: pointer; font-family: inherit; transition: color .15s; padding: 0; }
+.btn-back:hover { color: #fff; }
+
+/* Results */
+.results { display: none; }
+.results.active { display: block; animation: fadeIn .3s ease; }
+.results-title { font-size: 26px; font-weight: 900; letter-spacing: -0.025em; color: #fff; margin-bottom: 8px; }
+.results-sub { font-size: 15px; color: rgba(255,255,255,0.45); margin-bottom: 36px; }
+.result-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+.result-item { background: var(--dark2); border: 1px solid var(--bd); border-radius: 12px; padding: 20px 24px; display: flex; gap: 16px; align-items: flex-start; }
+.result-icon { color: var(--accent); font-size: 16px; flex-shrink: 0; padding-top: 1px; }
+.result-content {}
+.result-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.result-desc { font-size: 13.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.results-cta { background: rgba(61,232,208,0.06); border: 1px solid rgba(61,232,208,0.2); border-radius: 14px; padding: 32px 36px; text-align: center; }
+.results-cta h3 { font-size: 19px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+.results-cta p { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 24px; line-height: 1.6; }
+.results-cta a { display: inline-block; background: var(--accent); color: var(--dark); font-size: 14px; font-weight: 800; padding: 13px 28px; border-radius: 8px; text-decoration: none; }
+.results-cta a:hover { opacity: 0.85; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 20px; }
+  .page { padding: 48px 20px 80px; }
+  .options { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">iswain.dev</a>
+  <a href="/" class="nav-back">← Back to site</a>
+</nav>
+
+<div class="page">
+  <div class="page-badge">Free</div>
+  <h1 class="page-title">Automation Audit</h1>
+  <p class="page-desc">Answer 5 quick questions about your business and get a custom list of processes you could automate — specific to your industry and team.</p>
+
+  <div class="progress-bar">
+    <div class="progress-dot active" id="dot-1"></div>
+    <div class="progress-dot" id="dot-2"></div>
+    <div class="progress-dot" id="dot-3"></div>
+    <div class="progress-dot" id="dot-4"></div>
+    <div class="progress-dot" id="dot-5"></div>
+  </div>
+
+  <!-- Step 1: Business type -->
+  <div class="step active" id="step-1">
+    <div class="step-num">Question 1 of 5</div>
+    <div class="step-q">What type of business do you run?</div>
+    <div class="options">
+      <div class="opt" data-val="restaurant"><span class="opt-label">Restaurant / Cafe</span><span class="opt-sub">Food service, hospitality</span></div>
+      <div class="opt" data-val="retail"><span class="opt-label">Retail / E-commerce</span><span class="opt-sub">Products, inventory, orders</span></div>
+      <div class="opt" data-val="realestate"><span class="opt-label">Real Estate</span><span class="opt-sub">Agent, broker, property manager</span></div>
+      <div class="opt" data-val="agency"><span class="opt-label">Agency / Freelance</span><span class="opt-sub">Creative, marketing, consulting</span></div>
+      <div class="opt" data-val="service"><span class="opt-label">Local Service Business</span><span class="opt-sub">Trades, cleaning, fitness, health</span></div>
+      <div class="opt" data-val="other"><span class="opt-label">Other / Not listed</span><span class="opt-sub">Startup, SaaS, nonprofit, etc.</span></div>
+    </div>
+    <div class="step-actions">
+      <span></span>
+      <button class="btn-next" id="next-1" disabled onclick="nextStep(1)">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Team size -->
+  <div class="step" id="step-2">
+    <div class="step-num">Question 2 of 5</div>
+    <div class="step-q">How big is your team?</div>
+    <div class="options single">
+      <div class="opt" data-val="solo"><span class="opt-label">Just me</span><span class="opt-sub">Solopreneur / owner-operator</span></div>
+      <div class="opt" data-val="small"><span class="opt-label">2–10 people</span><span class="opt-sub">Small team, wearing many hats</span></div>
+      <div class="opt" data-val="medium"><span class="opt-label">11–50 people</span><span class="opt-sub">Growing, some dedicated roles</span></div>
+      <div class="opt" data-val="large"><span class="opt-label">50+ people</span><span class="opt-sub">Established team or department</span></div>
+    </div>
+    <div class="step-actions">
+      <button class="btn-back" onclick="prevStep(2)">← Back</button>
+      <button class="btn-next" id="next-2" disabled onclick="nextStep(2)">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Pain points (multi-select) -->
+  <div class="step" id="step-3">
+    <div class="step-num">Question 3 of 5</div>
+    <div class="step-q">Which of these eat your time? <span style="font-size:14px;font-weight:400;color:rgba(255,255,255,0.35);">Select all that apply.</span></div>
+    <div class="checks" id="checks">
+      <div class="check-opt" data-val="support" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Answering the same customer questions repeatedly</span></div>
+      <div class="check-opt" data-val="data" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Manually entering or moving data between tools</span></div>
+      <div class="check-opt" data-val="followup" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Following up with leads or clients manually</span></div>
+      <div class="check-opt" data-val="reports" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Generating reports or summaries by hand</span></div>
+      <div class="check-opt" data-val="social" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Writing or posting on social media</span></div>
+      <div class="check-opt" data-val="scheduling" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Scheduling, booking, or calendar management</span></div>
+      <div class="check-opt" data-val="invoicing" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Invoicing, billing, or chasing payments</span></div>
+      <div class="check-opt" data-val="inventory" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">✓</span></div><span class="check-text">Tracking inventory, leads, or tasks in spreadsheets</span></div>
+    </div>
+    <div class="step-actions">
+      <button class="btn-back" onclick="prevStep(3)">← Back</button>
+      <button class="btn-next" id="next-3" disabled onclick="nextStep(3)">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Biggest pain -->
+  <div class="step" id="step-4">
+    <div class="step-num">Question 4 of 5</div>
+    <div class="step-q">What's the one thing you wish ran automatically?</div>
+    <textarea class="text-input" id="pain-text" placeholder="e.g. Every Monday I spend two hours pulling sales data and building a report for the team..." oninput="checkText()"></textarea>
+    <div class="step-actions">
+      <button class="btn-back" onclick="prevStep(4)">← Back</button>
+      <button class="btn-next" id="next-4" disabled onclick="nextStep(4)">Next →</button>
+    </div>
+  </div>
+
+  <!-- Step 5: Email -->
+  <div class="step" id="step-5">
+    <div class="step-num">Question 5 of 5</div>
+    <div class="step-q">Where should I send your results?</div>
+    <input type="email" class="email-input" id="email-input" placeholder="your@email.com" oninput="checkEmail()">
+    <p class="email-note">No spam. Just your automation list and an optional follow-up if you want to talk through it.</p>
+    <div class="step-actions">
+      <button class="btn-back" onclick="prevStep(5)">← Back</button>
+      <button class="btn-next" id="next-5" disabled onclick="submitAudit()">Get my results →</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <div class="results-title">Here's what you could automate.</div>
+    <p class="results-sub">Based on your answers — specific to your business type and team size.</p>
+    <div class="result-list" id="result-list"></div>
+    <div class="results-cta">
+      <h3>Want to build one of these?</h3>
+      <p>I can have a working prototype running in days. Most of these start at $150–$400. No subscription, full source code.</p>
+      <a href="/#contact">Let's talk →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const answers = { biz: null, size: null, pains: [], pain_text: '', email: '' };
+let currentStep = 1;
+
+// Single-select options
+document.querySelectorAll('.options .opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const parent = opt.closest('.step');
+    parent.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    const stepId = parent.id.split('-')[1];
+    if (stepId === '1') { answers.biz = opt.dataset.val; document.getElementById('next-1').disabled = false; }
+    if (stepId === '2') { answers.size = opt.dataset.val; document.getElementById('next-2').disabled = false; }
+  });
+});
+
+function toggleCheck(el) {
+  el.classList.toggle('selected');
+  const selected = document.querySelectorAll('.check-opt.selected');
+  answers.pains = Array.from(selected).map(e => e.dataset.val);
+  document.getElementById('next-3').disabled = selected.length === 0;
+}
+
+function checkText() {
+  const val = document.getElementById('pain-text').value.trim();
+  answers.pain_text = val;
+  document.getElementById('next-4').disabled = val.length < 5;
+}
+
+function checkEmail() {
+  const val = document.getElementById('email-input').value.trim();
+  answers.email = val;
+  document.getElementById('next-5').disabled = !val.includes('@') || !val.includes('.');
+}
+
+function nextStep(from) {
+  document.getElementById('step-' + from).classList.remove('active');
+  const next = from + 1;
+  document.getElementById('step-' + next).classList.add('active');
+  currentStep = next;
+  updateProgress();
+}
+
+function prevStep(from) {
+  document.getElementById('step-' + from).classList.remove('active');
+  const prev = from - 1;
+  document.getElementById('step-' + prev).classList.add('active');
+  currentStep = prev;
+  updateProgress();
+}
+
+function updateProgress() {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('dot-' + i).classList.toggle('active', i <= currentStep);
+  }
+}
+
+// Automation suggestions map
+const suggestions = {
+  support:    { name: 'AI Customer Support Bot',         desc: 'A chatbot that answers your most common questions automatically — 24/7, no staff required. Handles FAQs, hours, pricing, booking links.' },
+  data:       { name: 'Automated Data Pipeline',         desc: 'A script that pulls data from your tools, cleans it, and loads it where you need it — on a schedule, without manual effort.' },
+  followup:   { name: 'Automated Follow-Up Sequences',   desc: 'Triggered emails or messages that go out automatically when a lead signs up, books, or goes quiet — keeping your pipeline moving.' },
+  reports:    { name: 'Scheduled Report Generator',      desc: 'A tool that compiles your data, writes a summary, and emails the report to your team every week — zero manual work.' },
+  social:     { name: 'AI Social Media Content Tool',    desc: 'Generate a week of posts in minutes based on your brand voice and niche. Review, edit, post — no staring at a blank screen.' },
+  scheduling: { name: 'Booking & Scheduling Automation', desc: 'Automated confirmations, reminders, and rescheduling flows that handle calendar logistics without back-and-forth emails.' },
+  invoicing:  { name: 'Invoice & Payment Automation',    desc: 'Auto-generate invoices when a job is complete, send payment reminders on schedule, and log payments automatically.' },
+  inventory:  { name: 'Inventory / Lead Tracker',        desc: 'A real-time dashboard that replaces your spreadsheet — tracks stock levels, flags shortages, or manages your lead pipeline automatically.' },
+};
+
+// Bonus suggestions by business type
+const bizBonus = {
+  restaurant: { name: 'Restaurant Review Responder',     desc: 'Auto-generate professional replies to Google and Yelp reviews — positive, negative, or mixed — in seconds.' },
+  retail:     { name: 'Low Stock Alert System',          desc: 'Monitors inventory levels and sends you an alert when anything drops below your set threshold.' },
+  realestate: { name: 'Listing Description Generator',   desc: 'Enter property details and get a polished MLS-ready description in seconds — saves 20–30 minutes per listing.' },
+  agency:     { name: 'Client Report Automation',        desc: 'Pulls data from your tools and generates a formatted client report automatically — weekly or monthly.' },
+  service:    { name: 'Booking Confirmation System',     desc: 'Sends automated booking confirmations, reminders, and follow-ups so you never miss a job or a review request.' },
+  other:      { name: 'Custom Workflow Automation',      desc: 'A tailored script or tool built around your specific process — whatever is eating your time most.' },
+};
+
+function submitAudit() {
+  // Submit to Formspree in background
+  fetch('https://formspree.io/f/mzdaldva', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      email: answers.email,
+      business_type: answers.biz,
+      team_size: answers.size,
+      pain_points: answers.pains.join(', '),
+      biggest_pain: answers.pain_text,
+      _subject: 'Automation Audit Submission — ' + answers.biz
+    })
+  }).catch(() => {}); // silent fail — don't block results
+
+  // Show results
+  document.getElementById('step-5').classList.remove('active');
+  document.getElementById('results').classList.add('active');
+  document.querySelector('.progress-bar').style.display = 'none';
+
+  const list = document.getElementById('result-list');
+  list.innerHTML = '';
+
+  // Add suggestions for each selected pain point
+  answers.pains.forEach(p => {
+    if (suggestions[p]) {
+      list.innerHTML += resultHTML(suggestions[p]);
+    }
+  });
+
+  // Add biz-type bonus
+  if (bizBonus[answers.biz]) {
+    list.innerHTML += resultHTML(bizBonus[answers.biz]);
+  }
+
+  // Fallback if nothing selected somehow
+  if (list.children.length === 0) {
+    list.innerHTML += resultHTML({ name: 'Custom Automation Assessment', desc: 'Based on your answers, let\'s talk through your workflow in a quick call — I\'ll identify the highest-value automation for your specific situation.' });
+  }
+}
+
+function resultHTML(item) {
+  return `<div class="result-item"><span class="result-icon">→</span><div class="result-content"><div class="result-name">${item.name}</div><div class="result-desc">${item.desc}</div></div></div>`;
+}
+</script>
+
+</body>
+</html>
