@@ -313,6 +313,51 @@ footer a:hover { color: #fff; }
 .step-title { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; color: #fff; margin-bottom: 12px; }
 .step-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7; }
 
+/* ── Real Outcomes (dark) ── */
+.outcomes-sec { background: var(--dark); border-top: 1px solid var(--bd); }
+.outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--bd); border: 1px solid var(--bd); border-radius: 14px; overflow: hidden; margin-top: 48px; }
+.outcome-card { background: var(--dark); padding: 40px; }
+.outcome-num { font-size: 42px; font-weight: 900; letter-spacing: -0.04em; color: var(--accent); margin-bottom: 10px; line-height: 1; }
+.outcome-num span { font-size: 20px; font-weight: 700; }
+.outcome-desc { font-size: 14.5px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+.outcome-desc strong { color: #fff; display: block; margin-bottom: 4px; font-size: 15px; }
+
+/* ── Why Work With Me (dark2) ── */
+.why-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 48px; }
+.why-col-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 24px; }
+.why-col-bad .why-col-label { color: rgba(255,100,100,0.6); }
+.why-col-good .why-col-label { color: var(--accent); }
+.why-list { list-style: none; border-top: 1px solid var(--bd); }
+.why-list li { padding: 16px 0; border-bottom: 1px solid var(--bd); font-size: 14.5px; color: rgba(255,255,255,0.45); display: flex; gap: 12px; align-items: baseline; line-height: 1.5; }
+.why-col-bad .why-list li::before { content: '✕'; color: rgba(255,100,100,0.4); font-size: 11px; flex-shrink: 0; }
+.why-col-good .why-list li::before { content: '—'; color: var(--accent); font-size: 11px; flex-shrink: 0; }
+.why-col-good .why-list li { color: rgba(255,255,255,0.75); }
+
+/* ── Typical Timeline (dark) ── */
+.timeline-sec { background: var(--dark); border-top: 1px solid var(--bd); }
+.timeline-list { border-top: 1px solid var(--bd); margin-top: 48px; }
+.timeline-row { display: grid; grid-template-columns: 220px 1fr 140px; align-items: center; gap: 40px; padding: 32px 0; border-bottom: 1px solid var(--bd); }
+.timeline-row:last-child { border-bottom: none; }
+.timeline-type { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #fff; }
+.timeline-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.timeline-dur { font-size: 14px; font-weight: 700; color: var(--accent); text-align: right; white-space: nowrap; }
+.timeline-note { margin-top: 28px; font-size: 13.5px; color: rgba(255,255,255,0.25); font-style: italic; }
+
+/* ── Recent Builds (dark2) ── */
+.builds-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
+.builds-list { border-top: 1px solid var(--bd); margin-top: 48px; }
+.build-row { display: grid; grid-template-columns: 100px 1fr; gap: 40px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--bd); }
+.build-row:last-child { border-bottom: none; }
+.build-date { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: rgba(255,255,255,0.25); text-transform: uppercase; white-space: nowrap; padding-top: 3px; }
+.build-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 5px; letter-spacing: -0.015em; }
+.build-desc { font-size: 13.5px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+/* ── Sticky CTA ── */
+.sticky-cta { position: fixed; bottom: 28px; right: 28px; z-index: 200; background: var(--accent); color: var(--dark); font-size: 13px; font-weight: 800; padding: 13px 22px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 24px rgba(61,232,208,0.3); opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; pointer-events: none; white-space: nowrap; }
+.sticky-cta.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.sticky-cta:hover { opacity: 0.88; }
+
 /* ── Who I Work With (light) ── */
 .who-sec { background: var(--light); border-top: 1px solid var(--bl); }
 .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--bl); border-radius: 14px; overflow: hidden; }
@@ -362,7 +407,12 @@ footer a:hover { color: #fff; }
   .svc-row { grid-template-columns: 1fr; gap: 16px; }
   .svc-num { display: none; }
   .svc-price-col { text-align: left; }
-  .about-grid, .cred-grid, .case-grid { grid-template-columns: 1fr; gap: 52px; }
+  .about-grid, .cred-grid, .case-grid, .why-grid { grid-template-columns: 1fr; gap: 40px; }
+  .outcomes-grid { grid-template-columns: 1fr; }
+  .timeline-row { grid-template-columns: 1fr; gap: 8px; }
+  .timeline-dur { text-align: left; }
+  .build-row { grid-template-columns: 1fr; gap: 6px; }
+  .build-date { padding-top: 0; }
   .who-grid { grid-template-columns: 1fr; }
   .who-item:nth-child(even) { border-right: none; }
   .who-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--bl); }
@@ -449,6 +499,33 @@ footer a:hover { color: #fff; }
       <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Real estate agents</strong>Managing leads and listings</div></div>
       <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Property managers</strong>Handling maintenance requests and tenant communication</div></div>
       <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Teams</strong>That want reports or workflows automated without hiring a dev</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Real Outcomes -->
+<div class="sec outcomes-sec">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Real outcomes</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">What you actually get.</h2>
+    <p class="sec-lead sec-lead-dark">Not features — results. This is what clients typically see after the first tool is deployed.</p>
+    <div class="outcomes-grid">
+      <div class="outcome-card">
+        <div class="outcome-num">5–15<span>hrs</span></div>
+        <div class="outcome-desc"><strong>Admin time saved per week</strong>Repetitive tasks automated — scheduling, follow-up, data entry, report generation</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-num">$0<span>/mo</span></div>
+        <div class="outcome-desc"><strong>SaaS subscriptions replaced</strong>One custom build replaces the tool you're renting — you own it outright, forever</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-num">24/7</div>
+        <div class="outcome-desc"><strong>Customer support coverage</strong>AI handles common questions automatically, around the clock, without staff involvement</div>
+      </div>
+      <div class="outcome-card">
+        <div class="outcome-num">Auto</div>
+        <div class="outcome-desc"><strong>Reports generated on schedule</strong>Data collected, cleaned, and delivered automatically — no manual pulling required</div>
+      </div>
     </div>
   </div>
 </div>
@@ -598,6 +675,37 @@ footer a:hover { color: #fff; }
   </div>
 </div>
 
+<!-- Why Work With Me -->
+<div class="sec why-sec">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Why work with me</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Not an agency. Not a retainer.</h2>
+    <p class="sec-lead sec-lead-dark">One build. You own it. No strings attached.</p>
+    <div class="why-grid">
+      <div class="why-col why-col-bad">
+        <div class="why-col-label">Most development shops</div>
+        <ul class="why-list">
+          <li>Charge monthly retainers — ongoing fees just to keep the lights on</li>
+          <li>Keep control of the codebase — you're dependent on them forever</li>
+          <li>Require long contracts before writing a line of code</li>
+          <li>Slow discovery process — weeks before you see anything</li>
+          <li>Bill again for every update or change request</li>
+        </ul>
+      </div>
+      <div class="why-col why-col-good">
+        <div class="why-col-label">My approach</div>
+        <ul class="why-list">
+          <li>One flat build — no recurring fees, no ongoing dependency</li>
+          <li>Full source code delivered — it's yours to keep, modify, or move</li>
+          <li>No contracts — just a clear project scope and a start date</li>
+          <li>Fast turnaround — you see it running live in days, not weeks</li>
+          <li>Two weeks of support included — and a retainer if you want more</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Services (dark2, numbered) -->
 <section class="sec services" id="services">
   <div class="sec-inner">
@@ -689,6 +797,33 @@ footer a:hover { color: #fff; }
     </div>
   </div>
 </section>
+
+<!-- Typical Timeline -->
+<div class="sec timeline-sec">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Timeline</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">How long does it take?</h2>
+    <p class="sec-lead sec-lead-dark">Most projects move faster than clients expect.</p>
+    <div class="timeline-list">
+      <div class="timeline-row">
+        <div class="timeline-type">Small automation tool</div>
+        <div class="timeline-desc">A script or workflow that handles one specific job — scheduling, data entry, notifications, form processing</div>
+        <div class="timeline-dur">3–5 days</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-type">AI integration</div>
+        <div class="timeline-desc">Plugging AI into an existing website or workflow — chatbot, content generator, review responder, report writer</div>
+        <div class="timeline-dur">1–2 weeks</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-type">Full custom application</div>
+        <div class="timeline-desc">A complete web app built from scratch — multi-user, database-backed, deployed at a live URL with full documentation</div>
+        <div class="timeline-dur">2–4 weeks</div>
+      </div>
+    </div>
+    <p class="timeline-note">You see the working tool before the final invoice — no surprises, no scope creep.</p>
+  </div>
+</div>
 
 <!-- Real Estate Pricing -->
 <section class="sec" id="real-estate" style="background:var(--dark2);border-top:1px solid var(--bd);">
@@ -833,6 +968,40 @@ footer a:hover { color: #fff; }
   </div>
 </div>
 
+<!-- Recent Builds -->
+<div class="sec builds-sec">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Recent builds</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">What I've shipped.</h2>
+    <div class="builds-list">
+      <div class="build-row">
+        <div class="build-date">Mar 2026</div>
+        <div><div class="build-name">Business Efficiency Audit</div><div class="build-desc">12-question AI audit that generates a personalized automation action plan with priority ranking</div></div>
+      </div>
+      <div class="build-row">
+        <div class="build-date">Mar 2026</div>
+        <div><div class="build-name">AI Review Responder</div><div class="build-desc">Generates professional replies to customer reviews instantly — positive, negative, or mixed</div></div>
+      </div>
+      <div class="build-row">
+        <div class="build-date">Feb 2026</div>
+        <div><div class="build-name">Due Sorelle Restaurant Chatbot</div><div class="build-desc">Italian restaurant AI assistant handling reservations, menu questions, hours, and lead capture</div></div>
+      </div>
+      <div class="build-row">
+        <div class="build-date">Feb 2026</div>
+        <div><div class="build-name">Listing Description Generator</div><div class="build-desc">MLS-style listing copy generated from address, features, and neighborhood in seconds</div></div>
+      </div>
+      <div class="build-row">
+        <div class="build-date">Jan 2026</div>
+        <div><div class="build-name">Harbor Coffee Co. Chatbot</div><div class="build-desc">Embeddable AI chatbot with lead capture, conversation memory, and a daily owner summary email</div></div>
+      </div>
+      <div class="build-row">
+        <div class="build-date">Jan 2026</div>
+        <div><div class="build-name">AI Market Brief</div><div class="build-desc">Type any ticker — live news headlines summarized into a 3-sentence market brief via Claude API</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- About + Skills (light) -->
 <section class="sec about" id="about">
   <div class="sec-inner">
@@ -955,6 +1124,22 @@ footer a:hover { color: #fff; }
     <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a>
   </div>
 </footer>
+
+<a href="#contact" class="sticky-cta" id="sticky-cta">Start a Project →</a>
+
+<script>
+  const stickyCta = document.getElementById('sticky-cta');
+  const heroEl = document.querySelector('.hero');
+  const contactEl = document.getElementById('contact');
+  function updateSticky() {
+    if (!stickyCta || !heroEl || !contactEl) return;
+    const heroBtm = heroEl.getBoundingClientRect().bottom;
+    const contactTop = contactEl.getBoundingClientRect().top;
+    const show = heroBtm < 0 && contactTop > window.innerHeight;
+    stickyCta.classList.toggle('visible', show);
+  }
+  window.addEventListener('scroll', updateSticky, { passive: true });
+</script>
 
 <script>
   function updateTime() {
