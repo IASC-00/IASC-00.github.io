@@ -313,6 +313,37 @@ footer a:hover { color: #fff; }
 .step-title { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; color: #fff; margin-bottom: 12px; }
 .step-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7; }
 
+/* ── Who I Work With (light) ── */
+.who-sec { background: var(--light); border-top: 1px solid var(--bl); }
+.who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--bl); border-radius: 14px; overflow: hidden; }
+.who-item { padding: 28px 32px; border-bottom: 1px solid var(--bl); border-right: 1px solid var(--bl); display: flex; align-items: flex-start; gap: 16px; transition: background .15s; }
+.who-item:hover { background: rgba(0,0,0,0.02); }
+.who-item:nth-child(even) { border-right: none; }
+.who-item:nth-last-child(-n+2) { border-bottom: none; }
+.who-dash { color: var(--accent-dark); font-size: 13px; flex-shrink: 0; padding-top: 1px; }
+.who-text { font-size: 14px; color: #666; line-height: 1.5; }
+.who-text strong { color: #0f0f0f; font-weight: 700; display: block; margin-bottom: 2px; }
+
+/* ── Case Study (dark) ── */
+.case-study-sec { background: var(--dark); border-top: 1px solid var(--bd); }
+.case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; margin-top: 48px; }
+.case-block { margin-bottom: 36px; }
+.case-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.case-text { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.75; }
+.case-results { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; padding: 40px; }
+.case-results-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 32px; }
+.case-result-item { display: flex; align-items: baseline; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--bd); }
+.case-result-item:last-of-type { border-bottom: none; }
+.case-result-num { font-size: 32px; font-weight: 900; letter-spacing: -0.04em; color: var(--accent); flex-shrink: 0; min-width: 72px; }
+.case-result-desc { font-size: 13.5px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+/* ── FAQ (dark2) ── */
+.faq-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
+.faq-list { border-top: 1px solid var(--bd); }
+.faq-item { padding: 36px 0; border-bottom: 1px solid var(--bd); }
+.faq-q { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: #fff; margin-bottom: 14px; }
+.faq-a { font-size: 14.5px; color: rgba(255,255,255,0.5); line-height: 1.75; max-width: 680px; }
+
 /* ── Responsive ── */
 @media (max-width: 1060px) {
   .svc-row { grid-template-columns: 52px 1fr 160px; }
@@ -331,7 +362,11 @@ footer a:hover { color: #fff; }
   .svc-row { grid-template-columns: 1fr; gap: 16px; }
   .svc-num { display: none; }
   .svc-price-col { text-align: left; }
-  .about-grid, .cred-grid { grid-template-columns: 1fr; gap: 52px; }
+  .about-grid, .cred-grid, .case-grid { grid-template-columns: 1fr; gap: 52px; }
+  .who-grid { grid-template-columns: 1fr; }
+  .who-item:nth-child(even) { border-right: none; }
+  .who-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--bl); }
+  .who-item:last-child { border-bottom: none; }
   .exp-row { grid-template-columns: 1fr; gap: 8px; }
   .exp-num { display: none; }
   .exp-date { text-align: left; }
@@ -399,6 +434,23 @@ footer a:hover { color: #fff; }
   <div class="stat"><div class="stat-num">7</div><div class="stat-label">Apps deployed on Render</div></div>
   <div class="stat"><div class="stat-num">100<span>%</span></div><div class="stat-label">Source code delivered</div></div>
   <div class="stat"><div class="stat-num">24<span>hr</span></div><div class="stat-label">Response time</div></div>
+</div>
+
+<!-- Who I Work With -->
+<div class="sec who-sec">
+  <div class="sec-inner">
+    <span class="label-sm" style="color:var(--dim);">Who I work with</span>
+    <h2 class="sec-h2 sec-h2-light" style="margin-bottom:14px;">Built for businesses like yours.</h2>
+    <p class="sec-lead sec-lead-light" style="margin-bottom:48px;">If a task happens every day and follows a pattern, it can probably be automated.</p>
+    <div class="who-grid">
+      <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Small businesses</strong>Drowning in repetitive admin — scheduling, invoicing, follow-up</div></div>
+      <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Agencies</strong>That want AI features without hiring engineers</div></div>
+      <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Founders</strong>Who need internal tools built fast</div></div>
+      <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Real estate agents</strong>Managing leads and listings</div></div>
+      <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Property managers</strong>Handling maintenance requests and tenant communication</div></div>
+      <div class="who-item"><span class="who-dash">—</span><div class="who-text"><strong>Teams</strong>That want reports or workflows automated without hiring a dev</div></div>
+    </div>
+  </div>
 </div>
 
 <!-- Business Demos (dark) -->
@@ -507,6 +559,40 @@ footer a:hover { color: #fff; }
         <span class="step-num">03</span>
         <div class="step-title">You own it</div>
         <p class="step-desc">You receive the full source code, documentation, and two weeks of post-launch support. No subscriptions, no lock-in — it's yours to keep and run.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Case Study -->
+<div class="sec case-study-sec">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Case study</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:8px;">Harbor Coffee Co. Chatbot.</h2>
+    <p class="sec-lead sec-lead-dark">A real build, start to finish.</p>
+    <div class="case-grid">
+      <div>
+        <div class="case-block">
+          <div class="case-label">Problem</div>
+          <p class="case-text">Staff spent hours answering the same customer questions — hours, menu, specials, WiFi password. No system to capture customer emails either.</p>
+        </div>
+        <div class="case-block">
+          <div class="case-label">Solution</div>
+          <p class="case-text">AI chatbot embedded directly on the website. Answers common questions, captures email leads, and sends the owner a daily summary of all conversations.</p>
+        </div>
+        <div class="case-block">
+          <div class="case-label">Timeline</div>
+          <p class="case-text">Built and deployed in 4 days.</p>
+        </div>
+      </div>
+      <div>
+        <div class="case-results">
+          <div class="case-results-label">Results</div>
+          <div class="case-result-item"><span class="case-result-num">80%</span><span class="case-result-desc">of customer questions answered automatically</span></div>
+          <div class="case-result-item"><span class="case-result-num">24/7</span><span class="case-result-desc">availability — no staff involvement required</span></div>
+          <div class="case-result-item"><span class="case-result-num">100%</span><span class="case-result-desc">source code owned by the client — no lock-in</span></div>
+          <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank" style="margin-top:28px;display:inline-block;">Try the live demo →</a>
+        </div>
       </div>
     </div>
   </div>
@@ -812,6 +898,36 @@ footer a:hover { color: #fff; }
       <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Custom CLI tools</strong>Developer-grade automation utilities built for your exact workflow</div></div>
       <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>LLM-powered internal tools</strong>AI that reads, summarizes, writes, or decides — plugged into your stack</div></div>
       <div class="typical-item"><span class="typical-dash">—</span><div class="typical-text"><strong>Something that doesn't fit a category</strong>Describe the problem — if it can be automated, it probably can be built</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="sec faq-sec">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">FAQ</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:52px;">Common questions.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Do I need technical knowledge to work with you?</div>
+        <div class="faq-a">No. I handle everything — design, build, and deployment. You describe the problem in plain English and see it running live before the final invoice.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Where are the tools hosted?</div>
+        <div class="faq-a">Typically on Render, but tools can run anywhere — your own server, VPS, or cloud provider. You're not locked into anything.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you offer support after launch?</div>
+        <div class="faq-a">Yes — two weeks of support is included with every project. For ongoing maintenance, I offer a monthly retainer starting at $75/mo.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can the tools connect to software I already use?</div>
+        <div class="faq-a">Usually yes. Most business tools expose an API or webhook. I can build integrations with most standard business software — CRMs, scheduling tools, email platforms, and more.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What do I actually own at the end?</div>
+        <div class="faq-a">Everything. Full source code, deployment instructions, and documentation. No subscriptions, no lock-in — the tool is yours to keep, modify, or hand to another developer.</div>
+      </div>
     </div>
   </div>
 </div>
