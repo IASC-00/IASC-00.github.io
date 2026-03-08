@@ -23,6 +23,12 @@
 <meta name="twitter:description" content="Custom chatbots, automation systems, and web apps — built to spec, deployed live, with full source code included.">
 <meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
 
+<!-- Security -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -278,8 +284,16 @@ nav {
 .form input, .form textarea { width: 100%; background: var(--dark2); border: 1px solid var(--bd); border-radius: 8px; padding: 13px 16px; font-size: 14px; font-family: inherit; color: #fff; outline: none; transition: border-color .15s; }
 .form input:focus, .form textarea:focus { border-color: var(--accent); }
 .form textarea { resize: vertical; min-height: 110px; }
+.form select { width: 100%; background: var(--dark2); border: 1px solid var(--bd); border-radius: 8px; padding: 13px 16px; font-size: 14px; font-family: inherit; color: #fff; outline: none; transition: border-color .15s; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+.form select:focus { border-color: var(--accent); }
+.form select option { background: #1c1c1c; color: #fff; }
 .form-submit { align-self: flex-start; background: var(--accent); color: var(--dark); padding: 14px 28px; border-radius: 6px; font-size: 13px; font-weight: 800; border: none; cursor: pointer; transition: opacity .15s; }
 .form-submit:hover { opacity: 0.85; }
+.payment-info { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--bd); }
+.payment-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+.payment-methods { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.payment-methods span { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06); border: 1px solid var(--bd); border-radius: 20px; padding: 5px 14px; }
+.payment-terms { font-size: 13px; color: rgba(255,255,255,0.3); }
 
 /* ── Footer ── */
 footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.2); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
@@ -536,8 +550,8 @@ footer a:hover { color: #fff; }
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="/notes/">Notes</a></li>
-    <li><a href="https://github.com/IASC-00" target="_blank">GitHub</a></li>
-    <li><a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a></li>
+    <li><a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
   </ul>
   <div class="nav-right">
     <span class="nav-time" id="nav-time"></span>
@@ -676,8 +690,8 @@ footer a:hover { color: #fff; }
           <p class="card-desc-d">Answers questions, captures leads, and remembers past conversations. Fully rebrandable — drop it onto any website in minutes.</p>
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Handles support &amp; lead capture 24/7 — no staff required</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">Embeddable</span></div>
-          <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank">Harbor Coffee Co. — Chat with Maya →</a>
-          <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link-d" target="_blank">Due Sorelle — Chat with Rosa →</a>
+          <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Harbor Coffee Co. — Chat with Maya →</a>
+          <a href="https://philly-restaurant-chatbot.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Due Sorelle — Chat with Rosa →</a>
         </div>
       </div>
 
@@ -689,7 +703,7 @@ footer a:hover { color: #fff; }
           <p class="card-desc-d">Track your supply room in real time — see what's running low and get a weekly AI summary of how stock is moving.</p>
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Eliminates manual stock tracking — AI flags issues before they become problems</p>
           <div class="card-tech"><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">Claude API</span></div>
-          <a href="https://stockpilot-inni.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
+          <a href="https://stockpilot-inni.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Try the demo →</a>
         </div>
       </div>
 
@@ -701,7 +715,7 @@ footer a:hover { color: #fff; }
           <p class="card-desc-d">Answer 12 questions about how your business runs and get a personalized report showing where you're wasting time and what to fix first.</p>
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Delivers a prioritized action plan in minutes, not a consultant in weeks</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">AI Report Gen</span></div>
-          <a href="https://process-audit-q9mx.onrender.com" class="card-link-d" target="_blank">Take the free audit →</a>
+          <a href="https://process-audit-q9mx.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Take the free audit →</a>
         </div>
       </div>
 
@@ -713,7 +727,7 @@ footer a:hover { color: #fff; }
           <p class="card-desc-d">Generate a professional reply to any customer review instantly — positive, negative, or mixed.</p>
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Turns every review into a professional reply in seconds, not hours</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">Prompt Engineering</span></div>
-          <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
+          <a href="https://ai-review-responder-dfmu.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Try the demo →</a>
         </div>
       </div>
 
@@ -725,7 +739,7 @@ footer a:hover { color: #fff; }
           <p class="card-desc-d">Generate a week of posts across Instagram, LinkedIn, and X in minutes — tailored to your business type and voice.</p>
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Generate a full week of social content in minutes — tailored to your brand voice.</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">SQLAlchemy</span></div>
-          <a href="https://contentpilot-eq1y.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
+          <a href="https://contentpilot-eq1y.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Try the demo →</a>
         </div>
       </div>
 
@@ -737,7 +751,7 @@ footer a:hover { color: #fff; }
           <p class="card-desc-d">Pulls live market data and generates a concise, plain-English daily brief — stocks, crypto, and macro signals summarized by AI.</p>
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Daily market intelligence without manually scanning multiple sources</p>
           <div class="card-tech"><span class="tech-pill">Claude API</span><span class="tech-pill">Flask</span><span class="tech-pill">Market Data</span></div>
-          <a href="https://ai-market-brief.onrender.com" class="card-link-d" target="_blank">Try the demo →</a>
+          <a href="https://ai-market-brief.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Try the demo →</a>
         </div>
       </div>
 
@@ -815,7 +829,7 @@ footer a:hover { color: #fff; }
           <div class="case-result-item"><span class="case-result-num">80%</span><span class="case-result-desc">of customer questions answered automatically</span></div>
           <div class="case-result-item"><span class="case-result-num">24/7</span><span class="case-result-desc">availability — no staff involvement required</span></div>
           <div class="case-result-item"><span class="case-result-num">100%</span><span class="case-result-desc">source code owned by the client — no lock-in</span></div>
-          <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank" style="margin-top:28px;display:inline-block;">Try the live demo →</a>
+          <a href="https://harbor-coffee-chatbot.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer" style="margin-top:28px;display:inline-block;">Try the live demo →</a>
         </div>
       </div>
     </div>
@@ -862,7 +876,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag-row"><div class="svc-tag">standard</div><div class="svc-popular">Most popular</div></div>
           <h3>AI Workflow Integration</h3>
           <p>Already have a website or workflow? I'll plug AI into it so it can write, respond, or decide for you — without you lifting a finger.</p>
-          <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank">Example: Restaurant Chatbot →</a>
+          <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank" rel="noopener noreferrer">Example: Restaurant Chatbot →</a>
         </div>
         <ul class="svc-features">
           <li>Works with your existing setup</li>
@@ -878,7 +892,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag">full build</div>
           <h3>Custom App Build</h3>
           <p>You describe the problem. I build the system that fixes it — deployed live, documented, and yours to keep.</p>
-          <a href="https://harbor-coffee-chatbot.onrender.com" target="_blank">Example: AI Business Chatbot →</a>
+          <a href="https://harbor-coffee-chatbot.onrender.com" target="_blank" rel="noopener noreferrer">Example: AI Business Chatbot →</a>
         </div>
         <ul class="svc-features">
           <li>Discovery call to map the build</li>
@@ -895,7 +909,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag">add-on</div>
           <h3>Social Media Starter Pack</h3>
           <p>Custom brand voice, platform strategy, and 30 days of content — ready to post from day one.</p>
-          <a href="https://contentpilot-eq1y.onrender.com" target="_blank">Example: Post Generator →</a>
+          <a href="https://contentpilot-eq1y.onrender.com" target="_blank" rel="noopener noreferrer">Example: Post Generator →</a>
         </div>
         <ul class="svc-features">
           <li>Custom brand voice + strategy</li>
@@ -961,7 +975,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag">chatbot</div>
           <h3>Lead Capture Chatbot</h3>
           <p>Answers buyer and seller questions 24/7, qualifies leads, and sends you a summary of every conversation.</p>
-          <a href="https://harbor-coffee-chatbot.onrender.com" target="_blank">Example: AI Business Chatbot →</a>
+          <a href="https://harbor-coffee-chatbot.onrender.com" target="_blank" rel="noopener noreferrer">Example: AI Business Chatbot →</a>
         </div>
         <ul class="svc-features">
           <li>Embedded on your website</li>
@@ -1084,8 +1098,8 @@ footer a:hover { color: #fff; }
         <p>Self-taught developer with 13 years in operations, retail management, and multi-channel marketing. Based in Philadelphia, PA, I work with clients across the U.S. and abroad.</p>
         <p>That background means I don't just write code — I understand the business problem first. I build AI automation systems and custom tools that replace manual workflows with simple, reliable solutions.</p>
         <div class="about-btns">
-          <a href="https://github.com/IASC-00" class="btn-light-outline" target="_blank">GitHub</a>
-          <a href="https://linkedin.com/in/ian-swain-978326101" class="btn-light-outline" target="_blank">LinkedIn</a>
+          <a href="https://github.com/IASC-00" class="btn-light-outline" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://linkedin.com/in/ian-swain-978326101" class="btn-light-outline" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </div>
       <div>
@@ -1169,22 +1183,55 @@ footer a:hover { color: #fff; }
   <div class="contact-inner">
     <span class="label-sm label-accent-dark" style="margin-bottom:16px;display:block;">Contact</span>
     <h2 class="sec-h2" style="color:#fff;margin-bottom:14px;">Let's build<br>something.</h2>
-    <p class="contact-sub">Tell me what task is eating your time.<br>I'll tell you if it can be automated.</p>
+    <p class="contact-sub">Tell me what task is eating your time. I'll tell you if it can be automated.<br><span style="font-size:13px;color:rgba(255,255,255,0.25);">Available Mon–Sat, 9am–9pm EST &middot; Usually responds same day</span></p>
     <a href="mailto:contact@iswain.dev" class="contact-email">contact@iswain.dev</a>
     <form class="form" action="https://formspree.io/f/mzdaldva" method="POST">
-      <div><label for="n">Name</label><input id="n" type="text" name="name" placeholder="Your name" required></div>
-      <div><label for="e">Email</label><input id="e" type="email" name="email" placeholder="your@email.com" required></div>
-      <div><label for="m">Message</label><textarea id="m" name="message" placeholder="Tell me about your project..." required></textarea></div>
+      <!-- Honeypot — bots fill this, humans don't -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <div><label for="n">Name</label><input id="n" type="text" name="name" placeholder="Your name" required autocomplete="name"></div>
+      <div><label for="e">Email</label><input id="e" type="email" name="email" placeholder="your@email.com" required autocomplete="email"></div>
+      <div>
+        <label for="svc">What do you need?</label>
+        <select id="svc" name="service">
+          <option value="">— Select a service —</option>
+          <option value="basic-automation">Basic Automation (from $150)</option>
+          <option value="ai-integration">AI Workflow Integration (from $400)</option>
+          <option value="custom-app">Custom App Build (from $1,200)</option>
+          <option value="re-listing-tool">RE Listing Description Tool ($250)</option>
+          <option value="re-chatbot">RE Lead Capture Chatbot ($800)</option>
+          <option value="re-crm">RE CRM + Automation ($1,200)</option>
+          <option value="retainer">Ongoing Support ($75/mo)</option>
+          <option value="social-media">Social Media Starter Pack ($150)</option>
+          <option value="not-sure">Not sure yet — let's talk</option>
+        </select>
+      </div>
+      <div>
+        <label for="timeline">Timeline</label>
+        <select id="timeline" name="timeline">
+          <option value="">— How soon do you need it? —</option>
+          <option value="asap">ASAP (within a week)</option>
+          <option value="2-4-weeks">2–4 weeks</option>
+          <option value="flexible">Flexible / no rush</option>
+        </select>
+      </div>
+      <div><label for="m">Describe the problem you want solved</label><textarea id="m" name="message" placeholder="What's eating your time? What does it look like when it's fixed?" required></textarea></div>
       <button type="submit" class="form-submit">Send message</button>
     </form>
+    <div class="payment-info">
+      <p class="payment-label">Payment</p>
+      <div class="payment-methods">
+        <span>PayPal</span><span>Venmo</span><span>Zelle</span><span>Bank transfer</span>
+      </div>
+      <p class="payment-terms">50% deposit to start &middot; 50% on delivery &middot; Receipt provided</p>
+    </div>
   </div>
 </section>
 
 <footer>
   <span>Ian Swain &middot; iswain.dev &middot; Philadelphia, PA</span>
   <div class="footer-links">
-    <a href="https://github.com/IASC-00" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a>
   </div>
 </footer>
 
