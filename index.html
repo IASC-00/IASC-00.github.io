@@ -1313,5 +1313,43 @@ footer a:hover { color: #fff; }
   setInterval(updateTime, 10000);
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  emailjs.init('0gqwG4ADip17Q2LRg');
+  document.querySelector('.form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    var name = form.querySelector('[name="name"]').value;
+    var email = form.querySelector('[name="email"]').value;
+    var service = form.querySelector('[name="service"]') ? form.querySelector('[name="service"]').value : '';
+    var timeline = form.querySelector('[name="timeline"]') ? form.querySelector('[name="timeline"]').value : '';
+    var message = form.querySelector('[name="message"]').value;
+    var btn = form.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    // Send auto-reply via EmailJS
+    emailjs.send('service_sq9pa4c', 'template_ri4lgfr', {
+      from_name: name,
+      reply_to: email,
+      service: service,
+      timeline: timeline,
+      message: message
+    }).catch(function() {});
+    // Submit to Formspree for Ian's notification
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function() {
+      btn.textContent = 'Sent!';
+      form.reset();
+      setTimeout(function() { btn.disabled = false; btn.textContent = 'Send message'; }, 3000);
+    }).catch(function() {
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+    });
+  });
+</script>
+
 </body>
 </html>
