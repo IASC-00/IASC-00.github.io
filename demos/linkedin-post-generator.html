@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedIn Post Generator — iswain.dev</title>
+<meta name="description" content="Generate LinkedIn posts for real estate agents and small businesses in seconds.">
+<style>
+  :root { --accent: #3de8d0; --dark: #0a0a0a; --dark2: #111; --bd: rgba(255,255,255,0.08); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--dark); color: #fff; min-height: 100vh; }
+
+  /* Nav */
+  nav { padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--bd); }
+  .nav-brand { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); text-decoration: none; letter-spacing: 0.06em; }
+  .nav-brand span { color: var(--accent); }
+  .nav-back { font-size: 12px; color: rgba(255,255,255,0.3); text-decoration: none; }
+  .nav-back:hover { color: #fff; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 56px 24px 40px; max-width: 640px; margin: 0 auto; }
+  .hero-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 14px; }
+  .hero p { font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+  /* Main layout */
+  .main { max-width: 1000px; margin: 0 auto; padding: 0 24px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .main { grid-template-columns: 1fr; } }
+
+  /* Form panel */
+  .panel { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; padding: 28px; }
+  .panel-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 22px; }
+  .field { margin-bottom: 18px; }
+  label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 7px; letter-spacing: 0.04em; }
+  select, textarea { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--bd); border-radius: 8px; color: #fff; font-size: 13px; padding: 10px 14px; outline: none; transition: border-color .15s; font-family: inherit; }
+  select:focus, textarea:focus { border-color: var(--accent); }
+  select option { background: #1c1c1c; }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* Chip selectors */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--bd); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.45); transition: all .15s; user-select: none; }
+  .chip.active { background: rgba(61,232,208,0.12); border-color: var(--accent); color: var(--accent); }
+
+  /* Generate button */
+  .generate-btn { width: 100%; padding: 14px; background: var(--accent); color: var(--dark); font-size: 14px; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; transition: opacity .15s; margin-top: 8px; }
+  .generate-btn:hover { opacity: 0.88; }
+  .generate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Output panel */
+  .output-inner { min-height: 320px; position: relative; }
+  .placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; color: rgba(255,255,255,0.15); text-align: center; gap: 12px; }
+  .placeholder-icon { font-size: 36px; opacity: 0.3; }
+  .placeholder p { font-size: 13px; }
+
+  /* Skeleton */
+  .skeleton { display: none; }
+  .skeleton-line { height: 14px; background: rgba(255,255,255,0.06); border-radius: 4px; margin-bottom: 10px; animation: shimmer 1.4s infinite; }
+  @keyframes shimmer { 0%,100%{opacity:.4} 50%{opacity:.9} }
+
+  /* Result */
+  .result { display: none; }
+  .post-text { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.85); white-space: pre-wrap; background: rgba(255,255,255,0.03); border: 1px solid var(--bd); border-radius: 10px; padding: 20px; margin-bottom: 16px; min-height: 200px; }
+  .result-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .char-count { font-size: 11px; color: rgba(255,255,255,0.3); }
+  .char-count.over { color: #ff6b6b; }
+  .copy-btn { padding: 8px 18px; background: rgba(61,232,208,0.1); border: 1px solid rgba(61,232,208,0.25); color: var(--accent); font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all .15s; }
+  .copy-btn:hover { background: rgba(61,232,208,0.18); }
+  .copy-btn.copied { background: rgba(61,232,208,0.2); }
+  .regen-btn { padding: 8px 18px; background: rgba(255,255,255,0.05); border: 1px solid var(--bd); color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all .15s; }
+  .regen-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
+
+  /* Platform note */
+  .platform-note { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--bd); }
+
+  /* CTA */
+  .cta-bar { text-align: center; padding: 48px 24px; border-top: 1px solid var(--bd); }
+  .cta-bar p { font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .cta-bar a { display: inline-block; padding: 12px 28px; background: var(--accent); color: var(--dark); font-size: 13px; font-weight: 800; border-radius: 7px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">iswain<span>.dev</span></a>
+  <a href="/" class="nav-back">← Back to portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Free Tool</div>
+  <h1>LinkedIn Post Generator</h1>
+  <p>Generate ready-to-post LinkedIn content for real estate agents, property managers, and local businesses — in seconds.</p>
+</div>
+
+<div class="main">
+
+  <!-- Left: Form -->
+  <div class="panel">
+    <div class="panel-title">Configure your post</div>
+
+    <div class="field">
+      <label>Industry</label>
+      <div class="chips" id="industry-chips">
+        <div class="chip active" data-val="re_agent">Real Estate Agent</div>
+        <div class="chip" data-val="property_mgr">Property Manager</div>
+        <div class="chip" data-val="restaurant">Restaurant Owner</div>
+        <div class="chip" data-val="small_biz">Small Business</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Post Type</label>
+      <div class="chips" id="type-chips">
+        <div class="chip active" data-val="tip">Educational Tip</div>
+        <div class="chip" data-val="market">Market Update</div>
+        <div class="chip" data-val="story">Personal Story</div>
+        <div class="chip" data-val="win">Client Win</div>
+        <div class="chip" data-val="question">Engagement Question</div>
+        <div class="chip" data-val="behind">Behind the Scenes</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tone</label>
+      <div class="chips" id="tone-chips">
+        <div class="chip active" data-val="professional">Professional</div>
+        <div class="chip" data-val="conversational">Conversational</div>
+        <div class="chip" data-val="bold">Direct &amp; Bold</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Topic or keyword <span style="color:rgba(255,255,255,0.25);font-weight:400;">(optional)</span></label>
+      <textarea id="topic-input" placeholder="e.g. spring market, first-time buyers, tenant communication, new listing..."></textarea>
+    </div>
+
+    <button class="generate-btn" id="gen-btn" onclick="generate()">Generate Post →</button>
+  </div>
+
+  <!-- Right: Output -->
+  <div class="panel">
+    <div class="panel-title">Your post</div>
+    <div class="output-inner">
+
+      <div class="placeholder" id="placeholder">
+        <div class="placeholder-icon">✦</div>
+        <p>Configure your post and click generate</p>
+      </div>
+
+      <div class="skeleton" id="skeleton">
+        <div class="skeleton-line" style="width:60%"></div>
+        <div class="skeleton-line" style="width:90%"></div>
+        <div class="skeleton-line" style="width:75%"></div>
+        <div class="skeleton-line" style="width:85%"></div>
+        <div class="skeleton-line" style="width:50%"></div>
+        <div style="height:16px"></div>
+        <div class="skeleton-line" style="width:80%"></div>
+        <div class="skeleton-line" style="width:65%"></div>
+        <div class="skeleton-line" style="width:40%"></div>
+      </div>
+
+      <div class="result" id="result">
+        <div class="result-meta">
+          <span class="char-count" id="char-count">0 characters</span>
+          <div style="display:flex;gap:8px;">
+            <button class="regen-btn" onclick="generate()">↺ Regenerate</button>
+            <button class="copy-btn" id="copy-btn" onclick="copyPost()">Copy post</button>
+          </div>
+        </div>
+        <div class="post-text" id="post-text"></div>
+        <div class="platform-note" id="platform-note"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="cta-bar">
+  <p>Want a custom post generator built around your brand voice and niche?</p>
+  <a href="/intake.html">Get a custom build →</a>
+</div>
+
+<script>
+const posts = {
+  re_agent: {
+    tip: {
+      professional: [
+        "3 things buyers overlook in a competitive market:\n\n1. Pre-approval before touring — not during. Sellers won't wait.\n2. Inspection contingencies — know when to waive, when to keep.\n3. The neighborhood, not just the home. You can renovate a kitchen. You can't move the block.\n\nBuyers who move fast and move smart close deals. The rest write offers that don't win.\n\nWhat would you add to this list?",
+        "The difference between a good listing and a great one:\n\nGood: accurate details, clean photos, fair price.\n\nGreat: a description that makes the buyer picture their life there before they've seen the front door.\n\nMost agents focus on specs. Top agents focus on story.\n\nYour listing description is doing sales work 24/7. Make it count.\n\n#RealEstate #Philadelphia #ListingStrategy",
+        "5 words that kill a listing:\n\n"Priced to sell — won't last."\n\nEvery listing says this. None of it is differentiated. Buyers scroll past it the same way we skip ads.\n\nDescribe what makes this property specific, irreplaceable, worth acting on.\n\nThe details close deals. Clichés don't.\n\n#RealEstateMarketing #ListingTips"
+      ],
+      conversational: [
+        "Honest question for my fellow agents:\n\nHow long does it actually take you to write a listing description?\n\nFor me it used to be 20–30 minutes of staring at a blank page, moving words around, deleting everything and starting over.\n\nI started using an AI tool to draft them. Takes about 10 seconds now. I clean it up, make it mine, and move on.\n\nNot magic — but definitely a time save. Anyone else doing this?\n\n#RealLife #RealEstate #Philly",
+        "Something I tell every first-time buyer:\n\nStop looking for the perfect house.\n\nThere isn't one. There's the house that fits your life right now, that you can afford, in a neighborhood you'll grow into.\n\nPerfect is the enemy of moved in.\n\nWhat's the best advice you've given a nervous buyer?\n\n#FirstTimeHomebuyer #RealEstateAdvice"
+      ],
+      bold: [
+        "Your listing photos are the job interview.\n\nYour listing description is the cover letter.\n\nMost agents nail the photos and phone it in on the copy.\n\nFix the copy. Your close rate will thank you.\n\n#RealEstate #Listing #AgentTips",
+        "Stop writing listing descriptions from scratch.\n\nYou have 40 listings. 40 blank pages. 40 sessions of trying to make 'open floor plan' sound interesting for the 40th time.\n\nThere are tools that do the first draft in seconds. Use them.\n\nYour job is relationships. Not copywriting.\n\n#ProductivityForAgents #RealEstate"
+      ]
+    },
+    market: {
+      professional: [
+        "Spring market update — Philadelphia:\n\nInventory is tight. Days on market is down. Multiple offer situations are back for well-priced listings under $450k.\n\nBuyers: get pre-approved now. Not when you find the house.\nSellers: this is your window. Pricing still needs to be sharp.\n\nHappy to pull neighborhood-specific data if you're planning a move this spring.\n\n#PhillyRealEstate #MarketUpdate",
+        "What the numbers are saying right now:\n\n→ Mortgage rates have stabilized but not dropped\n→ Buyer demand is outpacing available inventory\n→ Sellers who priced correctly in Q1 are closing fast\n\nThe market isn't 2021. But it's not dead either.\n\nIf you've been waiting — what are you waiting for?\n\n#RealEstateMarket #Philadelphia #Homes"
+      ],
+      conversational: [
+        "Real talk on the market right now:\n\nRates are still high. Buyers are frustrated. Sellers are hesitant.\n\nBut here's what's actually happening in [your neighborhood]:\nHomes under $400k that show well are still getting multiple offers.\n\nThe market isn't frozen. It's just more specific than it used to be.\n\nDM me if you want the actual numbers for your zip code.\n\n#PhillyHomes #RealEstate2026",
+        "Checked the numbers this morning.\n\n[Neighborhood] is moving. Three listings under contract this week, two of them in under 5 days.\n\nIf you've been sitting on the fence about selling — this is the window.\n\nNot forever. But right now.\n\nWho's been thinking about it?\n\n#SellerMarket #PhiladelphiaRealEstate"
+      ],
+      bold: [
+        "Stop waiting for rates to drop.\n\nThey might. They might not. The house you want isn't waiting either.\n\nBuy for the life you have now. Refinance when rates move.\n\nThe best time to buy was last year. The second best is today.\n\n#RealEstate #HousingMarket #PhillyHomes",
+      ]
+    },
+    story: {
+      professional: [
+        "Closed a deal last week that almost didn't happen.\n\nBuyers were pre-approved, found the right house, made a strong offer. Seller countered. Buyers panicked.\n\nWe talked through the numbers. The gap was $8,000. Over 30 years, that's $22/month.\n\nThey bought the house.\n\nSometimes the most valuable thing an agent does is slow down the emotion long enough to see the math clearly.\n\n#ClientStory #RealEstateAgent #Philadelphia",
+        "13 years in operations before I got into real estate.\n\nLearned: most problems aren't complicated. They just feel that way under pressure.\n\nA transaction falling apart at the last minute? Usually fixable. Usually one conversation away from getting back on track.\n\nI brought that with me. Steady hands close deals.\n\n#AgentBackground #PhillyRealEstate"
+      ],
+      conversational: [
+        "A client texted me at 11pm last night.\n\nOffer accepted. Keys in hand in 30 days.\n\nHe's been looking for 8 months. Lost three offers. Thought it was never going to happen.\n\nIt happened.\n\nThis is the part of the job I don't get tired of.\n\n#RealEstate #PhillyHomes #ClosingDay",
+        "The first house I helped someone buy was a rowhouse in South Philly.\n\n2BR, needs work, $240k. The buyer cried at the closing table.\n\nThat was 3 years ago. She just sent me photos of the kitchen she renovated.\n\nThis is a weird job sometimes. A great one.\n\n#SouthPhilly #FirstTimeHomebuyer"
+      ],
+      bold: [
+        "I've seen deals die over $500.\n\nNot because it was a dealbreaker. Because someone let pride get in the way of closing.\n\nLeave the ego out of the negotiation. Focus on the outcome.\n\n$500 is not the hill.\n\n#NegotiationTips #RealEstateAgent #Close"
+      ]
+    },
+    win: {
+      professional: [
+        "Closed this week:\n\n📍 [Neighborhood], Philadelphia\n🛏 3BR / 1.5BA rowhouse\n💰 Listed at $XXX,000 — closed at $XXX,000\n⏱ 6 days on market / 4 offers\n\nStrong pricing + strong listing copy + strong agent network = results like this.\n\nLooking to sell this spring? Let's talk.\n\n#JustClosed #PhillyRealEstate #SellerWin",
+        "Another one closed.\n\nFirst-time buyer, competitive market, third offer. We found the right property, structured the offer correctly, and didn't panic when the inspection came back.\n\nCongratulations to [name/initials] on the keys.\n\nThis is what I do. Happy to do it for you next.\n\n#BuyerRepresentation #Philadelphia #HomeBuyer"
+      ],
+      conversational: [
+        "My clients just closed on their forever home.\n\nThey almost gave up twice. Lost two other offers. The process was frustrating and slow.\n\nAnd then the right house came on a Tuesday and we moved fast.\n\nPatience + preparation + a little luck.\n\nCongrats to them. So happy for this one.\n\n#RealEstate #Philly #ClosingDay",
+      ],
+      bold: [
+        "Listed Friday. Under contract Monday.\n\nNot an accident. Preparation, pricing, and a description that actually sold the house before anyone toured it.\n\nSellers — if you're thinking spring, the time to start is now.\n\n#SellingFast #PhillyHomes #ListingStrategy"
+      ]
+    },
+    question: {
+      professional: [
+        "For the agents in my network:\n\nWhat's the single biggest time drain in your week right now?\n\nFor me it used to be listing copy. Found a way to cut that down significantly. Curious what others are solving for.\n\n#AgentLife #RealEstate #Productivity",
+        "Philadelphia agents — where are you seeing the most buyer activity right now?\n\nI'm seeing strong demand in East Passyunk, Fishtown, and parts of Kensington. Curious what you're experiencing in your areas.\n\n#PhillyRealEstate #MarketInsight",
+      ],
+      conversational: [
+        "Quick question for my homeowner friends:\n\nIf you're thinking about selling in 2026 — what's holding you back?\n\nRates? Uncertainty about where to go next? Just not ready?\n\nAsking because I talk to a lot of people in this exact spot and I'm trying to understand what the real hesitation is.\n\n#SellMyHome #Philadelphia #RealEstate",
+        "What made you fall in love with the home you bought?\n\nFor me it's always the small stuff — the light in the morning, the specific smell of a place, a detail the photos didn't show.\n\nDrop it in the comments. I love these stories.\n\n#HomeOwnership #Philadelphia"
+      ],
+      bold: [
+        "Be honest:\n\nAre you writing your own listing descriptions, or copy-pasting the same template with different addresses?\n\nNo judgment. Just curious how many of us are actually putting in the work on copy.\n\n#RealTalk #AgentLife #ListingStrategy"
+      ]
+    },
+    behind: {
+      professional: [
+        "What a showing day actually looks like:\n\n7am — review the day's listings, flag anything that just hit\n9am — first showing\n11am — offer to write on yesterday's property\n12pm — negotiate\n2pm — three more showings\n5pm — update clients on feedback\n8pm — finally eat dinner\n\nIt's a great job. It's also a full-time job that doesn't respect business hours.\n\nIf you're working with an agent, they're putting in more than you see.\n\n#AgentLife #RealEstate #Philadelphia",
+      ],
+      conversational: [
+        "Nobody talks about the part where you drive 40 minutes to a showing and the client says 'not feeling it' in the first 30 seconds.\n\nAnd that's fine. That's the job.\n\nThe right house is still out there. We'll find it.\n\n#AgentLife #HouseHunting #Philly",
+        "Wrote three listing descriptions this morning before 9am.\n\nUsed to take me all morning. Now I use an AI tool to get the first draft and clean it up.\n\nI know some agents think that's cheating. I think it's Tuesday.\n\nTechnology is a tool. Use it.\n\n#ProductivityTips #RealEstateAgent #AITools"
+      ],
+      bold: [
+        "People see the closing photo.\n\nThey don't see the 47 emails, 3 failed inspections, 2 renegotiations, and the mortgage that almost fell through at day 58.\n\nClosed is closed. That's all that matters.\n\n#RealEstate #AgentLife #WeGotThere"
+      ]
+    }
+  },
+  property_mgr: {
+    tip: {
+      professional: [
+        "3 ways property managers are cutting maintenance response time in 2026:\n\n1. Automated intake forms — tenant submits, system categorizes by priority automatically\n2. Vendor pre-routing — urgent issues go straight to on-call contractors\n3. Confirmation to tenant on submission — reduces repeat calls by 60%+\n\nThe old way: phone tag, manual triage, delayed vendor calls.\nThe new way: systems handle the routing, your team handles the exceptions.\n\n#PropertyManagement #PropTech #Automation",
+        "The most expensive maintenance request is the one that sits in someone's inbox for 3 days.\n\nA small leak becomes water damage. A flickering circuit becomes a fire hazard.\n\nFast intake = faster triage = cheaper repairs.\n\nHow does your team handle maintenance requests today?\n\n#PropertyManagement #MaintenanceOps",
+      ],
+      conversational: [
+        "Something I see a lot in property management:\n\nMaintenance requests come in through 5 different channels — email, text, phone, portal, and that one tenant who just shows up.\n\nAnd then someone has to manually sort all of it.\n\nThere's a better way. Centralized intake, automatic priority sorting, instant confirmation to the tenant.\n\nHappy to show you what that looks like if you're interested.\n\n#PropertyManagement #Philly #WorkSmarter",
+      ],
+      bold: [
+        "If your tenants are calling to follow up on maintenance requests they already submitted — your intake process is broken.\n\nFix the intake. The follow-up calls disappear.\n\n#PropertyManagement #Operations #Automation"
+      ]
+    },
+    story: {
+      conversational: [
+        "Talked to a property manager last week managing 80 units.\n\nHer team was spending 3+ hours a day just triaging maintenance requests. Phone calls, emails, portal messages — all going to different people.\n\nWe built her a single intake form. Tenants submit, AI sorts by priority, vendor gets routed automatically, tenant gets a confirmation.\n\nHer team now handles exceptions, not triage.\n\nThat's what good systems do.\n\n#PropertyManagement #Automation #Operations",
+      ]
+    },
+    question: {
+      conversational: [
+        "Property managers — what's eating the most time in your week?\n\nMy guess is maintenance coordination. But I could be wrong.\n\nDrop it below — genuinely curious what the biggest operational drain is right now.\n\n#PropertyManagement #Philadelphia #Operations"
+      ]
+    }
+  },
+  restaurant: {
+    tip: {
+      conversational: [
+        "Running a restaurant means answering the same 10 questions 50 times a week.\n\n'Are you open Sunday?'\n'Do you take reservations?'\n'Is the menu seasonal?'\n'Do you have vegetarian options?'\n\nEvery one of those is a phone call someone on your team has to take.\n\nA chatbot on your site handles all of it. 24/7. No staff time.\n\nJust a thought.\n\n#RestaurantLife #HospitalityTech #Automation",
+        "The best investment a restaurant owner can make in 2026:\n\nGet your Google Business profile perfect.\nAdd a chatbot to your website.\nAutomate your reservation confirmation emails.\n\nNone of these cost much. All of them reduce friction between a hungry person and your table.\n\n#RestaurantMarketing #PhillyRestaurants #Hospitality"
+      ],
+      professional: [
+        "Restaurant operators: three automations worth implementing now.\n\n1. FAQ chatbot — handles hours, menu, reservations without staff time\n2. Review response automation — professional replies to Google/Yelp within hours\n3. Reservation confirmation + reminder — reduces no-shows by 30%+\n\nAll three are achievable with modest investment. All three free up your team for the work that actually requires human judgment.\n\n#RestaurantOps #HospitalityTech #Philadelphia"
+      ]
+    }
+  },
+  small_biz: {
+    tip: {
+      professional: [
+        "The automation that pays for itself fastest:\n\nAn FAQ chatbot on your website.\n\nEvery question your team answers manually is a task that can be automated. Hours, pricing, process, availability — a well-built chatbot handles all of it 24/7.\n\nMost small businesses break even in 2–3 months compared to the staff time they were spending.\n\n#SmallBusiness #Automation #AITools",
+        "3 repetitive tasks most small businesses can automate today:\n\n1. Customer FAQ responses (chatbot)\n2. Appointment confirmations + reminders (email automation)\n3. Review monitoring + replies (AI-assisted)\n\nNone of these require a full-time hire. All of them free up the hours you're currently spending on admin.\n\nWhat's eating your time right now?\n\n#SmallBusiness #BusinessAutomation #Philadelphia"
+      ],
+      conversational: [
+        "If you're a small business owner and you're still manually answering the same questions over and over — there are tools that can do that for you now.\n\nNot complicated. Not expensive. Just a chatbot that knows your hours, your prices, and your process.\n\nYour time is worth more than that.\n\n#SmallBiz #Automation #WorkSmart",
+      ],
+      bold: [
+        "Your competitors are automating.\n\nThe ones who figure this out first — AI assistants, automated follow-ups, instant customer responses — are going to outcompete everyone still doing it manually.\n\nYou don't need a big budget. You need a system.\n\n#SmallBusiness #AITools #Automation #Philadelphia"
+      ]
+    }
+  }
+};
+
+function getActive(groupId) {
+  return document.querySelector(`#${groupId} .chip.active`)?.dataset.val;
+}
+
+function generate() {
+  const industry = getActive('industry-chips');
+  const type = getActive('type-chips');
+  const tone = getActive('tone-chips');
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('skeleton').style.display = 'block';
+  document.getElementById('gen-btn').disabled = true;
+
+  setTimeout(() => {
+    const industryPosts = posts[industry] || posts.small_biz;
+    const typePosts = industryPosts[type] || industryPosts.tip || {};
+    const tonePosts = typePosts[tone] || typePosts.professional || typePosts.conversational || typePosts.bold || [];
+
+    let pool = tonePosts;
+    if (!pool || pool.length === 0) {
+      // fallback to any available tone
+      for (const t of ['professional','conversational','bold']) {
+        if (typePosts[t]?.length) { pool = typePosts[t]; break; }
+      }
+    }
+    if (!pool || pool.length === 0) {
+      // fallback to any available type
+      for (const tp of Object.values(industryPosts)) {
+        for (const t of ['professional','conversational','bold']) {
+          if (tp[t]?.length) { pool = tp[t]; break; }
+        }
+        if (pool?.length) break;
+      }
+    }
+
+    const post = pool[Math.floor(Math.random() * pool.length)] || "Post generated. Customize this to match your voice and current market conditions.";
+
+    const topic = document.getElementById('topic-input').value.trim();
+    const finalPost = topic ? post.replace('[your neighborhood]', topic).replace('[Neighborhood]', topic).replace('spring market', topic) : post;
+
+    document.getElementById('skeleton').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('post-text').textContent = finalPost;
+
+    const chars = finalPost.length;
+    const countEl = document.getElementById('char-count');
+    countEl.textContent = `${chars} characters`;
+    countEl.className = 'char-count' + (chars > 3000 ? ' over' : '');
+
+    const notes = {
+      re_agent: 'LinkedIn ideal length: 900–1,200 characters. Best post times: Tue & Thu, 8–10am.',
+      property_mgr: 'LinkedIn ideal length: 700–1,200 characters. Tag relevant property management groups.',
+      restaurant: 'Works on LinkedIn and Facebook. Add a photo of your space for 3× more reach.',
+      small_biz: 'LinkedIn ideal length: 900–1,500 characters. End with a question to boost comments.'
+    };
+    document.getElementById('platform-note').textContent = notes[industry] || '';
+
+    document.getElementById('gen-btn').disabled = false;
+    document.getElementById('copy-btn').textContent = 'Copy post';
+    document.getElementById('copy-btn').classList.remove('copied');
+  }, Math.random() * 600 + 900);
+}
+
+function copyPost() {
+  const text = document.getElementById('post-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy post'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Chip selection
+document.querySelectorAll('.chips').forEach(group => {
+  group.addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
