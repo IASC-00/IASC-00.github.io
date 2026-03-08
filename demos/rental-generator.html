@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rental Listing Description Generator — iswain.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e0f; --bg2: #161618; --bg3: #1e1e21;
+    --border: rgba(255,255,255,.08); --border2: rgba(255,255,255,.13);
+    --text: #f0ede8; --dim: rgba(255,255,255,.38); --dim2: rgba(255,255,255,.55);
+    --accent: #3de8d0; --accent-dim: rgba(61,232,208,.15);
+    --green: #3de8d0; --green-bg: rgba(61,232,208,.12);
+    --red: #ff6b6b; --red-bg: rgba(255,107,107,.1);
+    --font: 'Inter', system-ui, sans-serif;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  .top-bar { background: var(--accent); color: #0e0e0f; text-align: center; padding: 9px 20px; font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+  .top-bar a { color: #0e0e0f; text-decoration: none; font-weight: 900; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,15,.92); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); padding: 0 36px; height: 54px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { font-size: 14px; font-weight: 800; text-decoration: none; color: var(--text); letter-spacing: -.01em; }
+  .nav-tag { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 60px 36px 100px; }
+  .page-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: var(--accent); margin-bottom: 12px; }
+  .page-title { font-size: clamp(28px, 4vw, 42px); font-weight: 900; letter-spacing: -.035em; margin-bottom: 14px; line-height: 1.1; }
+  .page-desc { font-size: 15px; color: var(--dim2); max-width: 580px; margin-bottom: 48px; line-height: 1.7; }
+
+  .form-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+  .form-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--dim); }
+  input, select, textarea {
+    font-family: var(--font); font-size: 14px; color: var(--text);
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px;
+    padding: 10px 14px; transition: border-color .15s, box-shadow .15s; width: 100%;
+    -webkit-appearance: none;
+  }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(61,232,208,.1); }
+  input::placeholder, textarea::placeholder { color: var(--dim); }
+  textarea { resize: vertical; min-height: 80px; }
+  option { background: #1e1e21; }
+
+  .amenities-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .amenities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+  .chip { display: flex; align-items: center; gap: 9px; background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 9px 13px; cursor: pointer; transition: all .15s; font-size: 13px; color: var(--dim2); }
+  .chip input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .chip:has(input:checked) { background: var(--accent-dim); border-color: var(--accent); color: var(--text); }
+
+  .generate-btn {
+    width: 100%; padding: 16px; border-radius: 12px;
+    background: var(--accent); color: #0e0e0f;
+    font-family: var(--font); font-size: 15px; font-weight: 800;
+    border: none; cursor: pointer; transition: opacity .15s, transform .1s;
+    letter-spacing: -.01em; margin-bottom: 40px;
+  }
+  .generate-btn:hover { opacity: .88; }
+  .generate-btn:active { transform: scale(.99); }
+  .generate-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  .output { display: none; }
+  .output.visible { display: block; }
+  .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .output-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--dim); }
+  .output-actions { display: flex; gap: 8px; }
+  .action-btn {
+    font-family: var(--font); font-size: 12px; font-weight: 700;
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: 7px;
+    padding: 7px 14px; cursor: pointer; color: var(--dim2); transition: all .15s;
+  }
+  .action-btn:hover { background: var(--bg2); border-color: var(--accent); color: var(--accent); }
+  .action-btn.copied { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+
+  .listing-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; margin-bottom: 16px; }
+  .listing-headline { font-size: 20px; font-weight: 800; letter-spacing: -.025em; margin-bottom: 8px; color: var(--text); line-height: 1.3; }
+  .listing-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .meta-pill { background: var(--accent-dim); color: var(--accent); border-radius: 5px; padding: 3px 10px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .listing-body p { font-size: 14.5px; line-height: 1.8; color: rgba(255,255,255,.75); margin-bottom: 14px; }
+  .listing-body p:last-child { margin-bottom: 0; }
+
+  .skeleton { background: linear-gradient(90deg, var(--bg3) 25%, var(--bg2) 50%, var(--bg3) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; height: 15px; margin-bottom: 10px; }
+  .skeleton.w100 { width: 100%; } .skeleton.w80 { width: 80%; } .skeleton.w60 { width: 60%; } .skeleton.w40 { width: 40%; } .skeleton.tall { height: 20px; margin-bottom: 16px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  .error-box { background: var(--red-bg); border: 1px solid rgba(255,107,107,.25); border-radius: 10px; padding: 14px 18px; color: var(--red); font-size: 14px; margin-bottom: 16px; }
+  .demo-note { font-size: 12px; color: var(--dim); background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; line-height: 1.6; }
+  .demo-note strong { color: var(--dim2); }
+
+  .platform-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .platform-tab { font-family: var(--font); font-size: 12px; font-weight: 700; background: var(--bg3); border: 1px solid var(--border2); border-radius: 7px; padding: 7px 16px; cursor: pointer; color: var(--dim2); transition: all .15s; }
+  .platform-tab.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 620px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .amenities-grid { grid-template-columns: 1fr 1fr; }
+    .page { padding: 36px 20px 60px; }
+    nav { padding: 0 20px; }
+    .form-card, .amenities-card { padding: 20px; }
+    .listing-card { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  Built by <a href="https://iswain.dev">iswain.dev</a> — custom tools for property managers &amp; landlords
+</div>
+
+<nav>
+  <a href="https://iswain.dev" class="nav-brand">iswain.dev</a>
+  <span class="nav-tag">Property Tools</span>
+</nav>
+
+<div class="page">
+
+  <p class="page-eyebrow">Live Demo</p>
+  <h1 class="page-title">Rental Listing<br>Description Generator</h1>
+  <p class="page-desc">Enter your unit details and get a publish-ready rental listing in seconds — ready for Zillow, apartments.com, Facebook Marketplace, or Craigslist.</p>
+
+  <div class="form-card">
+    <div class="form-section-label">Unit Details</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="address">Street Address</label>
+        <input type="text" id="address" placeholder="e.g. 1842 Passyunk Ave">
+      </div>
+      <div class="form-group">
+        <label for="neighborhood">Neighborhood / City</label>
+        <select id="neighborhood">
+          <optgroup label="Philadelphia">
+            <option value="East Passyunk">East Passyunk</option>
+            <option value="Fishtown">Fishtown</option>
+            <option value="South Philly">South Philly</option>
+            <option value="Rittenhouse Square">Rittenhouse Square</option>
+            <option value="Northern Liberties">Northern Liberties</option>
+            <option value="Old City">Old City</option>
+            <option value="Center City">Center City</option>
+            <option value="Fairmount">Fairmount</option>
+            <option value="Graduate Hospital">Graduate Hospital</option>
+            <option value="Point Breeze">Point Breeze</option>
+            <option value="Queen Village">Queen Village</option>
+            <option value="Brewerytown">Brewerytown</option>
+            <option value="Manayunk">Manayunk</option>
+            <option value="Chestnut Hill">Chestnut Hill</option>
+            <option value="West Philadelphia">West Philadelphia</option>
+          </optgroup>
+          <optgroup label="Washington DC">
+            <option value="Capitol Hill DC">Capitol Hill</option>
+            <option value="Dupont Circle DC">Dupont Circle</option>
+            <option value="Adams Morgan DC">Adams Morgan</option>
+            <option value="Columbia Heights DC">Columbia Heights</option>
+            <option value="Logan Circle DC">Logan Circle</option>
+            <option value="Shaw DC">Shaw</option>
+            <option value="U Street DC">U Street Corridor</option>
+          </optgroup>
+          <optgroup label="Maryland">
+            <option value="Bethesda MD">Bethesda</option>
+            <option value="Silver Spring MD">Silver Spring</option>
+            <option value="Rockville MD">Rockville</option>
+            <option value="Fells Point Baltimore">Fells Point, Baltimore</option>
+            <option value="Federal Hill Baltimore">Federal Hill, Baltimore</option>
+            <option value="Canton Baltimore">Canton, Baltimore</option>
+            <option value="Hampden Baltimore">Hampden, Baltimore</option>
+          </optgroup>
+          <optgroup label="Virginia">
+            <option value="Arlington VA">Arlington</option>
+            <option value="Alexandria VA">Alexandria</option>
+            <option value="McLean VA">McLean</option>
+            <option value="Richmond VA">Richmond</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="type">Unit Type</label>
+        <select id="type">
+          <option value="apartment">Apartment</option>
+          <option value="studio">Studio</option>
+          <option value="rowhouse">Rowhouse</option>
+          <option value="condo">Condo</option>
+          <option value="loft">Loft</option>
+          <option value="basement unit">Basement Unit</option>
+          <option value="garden unit">Garden Unit</option>
+          <option value="townhouse">Townhouse</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="rent">Monthly Rent ($)</label>
+        <input type="number" id="rent" placeholder="e.g. 1850">
+      </div>
+      <div class="form-group">
+        <label for="beds">Bedrooms</label>
+        <select id="beds">
+          <option value="Studio">Studio</option>
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="baths">Bathrooms</label>
+        <input type="number" id="baths" min="1" max="6" step="0.5" placeholder="e.g. 1">
+      </div>
+      <div class="form-group">
+        <label for="sqft">Square Footage <span style="text-transform:none;font-weight:400;color:var(--dim)">(optional)</span></label>
+        <input type="number" id="sqft" placeholder="e.g. 850">
+      </div>
+      <div class="form-group">
+        <label for="available">Available Date</label>
+        <select id="available">
+          <option value="immediately">Available immediately</option>
+          <option value="April 1">April 1</option>
+          <option value="May 1">May 1</option>
+          <option value="June 1">June 1</option>
+          <option value="July 1">July 1</option>
+          <option value="flexible">Flexible / TBD</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="lease">Lease Term</label>
+        <select id="lease">
+          <option value="12-month lease">12-month lease</option>
+          <option value="month-to-month">Month-to-month</option>
+          <option value="flexible lease">Flexible lease</option>
+          <option value="6-month lease">6-month lease</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="pets">Pets</label>
+        <select id="pets">
+          <option value="no pets">No pets</option>
+          <option value="cats ok">Cats ok</option>
+          <option value="small dogs considered">Small dogs considered</option>
+          <option value="pets welcome">Pets welcome</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="parking">Parking</label>
+        <select id="parking">
+          <option value="none">Street parking only</option>
+          <option value="included">Parking included</option>
+          <option value="available">Parking available (additional fee)</option>
+          <option value="garage">Garage available</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="utilities">Utilities Included</label>
+        <select id="utilities">
+          <option value="none">Tenant pays all utilities</option>
+          <option value="water included">Water included</option>
+          <option value="water and gas included">Water and gas included</option>
+          <option value="all utilities included">All utilities included</option>
+          <option value="heat included">Heat included</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label for="notes">Additional Details <span style="text-transform:none;font-weight:400;color:var(--dim)">(optional)</span></label>
+        <textarea id="notes" placeholder="e.g. Recently renovated, steps from the El, no smokers, first/last/security required, virtual tours available"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="amenities-card">
+    <div class="form-section-label">Amenities</div>
+    <div class="amenities-grid" id="amenities">
+      <label class="chip"><input type="checkbox" value="in-unit washer/dryer"> In-unit laundry</label>
+      <label class="chip"><input type="checkbox" value="dishwasher"> Dishwasher</label>
+      <label class="chip"><input type="checkbox" value="central A/C"> Central A/C</label>
+      <label class="chip"><input type="checkbox" value="hardwood floors"> Hardwood floors</label>
+      <label class="chip"><input type="checkbox" value="private outdoor space"> Private outdoor space</label>
+      <label class="chip"><input type="checkbox" value="updated kitchen"> Updated kitchen</label>
+      <label class="chip"><input type="checkbox" value="stainless steel appliances"> Stainless appliances</label>
+      <label class="chip"><input type="checkbox" value="open floor plan"> Open floor plan</label>
+      <label class="chip"><input type="checkbox" value="abundant natural light"> Abundant natural light</label>
+      <label class="chip"><input type="checkbox" value="high ceilings"> High ceilings</label>
+      <label class="chip"><input type="checkbox" value="exposed brick"> Exposed brick</label>
+      <label class="chip"><input type="checkbox" value="recessed lighting"> Recessed lighting</label>
+      <label class="chip"><input type="checkbox" value="laundry in building"> Laundry in building</label>
+      <label class="chip"><input type="checkbox" value="secure entry"> Secure entry</label>
+      <label class="chip"><input type="checkbox" value="storage unit"> Storage unit included</label>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;">
+    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);margin-bottom:12px;">Optimize copy for</p>
+    <div class="platform-tabs">
+      <button class="platform-tab active" data-platform="zillow" onclick="selectPlatform(this)">Zillow / Apartments.com</button>
+      <button class="platform-tab" data-platform="craigslist" onclick="selectPlatform(this)">Craigslist</button>
+      <button class="platform-tab" data-platform="facebook" onclick="selectPlatform(this)">Facebook Marketplace</button>
+    </div>
+  </div>
+
+  <button class="generate-btn" id="generateBtn" onclick="generate()">Generate Rental Listing</button>
+
+  <div class="output" id="output">
+    <div id="errorBox"></div>
+    <div class="output-header">
+      <span class="output-label">Generated Listing</span>
+      <div class="output-actions">
+        <button class="action-btn" id="copyBtn" onclick="copyListing()">Copy Text</button>
+        <button class="action-btn" onclick="generate()">Regenerate</button>
+      </div>
+    </div>
+    <div class="listing-card" id="listingCard"></div>
+    <p class="demo-note"><strong>This is a demonstration.</strong> Each generation produces different copy from the same inputs. A custom-built version connects to Claude AI for richer, more varied output — tuned to your property's voice, platform, and tenant profile.</p>
+  </div>
+
+</div>
+
+<script>
+const R = () => Math.random();
+const pick = arr => arr[Math.floor(R() * arr.length)];
+
+let currentPlatform = 'zillow';
+function selectPlatform(btn) {
+  document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentPlatform = btn.dataset.platform;
+}
+
+const HOOD = {
+  'East Passyunk': {
+    vibe: ['one of South Philly\'s most beloved streets', 'the heart of South Philadelphia\'s dining and nightlife scene', 'a block-by-block neighborhood with serious character'],
+    lifestyle: ['steps from the avenue\'s award-winning BYOBs and boutiques', 'walkable to everything that makes East Passyunk a destination', 'with the neighborhood\'s best restaurants and cafes right outside'],
+    renter: ['young professionals who want the city\'s best walkability', 'food lovers who want the neighborhood at their door', 'renters who know what a great Philadelphia neighborhood feels like'],
+    urgency: ['Well-priced rentals on the Passyunk corridor go fast.', 'Units like this in this neighborhood don\'t sit long.', 'Schedule your showing before this one is gone.'],
+  },
+  'Fishtown': {
+    vibe: ['one of Philadelphia\'s most energetic neighborhoods', 'Philly\'s creative and cultural hub', 'the city\'s most talked-about rental market'],
+    lifestyle: ['surrounded by independent coffee shops, craft breweries, and music venues', 'walkable to everything Fishtown is known for', 'steps from the neighborhood\'s galleries, restaurants, and nightlife'],
+    renter: ['creative professionals and young couples', 'renters who want to be at the center of the action', 'those who want neighborhood character with strong transit access'],
+    urgency: ['Fishtown rentals at this price point move quickly.', 'Units like this rarely stay available long.', 'Don\'t wait — schedule your tour today.'],
+  },
+  'South Philly': {
+    vibe: ['classic Philadelphia at its most authentic', 'a neighborhood with real roots and real character', 'one of the city\'s most community-driven neighborhoods'],
+    lifestyle: ['close to the Italian Market and the neighborhood\'s beloved corner spots', 'with South Philly block culture at your doorstep', 'walkable to everything that makes this part of the city special'],
+    renter: ['renters who appreciate neighborhood fabric over trendiness', 'those who know the value of a genuine Philadelphia community', 'people looking for character and affordability in the same ZIP code'],
+    urgency: ['South Philly rentals at this price go quickly.', 'Schedule your showing today.', 'Units like this don\'t sit on the market long.'],
+  },
+  'Rittenhouse Square': {
+    vibe: ['steps from one of the city\'s most beloved parks', 'in the heart of Center City\'s most prestigious corridor', 'Philadelphia\'s premier urban address'],
+    lifestyle: ['with the park, fine dining, and luxury retail within a few blocks', 'walkable to the best Center City has to offer', 'surrounded by the city\'s top restaurants, shops, and cultural venues'],
+    renter: ['professionals who demand the best location in the city', 'renters for whom walkability is non-negotiable', 'those who want to live at the center of Philadelphia\'s finest neighborhood'],
+    urgency: ['Rittenhouse Square rentals at this price go fast.', 'Schedule your showing before this one is leased.', 'This type of unit in this neighborhood doesn\'t stay available.'],
+  },
+  'Northern Liberties': {
+    vibe: ['a neighborhood that keeps getting better', 'one of Philadelphia\'s most exciting rental markets', 'where art, food, and community converge north of Old City'],
+    lifestyle: ['walkable to craft breweries, great restaurants, and SEPTA access', 'close to the NoLibs dining scene and Piazza at Schmidt\'s', 'surrounded by the energy that has defined this neighborhood for a decade'],
+    renter: ['young professionals and creative types', 'renters who got priced out of Fishtown and landed somewhere just as good', 'those who want neighborhood character with room to breathe'],
+    urgency: ['NoLibs rentals don\'t stay open long.', 'Schedule your tour before this one is leased.', 'This neighborhood keeps drawing interest — move fast.'],
+  },
+  'Old City': {
+    vibe: ['Philadelphia\'s most historic and storied neighborhood', 'cobblestone streets and centuries of character', 'a neighborhood unlike any other in the city'],
+    lifestyle: ['steps from galleries, boutique shops, and waterfront parks', 'walkable to Old City\'s unique mix of history and modern dining', 'in one of the most genuinely distinctive pockets of the city'],
+    renter: ['renters who want something different from the typical apartment experience', 'history lovers and urban professionals', 'those drawn to irreplaceable location and atmosphere'],
+    urgency: ['Old City units at this price don\'t last long.', 'Schedule your showing now.', 'This is a rare opportunity in a one-of-a-kind neighborhood.'],
+  },
+  'Center City': {
+    vibe: ['the heart of Philadelphia', 'an address that puts everything within reach', 'true urban living at the city\'s core'],
+    lifestyle: ['steps from world-class dining, cultural institutions, and transit', 'walkable to virtually everything Philadelphia has to offer', 'with the full city experience right outside your door'],
+    renter: ['professionals who live by walkability', 'renters who want zero commute and maximum convenience', 'those for whom city living is the whole point'],
+    urgency: ['Center City rentals at this price point move quickly.', 'Schedule your tour today.', 'Don\'t let this one slip.'],
+  },
+  'Fairmount': {
+    vibe: ['the Museum District\'s most livable residential pocket', 'a neighborhood that offers genuine quality of life', 'where parks, culture, and community all converge'],
+    lifestyle: ['a short walk from Fairmount Park, the Art Museum, and the Parkway', 'near trails, cultural institutions, and excellent neighborhood restaurants', 'with more green space than most city renters ever get to enjoy'],
+    renter: ['active renters, families, and culture lovers', 'those who prioritize livability over nightlife proximity', 'renters who want parks and community without leaving the city'],
+    urgency: ['Fairmount rentals at this level don\'t stay available long.', 'Schedule your showing today.', 'Well-located units here get snapped up quickly.'],
+  },
+  'Graduate Hospital': {
+    vibe: ['one of Philadelphia\'s most in-demand neighborhoods right now', 'South Center City\'s fastest-growing residential pocket', 'a neighborhood that has transformed and keeps drawing attention'],
+    lifestyle: ['close to Penn, CHOP, and University City transit connections', 'walkable to excellent dining and with quick access to major employers', 'in a neighborhood that attracts people who want to put down real roots'],
+    renter: ['medical professionals, grad students, and young families', 'renters who want proximity to major employers without sacrificing neighborhood feel', 'those who spot value before the market fully catches up'],
+    urgency: ['Grad Hospital rentals don\'t sit on the market long.', 'Schedule your tour now.', 'This unit won\'t last.'],
+  },
+  'Point Breeze': {
+    vibe: ['one of Philadelphia\'s most exciting emerging neighborhoods', 'a market that keeps delivering value and character', 'a South Philly community with real momentum'],
+    lifestyle: ['close to the city\'s best restaurant corridors with easy transit access', 'walkable to neighborhood dining and green space', 'in a community that offers genuine Philadelphia neighborhood life'],
+    renter: ['value-conscious renters who want more space for their money', 'those who want South Philly character without the premium price tag', 'renters who know a good neighborhood early'],
+    urgency: ['Point Breeze rentals at this price move fast.', 'Schedule your showing today.', 'This one won\'t last.'],
+  },
+  'Queen Village': {
+    vibe: ['one of Philadelphia\'s most charming and tightly-knit neighborhoods', 'a historic community between South Street and Washington Avenue', 'Philadelphia at its most intimate and neighborhood-forward'],
+    lifestyle: ['steps from South Street\'s restaurants, bars, and shops', 'walkable to the neighborhood\'s beloved coffee shops and dining', 'in one of the city\'s most sought-after residential pockets'],
+    renter: ['renters who want character, community, and great location', 'those who want walkability in one of the city\'s most attractive zip codes', 'people who value neighborhood feel over high-rise amenities'],
+    urgency: ['Queen Village rentals don\'t stay on the market long.', 'Schedule your tour now.', 'A unit like this here doesn\'t come up often.'],
+  },
+  'Brewerytown': {
+    vibe: ['a neighborhood in full stride', 'one of Philadelphia\'s best value neighborhoods right now', 'a revitalized community with real energy and real affordability'],
+    lifestyle: ['close to Fairmount Park trails and Art Museum access', 'walkable to the neighborhood\'s growing roster of restaurants and bars', 'near the Schuylkill River Trail and the cultural Parkway corridor'],
+    renter: ['renters who want space, value, and outdoor access all in one', 'creative professionals looking for the next great Philadelphia neighborhood', 'those who know Brewerytown is the move right now'],
+    urgency: ['Brewerytown rentals at this price go quickly.', 'Don\'t sleep on this one.', 'Schedule your showing before the weekend.'],
+  },
+  'Manayunk': {
+    vibe: ['a neighborhood with Main Street energy and the Schuylkill at its doorstep', 'one of the city\'s most distinct and walkable communities', 'where city living meets genuine outdoor access'],
+    lifestyle: ['steps from Main Street\'s restaurants and shops, with the canal trail just outside', 'walkable to Manayunk\'s lively commercial strip and towpath access', 'with the Wissahickon Valley and Schuylkill River practically in your backyard'],
+    renter: ['active renters who want walkability and outdoor recreation', 'those who want neighborhood character with strong transit connections', 'renters who want to be part of a genuine community'],
+    urgency: ['Manayunk rentals at this price go quickly.', 'Schedule your tour before this one is gone.', 'Don\'t wait — units here move fast.'],
+  },
+  'Chestnut Hill': {
+    vibe: ['one of Philadelphia\'s most beautiful and sought-after communities', 'a neighborhood that feels like a destination in itself', 'the city\'s most picturesque residential enclave'],
+    lifestyle: ['walkable to Germantown Avenue\'s boutiques, dining, and Wissahickon trails', 'steps from the neighborhood\'s beloved shops and lush green spaces', 'with everything that makes Chestnut Hill one of a kind right outside your door'],
+    renter: ['renters seeking the finest address in the city\'s northwest', 'those who want boutique neighborhood life without giving up city access', 'people who appreciate quality, history, and exceptional livability'],
+    urgency: ['Chestnut Hill units like this are rare.', 'Schedule your showing today.', 'This opportunity won\'t last long.'],
+  },
+  'West Philadelphia': {
+    vibe: ['a vibrant and diverse community with deep roots and genuine energy', 'one of Philadelphia\'s most dynamic and accessible neighborhoods', 'a neighborhood with a culture and walkability that keeps people loyal'],
+    lifestyle: ['close to Penn, Drexel, and SEPTA\'s Market-Frankford line', 'walkable to Baltimore Avenue\'s restaurants, coffee shops, and local businesses', 'with easy access to University City, Center City, and beyond'],
+    renter: ['students, academics, and young professionals', 'renters who want value, access, and neighborhood character', 'those drawn to West Philly\'s community-driven culture'],
+    urgency: ['West Philly rentals at this price don\'t last.', 'Schedule your tour before this one is gone.', 'Move fast — units here go quickly.'],
+  },
+  'Capitol Hill DC': {
+    vibe: ['one of DC\'s most historically rich and walkable neighborhoods', 'the heart of Washington\'s most beloved residential corridor', 'steps from the Capitol, Eastern Market, and Barracks Row'],
+    lifestyle: ['walkable to Eastern Market, Lincoln Park, and some of the city\'s best independent restaurants', 'steps from WMATA access and the Hill\'s lively dining scene', 'in one of DC\'s most sought-after and community-driven zip codes'],
+    renter: ['Hill staffers, young professionals, and longtime DC residents', 'those who want to live in one of the capital\'s most storied neighborhoods', 'renters who value walkability, history, and community in equal measure'],
+    urgency: ['Capitol Hill rentals at this price go fast.', 'Schedule your tour now.', 'Units like this don\'t stay available long in this neighborhood.'],
+  },
+  'Dupont Circle DC': {
+    vibe: ['the cultural and social heart of Northwest DC', 'one of Washington\'s most vibrant and cosmopolitan neighborhoods', 'an address that puts the best of the city within walking distance'],
+    lifestyle: ['surrounded by restaurants, bookshops, galleries, and a diverse street scene', 'walkable to the Circle, Connecticut Ave, and two Metro lines', 'in a neighborhood that never stops moving'],
+    renter: ['professionals, diplomats, and urban explorers', 'those who want the full Washington DC experience from their front door', 'renters for whom location and lifestyle are inseparable'],
+    urgency: ['Dupont Circle rentals at this level go quickly.', 'Schedule your showing today.', 'Don\'t miss this one.'],
+  },
+  'Adams Morgan DC': {
+    vibe: ['DC\'s most eclectic and culturally diverse neighborhood', 'a neighborhood that pulses with food, music, and international energy', 'the city\'s most vibrant and layered community'],
+    lifestyle: ['steps from 18th Street\'s restaurants, bars, and weekend farmer\'s market', 'walkable to Columbia Heights Metro and the neighborhood\'s nonstop cultural scene', 'in one of Washington\'s most dynamic and beloved zip codes'],
+    renter: ['creative professionals, artists, and urban enthusiasts', 'renters who want neighborhood personality over corporate polish', 'those drawn to one of DC\'s most genuinely interesting communities'],
+    urgency: ['Adams Morgan rentals at this price don\'t stay available long.', 'Schedule your tour today.', 'Units like this here go fast.'],
+  },
+  'Columbia Heights DC': {
+    vibe: ['one of DC\'s most diverse and transit-rich neighborhoods', 'a community on the rise with deep cultural roots', 'a Northwest DC neighborhood that offers value without compromise'],
+    lifestyle: ['steps from the Columbia Heights Metro, Meridian Hill Park, and 14th Street\'s dining corridor', 'walkable to grocery stores, coffee shops, and parks', 'with some of DC\'s best transit access right outside'],
+    renter: ['young professionals and families who need Metro access above all else', 'renters who want neighborhood energy without Dupont Circle prices', 'those who know Columbia Heights is one of DC\'s best values'],
+    urgency: ['Columbia Heights rentals at this price go fast.', 'Schedule your showing today.', 'Don\'t wait on this one.'],
+  },
+  'Logan Circle DC': {
+    vibe: ['one of DC\'s most beautiful and sought-after neighborhoods', 'a Victorian-era neighborhood that combines elegance with modern energy', 'steps from 14th Street\'s renowned restaurant and bar corridor'],
+    lifestyle: ['walkable to Logan Circle Park, 14th Street dining, and P Street shops', 'in one of the most desirable addresses in all of Northwest DC', 'steps from the best the city\'s dining scene has to offer'],
+    renter: ['professionals who want the best address in the city', 'renters who want walkability, parks, and world-class dining from one location', 'those who know Logan Circle is one of DC\'s premier residential neighborhoods'],
+    urgency: ['Logan Circle rentals at this price don\'t come up often.', 'Schedule your showing now.', 'Act quickly — units here go very fast.'],
+  },
+  'Shaw DC': {
+    vibe: ['a neighborhood with deep history and serious current energy', 'one of DC\'s most dynamic and fast-moving communities', 'where historic character meets the city\'s best new restaurant openings'],
+    lifestyle: ['steps from the 9:30 Club, City Winery, and Shaw\'s Tavern row', 'walkable to Shaw-Howard U Metro and the neighborhood\'s growing dining scene', 'surrounded by some of the best restaurants and bars in the DMV'],
+    renter: ['music lovers, foodies, and creative professionals', 'those who want to be in the center of DC\'s cultural scene', 'renters who value nightlife, dining, and transit access equally'],
+    urgency: ['Shaw rentals at this price go quickly.', 'Schedule your tour now.', 'Units here don\'t stay available long.'],
+  },
+  'U Street DC': {
+    vibe: ['the legendary U Street Corridor — DC\'s cultural and musical heartbeat', 'a neighborhood with more history per block than almost anywhere in the city', 'one of Washington\'s most exciting places to live right now'],
+    lifestyle: ['steps from U Street\'s restaurants, live music venues, and iconic spots', 'walkable to two Metro lines and the neighborhood\'s nonstop dining scene', 'in one of DC\'s most celebrated and continuously evolving communities'],
+    renter: ['music enthusiasts, creatives, and urban professionals', 'those who want to live in DC\'s most culturally rich corridor', 'renters who want walkability and neighborhood character above all else'],
+    urgency: ['U Street rentals at this price move fast.', 'Schedule your showing today.', 'Don\'t let this one pass.'],
+  },
+  'Bethesda MD': {
+    vibe: ['one of the DC metro\'s most desirable and walkable communities', 'a suburb that lives like a city — with dining, retail, and transit to prove it', 'Maryland\'s premier residential address with direct Metro access to DC'],
+    lifestyle: ['steps from Bethesda Row\'s restaurants, shops, and farmers market', 'walkable to the Red Line Metro and the best of downtown Bethesda', 'in a community that offers everything without requiring a commute into the city'],
+    renter: ['professionals, families, and Metro-dependent commuters', 'those who want upscale suburban living with true walkability', 'renters who need easy DC access without the DC price tag'],
+    urgency: ['Bethesda rentals at this price move fast.', 'Schedule your tour today.', 'This level of unit in this neighborhood doesn\'t stay available long.'],
+  },
+  'Silver Spring MD': {
+    vibe: ['one of Maryland\'s most diverse and dynamic communities', 'a city that keeps reinventing itself just outside the DC line', 'a transit-rich community with serious neighborhood energy'],
+    lifestyle: ['steps from the Silver Spring Metro, Whole Foods, and a growing dining scene', 'walkable to Ellsworth Drive\'s restaurants, shops, and weekend markets', 'with easy Red Line access to DC and the broader metro area'],
+    renter: ['commuters, young families, and value-focused renters', 'those who want Metro access and neighborhood character in one package', 'renters who recognize Silver Spring as one of the best values in the DMV'],
+    urgency: ['Silver Spring rentals at this price go quickly.', 'Schedule your showing today.', 'Don\'t wait — units here move fast.'],
+  },
+  'Rockville MD': {
+    vibe: ['a well-established Maryland suburb with genuine amenity and easy Metro access', 'one of the most family-friendly communities in the DMV', 'a city that offers space, access, and community in equal measure'],
+    lifestyle: ['close to Rockville Town Square, the Red Line Metro, and excellent schools', 'walkable to restaurants, shops, and parks', 'with straightforward access to DC and the broader Maryland corridor'],
+    renter: ['families, commuters, and professionals who need space without sacrificing transit', 'those looking for the value and room that Rockville consistently delivers', 'renters who want a real community outside the city'],
+    urgency: ['Rockville rentals at this level go fast.', 'Schedule your showing today.', 'Units like this here don\'t stay available long.'],
+  },
+  'Fells Point Baltimore': {
+    vibe: ['one of Baltimore\'s most charming and historically rich waterfront neighborhoods', 'cobblestone streets, working waterfront, and serious restaurant energy', 'Baltimore at its most atmospheric and walkable'],
+    lifestyle: ['steps from the water, Broadway Market, and Fells Point\'s beloved bar and restaurant scene', 'walkable to the neighborhood\'s cobblestone blocks and weekend farmer\'s market', 'in one of Baltimore\'s most sought-after and lively zip codes'],
+    renter: ['young professionals, foodies, and Baltimore lifers who know the best neighborhoods', 'those who want waterfront character without waterfront prices', 'renters who love walkability, good food, and genuine neighborhood history'],
+    urgency: ['Fells Point rentals at this price don\'t last long.', 'Schedule your tour now.', 'Units like this here go fast.'],
+  },
+  'Federal Hill Baltimore': {
+    vibe: ['one of Baltimore\'s most beloved and walkable neighborhoods', 'a community with skyline views, great restaurants, and genuine pride of place', 'the neighborhood that Baltimore residents consistently rank among the city\'s best'],
+    lifestyle: ['steps from Cross Street Market, Federal Hill Park, and the Inner Harbor waterfront', 'walkable to the neighborhood\'s bars, restaurants, and weekend farmers market', 'with some of the best harbor views in the city and a community that takes pride in its neighborhood'],
+    renter: ['professionals, couples, and longtime Baltimore residents', 'those who want the best of Baltimore\'s urban residential experience', 'renters who know Federal Hill is the neighborhood Baltimore keeps choosing'],
+    urgency: ['Federal Hill rentals at this price move fast.', 'Schedule your showing today.', 'Don\'t let this one get away.'],
+  },
+  'Canton Baltimore': {
+    vibe: ['one of Baltimore\'s most in-demand and community-forward neighborhoods', 'a waterfront community with a restaurant row that keeps getting better', 'the neighborhood that keeps attracting Baltimore\'s best young professionals'],
+    lifestyle: ['walkable to Canton Square, the waterfront promenade, and some of the city\'s best dining', 'steps from O\'Donnell Square and the neighborhood\'s thriving bar and restaurant scene', 'with waterfront park access and the kind of walkability Baltimore rarely offers'],
+    renter: ['young professionals and couples who want the best of Baltimore', 'those who want waterfront living without a luxury price tag', 'renters who want community, walkability, and great restaurants in one neighborhood'],
+    urgency: ['Canton rentals at this level go quickly.', 'Schedule your tour now.', 'Units like this here don\'t stay on the market long.'],
+  },
+  'Hampden Baltimore': {
+    vibe: ['one of Baltimore\'s most distinctive and community-driven neighborhoods', 'a neighborhood with serious local character and zero corporate polish', 'Baltimore\'s arts and indie-dining capital, centered on The Avenue'],
+    lifestyle: ['steps from 36th Street\'s local shops, restaurants, and the neighborhood\'s beloved annual Honfest', 'walkable to the neighborhood\'s coffee shops, vintage stores, and art galleries', 'in a community that Baltimore\'s creative class calls home'],
+    renter: ['artists, musicians, and independent spirits', 'those who want Baltimore\'s most character-rich neighborhood', 'renters who value local over chain, community over anonymity'],
+    urgency: ['Hampden rentals at this price go fast.', 'Schedule your showing today.', 'Don\'t miss this one.'],
+  },
+  'Arlington VA': {
+    vibe: ['one of Northern Virginia\'s most dynamic and transit-connected communities', 'an urban suburb that lives like a city — with walkability to prove it', 'Metro-accessible, well-resourced, and consistently in demand'],
+    lifestyle: ['steps from Clarendon, Ballston, or Rosslyn Metro stations depending on location', 'walkable to Arlington\'s growing restaurant corridor, parks, and retail', 'with direct Metro access to DC and the broader Virginia and Maryland corridor'],
+    renter: ['DC-area commuters, federal workers, and young professionals', 'those who want Northern Virginia\'s best transit access and walkability in one package', 'renters who want city-level convenience with suburban space'],
+    urgency: ['Arlington rentals at this price move quickly.', 'Schedule your tour now.', 'Don\'t wait — well-located units here go fast.'],
+  },
+  'Alexandria VA': {
+    vibe: ['one of the DC metro\'s most charming and storied communities', 'Old Town Alexandria — cobblestone streets and genuine colonial character', 'a city that has been desirable for centuries and shows no signs of changing'],
+    lifestyle: ['steps from King Street\'s restaurants, waterfront parks, and the Metro', 'walkable to Old Town\'s boutiques, galleries, and waterfront', 'with easy access to DC via Metro or the GW Parkway'],
+    renter: ['federal workers, professionals, and those drawn to Old Town\'s singular character', 'renters who want charm, walkability, and DC access in one address', 'those who want the best of Northern Virginia\'s historic residential market'],
+    urgency: ['Alexandria rentals at this price don\'t stay available long.', 'Schedule your showing now.', 'Units like this here move fast.'],
+  },
+  'McLean VA': {
+    vibe: ['one of Northern Virginia\'s most prestigious and well-resourced communities', 'an address that signals arrival — quiet, spacious, and consistently in demand', 'the DC metro\'s premier suburban residential market'],
+    lifestyle: ['close to Tysons Corner, the Silver Line Metro, and major Northern Virginia employers', 'with excellent schools, green space, and the convenience of Tysons\' retail and dining', 'in a community that consistently ranks among the region\'s most desirable places to live'],
+    renter: ['senior professionals, executives, and families with high standards', 'those who want the region\'s finest suburban living with Metro access', 'renters for whom quality, space, and prestige define the search'],
+    urgency: ['McLean rentals at this level go quickly to serious renters.', 'Schedule your tour now.', 'This won\'t last long.'],
+  },
+  'Richmond VA': {
+    vibe: ['one of the South\'s most underrated and exciting cities', 'a city with real history, real culture, and a food scene that keeps winning national attention', 'Virginia\'s capital — and one of the East Coast\'s best-kept residential secrets'],
+    lifestyle: ['close to Carytown\'s shops and restaurants, Scott\'s Addition\'s breweries, or the Fan\'s historic architecture depending on location', 'walkable to Richmond\'s growing dining, arts, and outdoor recreation scene', 'with the James River and the city\'s rail trail system practically outside your door'],
+    renter: ['young professionals, VCU and UofR affiliates, and anyone priced out of DC who discovered Richmond first', 'those who want a genuine city experience at a fraction of Northern Virginia prices', 'renters who value food, culture, and outdoor access in equal measure'],
+    urgency: ['Richmond rentals at this price move fast.', 'Schedule your tour before this one is gone.', 'Don\'t sleep on this — units here go quickly.'],
+  },
+};
+
+const AMENITY_PHRASES = {
+  'in-unit washer/dryer':       ['in-unit washer/dryer — no trips to the laundromat', 'the convenience of in-unit laundry', 'a full washer/dryer right in the unit'],
+  'dishwasher':                 ['a dishwasher that makes daily life easier', 'a full dishwasher included', 'dishwasher — a detail that matters'],
+  'central A/C':                ['central air conditioning throughout', 'full central A/C — rare at this price point', 'central cooling on every level'],
+  'hardwood floors':            ['original hardwood floors in excellent condition', 'warm hardwood floors that run throughout', 'hardwood floors that photograph beautifully and live even better'],
+  'private outdoor space':      ['private outdoor space — patio, deck, or yard', 'dedicated outdoor space that\'s yours alone', 'a private outdoor area for morning coffee or evening unwinding'],
+  'updated kitchen':            ['a fully renovated kitchen with modern finishes', 'an updated kitchen that actually works for cooking', 'a contemporary kitchen built for real use'],
+  'stainless steel appliances': ['stainless steel appliances throughout', 'a full stainless appliance package', 'modern stainless appliances that anchor the kitchen'],
+  'open floor plan':            ['an airy, open layout that makes the most of the space', 'a connected floor plan that breathes', 'an open-plan main area that lives larger than the square footage suggests'],
+  'abundant natural light':     ['exceptional natural light throughout the day', 'windows that flood every room with light', 'a brightness that makes every room feel larger'],
+  'high ceilings':              ['high ceilings that add a sense of volume and air', 'soaring ceilings that make the space feel expansive', 'above-standard ceiling height that sets this unit apart'],
+  'exposed brick':              ['original exposed brick that no renovation can replicate', 'a raw brick accent wall that anchors the space', 'the warmth and texture of exposed brick throughout'],
+  'recessed lighting':          ['clean recessed lighting throughout', 'recessed lights that keep the ceilings uncluttered', 'thoughtful recessed lighting in every room'],
+  'laundry in building':        ['laundry available in the building', 'shared laundry facilities on-site', 'in-building laundry for easy access'],
+  'secure entry':               ['secure building entry with key fob or intercom access', 'a secured front entrance for peace of mind', 'controlled building access — a practical priority'],
+  'storage unit':               ['a dedicated storage unit included with the lease', 'extra storage space in the building', 'an included storage unit for the things you don\'t need daily'],
+};
+
+const UTILITY_PHRASES = {
+  'none': null,
+  'water included': 'Water is included in the rent.',
+  'water and gas included': 'Water and gas are included — tenant is responsible for electric.',
+  'all utilities included': 'All utilities included — move in and just pay rent.',
+  'heat included': 'Heat is included in the monthly rent.',
+};
+
+const PARKING_PHRASES = {
+  'none': pick => 'Street parking available in the neighborhood.',
+  'included': pick => 'Off-street parking is included — a real plus in this area.',
+  'available': pick => 'Off-street parking available for an additional monthly fee.',
+  'garage': pick => 'Garage parking available — ask for details.',
+};
+
+function fmtRent(n) {
+  if (!n) return null;
+  try { return '$' + Number(n).toLocaleString() + '/mo'; } catch { return null; }
+}
+
+function buildRental(d) {
+  const { address, neighborhood, type, rent, beds, baths, sqft, available, lease, pets, parking, utilities, notes, amenities, platform } = d;
+  const hood = neighborhood || 'Philadelphia';
+  const hoodData = HOOD[hood] || HOOD['Center City'];
+  const ba = baths || '1';
+  const t = type || 'apartment';
+  const r = fmtRent(rent);
+  const sf = sqft ? Number(sqft).toLocaleString() : null;
+  const isStudio = beds === 'Studio';
+
+  // Headline — varies by platform
+  let headline;
+  if (platform === 'craigslist') {
+    headline = `${isStudio ? 'Studio' : beds + 'BR'} / ${ba}BA ${t} in ${hood}${r ? ' — ' + r : ''}`;
+  } else if (platform === 'facebook') {
+    headline = [
+      () => `${isStudio ? 'Studio' : beds + '-Bedroom'} ${t} for Rent — ${hood}${r ? ' · ' + r : ''}`,
+      () => `Available ${available}: ${isStudio ? 'Studio' : beds + 'BR'} in ${hood}${r ? ' — ' + r : ''}`,
+    ][Math.floor(R() * 2)]();
+  } else {
+    const headlineOpts = [
+      () => `${isStudio ? 'Studio' : beds + 'BR'} / ${ba}BA ${t} — ${hood}${r ? ' · ' + r : ''}`,
+      () => `${pick(['Sun-Filled', 'Renovated', 'Spacious', 'Charming', 'Well-Appointed'])} ${isStudio ? 'Studio' : beds + '-Bedroom'} ${t} in ${hood}`,
+      () => `${isStudio ? 'Studio' : beds + 'BR'} ${t} in the Heart of ${hood}${r ? ' — ' + r : ''}`,
+    ];
+    headline = pick(headlineOpts)();
+  }
+
+  // Meta pills
+  const pills = [
+    isStudio ? 'Studio' : beds + ' bed',
+    ba + ' bath',
+    sf ? sf + ' sqft' : null,
+    r,
+    available !== 'flexible' ? available : null,
+  ].filter(Boolean);
+
+  // Para 1: location + lifestyle
+  const addr = address ? `${address} is` : pick([`This ${isStudio ? 'studio' : beds + '-bedroom'} ${t} is`, `A ${isStudio ? 'studio' : beds + 'BR'} ${t} sits`]);
+  const intro = `${addr} ${pick(hoodData.vibe)}, ${pick(hoodData.lifestyle)}. ${pick([
+    `It\'s the kind of place that suits ${pick(hoodData.renter)}.`,
+    `The location alone makes this one of the better options available at this price.`,
+    `It offers the lifestyle ${pick(hoodData.renter)} have been looking for.`,
+    `Everything ${pick(hoodData.renter)} need is right outside.`,
+  ])}`;
+
+  // Para 2: features
+  const amenityKeys = amenities.length > 0
+    ? amenities.filter(a => AMENITY_PHRASES[a])
+    : Object.keys(AMENITY_PHRASES).slice(0, 4);
+  const shuffled = amenityKeys.sort(() => R() - 0.5);
+  const selected = shuffled.slice(0, Math.min(shuffled.length, 4 + Math.floor(R() * 2)));
+  const phrases = selected.map(k => pick(AMENITY_PHRASES[k] || [k]));
+
+  const openers = ['Inside,', 'The unit offers', 'Throughout the apartment,', 'The floor plan delivers', 'Step inside and you\'ll find'];
+  let featureTxt = '';
+  if (phrases.length === 0) {
+    featureTxt = `${pick(openers)} a well-proportioned layout with a practical, livable design.`;
+  } else if (phrases.length === 1) {
+    featureTxt = `${pick(openers)} ${phrases[0]}.`;
+  } else {
+    const last = phrases.pop();
+    featureTxt = `${pick(openers)} ${phrases.join(', ')}, and ${last}.`;
+  }
+
+  const sizeNote = sf ? ` The unit is ${sf} sq ft${pick([' that lives well', ' — a genuinely livable footprint', ''])}.` : '';
+  const utNote = UTILITY_PHRASES[utilities] ? ` ${UTILITY_PHRASES[utilities]}` : '';
+  const parkNote = parking !== 'none' ? ` ${PARKING_PHRASES[parking]()}` : '';
+  const petNote = pets !== 'no pets' ? ` ${pick(['Pet policy:', 'Regarding pets:'])} ${pets}.` : '';
+  const extraNote = notes ? `\n\n${notes.trim().charAt(0).toUpperCase() + notes.trim().slice(1)}${notes.trim().match(/[.!?]$/) ? '' : '.'}` : '';
+
+  const para2 = featureTxt + sizeNote + utNote + parkNote + petNote + extraNote;
+
+  // Para 3: rent + CTA
+  let para3;
+  const leaseStr = lease !== '12-month lease' ? ` ${lease} preferred.` : '';
+  if (r) {
+    para3 = `Rent is ${r}.${leaseStr} ${pick(hoodData.urgency)}`;
+  } else {
+    para3 = `${leaseStr ? leaseStr.trim() + ' ' : ''}${pick(hoodData.urgency)}`;
+  }
+
+  if (available && available !== 'flexible') {
+    para3 += ` ${pick(['Available ', 'Unit available '])}${available}.`;
+  }
+
+  return { headline, pills, paragraphs: [intro, para2, para3] };
+}
+
+function getChecked() {
+  return Array.from(document.querySelectorAll('#amenities input:checked')).map(c => c.value);
+}
+
+function generate() {
+  const btn = document.getElementById('generateBtn');
+  const output = document.getElementById('output');
+  const card = document.getElementById('listingCard');
+  const errBox = document.getElementById('errorBox');
+
+  const beds = document.getElementById('beds').value;
+  const baths = document.getElementById('baths').value.trim();
+  if (!baths) {
+    errBox.innerHTML = '<div class="error-box">Please enter the number of bathrooms.</div>';
+    output.classList.add('visible');
+    card.innerHTML = '';
+    return;
+  }
+
+  errBox.innerHTML = '';
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+  output.classList.add('visible');
+  card.innerHTML = `
+    <div class="skeleton tall w80"></div>
+    <div style="display:flex;gap:6px;margin-bottom:20px">
+      <div class="skeleton w40" style="height:22px;border-radius:4px"></div>
+      <div class="skeleton w40" style="height:22px;border-radius:4px"></div>
+      <div class="skeleton w40" style="height:22px;border-radius:4px"></div>
+    </div>
+    <div class="skeleton w100"></div><div class="skeleton w100"></div><div class="skeleton w80" style="margin-bottom:18px"></div>
+    <div class="skeleton w100"></div><div class="skeleton w100"></div><div class="skeleton w60" style="margin-bottom:18px"></div>
+    <div class="skeleton w100"></div><div class="skeleton w80"></div>
+  `;
+  output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  setTimeout(() => {
+    const result = buildRental({
+      address:      document.getElementById('address').value.trim(),
+      neighborhood: document.getElementById('neighborhood').value,
+      type:         document.getElementById('type').value,
+      rent:         document.getElementById('rent').value.trim(),
+      beds, baths,
+      sqft:         document.getElementById('sqft').value.trim(),
+      available:    document.getElementById('available').value,
+      lease:        document.getElementById('lease').value,
+      pets:         document.getElementById('pets').value,
+      parking:      document.getElementById('parking').value,
+      utilities:    document.getElementById('utilities').value,
+      notes:        document.getElementById('notes').value.trim(),
+      amenities:    getChecked(),
+      platform:     currentPlatform,
+    });
+
+    const pillsHtml = result.pills.map(p => `<span class="meta-pill">${p}</span>`).join('');
+    const bodyHtml = result.paragraphs.map(p => `<p>${p}</p>`).join('');
+
+    card.innerHTML = `
+      <div class="listing-headline">${result.headline}</div>
+      <div class="listing-meta">${pillsHtml}</div>
+      <div class="listing-body">${bodyHtml}</div>
+    `;
+
+    btn.disabled = false;
+    btn.textContent = 'Generate Again';
+  }, 1400 + Math.floor(R() * 700));
+}
+
+function copyListing() {
+  const card = document.getElementById('listingCard');
+  const headline = card.querySelector('.listing-headline')?.textContent || '';
+  const paras = Array.from(card.querySelectorAll('.listing-body p')).map(p => p.textContent);
+  const text = [headline, ...paras].join('\n\n').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Text'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
