@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Five things a real estate agent can automate this week — no technical background required.">
+<title>What Real Estate Agents Can Automate This Week — iswain.dev</title>
+<link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --dark: #131313; --dark2: #1c1c1c; --light: #F5F5F3;
+  --dim: #888; --accent: #3DE8D0; --accent-dark: #0a7a5e;
+  --bd: rgba(255,255,255,0.09);
+}
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--dark); color: #e8e8e8; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,15,15,0.95); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bd);
+  padding: 0 60px; height: 58px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-logo { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; color: #fff; text-decoration: none; white-space: nowrap; }
+.nav-links { display: flex; gap: 28px; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.nav-cta { font-size: 12px; font-weight: 700; background: var(--accent); color: var(--dark); padding: 7px 18px; border-radius: 6px; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
+.nav-cta:hover { opacity: 0.85; }
+.article-header { padding: 80px 60px 64px; border-bottom: 1px solid var(--bd); max-width: 760px; margin: 0 auto; }
+.back-link { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.3); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 32px; display: inline-block; transition: color .15s; }
+.back-link:hover { color: var(--accent); }
+.article-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+.article-header h1 { font-size: clamp(30px,4vw,48px); font-weight: 900; letter-spacing: -0.03em; color: #fff; line-height: 1.1; margin-bottom: 20px; }
+.article-meta { font-size: 12px; color: rgba(255,255,255,0.25); }
+.article-meta span { margin-right: 20px; }
+.article-body { padding: 64px 60px 100px; max-width: 760px; margin: 0 auto; }
+.article-body h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin: 48px 0 16px; }
+.article-body h3 { font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.8); margin: 32px 0 12px; }
+.article-body p { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 20px; }
+.article-body p strong { color: #fff; font-weight: 700; }
+.article-body ul, .article-body ol { margin: 0 0 20px 20px; }
+.article-body li { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 6px; }
+.article-body a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(61,232,208,0.3); }
+.article-body a:hover { border-color: var(--accent); }
+pre { background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 24px; margin: 24px 0; overflow-x: auto; }
+code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; line-height: 1.7; color: #cdd9e5; }
+p code, li code { background: rgba(255,255,255,0.07); padding: 2px 7px; border-radius: 4px; font-size: 13.5px; color: rgba(255,255,255,0.75); }
+.callout { background: rgba(61,232,208,0.05); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 18px 24px; margin: 28px 0; }
+.callout p { margin: 0; color: rgba(255,255,255,0.55); font-size: 15px; }
+.callout p strong { color: var(--accent); }
+.task-list { list-style: none; margin: 0 0 20px 0; }
+.task-list li { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.85; margin-bottom: 8px; padding-left: 28px; position: relative; }
+.task-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.divider { border: none; border-top: 1px solid var(--bd); margin: 48px 0; }
+.next-post { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; padding: 32px; margin-top: 64px; text-decoration: none; display: block; transition: border-color .15s; }
+.next-post:hover { border-color: rgba(255,255,255,0.18); }
+.next-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 10px; display: block; }
+.next-title { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.2); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
+footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color .15s; }
+footer a:hover { color: #fff; }
+.footer-links { display: flex; gap: 24px; }
+@media (max-width: 960px) {
+  nav { padding-left: 28px; padding-right: 28px; }
+  .article-header, .article-body { padding-left: 28px; padding-right: 28px; }
+  footer { padding-left: 28px; padding-right: 28px; }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  footer { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">iswain.dev</a>
+  <ul class="nav-links">
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/notes/">Notes</a></li>
+    <li><a href="https://github.com/IASC-00" target="_blank">GitHub</a></li>
+    <li><a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="/#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<div class="article-header">
+  <a href="/notes/" class="back-link">← Notes</a>
+  <span class="article-tag">Real Estate &middot; Automation &middot; AI</span>
+  <h1>What Real Estate Agents Can Automate This Week</h1>
+  <div class="article-meta">
+    <span>March 2026</span>
+    <span>4 min read</span>
+  </div>
+</div>
+
+<div class="article-body">
+
+  <p>Most agents are running the same manual tasks every single day — writing listing descriptions, answering the same buyer questions, following up on leads that went cold. None of it requires a human. It just requires the right setup.</p>
+
+  <p>Here are five things you can hand off to automation this week, in order of how fast you'll see a return.</p>
+
+  <h2>1. Listing descriptions</h2>
+
+  <p>Writing a good MLS description takes 20–30 minutes if you're doing it properly. You're pulling details from your notes, thinking about how to position the property, and trying to write something that doesn't sound like every other listing on the block.</p>
+
+  <p>An AI tool handles this in about 30 seconds. You enter the property details — bedrooms, bathrooms, key features, neighborhood — and it produces a polished, ready-to-post description. You read it over, make any tweaks, and you're done.</p>
+
+  <p><strong>Time saved per listing: 20–25 minutes.</strong> If you're doing 3–4 listings a month, that's 1–2 hours back immediately.</p>
+
+  <div class="callout">
+    <p><strong>See it in action:</strong> The <a href="/demos/listing-generator.html">listing description generator demo</a> shows exactly how this works — enter a few details and get a draft in seconds.</p>
+  </div>
+
+  <h2>2. Answering common buyer questions</h2>
+
+  <p>Every agent fields the same questions constantly: What's the process for making an offer? How long does closing take? What neighborhoods are good for families? Do you work with first-time buyers?</p>
+
+  <p>A chatbot on your website handles all of these — at 2am, on weekends, whenever a buyer lands on your page and wants to know something. It answers in your voice, using the information you provide, and passes qualified leads to you with a summary of what they were asking about.</p>
+
+  <p>This isn't a generic FAQ widget. It's a trained assistant that knows your market, your process, and your listings.</p>
+
+  <h2>3. Follow-up sequences</h2>
+
+  <p>Lead follow-up is where most deals die. A buyer requests info, you respond, they go quiet, and three weeks later you've forgotten about them. An automated follow-up sequence sends a message at day 3, day 7, and day 14 — asking if they have questions, sharing a relevant listing, or just checking in. Simple, consistent, and most agents aren't doing it.</p>
+
+  <p>The setup takes about an hour. The sequence runs forever.</p>
+
+  <h2>4. Showing feedback collection</h2>
+
+  <p>After every showing, you want feedback from the buyer's agent. Getting it usually means a phone call that goes to voicemail, a text that gets ignored, or an email you have to write and then chase. An automated message goes out the same evening, asks 3–4 specific questions, and logs the responses somewhere you can actually read them.</p>
+
+  <p><strong>This one is underused.</strong> The feedback data over multiple showings tells you exactly why a property isn't selling — and that's information worth having before you advise a price reduction.</p>
+
+  <h2>5. Listing performance reports</h2>
+
+  <p>If you're running listings on Zillow, Realtor.com, or your own site, the data is there — views, saves, inquiry rates. Pulling it together into a weekly summary that you can send to a seller is a manual job right now. It doesn't have to be.</p>
+
+  <p>An automated report runs every Monday, pulls the numbers, and sends a formatted summary to your client. It keeps sellers informed, reduces "how's it going?" calls, and makes you look organized without any extra effort on your part.</p>
+
+  <h2>Where to start</h2>
+
+  <p>The listing description generator is the fastest win — low cost, immediate time savings, zero risk. Start there, see how it fits into your workflow, and go from there.</p>
+
+  <ul class="task-list">
+    <li>Try the <a href="/demos/listing-generator.html">listing generator demo</a> with a real property</li>
+    <li>Note how long it currently takes you to write a description vs. how long the tool takes</li>
+    <li>If it works for you, get it set up and embedded in your workflow</li>
+  </ul>
+
+  <p>The chatbot and follow-up automation are the next logical steps once the listing tool is running. They work together — the chatbot captures leads, the follow-up sequence keeps them warm.</p>
+
+  <hr class="divider">
+
+  <p>If you want to talk through which of these makes sense for your practice first, <a href="/#contact">send me a message</a>. No pitch — just a straightforward conversation about what's worth building.</p>
+
+  <a href="/notes/building-a-lead-capture-chatbot.html" class="next-post">
+    <span class="next-label">Next post</span>
+    <div class="next-title">Building a Lead Capture Chatbot: What You Actually Need →</div>
+  </a>
+
+</div>
+
+<footer>
+  <span>&copy; 2026 Ian Swain</span>
+  <div class="footer-links">
+    <a href="https://github.com/IASC-00" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank">LinkedIn</a>
+    <a href="mailto:contact@iswain.dev">contact@iswain.dev</a>
+  </div>
+</footer>
+
+</body>
+</html>
