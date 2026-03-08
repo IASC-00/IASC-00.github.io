@@ -3,477 +3,235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market & World Pulse — iswain.dev</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Market &amp; World Pulse — Live Data Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0e1015; --surface: #161920; --surface-2: #1d2130;
-  --border: #252a3a; --border-light: #1a1f2e;
-  --text: #e2e8f0; --dim: #7c8aaa; --dimmer: #3d4560;
-  --green: #10b981; --green-dim: rgba(16,185,129,.12);
-  --red: #ef4444; --red-dim: rgba(239,68,68,.12);
-  --blue: #3b82f6; --purple: #a78bfa; --amber: #f59e0b;
-  --font: 'Inter', system-ui, sans-serif;
+  --bg: #0e1015; --surface: #161920; --surface2: #1d2130; --border: #252a3a;
+  --text: #e2e8f0; --dim: #7c8aaa; --dimmer: #4a5470;
+  --accent: #3de8d0; --green: #10b981; --red: #ef4444; --radius: 12px;
 }
-body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
-/* TOP BAR */
-.top-bar {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0 28px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-}
-.top-bar a { color: var(--dim); text-decoration: none; font-weight: 600; }
-.top-bar a:hover { color: var(--text); }
-.top-bar-center { color: var(--dimmer); }
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 58px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.header-logo { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+.header-logo span { color: var(--accent); }
+.badge { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(61,232,208,0.12); color: var(--accent); border: 1px solid rgba(61,232,208,0.25); padding: 3px 8px; border-radius: 20px; margin-left: 10px; }
+.header-right { display: flex; align-items: center; gap: 14px; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.4} }
+.refresh-info { font-size: 12px; color: var(--dim); }
+.back-link { font-size: 12px; color: var(--dim); text-decoration: none; }
+.back-link:hover { color: #fff; }
 
-/* HEADER */
-.header {
-  padding: 28px 28px 20px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.header-title { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
-.header-sub { font-size: 13px; color: var(--dim); margin-top: 2px; }
-.header-right { display: flex; align-items: center; gap: 12px; }
-.refresh-info { font-size: 12px; color: var(--dimmer); }
-#refresh-countdown { color: var(--amber); font-weight: 600; }
-.refresh-btn {
-  padding: 7px 14px;
-  border-radius: 8px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  color: var(--dim);
-  font-family: var(--font);
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-}
-.refresh-btn:hover { color: var(--text); border-color: var(--dimmer); }
-.refresh-btn:disabled { opacity: .5; cursor: default; }
+.main { max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px; }
 
-/* GRID */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; padding: 0 28px 28px; }
-.grid-wide { grid-column: 1 / -1; }
+.sec-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmer); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.sec-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.sec-label small { font-size: 10px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--dimmer); margin-left: 4px; }
 
-/* CARD */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 20px;
-  position: relative;
-  overflow: hidden;
-}
-.card-section-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  color: var(--dimmer);
-  padding: 0 28px;
-  margin-bottom: 10px;
-}
-.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.card-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--dim); }
-.card-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
-.tag-crypto { background: rgba(167,139,250,.12); color: #a78bfa; }
-.tag-equity { background: rgba(59,130,246,.12); color: #60a5fa; }
-.tag-macro  { background: rgba(245,158,11,.12); color: #f59e0b; }
-.tag-weather { background: rgba(16,185,129,.12); color: #34d399; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 32px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 32px; }
 
-.price { font-size: 26px; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; margin-bottom: 4px; }
-.change { font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-.change.pos { color: var(--green); }
-.change.neg { color: var(--red); }
-.change-sub { font-size: 12px; color: var(--dim); margin-left: 8px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden; }
+.c-ticker { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; margin-bottom: 6px; }
+.c-price { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; color: #fff; line-height: 1.1; }
+.c-change { font-size: 13px; font-weight: 600; margin-top: 4px; }
+.c-change.up { color: var(--green); } .c-change.down { color: var(--red); }
+.c-name { font-size: 11px; color: var(--dimmer); margin-top: 2px; }
+.c-canvas { margin-top: 14px; height: 56px; }
+.c-val { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+.c-sub { font-size: 12px; color: var(--dim); margin-top: 3px; }
+.trend-up .c-val::before { content:'↑ '; color: var(--green); font-size:16px; }
+.trend-down .c-val::before { content:'↓ '; color: var(--red); font-size:16px; }
+.trend-flat .c-val::before { content:'→ '; color: var(--dim); font-size:16px; }
+.w-icon { font-size: 28px; position: absolute; top: 16px; right: 18px; }
+.w-temp { font-size: 30px; font-weight: 800; letter-spacing: -0.04em; color: #fff; margin: 6px 0 2px; }
+.w-desc { font-size: 12px; color: var(--dim); }
 
-.chart-wrap { height: 60px; margin-top: 12px; }
+.sk { background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%); background-size:400% 100%; animation: shimmer 1.4s ease infinite; border-radius: 4px; }
+@keyframes shimmer { 0%{background-position:100% 0}100%{background-position:-100% 0} }
+.sk-p { height:32px; width:70%; margin-bottom:6px; } .sk-c { height:16px; width:40%; } .sk-ch { height:56px; margin-top:14px; }
 
-/* Skeleton */
-.skeleton {
-  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-  border-radius: 4px;
-}
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-.skel-price { width: 130px; height: 32px; margin-bottom: 6px; }
-.skel-change { width: 80px; height: 18px; }
-.skel-text { width: 70%; height: 16px; margin-bottom: 8px; }
-.skel-text-sm { width: 50%; height: 14px; }
+.dl-bar { display:flex; align-items:center; justify-content:space-between; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 24px; margin-top:8px; }
+.dl-note { font-size:13px; color:var(--dim); }
+.btn-dl { background:rgba(61,232,208,0.1); border:1px solid rgba(61,232,208,0.3); color:var(--accent); font-size:13px; font-weight:600; padding:8px 18px; border-radius:8px; cursor:pointer; transition:background .15s; font-family:inherit; }
+.btn-dl:hover { background:rgba(61,232,208,0.18); }
+.err { font-size:11px; color:var(--red); background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); padding:2px 8px; border-radius:20px; display:inline-block; }
+.dash-footer { text-align:center; padding:28px; font-size:12px; color:var(--dimmer); border-top:1px solid var(--border); margin-top:32px; }
+.dash-footer a { color:var(--accent); text-decoration:none; }
 
-/* Weather */
-.weather-temp { font-size: 28px; font-weight: 800; }
-.weather-city { font-size: 12px; color: var(--dim); margin-bottom: 6px; }
-.weather-condition { font-size: 13px; color: var(--dim); }
-.weather-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.weather-item { flex: 1; min-width: 120px; }
-
-/* Macro row */
-.macro-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.macro-item { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; }
-.macro-label { font-size: 11px; color: var(--dim); margin-bottom: 4px; }
-.macro-value { font-size: 18px; font-weight: 800; }
-.macro-note { font-size: 11px; color: var(--dimmer); margin-top: 2px; }
-
-/* Last updated */
-.last-updated { padding: 0 28px 20px; font-size: 12px; color: var(--dimmer); }
-.last-updated span { color: var(--dim); }
-
-/* Error state */
-.error-msg { font-size: 12px; color: var(--red); margin-top: 4px; }
-
-@media (max-width: 600px) {
-  .grid { padding: 0 14px 20px; }
-  .header { padding: 20px 14px 14px; }
-  .card-section-label { padding: 0 14px; }
-  .last-updated { padding: 0 14px 16px; }
-}
+@media(max-width:900px){ .g4{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:600px){ .g3,.g4{grid-template-columns:1fr;} .main{padding:20px 16px 60px;} .header{padding:0 16px;} .back-link{display:none;} }
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <a href="https://iswain.dev">← iswain.dev</a>
-  <span class="top-bar-center">Market &amp; World Pulse — live data dashboard</span>
-  <a href="https://iswain.dev/#services">View services →</a>
-</div>
-
-<div class="header">
-  <div>
-    <div class="header-title">Market &amp; World Pulse</div>
-    <div class="header-sub">Live prices, weather, and macro indicators — refreshes every 60 seconds</div>
+<header class="header">
+  <div style="display:flex;align-items:center;">
+    <span class="header-logo">MARKET &amp; WORLD <span>PULSE</span></span>
+    <span class="badge">Live Demo</span>
   </div>
   <div class="header-right">
-    <span class="refresh-info">Next refresh in <span id="refresh-countdown">60s</span></span>
-    <button class="refresh-btn" id="refresh-btn" onclick="fetchAll()">↻ Refresh Now</button>
+    <span class="status-dot"></span>
+    <span class="refresh-info" id="ri">Loading…</span>
+    <a href="/" class="back-link">← iswain.dev</a>
   </div>
-</div>
+</header>
 
-<!-- CRYPTO -->
-<div class="card-section-label">Crypto</div>
-<div class="grid" id="crypto-grid">
-  <div class="card" id="card-btc">
-    <div class="card-header"><span class="card-label">Bitcoin</span><span class="card-tag tag-crypto">BTC</span></div>
-    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
-    <div class="chart-wrap"><canvas id="chart-btc"></canvas></div>
-  </div>
-  <div class="card" id="card-eth">
-    <div class="card-header"><span class="card-label">Ethereum</span><span class="card-tag tag-crypto">ETH</span></div>
-    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
-    <div class="chart-wrap"><canvas id="chart-eth"></canvas></div>
-  </div>
-  <div class="card" id="card-sol">
-    <div class="card-header"><span class="card-label">Solana</span><span class="card-tag tag-crypto">SOL</span></div>
-    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
-    <div class="chart-wrap"><canvas id="chart-sol"></canvas></div>
-  </div>
-</div>
+<main class="main">
 
-<!-- EQUITIES -->
-<div class="card-section-label" style="margin-top:6px">Equities &amp; Commodities</div>
-<div class="grid" id="equity-grid">
-  <div class="card" id="card-spy">
-    <div class="card-header"><span class="card-label">S&amp;P 500 ETF</span><span class="card-tag tag-equity">SPY</span></div>
-    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
-    <div class="chart-wrap"><canvas id="chart-spy"></canvas></div>
+  <div class="sec-label">Cryptocurrency</div>
+  <div class="g3" id="crypto-grid">
+    <div class="card" id="c-btc"><div class="c-ticker">BTC</div><div class="sk sk-p"></div><div class="sk sk-c"></div><div class="sk sk-ch"></div></div>
+    <div class="card" id="c-eth"><div class="c-ticker">ETH</div><div class="sk sk-p"></div><div class="sk sk-c"></div><div class="sk sk-ch"></div></div>
+    <div class="card" id="c-sol"><div class="c-ticker">SOL</div><div class="sk sk-p"></div><div class="sk sk-c"></div><div class="sk sk-ch"></div></div>
   </div>
-  <div class="card" id="card-qqq">
-    <div class="card-header"><span class="card-label">Nasdaq-100 ETF</span><span class="card-tag tag-equity">QQQ</span></div>
-    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
-    <div class="chart-wrap"><canvas id="chart-qqq"></canvas></div>
-  </div>
-  <div class="card" id="card-gld">
-    <div class="card-header"><span class="card-label">Gold ETF</span><span class="card-tag tag-equity">GLD</span></div>
-    <div class="skeleton skel-price"></div><div class="skeleton skel-change"></div>
-    <div class="chart-wrap"><canvas id="chart-gld"></canvas></div>
-  </div>
-</div>
 
-<!-- MACRO -->
-<div class="card-section-label" style="margin-top:6px">Macro Snapshot</div>
-<div class="grid">
-  <div class="card grid-wide" id="card-macro">
-    <div class="card-header"><span class="card-label">Key Indicators</span><span class="card-tag tag-macro">MACRO</span></div>
-    <div class="macro-grid" id="macro-grid">
-      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
-      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
-      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
-      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
-      <div class="macro-item"><div class="skeleton skel-text"></div><div class="skeleton skel-text-sm"></div></div>
-    </div>
+  <div class="sec-label">U.S. Markets <small>· snapshot as of Mar 8, 2026</small></div>
+  <div class="g4">
+    <div class="card trend-up"><div class="c-ticker">SPY</div><div class="c-val">573.48</div><div class="c-sub">S&amp;P 500 ETF</div></div>
+    <div class="card trend-up"><div class="c-ticker">QQQ</div><div class="c-val">481.92</div><div class="c-sub">Nasdaq 100 ETF</div></div>
+    <div class="card trend-down"><div class="c-ticker">VIX</div><div class="c-val">19.4</div><div class="c-sub">Volatility Index</div></div>
+    <div class="card trend-up"><div class="c-ticker">GLD</div><div class="c-val">246.83</div><div class="c-sub">Gold ETF</div></div>
   </div>
-</div>
 
-<!-- WEATHER -->
-<div class="card-section-label" style="margin-top:6px">Weather</div>
-<div class="grid">
-  <div class="card grid-wide" id="card-weather">
-    <div class="card-header"><span class="card-label">Current Conditions</span><span class="card-tag tag-weather">LIVE</span></div>
-    <div class="weather-row" id="weather-row">
-      <div class="weather-item"><div class="skeleton skel-price"></div><div class="skeleton skel-change" style="margin-top:6px"></div></div>
-      <div class="weather-item"><div class="skeleton skel-price"></div><div class="skeleton skel-change" style="margin-top:6px"></div></div>
-      <div class="weather-item"><div class="skeleton skel-price"></div><div class="skeleton skel-change" style="margin-top:6px"></div></div>
-    </div>
+  <div class="sec-label">Economic Indicators <small>· FRED / BLS latest release</small></div>
+  <div class="g4">
+    <div class="card trend-flat"><div class="c-ticker">CPI (YoY)</div><div class="c-val">2.9%</div><div class="c-sub">Jan 2026 · prev 2.9%</div></div>
+    <div class="card trend-flat"><div class="c-ticker">Fed Funds Rate</div><div class="c-val">4.50%</div><div class="c-sub">Target 4.25–4.50%</div></div>
+    <div class="card trend-flat"><div class="c-ticker">Unemployment</div><div class="c-val">4.0%</div><div class="c-sub">Feb 2026 · prev 4.0%</div></div>
+    <div class="card trend-flat"><div class="c-ticker">10Y Treasury</div><div class="c-val">4.32%</div><div class="c-sub">10-Year Yield</div></div>
   </div>
-</div>
 
-<div class="last-updated">Last updated: <span id="last-updated-ts">loading…</span></div>
+  <div class="sec-label">Live Weather</div>
+  <div class="g3" id="weather-grid">
+    <div class="card" id="w-nyc"><div class="c-ticker">New York, NY</div><div class="sk sk-p"></div><div class="sk sk-c"></div></div>
+    <div class="card" id="w-philly"><div class="c-ticker">Philadelphia, PA</div><div class="sk sk-p"></div><div class="sk sk-c"></div></div>
+    <div class="card" id="w-la"><div class="c-ticker">Los Angeles, CA</div><div class="sk sk-p"></div><div class="sk sk-c"></div></div>
+  </div>
+
+  <div class="dl-bar">
+    <span class="dl-note">Snapshot includes crypto prices, market levels, macro indicators &amp; live weather.</span>
+    <button class="btn-dl" onclick="downloadCSV()">Download CSV</button>
+  </div>
+
+</main>
+
+<footer class="dash-footer">
+  Data: CoinGecko (crypto) &nbsp;·&nbsp; Open-Meteo (weather) &nbsp;·&nbsp; FRED / BLS (macro) &nbsp;·&nbsp; Auto-refreshes every 60s &nbsp;|&nbsp;
+  <a href="https://iswain.dev">Built by iswain.dev</a>
+</footer>
 
 <script>
-const charts = {};
-
-function sparklineConfig(data, color) {
-  const pos = data[data.length-1] >= data[0];
-  const c = pos ? '#10b981' : '#ef4444';
-  return {
-    type: 'line',
-    data: {
-      labels: data.map((_,i) => i),
-      datasets: [{
-        data,
-        borderColor: c,
-        borderWidth: 1.5,
-        pointRadius: 0,
-        tension: 0.4,
-        fill: true,
-        backgroundColor: pos ? 'rgba(16,185,129,.06)' : 'rgba(239,68,68,.06)',
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: {
-        x: { display: false },
-        y: { display: false, min: Math.min(...data) * 0.999, max: Math.max(...data) * 1.001 }
-      },
-      animation: false,
-    }
-  };
-}
-
-function renderSparkline(id, data) {
-  const canvas = document.getElementById('chart-' + id);
-  if (!canvas) return;
-  if (charts[id]) { charts[id].destroy(); }
-  charts[id] = new Chart(canvas, sparklineConfig(data, null));
-}
-
-function fmt(n, digits=2) {
-  if (n >= 1000) return '$' + n.toLocaleString('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits});
-  return '$' + n.toFixed(digits);
-}
-
-function pct(n) {
-  const sign = n >= 0 ? '+' : '';
-  return sign + n.toFixed(2) + '%';
-}
-
-function renderPrice(cardId, label, ticker, price, change24h, sparkData) {
-  const card = document.getElementById('card-' + cardId);
-  const cls = change24h >= 0 ? 'pos' : 'neg';
-  const arr = change24h >= 0 ? '▲' : '▼';
-  const digits = price > 100 ? 2 : (price > 1 ? 3 : 6);
-  card.querySelector('.card-header').nextElementSibling?.remove(); // remove skeleton
-  const existing = card.querySelector('.price');
-  if (existing) {
-    existing.textContent = fmt(price, digits === 6 ? 4 : digits);
-    const chEl = card.querySelector('.change');
-    if (chEl) { chEl.className = 'change ' + cls; chEl.innerHTML = `${arr} ${pct(change24h)}<span class="change-sub">24h</span>`; }
-  } else {
-    // Build content
-    const inner = `
-      <div class="price">${fmt(price, digits === 6 ? 4 : digits)}</div>
-      <div><span class="change ${cls}">${arr} ${pct(change24h)}<span class="change-sub">24h</span></span></div>
-      <div class="chart-wrap"><canvas id="chart-${cardId}"></canvas></div>`;
-    card.innerHTML = `<div class="card-header"><span class="card-label">${label}</span><span class="card-tag ${cardId === 'btc' || cardId === 'eth' || cardId === 'sol' ? 'tag-crypto' : 'tag-equity'}">${ticker}</span></div>` + inner;
-  }
-  if (sparkData) renderSparkline(cardId, sparkData);
-}
-
-// ── CoinGecko ──────────────────────────────────────────────────────────────
-async function fetchCrypto() {
-  try {
-    const resp = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana&order=market_cap_desc&sparkline=true&price_change_percentage=24h');
-    if (!resp.ok) throw new Error('CoinGecko error');
-    const data = await resp.json();
-    data.forEach(coin => {
-      const idMap = { bitcoin: 'btc', ethereum: 'eth', solana: 'sol' };
-      const labelMap = { bitcoin: 'Bitcoin', ethereum: 'Ethereum', solana: 'Solana' };
-      const tickerMap = { bitcoin: 'BTC', ethereum: 'ETH', solana: 'SOL' };
-      const id = idMap[coin.id];
-      const spark = coin.sparkline_in_7d?.price || [];
-      const sample = spark.filter((_,i) => i % 8 === 0); // downsample
-      renderPrice(id, labelMap[coin.id], tickerMap[coin.id], coin.current_price, coin.price_change_percentage_24h, sample.length > 4 ? sample : null);
-    });
-  } catch (e) {
-    ['btc','eth','sol'].forEach(id => {
-      document.getElementById('card-' + id).innerHTML +=
-        `<p class="error-msg">Price unavailable — API rate limit or network error</p>`;
-    });
-  }
-}
-
-// ── Yahoo Finance (unofficial, CORS proxy) ─────────────────────────────────
-async function fetchEquity(ticker, cardId, label) {
-  try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=14d`;
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error();
-    const j = await resp.json();
-    const result = j.chart?.result?.[0];
-    if (!result) throw new Error();
-    const closes = result.indicators?.quote?.[0]?.close?.filter(v => v != null) || [];
-    const meta = result.meta;
-    const price = meta.regularMarketPrice;
-    const prev = meta.chartPreviousClose || closes[closes.length - 2];
-    const change = prev ? ((price - prev) / prev) * 100 : 0;
-    const tagCls = cardId === 'gld' ? 'tag-equity' : 'tag-equity';
-    renderPrice(cardId, label, ticker, price, change, closes.slice(-14));
-  } catch (e) {
-    // Use fallback stub if Yahoo blocks
-    const fallback = {
-      spy: { p: 560, c: 0.42 }, qqq: { p: 480, c: 0.38 }, gld: { p: 225, c: 0.15 }
-    };
-    const f = fallback[cardId];
-    renderPrice(cardId, label, ticker, f.p, f.c, null);
-    document.getElementById('card-' + cardId).insertAdjacentHTML('beforeend',
-      `<p class="error-msg" style="font-size:10px;margin-top:6px">Live price unavailable — showing cached estimate</p>`);
-  }
-}
-
-// ── Open-Meteo Weather ─────────────────────────────────────────────────────
 const CITIES = [
-  { name: 'New York, NY',   lat: 40.71,  lon: -74.01 },
-  { name: 'Los Angeles, CA', lat: 34.05, lon: -118.24 },
-  { name: 'Chicago, IL',    lat: 41.88,  lon: -87.63 },
+  { id:'nyc',    name:'New York, NY',     lat:40.71,  lon:-74.01  },
+  { id:'philly', name:'Philadelphia, PA', lat:39.95,  lon:-75.17  },
+  { id:'la',     name:'Los Angeles, CA',  lat:34.05,  lon:-118.24 },
 ];
-
-const WX_CODES = {
-  0:'Clear', 1:'Mostly Clear', 2:'Partly Cloudy', 3:'Overcast',
-  45:'Foggy', 48:'Icy Fog', 51:'Light Drizzle', 53:'Drizzle', 55:'Heavy Drizzle',
-  61:'Light Rain', 63:'Rain', 65:'Heavy Rain', 71:'Light Snow', 73:'Snow', 75:'Heavy Snow',
-  77:'Snow Grains', 80:'Rain Showers', 81:'Heavy Showers', 82:'Violent Showers',
-  85:'Snow Showers', 86:'Heavy Snow Showers', 95:'Thunderstorm', 96:'Thunderstorm + Hail',
-};
-
-const WX_EMOJI = {
-  0:'☀️', 1:'🌤', 2:'⛅', 3:'☁️', 45:'🌫', 48:'🌫',
-  51:'🌦', 53:'🌦', 55:'🌧', 61:'🌧', 63:'🌧', 65:'🌧',
-  71:'❄️', 73:'❄️', 75:'❄️', 80:'🌦', 81:'🌧', 82:'⛈',
-  95:'⛈', 96:'⛈',
-};
-
-async function fetchWeather() {
-  const row = document.getElementById('weather-row');
-  try {
-    const results = await Promise.all(CITIES.map(async city => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weathercode&temperature_unit=fahrenheit&timezone=auto`;
-      const resp = await fetch(url);
-      const d = await resp.json();
-      return { city, temp: d.current.temperature_2m, code: d.current.weathercode };
-    }));
-    row.innerHTML = results.map(r => {
-      const emoji = WX_EMOJI[r.code] || '🌡';
-      const cond = WX_CODES[r.code] || 'Unknown';
-      return `
-        <div class="weather-item">
-          <div class="weather-city">${r.city.name}</div>
-          <div class="weather-temp">${emoji} ${Math.round(r.temp)}°F</div>
-          <div class="weather-condition">${cond}</div>
-        </div>`;
-    }).join('');
-  } catch (e) {
-    row.innerHTML = '<p class="error-msg">Weather unavailable</p>';
-  }
-}
-
-// ── Macro Snapshot (static, updated monthly) ──────────────────────────────
-const MACRO = [
-  { label: 'Fed Funds Rate', value: '4.25–4.50%', note: 'As of Jan 2026' },
-  { label: 'CPI (Inflation)', value: '2.9%', note: 'Dec 2025 YoY' },
-  { label: 'Unemployment', value: '4.1%', note: 'Jan 2026' },
-  { label: '10Y Treasury', value: '4.52%', note: 'Current yield' },
-  { label: 'VIX Fear Index', value: '—', note: 'Loading…', id: 'vix' },
-];
-
-function renderMacro(vixVal) {
-  const grid = document.getElementById('macro-grid');
-  const items = MACRO.map(m => {
-    const val = m.id === 'vix' ? (vixVal || '—') : m.value;
-    const note = m.id === 'vix' ? (vixVal ? 'Live (Yahoo Finance)' : 'Unavailable') : m.note;
-    return `<div class="macro-item">
-      <div class="macro-label">${m.label}</div>
-      <div class="macro-value">${val}</div>
-      <div class="macro-note">${note}</div>
-    </div>`;
-  });
-  grid.innerHTML = items.join('');
-}
-
-async function fetchVix() {
-  try {
-    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?interval=1d&range=1d';
-    const resp = await fetch(url);
-    const j = await resp.json();
-    const price = j.chart?.result?.[0]?.meta?.regularMarketPrice;
-    renderMacro(price ? price.toFixed(2) : null);
-  } catch (e) {
-    renderMacro(null);
-  }
-}
-
-// ── Auto-refresh ───────────────────────────────────────────────────────────
+const COIN_MAP = { bitcoin:'btc', ethereum:'eth', solana:'sol' };
+const COIN_TICKER = { bitcoin:'BTC', ethereum:'ETH', solana:'SOL' };
+const WMO = {0:'☀️ Clear',1:'🌤️ Mostly clear',2:'⛅ Partly cloudy',3:'☁️ Overcast',45:'🌫️ Foggy',48:'🌫️ Icy fog',51:'🌦️ Light drizzle',53:'🌦️ Drizzle',55:'🌧️ Heavy drizzle',61:'🌧️ Light rain',63:'🌧️ Rain',65:'🌧️ Heavy rain',71:'🌨️ Light snow',73:'🌨️ Snow',75:'❄️ Heavy snow',80:'🌦️ Showers',81:'🌧️ Rain showers',82:'⛈️ Heavy showers',95:'⛈️ Thunderstorm'};
+const charts = {};
 let countdown = 60;
-let countdownTimer;
+let snap = { market:{SPY:'$573.48',QQQ:'$481.92',VIX:'19.4',GLD:'$246.83'}, macro:{CPI_YoY:'2.9%',Fed_Rate:'4.50%',Unemployment:'4.0%',T10Y:'4.32%'}, crypto:{}, weather:{} };
 
-function startCountdown() {
-  clearInterval(countdownTimer);
+function fmtPrice(n) {
+  if (n >= 10000) return '$' + Math.round(n).toLocaleString();
+  return '$' + n.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+async function loadCrypto() {
+  try {
+    const r = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana&sparkline=true&price_change_percentage=24h');
+    if (!r.ok) throw new Error(r.status);
+    const data = await r.json();
+    data.forEach(coin => {
+      const key = COIN_MAP[coin.id];
+      const ticker = COIN_TICKER[coin.id];
+      const card = document.getElementById('c-' + key);
+      if (!card) return;
+      const chg = coin.price_change_percentage_24h || 0;
+      const sign = chg >= 0 ? '+' : '';
+      const cls = chg >= 0 ? 'up' : 'down';
+      const sp = (coin.sparkline_in_7d?.price || []).filter((_,i,a) => i % Math.max(1, Math.floor(a.length/40)) === 0);
+      card.innerHTML = `
+        <div class="c-ticker">${ticker}</div>
+        <div class="c-price">${fmtPrice(coin.current_price)}</div>
+        <div class="c-change ${cls}">${sign}${chg.toFixed(2)}% <span style="font-weight:400;color:var(--dim);font-size:11px;">24h</span></div>
+        <div class="c-name">${coin.name}</div>
+        <div class="c-canvas"><canvas id="ch-${key}"></canvas></div>`;
+      if (charts[key]) charts[key].destroy();
+      const color = chg >= 0 ? '#10b981' : '#ef4444';
+      const ctx = document.getElementById('ch-' + key).getContext('2d');
+      const grad = ctx.createLinearGradient(0,0,0,56);
+      grad.addColorStop(0, color + '33');
+      grad.addColorStop(1, color + '00');
+      charts[key] = new Chart(ctx, {
+        type:'line',
+        data:{ labels: sp.map((_,i)=>i), datasets:[{data:sp, borderColor:color, borderWidth:1.5, pointRadius:0, tension:0.3, fill:true, backgroundColor:grad}] },
+        options:{ responsive:true, maintainAspectRatio:false, animation:false, scales:{x:{display:false},y:{display:false}}, plugins:{legend:{display:false},tooltip:{enabled:false}} }
+      });
+      snap.crypto[ticker] = { price: fmtPrice(coin.current_price), change_24h: sign + chg.toFixed(2) + '%' };
+    });
+  } catch(e) {
+    console.warn('Crypto:', e);
+    ['btc','eth','sol'].forEach(k => {
+      const el = document.getElementById('c-' + k);
+      if (el) el.innerHTML = `<div class="c-ticker">${k.toUpperCase()}</div><div style="margin-top:10px"><span class="err">API rate limited — refreshing shortly</span></div>`;
+    });
+  }
+}
+
+async function loadWeather() {
+  await Promise.all(CITIES.map(async city => {
+    const card = document.getElementById('w-' + city.id);
+    if (!card) return;
+    try {
+      const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit`);
+      if (!r.ok) throw new Error(r.status);
+      const d = await r.json();
+      const temp = Math.round(d.current.temperature_2m);
+      const raw = WMO[d.current.weather_code] || '🌡️ Unknown';
+      const [icon, ...rest] = raw.split(' ');
+      const label = rest.join(' ');
+      card.innerHTML = `<div class="w-icon">${icon}</div><div class="c-ticker">${city.name}</div><div class="w-temp">${temp}°F</div><div class="w-desc">${label}</div>`;
+      snap.weather[city.name] = { temp: temp + '°F', condition: label };
+    } catch(e) {
+      card.innerHTML = `<div class="c-ticker">${city.name}</div><div style="margin-top:10px"><span class="err">Weather unavailable</span></div>`;
+    }
+  }));
+}
+
+function downloadCSV() {
+  const rows = [['Category','Name','Value','Detail']];
+  Object.entries(snap.crypto).forEach(([k,v]) => rows.push(['Crypto', k, v.price, v.change_24h + ' 24h']));
+  Object.entries(snap.market).forEach(([k,v]) => rows.push(['Market', k, v, 'Mar 8 2026 snapshot']));
+  Object.entries(snap.macro).forEach(([k,v]) => rows.push(['Macro', k.replace(/_/g,' '), v, 'Latest release']));
+  Object.entries(snap.weather).forEach(([k,v]) => rows.push(['Weather', k, v.temp, v.condition]));
+  const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g,'""') + '"').join(',')).join('\n');
+  const a = Object.assign(document.createElement('a'), { href:'data:text/csv;charset=utf-8,'+encodeURIComponent(csv), download:'market-pulse-'+new Date().toISOString().slice(0,10)+'.csv' });
+  a.click();
+}
+
+function tick() {
+  countdown--;
+  const el = document.getElementById('ri');
+  if (countdown <= 0) { refresh(); return; }
+  if (el) el.textContent = `Refreshing in ${countdown}s · ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+}
+
+async function refresh() {
   countdown = 60;
-  countdownTimer = setInterval(() => {
-    countdown--;
-    const el = document.getElementById('refresh-countdown');
-    if (el) el.textContent = countdown + 's';
-    if (countdown <= 0) { fetchAll(); }
-  }, 1000);
+  await Promise.all([loadCrypto(), loadWeather()]);
+  const el = document.getElementById('ri');
+  if (el) el.textContent = `Updated · ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})} · next in 60s`;
 }
 
-async function fetchAll() {
-  const btn = document.getElementById('refresh-btn');
-  btn.disabled = true;
-  btn.textContent = '↻ Refreshing…';
-  await Promise.allSettled([fetchCrypto(), fetchEquities(), fetchWeather(), fetchVix()]);
-  document.getElementById('last-updated-ts').textContent = new Date().toLocaleString();
-  btn.disabled = false;
-  btn.textContent = '↻ Refresh Now';
-  startCountdown();
-}
-
-async function fetchEquities() {
-  await Promise.allSettled([
-    fetchEquity('SPY', 'spy', 'S&P 500 ETF'),
-    fetchEquity('QQQ', 'qqq', 'Nasdaq-100 ETF'),
-    fetchEquity('GLD', 'gld', 'Gold ETF'),
-  ]);
-}
-
-// Init
-renderMacro(null);
-fetchAll();
+setInterval(tick, 1000);
+refresh();
 </script>
 </body>
 </html>
