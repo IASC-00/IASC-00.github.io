@@ -417,7 +417,8 @@ footer a:hover { color: #fff; }
 .case-builds-strip { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--bd); }
 .cbs-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 18px; }
 .cbs-items { display: flex; flex-wrap: wrap; gap: 10px; }
-.cbs-item { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid var(--bd); padding: 6px 14px; border-radius: 20px; }
+.cbs-item { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid var(--bd); padding: 6px 14px; border-radius: 20px; text-decoration: none; transition: border-color .15s, color .15s; }
+.cbs-item:hover { border-color: rgba(61,232,208,0.4); color: var(--accent); }
 .cbs-date { font-size: 11px; color: rgba(255,255,255,0.25); margin-left: 6px; }
 
 /* ── Why Work With Me (dark2) ── */
@@ -872,11 +873,11 @@ footer a:hover { color: #fff; }
     <div class="case-builds-strip">
       <div class="cbs-label">More recent builds</div>
       <div class="cbs-items">
-        <span class="cbs-item">Appointment Booking Chatbot <span class="cbs-date">Mar 2026</span></span>
-        <span class="cbs-item">LinkedIn Post Generator <span class="cbs-date">Mar 2026</span></span>
-        <span class="cbs-item">Rental Listing Generator <span class="cbs-date">Mar 2026</span></span>
-        <span class="cbs-item">Business Efficiency Audit <span class="cbs-date">Mar 2026</span></span>
-        <span class="cbs-item">AI Review Responder <span class="cbs-date">Mar 2026</span></span>
+        <a href="/demos/appointment-booking.html" class="cbs-item" target="_blank">Appointment Booking Chatbot <span class="cbs-date">Mar 2026</span></a>
+        <a href="/demos/linkedin-post-generator.html" class="cbs-item" target="_blank">LinkedIn Post Generator <span class="cbs-date">Mar 2026</span></a>
+        <a href="/demos/rental-generator.html" class="cbs-item" target="_blank">Rental Listing Generator <span class="cbs-date">Mar 2026</span></a>
+        <a href="https://process-audit-q9mx.onrender.com" class="cbs-item" target="_blank" rel="noopener noreferrer">Business Efficiency Audit <span class="cbs-date">Mar 2026</span></a>
+        <a href="https://ai-review-responder-dfmu.onrender.com" class="cbs-item" target="_blank" rel="noopener noreferrer">AI Review Responder <span class="cbs-date">Mar 2026</span></a>
       </div>
     </div>
   </div>
