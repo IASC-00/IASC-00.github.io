@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointment Booking Chatbot — iswain.dev</title>
+<meta name="description" content="AI appointment booking chatbot demo for restaurants, salons, and service businesses.">
+<style>
+  :root { --accent: #3de8d0; --dark: #0a0a0a; --dark2: #111; --bd: rgba(255,255,255,0.08); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--dark); color: #fff; min-height: 100vh; }
+
+  nav { padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--bd); }
+  .nav-brand { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); text-decoration: none; letter-spacing: 0.06em; }
+  .nav-brand span { color: var(--accent); }
+  .nav-back { font-size: 12px; color: rgba(255,255,255,0.3); text-decoration: none; }
+  .nav-back:hover { color: #fff; }
+
+  .hero { text-align: center; padding: 48px 24px 32px; }
+  .hero-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 12px; }
+  .hero p { font-size: 14px; color: rgba(255,255,255,0.4); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+  /* Industry selector */
+  .industry-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 0 24px 32px; }
+  .ind-btn { padding: 7px 18px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--bd); background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.45); transition: all .15s; }
+  .ind-btn.active { background: rgba(61,232,208,0.12); border-color: var(--accent); color: var(--accent); }
+
+  /* Main layout */
+  .main { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 680px) { .main { grid-template-columns: 1fr; } }
+
+  /* Mock business site */
+  .mock-site { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+  .mock-nav { background: #1a1a2e; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .mock-logo { font-size: 14px; font-weight: 800; color: #fff; }
+  .mock-nav-links { display: flex; gap: 16px; }
+  .mock-nav-links span { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .mock-hero-img { height: 160px; background: linear-gradient(135deg, #1a1a2e, #2d2d5e); display: flex; align-items: center; justify-content: center; }
+  .mock-hero-img p { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.02em; }
+  .mock-body { padding: 20px; background: #fafafa; }
+  .mock-body p { font-size: 12px; color: #666; line-height: 1.6; margin-bottom: 12px; }
+  .mock-body p strong { color: #333; }
+
+  /* Chat widget */
+  .chat-widget { background: #fff; border-radius: 14px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); overflow: hidden; display: flex; flex-direction: column; height: 520px; }
+  .chat-header { background: #1a1a2e; padding: 14px 18px; display: flex; align-items: center; gap: 10px; }
+  .chat-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .chat-header-info { }
+  .chat-header-name { font-size: 13px; font-weight: 700; color: #fff; }
+  .chat-header-status { font-size: 11px; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 5px; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4caf50; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #f8f8f8; }
+  .msg { max-width: 82%; }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble { padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+  .msg.bot .msg-bubble { background: #fff; color: #1a1a1a; border-bottom-left-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .msg.user .msg-bubble { background: #1a1a2e; color: #fff; border-bottom-right-radius: 4px; }
+  .msg-time { font-size: 10px; color: #bbb; margin-top: 4px; padding: 0 4px; }
+  .msg.user .msg-time { text-align: right; }
+  .typing { display: none; align-self: flex-start; }
+  .typing .msg-bubble { background: #fff; padding: 12px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .dots { display: flex; gap: 4px; }
+  .dots span { width: 7px; height: 7px; border-radius: 50%; background: #bbb; animation: bounce 1.2s infinite; }
+  .dots span:nth-child(2) { animation-delay: .2s; }
+  .dots span:nth-child(3) { animation-delay: .4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+  /* Quick replies */
+  .quick-replies { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .qr { padding: 6px 12px; border: 1px solid #1a1a2e; border-radius: 14px; font-size: 12px; font-weight: 600; color: #1a1a2e; cursor: pointer; background: #fff; transition: all .15s; white-space: nowrap; }
+  .qr:hover { background: #1a1a2e; color: #fff; }
+
+  /* Input */
+  .chat-input-area { padding: 12px 14px; border-top: 1px solid #eee; background: #fff; display: flex; gap: 8px; }
+  .chat-input { flex: 1; border: 1px solid #e0e0e0; border-radius: 20px; padding: 9px 16px; font-size: 13px; outline: none; font-family: inherit; color: #333; }
+  .chat-input:focus { border-color: #1a1a2e; }
+  .send-btn { width: 36px; height: 36px; border-radius: 50%; background: #1a1a2e; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity .15s; }
+  .send-btn:hover { opacity: 0.8; }
+  .send-btn svg { width: 16px; height: 16px; fill: #fff; }
+
+  /* Info panel */
+  .info-panel { margin-top: 24px; background: var(--dark2); border: 1px solid var(--bd); border-radius: 12px; padding: 20px 22px; }
+  .info-panel h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+  .info-row { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--bd); color: rgba(255,255,255,0.5); }
+  .info-row:last-child { border-bottom: none; }
+  .info-row strong { color: rgba(255,255,255,0.85); }
+
+  /* CTA */
+  .cta-bar { text-align: center; padding: 48px 24px; border-top: 1px solid var(--bd); }
+  .cta-bar p { font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .cta-bar a { display: inline-block; padding: 12px 28px; background: var(--accent); color: var(--dark); font-size: 13px; font-weight: 800; border-radius: 7px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">iswain<span>.dev</span></a>
+  <a href="/" class="nav-back">← Back to portfolio</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Demo</div>
+  <h1>Appointment Booking Chatbot</h1>
+  <p>An AI assistant that handles reservations, bookings, and scheduling — embedded on your site, available 24/7. No staff needed for intake.</p>
+</div>
+
+<div class="industry-bar">
+  <button class="ind-btn active" onclick="setIndustry('restaurant', this)">Restaurant</button>
+  <button class="ind-btn" onclick="setIndustry('salon', this)">Hair Salon / Spa</button>
+  <button class="ind-btn" onclick="setIndustry('consulting', this)">Consulting / Services</button>
+  <button class="ind-btn" onclick="setIndustry('fitness', this)">Fitness / Training</button>
+</div>
+
+<div class="main">
+
+  <!-- Left: mock business site -->
+  <div>
+    <div class="mock-site">
+      <div class="mock-nav">
+        <div class="mock-logo" id="mock-logo">Passyunk Table</div>
+        <div class="mock-nav-links">
+          <span>Menu</span><span>About</span><span>Reserve</span>
+        </div>
+      </div>
+      <div class="mock-hero-img"><p id="mock-tagline">Fine dining, South Philly</p></div>
+      <div class="mock-body">
+        <p id="mock-desc"><strong>Passyunk Table</strong> is an intimate BYOB on East Passyunk Ave. We seat 28 guests nightly and fill quickly on weekends. Use the chat below to check availability and make a reservation.</p>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <h3>What this handles automatically</h3>
+      <div class="info-row"><span>Availability questions</span><strong>✓</strong></div>
+      <div class="info-row"><span>Party size &amp; date collection</span><strong>✓</strong></div>
+      <div class="info-row"><span>Special requests &amp; dietary notes</span><strong>✓</strong></div>
+      <div class="info-row"><span>Contact info capture</span><strong>✓</strong></div>
+      <div class="info-row"><span>Confirmation message to guest</span><strong>✓</strong></div>
+      <div class="info-row"><span>Summary email to you</span><strong>✓</strong></div>
+    </div>
+  </div>
+
+  <!-- Right: chat widget -->
+  <div>
+    <div class="chat-widget">
+      <div class="chat-header">
+        <div class="chat-avatar" id="chat-avatar">🍽</div>
+        <div class="chat-header-info">
+          <div class="chat-header-name" id="chat-name">Passyunk Table</div>
+          <div class="chat-header-status"><span class="status-dot"></span> Online now</div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <!-- messages injected here -->
+      </div>
+      <div class="typing" id="typing">
+        <div class="msg-bubble"><div class="dots"><span></span><span></span><span></span></div></div>
+      </div>
+      <div class="chat-input-area">
+        <input class="chat-input" id="chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="send-btn" onclick="sendMsg()">
+          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="cta-bar">
+  <p>Want this on your website? Built to spec, deployed live, full source code included.</p>
+  <a href="/intake.html">Get a custom build → Starting at $400</a>
+</div>
+
+<script>
+const industries = {
+  restaurant: {
+    logo: 'Passyunk Table', tagline: 'Fine dining, South Philly', avatar: '🍽',
+    desc: '<strong>Passyunk Table</strong> is an intimate BYOB on East Passyunk Ave. We seat 28 guests nightly and fill quickly on weekends. Use the chat below to check availability and make a reservation.',
+    flow: [
+      { bot: "Hi! Welcome to Passyunk Table 🍽️\n\nI can help you make a reservation or answer questions about our menu and hours. What brings you in today?", qr: ["Make a reservation", "Check hours & menu", "Private dining info"] },
+      { trigger: ["reservation","reserve","book","table"], bot: "I'd love to help with a reservation! How many guests will be joining you?", qr: ["Just me", "2 people", "3–4 people", "5+ people"] },
+      { trigger: ["hours","menu","open"], bot: "We're open Thursday through Sunday, 5:30–9:30pm.\n\nOur menu changes seasonally — you can view the current menu on our website. We're BYOB, so feel free to bring wine or beer.\n\nAnything else I can help with?", qr: ["Make a reservation", "Private dining"] },
+      { trigger: ["private","event","party"], bot: "We do host private dining for groups of 14 or more! I can pass along your details and have our events coordinator reach out within 24 hours.\n\nWhat's the best email to send that to?", input: true },
+      { trigger: ["2","two","couple","just me","1","one","3","4","3–4","5","5+","six","party"], bot: "Perfect. What date are you thinking? We're typically booked 1–2 weeks out on weekends, but weeknights often have availability.", input: true, inputHint: "e.g. March 15, this Saturday..." },
+      { trigger: ["march","april","saturday","sunday","friday","thursday","weekend","tonight","tomorrow","next"], bot: "Got it. And what time works best for your party?", qr: ["5:30pm", "6:00pm", "6:30pm", "7:00pm", "7:30pm"] },
+      { trigger: ["5:30","6:00","6:30","7:00","7:30","pm"], bot: "Almost done! Last thing — what name should the reservation be under, and a phone number in case we need to reach you?", input: true, inputHint: "Name and phone number..." },
+      { trigger: ["default"], bot: "Reservation confirmed ✓\n\nI've sent your details to the restaurant. You'll receive a confirmation text within the hour.\n\nWe look forward to seeing you! Let me know if anything comes up.", qr: ["Start over"] }
+    ]
+  },
+  salon: {
+    logo: 'Studio Collective', tagline: 'Hair & color, Philadelphia', avatar: '✂️',
+    desc: '<strong>Studio Collective</strong> is a full-service salon in Rittenhouse Square. Book a haircut, color service, or blowout below — our assistant will match you with the right stylist and time.',
+    flow: [
+      { bot: "Hey! Welcome to Studio Collective ✂️\n\nI can book you in for a haircut, color, or blowout — or answer any questions. What can I help with?", qr: ["Book an appointment", "See services & pricing", "Ask a question"] },
+      { trigger: ["book","appointment","schedule","cut","color","blowout"], bot: "Great! What service are you looking for?", qr: ["Haircut", "Color / highlights", "Blowout", "Cut + color"] },
+      { trigger: ["haircut","cut","color","highlights","blowout"], bot: "Nice choice. Do you have a preferred stylist, or would you like me to match you based on availability?", qr: ["No preference — any stylist", "I have a preferred stylist"] },
+      { trigger: ["any","no preference","available"], bot: "Got it. What day works for you this week?", qr: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"] },
+      { trigger: ["monday","tuesday","wednesday","thursday","friday","saturday"], bot: "Morning or afternoon?", qr: ["Morning (9am–12pm)", "Afternoon (12pm–4pm)", "Late afternoon (4pm+)"] },
+      { trigger: ["morning","afternoon","late"], bot: "Perfect. What name and phone number should I put the appointment under?", input: true, inputHint: "Your name and phone number..." },
+      { trigger: ["default"], bot: "Appointment booked ✓\n\nYou'll get a confirmation text shortly with your stylist's name and the exact time.\n\nSee you soon!", qr: ["Book another"] }
+    ]
+  },
+  consulting: {
+    logo: 'Meridian Advisory', tagline: 'Business consulting, Philadelphia', avatar: '💼',
+    desc: '<strong>Meridian Advisory</strong> works with small and mid-size businesses on operations, finance, and growth strategy. Book a free 30-minute discovery call below.',
+    flow: [
+      { bot: "Hi! Welcome to Meridian Advisory 💼\n\nI can book you in for a free 30-minute discovery call or answer questions about our services. What are you looking for?", qr: ["Book a discovery call", "Learn about services", "Pricing info"] },
+      { trigger: ["book","call","discovery","schedule","appointment"], bot: "Happy to set that up. Can you tell me a bit about your business and what you're hoping to work on?", input: true, inputHint: "e.g. operations, growth strategy, financial planning..." },
+      { trigger: ["default_1"], bot: "Got it. What's your availability like this week? We have slots Monday–Friday.", qr: ["Monday or Tuesday", "Wednesday or Thursday", "Friday", "Next week works better"] },
+      { trigger: ["monday","tuesday","wednesday","thursday","friday","next"], bot: "Morning or afternoon?", qr: ["Morning (9–12)", "Afternoon (1–5)"] },
+      { trigger: ["morning","afternoon"], bot: "Almost done. What's your name, company, and best email?", input: true, inputHint: "Name, company, email..." },
+      { trigger: ["default"], bot: "Discovery call confirmed ✓\n\nYou'll receive a calendar invite within the hour with a Zoom link. Looking forward to learning about your business.\n\nSee you soon!", qr: ["Ask another question"] }
+    ]
+  },
+  fitness: {
+    logo: 'Peak Performance PT', tagline: 'Personal training, Philadelphia', avatar: '🏋️',
+    desc: '<strong>Peak Performance PT</strong> offers 1-on-1 personal training and nutrition coaching. Book a free assessment session below — no commitment required.',
+    flow: [
+      { bot: "Hey! Welcome to Peak Performance 🏋️\n\nI can book your free assessment session or answer questions about our training programs. What can I help with?", qr: ["Book free assessment", "See programs & pricing", "Ask a question"] },
+      { trigger: ["book","session","assessment","training","schedule"], bot: "Awesome — the free session is 45 minutes with one of our trainers. What are your main goals right now?", qr: ["Build muscle / strength", "Lose weight", "Athletic performance", "General fitness / health"] },
+      { trigger: ["muscle","strength","weight","athletic","general","fitness"], bot: "Love it. Any injuries or limitations I should note for your trainer?", qr: ["No injuries", "Yes — I'll explain at the session"] },
+      { trigger: ["no","yes","none"], bot: "What days work best for you?", qr: ["Weekday mornings", "Weekday evenings", "Saturday", "Sunday"] },
+      { trigger: ["monday","tuesday","weekday","morning","evening","saturday","sunday"], bot: "Perfect. What's your name and best number to confirm your appointment?", input: true, inputHint: "Name and phone number..." },
+      { trigger: ["default"], bot: "Assessment booked ✓\n\nYou'll get a text confirmation with your trainer's name and session location. Bring comfortable workout clothes and water.\n\nCan't wait to meet you!", qr: ["Book another session"] }
+    ]
+  }
+};
+
+let currentIndustry = 'restaurant';
+let flowStep = 0;
+let flow = [];
+
+function setIndustry(ind, btn) {
+  currentIndustry = ind;
+  document.querySelectorAll('.ind-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cfg = industries[ind];
+  document.getElementById('mock-logo').textContent = cfg.logo;
+  document.getElementById('mock-tagline').textContent = cfg.tagline;
+  document.getElementById('mock-desc').innerHTML = cfg.desc;
+  document.getElementById('chat-avatar').textContent = cfg.avatar;
+  document.getElementById('chat-name').textContent = cfg.logo;
+  resetChat();
+}
+
+function resetChat() {
+  flowStep = 0;
+  flow = industries[currentIndustry].flow;
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-input').value = '';
+  setTimeout(() => addBotMsg(flow[0].bot, flow[0].qr), 400);
+}
+
+function addBotMsg(text, qrs) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  const now = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  let html = `<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now}</div>`;
+  if (qrs?.length) {
+    html += `<div class="quick-replies">${qrs.map(q => `<span class="qr" onclick="selectQR('${q}')">${q}</span>`).join('')}</div>`;
+  }
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  const now = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  div.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const t = document.getElementById('typing');
+  t.style.display = 'flex';
+  document.getElementById('chat-messages').appendChild(t);
+  document.getElementById('chat-messages').scrollTop = 99999;
+}
+
+function hideTyping() { document.getElementById('typing').style.display = 'none'; }
+
+function selectQR(text) {
+  if (text === 'Start over' || text === 'Book another' || text === 'Ask another question' || text === 'Book another session') { resetChat(); return; }
+  addUserMsg(text);
+  respond(text);
+}
+
+function sendMsg() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserMsg(text);
+  respond(text);
+}
+
+function respond(text) {
+  showTyping();
+  const lower = text.toLowerCase();
+  flowStep++;
+  setTimeout(() => {
+    hideTyping();
+    const remaining = flow.slice(flowStep);
+    let matched = null;
+    for (const step of remaining) {
+      if (!step.trigger) continue;
+      if (step.trigger[0] === 'default' || step.trigger[0] === 'default_1') { matched = step; break; }
+      if (step.trigger.some(t => lower.includes(t.toLowerCase()))) { matched = step; break; }
+    }
+    if (!matched) matched = flow[flow.length - 1];
+    if (matched) {
+      flowStep = flow.indexOf(matched);
+      addBotMsg(matched.bot, matched.qr);
+    }
+  }, 900 + Math.random() * 500);
+}
+
+// Init
+window.addEventListener('DOMContentLoaded', () => {
+  flow = industries[currentIndustry].flow;
+  setTimeout(() => addBotMsg(flow[0].bot, flow[0].qr), 600);
+});
+</script>
+</body>
+</html>
