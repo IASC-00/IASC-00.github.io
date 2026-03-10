@@ -117,6 +117,16 @@ select option { background: #1c1c1c; color: #fff; }
 .submit-note { font-size: 12px; color: rgba(255,255,255,0.25); text-align: center; margin-top: 14px; }
 .disclaimer { font-size: 12px; color: rgba(255,255,255,0.2); margin-top: 10px; text-align: center; font-style: italic; }
 
+/* Consent */
+.consent-section { margin-bottom: 48px; padding: 24px 28px; background: rgba(61,232,208,0.05); border: 1px solid rgba(61,232,208,0.18); border-radius: 12px; }
+.consent-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; display: block; }
+.consent-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.consent-item:last-child { margin-bottom: 0; }
+.consent-item input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+.consent-item label { font-size: 13px; color: rgba(255,255,255,0.65); cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 400; margin-bottom: 0; }
+.consent-item label a { color: var(--accent); text-decoration: none; }
+.consent-item label a:hover { text-decoration: underline; }
+
 /* Success */
 .success { display: none; text-align: center; padding: 80px 0; }
 .success.show { display: block; }
@@ -146,12 +156,29 @@ select option { background: #1c1c1c; color: #fff; }
   <div class="page-header">
     <span class="page-label">Full Project Intake</span>
     <h1>Let's scope this<br>properly.</h1>
-    <p class="page-sub">This takes 5–10 minutes. The more detail you give, the more accurate the quote — and the smoother the build.</p>
+    <p class="page-sub">Takes 5–10 minutes. More detail = more accurate quote.</p>
   </div>
 
   <form id="full-intake-form" action="https://formspree.io/f/mzdaldva" method="POST">
     <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
     <input type="hidden" name="_subject" value="Full Project Intake — iswain.dev">
+
+    <!-- Consent (top, required) -->
+    <div class="consent-section">
+      <span class="consent-title">Before we begin — required to submit</span>
+      <div class="consent-item">
+        <input type="checkbox" id="consent-accurate" name="consent_accurate" value="confirmed" required>
+        <label for="consent-accurate">I confirm the information I'm submitting is accurate and I have authority to share it.</label>
+      </div>
+      <div class="consent-item">
+        <input type="checkbox" id="consent-terms" name="consent_terms" value="agreed" required>
+        <label for="consent-terms">I agree to the <a href="/terms.html" target="_blank">Terms of Service</a>.</label>
+      </div>
+      <div class="consent-item">
+        <input type="checkbox" id="consent-privacy" name="consent_privacy" value="acknowledged" required>
+        <label for="consent-privacy">I understand my data is handled per the <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>.</label>
+      </div>
+    </div>
 
     <!-- Section 1: Business Context -->
     <div class="intake-section">
@@ -177,28 +204,27 @@ select option { background: #1c1c1c; color: #fff; }
         <input id="customers" type="text" name="customers" placeholder="e.g. Local restaurants, residential property owners, B2B SaaS companies, home buyers..." required>
       </div>
       <div class="field">
-        <label for="current-tools">What tools and software do you currently use?</label>
+        <label for="current-tools">What tools do you use? <span class="optional-tag">CRM, email, spreadsheets all count</span></label>
         <textarea id="current-tools" name="current_tools" placeholder="e.g. Shopify, HubSpot, Google Sheets, Slack, Airtable, QuickBooks, Mailchimp, a custom CRM..." style="min-height:80px;"></textarea>
-        <p class="hint">List everything — even spreadsheets and email count.</p>
       </div>
     </div>
 
-    <!-- Section 2: Problem Definition -->
+    <!-- Section 2: Problem -->
     <div class="intake-section">
       <span class="sec-num">02</span>
-      <h2 class="sec-title">Problem Definition</h2>
+      <h2 class="sec-title">Problem</h2>
       <p class="sec-desc">The clearer you are here, the better I can scope — and the less back-and-forth later.</p>
       <div class="field">
-        <label for="problem">What is the biggest problem this project solves?</label>
-        <textarea id="problem" name="problem_definition" placeholder="e.g. My team spends 3 hours a day manually answering the same customer questions. New leads come in but nobody qualifies them before the sales call. We generate a report every Friday that takes 2 hours and could be automated." required></textarea>
+        <label for="problem">Biggest problem this project solves?</label>
+        <textarea id="problem" name="problem_definition" placeholder="e.g. My team spends 3 hours a day manually answering the same customer questions. New leads come in but nobody qualifies them before the sales call." required></textarea>
       </div>
       <div class="field">
-        <label for="current-fix">How do you handle this today?</label>
-        <textarea id="current-fix" name="current_solution" placeholder="What's your current workaround — if any? Manually? Spreadsheet? Paid software?" style="min-height:80px;"></textarea>
+        <label for="current-fix">How do you handle it today?</label>
+        <textarea id="current-fix" name="current_solution" placeholder="Manually? Spreadsheet? Paid software you've outgrown?" style="min-height:80px;"></textarea>
       </div>
       <div class="field">
-        <label for="cost">What does the problem cost you?</label>
-        <input id="cost" type="text" name="problem_cost" placeholder="e.g. ~5 hours/week, 2 missed leads per month, $200/mo on software we're outgrowing...">
+        <label for="cost">What does it cost you? <span class="optional-tag">time / money / stress</span></label>
+        <input id="cost" type="text" name="problem_cost" placeholder="e.g. ~5 hours/week, 2 missed leads per month, constant manual errors...">
       </div>
     </div>
 
@@ -222,31 +248,32 @@ select option { background: #1c1c1c; color: #fff; }
         <div class="check-item"><input type="checkbox" id="ts12" name="scope[]" value="Reporting / Analytics"><label for="ts12">Reporting / Analytics</label></div>
       </div>
       <div class="field" style="margin-top:16px;">
-        <label for="scope-other">Anything else the system needs to do? <span class="optional-tag">optional</span></label>
+        <label for="scope-other">Anything else? <span class="optional-tag">optional</span></label>
         <input id="scope-other" type="text" name="scope_other" placeholder="Describe anything not listed above...">
       </div>
     </div>
 
-    <!-- Section 4: Integration Requirements -->
+    <!-- Section 4: Integrations -->
     <div class="intake-section">
       <span class="sec-num">04</span>
-      <h2 class="sec-title">Integration Requirements</h2>
+      <h2 class="sec-title">Integrations</h2>
       <p class="sec-desc">What external services must this connect to?</p>
       <div class="field">
-        <label for="integrations">List the tools this must connect with <span class="optional-tag">optional</span></label>
-        <textarea id="integrations" name="integrations" placeholder="e.g. Stripe for payments, Slack for notifications, Gmail for sending emails, Shopify for product data, a custom REST API..." style="min-height:80px;"></textarea>
+        <label for="integrations">External tools to connect <span class="optional-tag">optional</span></label>
+        <textarea id="integrations" name="integrations" placeholder="e.g. Slack for notifications, Gmail for sending emails, Shopify for product data, a custom REST API..." style="min-height:80px;"></textarea>
       </div>
       <div class="field">
-        <label for="data-access">Will the system need access to private company data?</label>
-        <select id="data-access" name="data_access">
-          <option value="">— Select one —</option>
-          <option>No — works with new or public data only</option>
-          <option>Yes — CSV or spreadsheet exports</option>
-          <option>Yes — an existing database</option>
-          <option>Yes — via API from another service</option>
-          <option>Yes — Google Drive / Sheets / Docs</option>
-          <option>Not sure yet</option>
-        </select>
+        <label>Will the system need access to private company data? <span class="optional-tag">credentials, customer data, etc.</span></label>
+        <div class="option-grid" style="grid-template-columns:1fr 1fr;margin-top:10px;">
+          <div class="option-item">
+            <input type="radio" id="data-yes" name="data_access" value="Yes — I confirm I have legal authority to provide this data">
+            <label for="data-yes"><span class="opt-title">Yes</span><span style="font-size:11px;color:rgba(255,255,255,0.35);display:block;margin-top:3px;">I confirm I have legal authority to provide this data</span></label>
+          </div>
+          <div class="option-item">
+            <input type="radio" id="data-no" name="data_access" value="No — public or new data only">
+            <label for="data-no"><span class="opt-title">No</span><span style="font-size:11px;color:rgba(255,255,255,0.35);display:block;margin-top:3px;">Public or new data only</span></label>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -267,11 +294,27 @@ select option { background: #1c1c1c; color: #fff; }
       </div>
     </div>
 
-    <!-- Section 6: Maintenance -->
+    <!-- Section 6: Timeline & Support -->
     <div class="intake-section">
       <span class="sec-num">06</span>
-      <h2 class="sec-title">After the Build</h2>
-      <p class="sec-desc">Do you want ongoing support once it's live?</p>
+      <h2 class="sec-title">Timeline &amp; Support</h2>
+      <p class="sec-desc">How fast do you need it, and what happens after launch?</p>
+      <label style="margin-bottom:10px;">Timeline preference</label>
+      <div class="option-grid" style="margin-bottom:28px;">
+        <div class="option-item">
+          <input type="radio" id="t1" name="timeline" value="Fastest possible (1–2 weeks)">
+          <label for="t1"><span class="opt-title">Fastest possible</span><span style="font-size:11px;color:rgba(255,255,255,0.35);display:block;margin-top:3px;">1–2 weeks</span></label>
+        </div>
+        <div class="option-item">
+          <input type="radio" id="t2" name="timeline" value="Standard (2–4 weeks)">
+          <label for="t2"><span class="opt-title">Standard</span><span style="font-size:11px;color:rgba(255,255,255,0.35);display:block;margin-top:3px;">2–4 weeks</span></label>
+        </div>
+        <div class="option-item">
+          <input type="radio" id="t3" name="timeline" value="Flexible timeline">
+          <label for="t3"><span class="opt-title">Flexible</span><span style="font-size:11px;color:rgba(255,255,255,0.35);display:block;margin-top:3px;">No hard deadline</span></label>
+        </div>
+      </div>
+      <label style="margin-bottom:10px;">Ongoing support after launch?</label>
       <div class="option-grid">
         <div class="option-item">
           <input type="radio" id="m1" name="maintenance" value="One-time build — I'll maintain it myself">
@@ -288,29 +331,14 @@ select option { background: #1c1c1c; color: #fff; }
       </div>
     </div>
 
-    <!-- Section 7: Budget -->
+    <!-- Section 7: Success Vision -->
     <div class="intake-section">
       <span class="sec-num">07</span>
-      <h2 class="sec-title">Budget</h2>
-      <p class="sec-desc">Honest answer helps me scope appropriately — I won't pad the estimate.</p>
-      <div class="option-grid" style="grid-template-columns: 1fr 1fr;">
-        <div class="option-item"><input type="radio" id="bud1" name="budget" value="Under $300"><label for="bud1"><span class="opt-title">Under $300</span></label></div>
-        <div class="option-item"><input type="radio" id="bud2" name="budget" value="$300–$800"><label for="bud2"><span class="opt-title">$300–$800</span></label></div>
-        <div class="option-item"><input type="radio" id="bud3" name="budget" value="$800–$2,000"><label for="bud3"><span class="opt-title">$800–$2,000</span></label></div>
-        <div class="option-item"><input type="radio" id="bud4" name="budget" value="$2,000+"><label for="bud4"><span class="opt-title">$2,000+</span></label></div>
-        <div class="option-item" style="grid-column: 1 / -1;"><input type="radio" id="bud5" name="budget" value="Not sure yet"><label for="bud5"><span class="opt-title">Not sure yet — let's talk</span></label></div>
-      </div>
-    </div>
-
-    <!-- Section 8: Gold Question -->
-    <div class="intake-section">
-      <span class="sec-num">08</span>
-      <h2 class="sec-title">The Gold Question</h2>
+      <h2 class="sec-title">Success Vision</h2>
       <p class="sec-desc">This is the most important question on the form.</p>
       <div class="gold-box">
-        <span class="gold-label">Success Vision</span>
-        <p class="gold-question">If this project works perfectly, what does success look like?</p>
-        <textarea name="success_vision" placeholder="Be as specific as possible. e.g. Every new lead gets an automated follow-up email within 5 minutes. My team never manually answers a customer question again. I get a clean report every Monday without touching a spreadsheet." required></textarea>
+        <span class="gold-label">If this works perfectly, success looks like…</span>
+        <textarea name="success_vision" placeholder="Be specific. e.g. Every new lead gets an automated follow-up within 5 minutes. My team never manually answers a customer question again. I get a clean report every Monday without touching a spreadsheet." required></textarea>
       </div>
       <div class="field">
         <label for="extra">Anything else I should know? <span class="optional-tag">optional</span></label>
@@ -320,8 +348,8 @@ select option { background: #1c1c1c; color: #fff; }
 
     <!-- Submit -->
     <div class="submit-wrap">
-      <button type="submit" class="btn-submit" id="submit-btn">Submit Full Intake →</button>
-      <p class="submit-note">I'll respond within 24 hours with a proposal, timeline, and contract. Work begins — and payment is collected — only after the contract is signed.</p>
+      <button type="submit" class="btn-submit" id="submit-btn">Send Proposal + Contract →</button>
+      <p class="submit-note">I'll respond within 24 hours. Work begins — and payment is collected — only after the contract is signed.</p>
       <p class="disclaimer">AI-generated outputs may contain inaccuracies. Clients are responsible for reviewing all outputs before use in production.</p>
     </div>
 
