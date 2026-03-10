@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<title>Proposal Coming — iswain.dev</title>
+<link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --dark:#131313; --dark2:#1c1c1c; --accent:#3DE8D0; --bd:rgba(255,255,255,0.09); }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--dark); color:#e8e8e8; line-height:1.7; -webkit-font-smoothing:antialiased; min-height:100vh; }
+nav { position:sticky; top:0; z-index:100; background:rgba(15,15,15,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--bd); padding:0 60px; height:58px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.nav-logo img { width:28px; height:28px; }
+.nav-logo span { font-size:13px; font-weight:800; letter-spacing:0.05em; color:#fff; }
+
+.page { max-width:640px; margin:0 auto; padding:96px 40px 120px; text-align:center; }
+
+.check-wrap { margin-bottom:32px; }
+.check-circle { width:64px; height:64px; border-radius:50%; background:rgba(61,232,208,0.12); border:2px solid rgba(61,232,208,0.4); display:inline-flex; align-items:center; justify-content:center; }
+.check-circle svg { width:28px; height:28px; stroke:var(--accent); stroke-width:2.5; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+
+.page-label { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(79,255,224,0.7); margin-bottom:16px; display:block; }
+h1 { font-size:clamp(30px,4vw,46px); font-weight:900; letter-spacing:-0.04em; color:#fff; line-height:1.1; margin-bottom:16px; }
+.sub { font-size:16px; color:rgba(255,255,255,0.45); max-width:480px; margin:0 auto 56px; }
+
+/* Steps */
+.steps { text-align:left; border:1px solid var(--bd); border-radius:14px; overflow:hidden; margin-bottom:48px; }
+.step { display:grid; grid-template-columns:48px 1fr; gap:0; padding:24px 28px; border-bottom:1px solid var(--bd); }
+.step:last-child { border-bottom:none; }
+.step-num { font-size:12px; font-weight:800; color:var(--accent); padding-top:3px; letter-spacing:0.06em; }
+.step-body h3 { font-size:15px; font-weight:800; color:#fff; margin-bottom:4px; }
+.step-body p { font-size:13px; color:rgba(255,255,255,0.4); line-height:1.6; }
+.step-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:2px 8px; border-radius:20px; margin-bottom:6px; }
+.tag-now { background:rgba(61,232,208,0.12); color:var(--accent); }
+.tag-soon { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.35); }
+
+/* CTA */
+.cta-row { display:flex; flex-direction:column; align-items:center; gap:14px; margin-bottom:48px; }
+.btn-primary { display:inline-block; background:var(--accent); color:var(--dark); font-size:15px; font-weight:900; padding:16px 40px; border-radius:10px; text-decoration:none; letter-spacing:-.01em; transition:opacity .15s; }
+.btn-primary:hover { opacity:0.85; }
+.btn-ghost { font-size:13px; color:rgba(255,255,255,0.35); text-decoration:none; transition:color .15s; }
+.btn-ghost:hover { color:#fff; }
+
+/* Note */
+.note { font-size:12px; color:rgba(255,255,255,0.2); border-top:1px solid var(--bd); padding-top:28px; }
+.note a { color:rgba(79,255,224,0.5); text-decoration:none; }
+.note a:hover { color:var(--accent); }
+
+@media(max-width:600px){ nav{padding:0 24px;} .page{padding:64px 24px 80px;} .step{padding:20px;} }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/images/swan-logo.png" alt="iswain.dev">
+    <span>ISWAIN.DEV</span>
+  </a>
+</nav>
+
+<div class="page">
+
+  <div class="check-wrap">
+    <div class="check-circle">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+  </div>
+
+  <span class="page-label">Received</span>
+  <h1>Your intake is in.<br>Proposal coming soon.</h1>
+  <p class="sub">I'll review everything you submitted and respond within 24 hours with a scoped proposal and a contract — no payment until you've signed.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <span class="step-tag tag-now">Happening now</span>
+        <h3>I'm reviewing your intake</h3>
+        <p>I'll read through your answers, scope the build, and put together a proposal tailored to your problem.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <span class="step-tag tag-soon">Within 24 hours</span>
+        <h3>You'll receive a proposal + contract</h3>
+        <p>The proposal covers scope, timeline, and what's included. The contract protects both sides. Nothing moves forward until you sign.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <span class="step-tag tag-soon">After signing</span>
+        <h3>Payment &amp; build begin</h3>
+        <p>Once the contract is signed, we align on payment terms and I start the build. You'll see it running live before the final invoice.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="https://calendly.com/iswain-dev" class="btn-primary" target="_blank" rel="noopener noreferrer">Book a free 10-min call →</a>
+    <a href="/" class="btn-ghost">← Back to site</a>
+  </div>
+
+  <p class="note">Questions in the meantime? <a href="mailto:contact@iswain.dev">contact@iswain.dev</a> &nbsp;·&nbsp; <a href="/terms.html">Terms</a> &nbsp;·&nbsp; <a href="/privacy-policy.html">Privacy Policy</a></p>
+
+</div>
+
+</body>
+</html>
