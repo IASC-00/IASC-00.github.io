@@ -398,5 +398,23 @@ document.querySelectorAll('.chips').forEach(group => {
   });
 });
 </script>
+<!-- Sticky CTA -->
+<style>
+.demo-sticky{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#1a1728;border-top:1px solid rgba(255,255,255,0.1);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.demo-sticky-text{font-family:'Inter',system-ui,sans-serif;font-size:13px;color:rgba(255,255,255,0.6);line-height:1.4;}
+.demo-sticky-text strong{color:#fff;font-size:14px;display:block;margin-bottom:2px;}
+.demo-sticky-cta{background:#3de8d0;color:#0e0e0f;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:800;padding:10px 22px;border-radius:6px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.demo-sticky-cta:hover{opacity:0.85;}
+.demo-sticky-dismiss{background:none;border:none;color:rgba(255,255,255,0.3);font-size:18px;cursor:pointer;padding:4px 8px;line-height:1;flex-shrink:0;}
+.demo-sticky-dismiss:hover{color:#fff;}
+</style>
+<div class="demo-sticky" id="demoCta">
+  <div class="demo-sticky-text">
+    <strong>Want this generating posts for your brand automatically?</strong>
+    Custom AI content tool — starting at $400/mo. Set up in under a week.
+  </div>
+  <a href="https://iswain.dev/intake.html" class="demo-sticky-cta">Get a Quote →</a>
+  <button class="demo-sticky-dismiss" onclick="document.getElementById('demoCta').style.display='none'" aria-label="Dismiss">×</button>
+</div>
 </body>
 </html>
