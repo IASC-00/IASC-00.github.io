@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreeRead</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f9f9f7;
+      color: #222;
+    }
+    .msg {
+      text-align: center;
+      padding: 2rem;
+      max-width: 400px;
+    }
+    .msg p { font-size: 1rem; color: #555; margin-top: 0.5rem; }
+    .error { color: #c0392b; }
+    a { color: #2980b9; }
+  </style>
+</head>
+<body>
+<div class="msg" id="msg">
+  <strong>FreeRead</strong>
+  <p>Finding free version&hellip;</p>
+</div>
+
+<script>
+/* ============================================================
+   FreeRead — redirect logic
+   Hosted at: iswain.dev/freeread.html
+   Called by the iOS Shortcut with ?url=<article URL>
+
+   To update logic: edit this file and push to GitHub.
+   No need to update the Shortcut on your phone.
+   ============================================================ */
+
+// --- CONFIG -------------------------------------------------------
+
+// Academic publisher domains — URLs containing these go through
+// Unpaywall / arXiv path instead of 12ft.io
+const ACADEMIC_DOMAINS = [
+  'doi.org', 'arxiv.org', 'nature.com', 'springer.com',
+  'sciencedirect.com', 'wiley.com', 'pubmed', 'jstor.org',
+  'tandfonline.com', 'academic.oup.com', 'cell.com',
+  'nejm.org', 'bmj.com', 'journals.plos.org', 'biorxiv.org',
+  'medrxiv.org', 'ssrn.com', 'researchgate.net'
+];
+
+// DOI pattern — used to extract DOI from academic URLs
+const DOI_REGEX = /10\.\d{4,9}\/[^\s"'<>]+/;
+
+// Unpaywall contact email (required by their API terms — any valid email works)
+const UNPAYWALL_EMAIL = 'freeread@iswain.dev';
+
+// ------------------------------------------------------------------
+
+function show(msg, isError = false) {
+  document.getElementById('msg').innerHTML =
+    `<strong>FreeRead</strong><p class="${isError ? 'error' : ''}">${msg}</p>`;
+}
+
+function redirect(url) {
+  window.location.replace(url);
+}
+
+async function freeRead() {
+  // Parse the article URL from the query string
+  const params = new URLSearchParams(window.location.search);
+  const url = decodeURIComponent(params.get('url') || '');
+
+  if (!url) {
+    show('No URL found. Use the FreeRead shortcut from the iOS Share Sheet.', true);
+    return;
+  }
+
+  const isAcademic = ACADEMIC_DOMAINS.some(d => url.toLowerCase().includes(d));
+
+  if (isAcademic) {
+    await handleAcademic(url);
+  } else {
+    handleArticle(url);
+  }
+}
+
+async function handleAcademic(url) {
+  // ── arXiv: free PDFs available at /pdf/ instead of /abs/ ──────
+  if (url.includes('arxiv.org')) {
+    const pdfUrl = url
+      .replace('/abs/', '/pdf/')
+      .replace('/html/', '/pdf/');
+    show('Opening arXiv PDF&hellip;');
+    redirect(pdfUrl);
+    return;
+  }
+
+  // ── bioRxiv / medRxiv: already free, open directly ────────────
+  if (url.includes('biorxiv.org') || url.includes('medrxiv.org')) {
+    show('Opening preprint&hellip;');
+    // Append .full.pdf for direct PDF if it's an abstract page
+    redirect(url.includes('.full') ? url : url + '.full.pdf');
+    return;
+  }
+
+  // ── Other academic: try Unpaywall for open access version ──────
+  const doiMatch = url.match(DOI_REGEX);
+  if (doiMatch) {
+    const doi = doiMatch[0].replace(/[.,;)\]]+$/, ''); // trim trailing punctuation
+    show('Checking for free version&hellip;');
+    try {
+      const resp = await fetch(
+        `https://api.unpaywall.org/v2/${encodeURIComponent(doi)}?email=${UNPAYWALL_EMAIL}`,
+        { signal: AbortSignal.timeout(6000) }
+      );
+      if (resp.ok) {
+        const data = await resp.json();
+        const oaUrl =
+          data?.best_oa_location?.url_for_landing_page ||
+          data?.best_oa_location?.url ||
+          null;
+        if (oaUrl) {
+          show('Free version found! Redirecting&hellip;');
+          redirect(oaUrl);
+          return;
+        }
+      }
+    } catch (e) {
+      // Unpaywall unreachable or timed out — fall through to 12ft
+    }
+  }
+
+  // ── Fallback: 12ft.io (works on many academic sites too) ───────
+  show('Using 12ft.io fallback&hellip;');
+  redirect('https://12ft.io/proxy?q=' + encodeURIComponent(url));
+}
+
+function handleArticle(url) {
+  // News / blog articles → 12ft.io strips the paywall
+  show('Opening free version&hellip;');
+  redirect('https://12ft.io/proxy?q=' + encodeURIComponent(url));
+}
+
+freeRead();
+</script>
+</body>
+</html>
