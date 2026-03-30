@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automation ROI Calculator — iswain.dev</title>
+<meta name="description" content="Find out how much time and money manual tasks are costing your business — and what automation could save you.">
+<style>
+  :root {
+    --bg: #0a0a12;
+    --surface: #12121e;
+    --surface2: #1a1a2e;
+    --border: #2a2a44;
+    --accent: #6c8eff;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --danger: #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '← '; }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    padding: 2px 6px;
+  }
+  .remove-btn:hover { opacity: 1; }
+
+  .fields {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    .fields { grid-template-columns: 1fr; }
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 0.55rem 0.75rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  input:focus { border-color: var(--accent); }
+  input::placeholder { color: #4a5568; }
+
+  .prefix-wrap {
+    position: relative;
+  }
+  .prefix-wrap span {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+  .prefix-wrap input { padding-left: 1.5rem; }
+
+  .add-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1.5rem;
+  }
+  .add-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Results */
+  .results {
+    background: linear-gradient(135deg, #0f1628, #12122a);
+    border: 1px solid #2a3060;
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .results-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 560px) {
+    .metrics { grid-template-columns: 1fr 1fr; }
+  }
+
+  .metric {
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .metric-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+
+  .metric.highlight .metric-value { color: var(--green); }
+  .metric.warn .metric-value { color: var(--danger); }
+  .metric.info .metric-value { color: var(--accent); }
+
+  .savings-bar-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .savings-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .savings-bar {
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .savings-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  .task-breakdown {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .breakdown-title {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .breakdown-row:last-child { border-bottom: none; }
+  .breakdown-name { color: var(--text); }
+  .breakdown-cost { color: var(--danger); font-weight: 600; }
+  .breakdown-save { color: var(--green); font-size: 0.8rem; }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(135deg, #1a1040, #0f1628);
+    border: 1px solid #3730a3;
+    border-radius: 12px;
+    padding: 1.75rem;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .disclaimer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #4a5568;
+    margin-top: 1.5rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <a href="https://iswain.dev" class="back-link">iswain.dev</a>
+    <h1>Automation ROI Calculator</h1>
+    <p class="subtitle">Find out how much your manual workflows cost per year —<br>and what automation could save you.</p>
+  </header>
+
+  <div id="tasks-container"></div>
+
+  <button class="add-btn" onclick="addTask()">+ Add another task</button>
+
+  <div class="results" id="results">
+    <div class="results-title">Your Results</div>
+    <div class="metrics">
+      <div class="metric warn">
+        <div class="metric-value" id="annual-cost">$0</div>
+        <div class="metric-label">Annual cost of manual work</div>
+      </div>
+      <div class="metric info">
+        <div class="metric-value" id="hours-year">0 hrs</div>
+        <div class="metric-label">Hours lost per year</div>
+      </div>
+      <div class="metric highlight">
+        <div class="metric-value" id="annual-save">$0</div>
+        <div class="metric-label">Estimated annual savings</div>
+      </div>
+    </div>
+
+    <div class="savings-bar-wrap">
+      <div class="savings-bar-label">
+        <span>Automation savings potential</span>
+        <span id="savings-pct">0%</span>
+      </div>
+      <div class="savings-bar">
+        <div class="savings-bar-fill" id="savings-bar-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="task-breakdown" id="breakdown"></div>
+  </div>
+
+  <div class="cta">
+    <h2>Ready to reclaim that time?</h2>
+    <p>I'll map out exactly which of your workflows to automate first — no sales pitch, just a 30-minute working session.</p>
+    <div class="cta-buttons">
+      <a href="https://calendly.com/iswain-dev" class="btn-primary" target="_blank">Book Free Audit</a>
+      <a href="https://iswain.dev#contact" class="btn-secondary">Send a message</a>
+    </div>
+  </div>
+
+  <p class="disclaimer">Estimates assume ~80% time reduction from automation. Actual results vary by workflow complexity.</p>
+</div>
+
+<script>
+  let taskCount = 0;
+
+  const AUTOMATION_REDUCTION = 0.80;
+
+  function addTask(name = '', hours = '', rate = '') {
+    taskCount++;
+    const id = taskCount;
+    const container = document.getElementById('tasks-container');
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = `task-${id}`;
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-title">Task ${id}</span>
+        ${id > 1 ? `<button class="remove-btn" onclick="removeTask(${id})">Remove</button>` : ''}
+      </div>
+      <div class="fields">
+        <div>
+          <label>What's the task?</label>
+          <input type="text" id="name-${id}" placeholder="e.g. Responding to tenant maintenance requests"
+            value="${name}" oninput="recalculate()">
+        </div>
+        <div>
+          <label>Hours / week</label>
+          <input type="number" id="hours-${id}" placeholder="e.g. 5" min="0" step="0.5"
+            value="${hours}" oninput="recalculate()">
+        </div>
+        <div>
+          <label>Hourly rate ($)</label>
+          <div class="prefix-wrap">
+            <span>$</span>
+            <input type="number" id="rate-${id}" placeholder="e.g. 45" min="0" step="5"
+              value="${rate}" oninput="recalculate()">
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+    recalculate();
+  }
+
+  function removeTask(id) {
+    const el = document.getElementById(`task-${id}`);
+    if (el) el.remove();
+    recalculate();
+  }
+
+  function getTasks() {
+    const tasks = [];
+    for (let i = 1; i <= taskCount; i++) {
+      const nameEl  = document.getElementById(`name-${i}`);
+      const hoursEl = document.getElementById(`hours-${i}`);
+      const rateEl  = document.getElementById(`rate-${i}`);
+      if (!nameEl) continue;
+      const hours = parseFloat(hoursEl.value) || 0;
+      const rate  = parseFloat(rateEl.value)  || 0;
+      const name  = nameEl.value.trim() || `Task ${i}`;
+      if (hours > 0 && rate > 0) {
+        tasks.push({ name, hours, rate });
+      }
+    }
+    return tasks;
+  }
+
+  function fmt(n) {
+    if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  function recalculate() {
+    const tasks = getTasks();
+    let totalHoursWeek = 0;
+    let totalCostYear  = 0;
+
+    tasks.forEach(t => {
+      totalHoursWeek += t.hours;
+      totalCostYear  += t.hours * 52 * t.rate;
+    });
+
+    const totalHoursYear = totalHoursWeek * 52;
+    const totalSaveYear  = totalCostYear * AUTOMATION_REDUCTION;
+    const pct = totalCostYear > 0 ? AUTOMATION_REDUCTION * 100 : 0;
+
+    document.getElementById('annual-cost').textContent = fmt(totalCostYear);
+    document.getElementById('hours-year').textContent  = Math.round(totalHoursYear) + ' hrs';
+    document.getElementById('annual-save').textContent = fmt(totalSaveYear);
+    document.getElementById('savings-pct').textContent = Math.round(pct) + '%';
+    document.getElementById('savings-bar-fill').style.width = pct + '%';
+
+    // Breakdown
+    const bd = document.getElementById('breakdown');
+    if (tasks.length === 0) {
+      bd.innerHTML = '';
+      return;
+    }
+    bd.innerHTML = `<div class="breakdown-title">Per-task breakdown</div>` +
+      tasks.map(t => {
+        const annualCost = t.hours * 52 * t.rate;
+        const annualSave = annualCost * AUTOMATION_REDUCTION;
+        return `
+          <div class="breakdown-row">
+            <span class="breakdown-name">${t.name}</span>
+            <span>
+              <span class="breakdown-cost">${fmt(annualCost)}/yr</span>
+              <span class="breakdown-save"> → saves ${fmt(annualSave)}</span>
+            </span>
+          </div>
+        `;
+      }).join('');
+  }
+
+  // Start with one task
+  addTask('', '', '');
+</script>
+</body>
+</html>
