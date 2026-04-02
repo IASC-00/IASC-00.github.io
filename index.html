@@ -541,6 +541,7 @@ footer a:hover { color: #fff; }
   footer { flex-direction: column; }
 }
 </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -819,6 +820,7 @@ footer a:hover { color: #fff; }
           <p style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">Know your number before you decide whether to automate</p>
           <div class="card-tech"><span class="tech-pill">Instant Results</span><span class="tech-pill">No Signup</span><span class="tech-pill">Static</span></div>
           <a href="/tools/roi-calculator.html" class="card-link-d" target="_blank">Try the calculator →</a>
+          <button id="download-roi-pdf" class="card-link-d" style="background:none; border:none; padding:0; cursor:pointer; margin-top:10px;">Download PDF Estimate ?</button>
         </div>
       </div>
 
@@ -1494,5 +1496,36 @@ footer a:hover { color: #fff; }
   });
 </script>
 
+
+  <script>
+    document.getElementById('download-roi-pdf')?.addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(22);
+        doc.text("Automation ROI Audit", 20, 20);
+        doc.text("--------------------", 20, 30);
+        doc.setFontSize(14);
+        doc.text("Estimated Potential: Reclaim up to 300+ billable hours annually.", 20, 50);
+        doc.text("Analysis for: iswain.dev Potential Partner", 20, 60);
+        doc.text("Audit Date: " + new Date().toLocaleDateString(), 20, 70);
+        doc.text("Ready to automate? Book a strategy call: calendly.com/iswain-dev", 20, 90);
+        doc.save("ROI_Audit_Estimate.pdf");
+    });
+  </script>
+
+  <script>
+    document.getElementById('download-roi-pdf')?.addEventListener('click', function() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(22);
+        doc.text("Automation ROI Audit", 20, 20);
+        doc.setFontSize(14);
+        doc.text("Potential: Reclaim up to 300+ billable hours annually.", 20, 40);
+        doc.text("Analysis for: iswain.dev Potential Partner", 20, 50);
+        doc.text("Date: " + new Date().toLocaleDateString(), 20, 60);
+        doc.save("ROI_Audit_Estimate.pdf");
+    });
+  </script>
 </body>
+
 </html>
