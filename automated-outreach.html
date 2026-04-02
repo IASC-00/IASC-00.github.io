@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automated Outreach Case Study | iswain.dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0c;--accent:#7c3aed;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.1);--text:#fff;--sub:#9ca3af}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6}
+.hero{padding:120px 40px 80px;text-align:center;background:radial-gradient(ellipse at top,rgba(124,58,237,0.15),transparent 70%)}
+.hero h1{font-family:'Outfit';font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;letter-spacing:-2px;margin-bottom:20px}
+.hero h1 span{background:linear-gradient(135deg,#c084fc,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.2rem;color:var(--sub);max-width:600px;margin:0 auto 40px}
+.stats-bar{display:flex;justify-content:center;gap:60px;padding:40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(124,58,237,0.05)}
+.stat h2{font-family:'Outfit';font-size:3rem;font-weight:800;color:#c084fc}
+.stat p{color:var(--sub);font-size:0.9rem;margin-top:5px}
+.section{max-width:1000px;margin:80px auto;padding:0 40px}
+.section h2{font-family:'Outfit';font-size:2rem;font-weight:800;margin-bottom:30px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:35px;margin-bottom:25px}
+.card h3{font-family:'Outfit';font-size:1.3rem;margin-bottom:12px;color:#c084fc}
+.card p{color:var(--sub);font-size:0.95rem}
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#7c3aed,transparent)}
+.step{position:relative;margin-bottom:40px}
+.step::before{content:attr(data-n);position:absolute;left:-42px;width:24px;height:24px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700}
+.badge{display:inline-block;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);color:#c084fc;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:700;margin-bottom:15px}
+.cta-section{text-align:center;padding:100px 40px;background:radial-gradient(ellipse at bottom,rgba(124,58,237,0.1),transparent)}
+.btn{display:inline-block;padding:18px 40px;background:var(--accent);color:#fff;text-decoration:none;border-radius:14px;font-weight:700;font-size:1.1rem;transition:all .2s}
+.btn:hover{background:#6d28d9;transform:translateY(-3px);box-shadow:0 15px 30px rgba(124,58,237,0.4)}
+</style>
+</head>
+<body>
+<nav style="padding:20px 40px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)">
+  <span style="font-family:'Outfit';font-weight:800;font-size:1.2rem">iswain.dev</span>
+  <a href="#contact" class="btn" style="padding:10px 24px;font-size:0.9rem">Work With Me</a>
+</nav>
+
+<section class="hero">
+  <span class="badge">Case Study</span>
+  <h1>How I Built an <span>AI Outreach Engine</span> That Generated 25,000+ Leads</h1>
+  <p>A deep dive into the automated prospecting pipeline that finds, qualifies, and contacts high-value leads — without manual work.</p>
+</section>
+
+<div class="stats-bar">
+  <div class="stat"><h2>25k+</h2><p>Leads Generated</p></div>
+  <div class="stat"><h2>~$0.001</h2><p>Cost Per Lead</p></div>
+  <div class="stat"><h2>300+</h2><p>Hours Saved</p></div>
+  <div class="stat"><h2>8x</h2><p>Response Rate Increase</p></div>
+</div>
+
+<section class="section">
+  <h2>The Problem</h2>
+  <div class="card">
+    <h3>Manual prospecting was bleeding time and money</h3>
+    <p>Most founders spend 10–20 hours a week manually finding leads, writing emails, and following up — only to see response rates under 2%. The "spray and pray" approach kills momentum and drains resources that should go into product and revenue.</p>
+  </div>
+
+  <h2 style="margin-top:60px">The Solution: Data Engine</h2>
+  <div class="timeline">
+    <div class="step" data-n="1">
+      <h3 style="margin-bottom:8px;font-family:'Outfit'">Automated Lead Discovery</h3>
+      <p style="color:var(--sub)">RSS feeds, web scraping, and LinkedIn signals are combined to identify high-intent prospects in real time. The system runs 24/7 without human intervention.</p>
+    </div>
+    <div class="step" data-n="2">
+      <h3 style="margin-bottom:8px;font-family:'Outfit'">AI-Powered Qualification</h3>
+      <p style="color:var(--sub)">Each lead is scored by an AI model against custom criteria: company size, tech stack, growth signals, and intent patterns. Only qualified leads enter the outreach funnel.</p>
+    </div>
+    <div class="step" data-n="3">
+      <h3 style="margin-bottom:8px;font-family:'Outfit'">Hyper-Personalized Messaging</h3>
+      <p style="color:var(--sub)">The LLM generates a unique opening line for each contact, referencing recent news, their product, or a shared pain point. No templates. No "Hi [First Name]" disasters.</p>
+    </div>
+    <div class="step" data-n="4">
+      <h3 style="margin-bottom:8px;font-family:'Outfit'">Automated Follow-Up Sequences</h3>
+      <p style="color:var(--sub)">Multi-touch drip sequences automatically adjust tone based on open and reply signals, ensuring the right message lands at the right time.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:60px">The Results</h2>
+  <div class="card">
+    <h3>25,000+ qualified leads in under 90 days</h3>
+    <p>Built end-to-end using Python, OpenRouter LLMs, and custom scraping pipelines. The cost? Under $50 in API fees for the entire run. Response rates jumped from an industry-average 2% to over 16% through personalization alone.</p>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 style="font-family:'Outfit';font-size:2.5rem;margin-bottom:20px">Want this for your business?</h2>
+  <p style="color:var(--sub);margin-bottom:40px;font-size:1.1rem">I'll audit your current outreach, identify the bottlenecks, and build you a custom AI pipeline.</p>
+  <a href="mailto:ian@iswain.dev" class="btn">Book a Free Audit Call</a>
+</section>
+</body>
+</html>
