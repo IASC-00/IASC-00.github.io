@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-04-04T15:14:44.409805+00:00",
+  "leads": {
+    "total": 25702,
+    "qualified": 12243,
+    "with_email": 1807,
+    "with_phone": 12028,
+    "with_website": 10888,
+    "email_hit_rate": 16.6,
+    "outreach_sent": 0
+  },
+  "audits": {
+    "total_generated": 1
+  }
+}
