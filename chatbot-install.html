@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Guest Assistant for Restaurants & Local Businesses | iswain.dev</title>
+<meta name="description" content="A custom AI chatbot for your restaurant or local business. Answers guest questions, takes reservation requests, and captures leads 24/7. One-time setup, full code ownership, no monthly fees.">
+<link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+  :root {
+    --bg: #08080f; --surface: #111118; --surface2: #18181f;
+    --border: #26262e; --accent: #6c8eff; --accent2: #a78bfa;
+    --green: #34d399; --text: #e2e8f0; --muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6; }
+  a { color: var(--accent); text-decoration: none; }
+  .container { max-width: 740px; margin: 0 auto; padding: 0 24px; }
+
+  /* Nav */
+  nav { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border); }
+  .nav-logo { font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .nav-back { font-size: 13px; color: var(--muted); }
+  .nav-back:hover { color: var(--text); }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; text-align: center; }
+  .hero-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.15;
+    letter-spacing: -0.03em; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 520px; margin: 0 auto 36px;
+    line-height: 1.7; }
+  .btn-primary { display: inline-block; background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-weight: 700; font-size: 0.95rem; padding: 14px 28px; border-radius: 10px;
+    text-decoration: none; transition: opacity 0.15s; }
+  .btn-primary:hover { opacity: 0.88; color: #fff; }
+  .btn-ghost { display: inline-block; border: 1px solid var(--border); color: var(--muted);
+    font-size: 0.9rem; padding: 13px 24px; border-radius: 10px; margin-left: 10px;
+    text-decoration: none; transition: border-color 0.15s; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--text); }
+  .hero-price { font-size: 13px; color: var(--muted); margin-top: 16px; }
+  .hero-price strong { color: var(--green); }
+
+  /* Demo callout */
+  .demo-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; margin: 0 0 64px; flex-wrap: wrap; }
+  .demo-bar-text { font-size: 0.9rem; color: var(--muted); }
+  .demo-bar-text strong { color: var(--text); }
+  .demo-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--green); background: rgba(52,211,153,0.1); padding: 3px 8px; border-radius: 4px; }
+
+  /* What you get */
+  section { margin-bottom: 64px; }
+  .sec-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px; }
+  h2 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 32px; }
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+  .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; }
+  .feature-icon { font-size: 1.4rem; margin-bottom: 10px; }
+  .feature-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .feature-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+
+  /* How it works */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--surface2);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+  .step-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+  .step-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.55; }
+
+  /* Pricing */
+  .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .pricing-cards { grid-template-columns: 1fr; } }
+  .price-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 28px; }
+  .price-card.featured { border-color: var(--accent); background: linear-gradient(135deg, #0f1628, #111118); }
+  .price-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin-bottom: 8px; }
+  .price-card.featured .price-tag { color: var(--accent); }
+  .price-amount { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 4px; }
+  .price-note { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+  .price-list { list-style: none; display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 24px; }
+  .price-list li { font-size: 0.875rem; color: var(--muted); padding-left: 18px; position: relative; }
+  .price-list li::before { content: "✓"; position: absolute; left: 0; color: var(--green);
+    font-weight: 700; font-size: 0.8rem; }
+  .price-list li strong { color: var(--text); }
+
+  /* Not included */
+  .not-included { background: var(--surface2); border-radius: 10px; padding: 20px 24px; }
+  .not-included h3 { font-size: 0.85rem; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .not-included ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .not-included li { font-size: 0.85rem; color: var(--muted); padding-left: 18px; position: relative; }
+  .not-included li::before { content: "–"; position: absolute; left: 0; }
+
+  /* FAQ */
+  .faq { display: flex; flex-direction: column; gap: 0; }
+  .faq-item { padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+  .faq-a { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #0f1040, #0a0a1a);
+    border: 1px solid #3730a3; border-radius: 16px; padding: 48px 32px; text-align: center;
+    margin-bottom: 80px; }
+  .cta-section h2 { font-size: 1.6rem; margin-bottom: 12px; }
+  .cta-section p { color: var(--muted); margin-bottom: 28px; font-size: 0.95rem; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding: 24px; text-align: center;
+    font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">iswain.dev</a>
+  <a href="/#work" class="nav-back">← Back to portfolio</a>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">AI Guest Assistant · Philly Local Businesses</div>
+    <h1>Your business, <em>answered</em><br>around the clock.</h1>
+    <p class="hero-sub">A custom AI chatbot trained on your menu, hours, and FAQs.
+      Handles guest questions, takes reservation requests, and captures leads —
+      even at 2am when you're not there.</p>
+    <div>
+      <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener" class="btn-primary">Book a Free Call</a>
+      <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank" rel="noopener" class="btn-ghost">See Live Demo</a>
+    </div>
+    <p class="hero-price"><strong>Starting at $297</strong> &nbsp;·&nbsp; One-time. No monthly fees. Full code ownership.</p>
+  </div>
+
+  <!-- Demo callout -->
+  <div class="demo-bar">
+    <div class="demo-bar-text">
+      <strong>Live demo:</strong> Rosa, the AI assistant for a South Philly Italian restaurant.
+      Ask about the menu, hours, or making a reservation.
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+      <span class="demo-tag">Live</span>
+      <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank" rel="noopener"
+        style="font-size:13px;color:var(--accent);white-space:nowrap;">Try it →</a>
+    </div>
+  </div>
+
+  <!-- What you get -->
+  <section>
+    <div class="sec-label">What's included</div>
+    <h2>Built for your business.<br>Ready in 3–5 days.</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">💬</div>
+        <div class="feature-title">Trained on your content</div>
+        <div class="feature-desc">Menu, hours, FAQs, policies, booking info — your chatbot knows your business, not a generic template.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Lead capture built in</div>
+        <div class="feature-desc">Collects name and email naturally when a guest wants to book or inquire. All leads saved to a dashboard you own.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🕐</div>
+        <div class="feature-title">24/7 — no staff required</div>
+        <div class="feature-desc">Answers questions when you're closed, at capacity, or just busy. One less thing to handle.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔑</div>
+        <div class="feature-title">Full code ownership</div>
+        <div class="feature-desc">You get the complete source code. Host it yourself on a free Render account. No vendor lock-in, ever.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">Embeds on any site</div>
+        <div class="feature-desc">One snippet pasted into your website. Works with Squarespace, WordPress, Wix, or any custom site.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🛠️</div>
+        <div class="feature-title">One round of revisions</div>
+        <div class="feature-desc">After launch, one free round of tweaks — tone, responses, edge cases. Then it's yours to keep.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <div class="sec-label">Process</div>
+    <h2>How it works.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">You fill out a short form</div>
+          <div class="step-desc">Menu, hours, FAQs, booking link, tone preference. Takes about 10 minutes. I'll send you the form after we talk.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">I build and train your chatbot</div>
+          <div class="step-desc">3–5 business days. You get a preview link to test it before it goes live.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">You approve, I deploy it</div>
+          <div class="step-desc">Paste one line of code into your site. I walk you through it — takes 5 minutes.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Full handoff — it's yours</div>
+          <div class="step-desc">Source code delivered. One revision round included. No monthly fees, no lock-in.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section>
+    <div class="sec-label">Pricing</div>
+    <h2>Simple, one-time pricing.</h2>
+    <div class="pricing-cards" style="margin-bottom:20px;">
+      <div class="price-card">
+        <div class="price-tag">Intro offer</div>
+        <div class="price-amount">$297</div>
+        <div class="price-note">First 3 installs only</div>
+        <ul class="price-list">
+          <li>Custom AI chatbot for your business</li>
+          <li>Trained on your menu, hours, FAQs</li>
+          <li>Lead capture + admin dashboard</li>
+          <li>Embed snippet for your site</li>
+          <li>One revision round</li>
+          <li><strong>Full source code — yours to keep</strong></li>
+        </ul>
+        <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener" class="btn-primary" style="width:100%;text-align:center;display:block;">Book a Free Call</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tag">Standard</div>
+        <div class="price-amount">$397</div>
+        <div class="price-note">One-time · no monthly fees</div>
+        <ul class="price-list">
+          <li>Everything in Intro offer</li>
+          <li>Priority 3-day turnaround</li>
+          <li>Deploy walkthrough call included</li>
+          <li><strong>No vendor lock-in, ever</strong></li>
+        </ul>
+        <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener" class="btn-primary" style="width:100%;text-align:center;display:block;">Book a Free Call</a>
+      </div>
+    </div>
+    <div class="not-included">
+      <h3>Not included</h3>
+      <ul>
+        <li>Ongoing hosting (you get a free Render account — I walk you through setup)</li>
+        <li>Future content updates (separate quote if needed)</li>
+        <li>CRM or POS integrations</li>
+        <li>Multi-location or multi-language</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="sec-label">FAQ</div>
+    <h2>Common questions.</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">What if my website isn't custom-built?</div>
+        <div class="faq-a">The chatbot embeds with one line of code. Works on Squarespace, WordPress, Wix, or any site where you can paste a script tag. If you're not sure, I'll check for free on our call.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens if the chatbot goes down?</div>
+        <div class="faq-a">It runs on Render's free tier — 99.9% uptime for low-traffic sites. Since you own the code, you can redeploy anytime, or I can help for a small fee.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I update the chatbot myself after delivery?</div>
+        <div class="faq-a">Yes. The bot is trained from a plain-text file. Changing hours, menu items, or policies is editing a text document — no coding needed.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How is this different from a $30/month chatbot tool?</div>
+        <div class="faq-a">SaaS tools are generic and subscription-based. After 12 months you've paid $360+ and own nothing. This is built specifically for your business, trained on your content, and yours permanently after one payment.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do you only work with restaurants?</div>
+        <div class="faq-a">No — restaurants are a common use case but the same setup works for property managers, salons, dental offices, and most local service businesses. If you handle repetitive customer questions, a chatbot can help.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to set it up?</h2>
+    <p>15-minute call. I'll check if your site is compatible and answer any questions.<br>No pitch, no pressure.</p>
+    <div class="cta-btns">
+      <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener" class="btn-primary">Book a Free Call</a>
+      <a href="https://philly-restaurant-chatbot.onrender.com" target="_blank" rel="noopener" class="btn-ghost">See Live Demo First</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/" style="color:var(--muted);">iswain.dev</a> &nbsp;·&nbsp;
+  <a href="/privacy-policy.html" style="color:var(--muted);">Privacy</a> &nbsp;·&nbsp;
+  <a href="mailto:contact@iswain.dev" style="color:var(--muted);">contact@iswain.dev</a>
+</footer>
+
+</body>
+</html>
