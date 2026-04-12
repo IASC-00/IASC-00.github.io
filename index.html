@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Ian Swain — AI automation engineer building lead capture systems, booking tools, and custom automation for Philadelphia restaurants, property managers, and local businesses. Full source code delivered.">
 <script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<title>Ian Swain | AI Automation Engineer | Python Developer | iswain.dev</title>
+<title>Ian Swain | Fullstack Developer | AI Automation | iswain.dev</title>
 
 <!-- Canonical -->
 <link rel="canonical" href="https://iswain.dev/">
@@ -703,6 +703,63 @@ footer a:hover { color: #fff; }
   </div>
 </div>
 
+<!-- Technical Projects -->
+<div class="sec" id="technical" style="background:var(--dark2);border-top:1px solid var(--bd);">
+  <div class="sec-inner">
+    <span class="label-sm label-accent-dark">Engineering depth</span>
+    <h2 class="sec-h2 sec-h2-dark" style="margin-bottom:14px;">Built to learn. Deployed to show.</h2>
+    <p class="sec-lead sec-lead-dark">Full-stack, AI, and integration projects — each targeting a specific skill gap.</p>
+    <div class="card-grid" style="margin-top:40px;">
+
+      <div class="card-dark">
+        <div class="card-body" style="padding-top:24px;">
+          <div class="card-meta"><span class="card-tag-d">Vue 3 · Pinia · vue-router · Vite</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">Decipher — Vue SPA</h3>
+          <p class="card-desc-d">Migrated a server-rendered Flask game to a Vue 3 SPA. Backend unchanged throughout — new frontend consumes existing API, deployed independently. Documents the server-rendered → SPA refactor pattern used in ColdFusion modernization work.</p>
+          <a href="https://decipher-vue.vercel.app" class="card-link-d" target="_blank" rel="noopener noreferrer">Live demo &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-body" style="padding-top:24px;">
+          <div class="card-meta"><span class="card-tag-d">Node.js · Express · Vue 3 · SQLite</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">Node CRM</h3>
+          <p class="card-desc-d">Full-stack contact manager. Express REST API with bcrypt session auth, ownership-checked CRUD, and notes. Vue 3 frontend with Pinia state management and debounced search. Deployed as a single service with the Vue build served statically.</p>
+          <a href="https://node-crm-1.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Live demo &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-body" style="padding-top:24px;">
+          <div class="card-meta"><span class="card-tag-d">ChromaDB · embeddings · Flask · OpenRouter</span><span class="card-badge-d">live</span></div>
+          <h3 class="card-title-d">RAG Knowledge Base</h3>
+          <p class="card-desc-d">End-to-end RAG pipeline. Documents are chunked, embedded locally with all-MiniLM-L6-v2, and stored in ChromaDB. Questions retrieve the top-3 semantic matches, which are passed to an LLM for grounded answer synthesis with source citations.</p>
+          <a href="https://rag-chatbot-4n44.onrender.com" class="card-link-d" target="_blank" rel="noopener noreferrer">Live demo &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-body" style="padding-top:24px;">
+          <div class="card-meta"><span class="card-tag-d">LLM function calling · Python · OpenRouter</span><span class="card-badge-d">github</span></div>
+          <h3 class="card-title-d">Tool-Use Agent</h3>
+          <p class="card-desc-d">Agentic AI system with structured function calling. Four tools: web search, stock prices, sandboxed math, and SQLite notes. Multi-step reasoning loop with transparent tool call display and 10-iteration safety cap.</p>
+          <a href="https://github.com/IASC-00/tool-agent" class="card-link-d" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card-dark">
+        <div class="card-body" style="padding-top:24px;">
+          <div class="card-meta"><span class="card-tag-d">Slack API · GitHub API · Flask · webhooks</span><span class="card-badge-d">github</span></div>
+          <h3 class="card-title-d">Slack → GitHub Bot</h3>
+          <p class="card-desc-d">Webhook middleware connecting Slack and GitHub. Verifies Slack HMAC signatures, sends the description through an LLM to generate a structured title and labels, then creates the GitHub issue via REST API and replies ephemerally with the URL.</p>
+          <a href="https://github.com/IASC-00/slack-bot" class="card-link-d" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- Problems I Solve -->
 <div class="sec problems-sec">
   <div class="sec-inner">
@@ -938,6 +995,50 @@ footer a:hover { color: #fff; }
         <p>I spent 13 years running operations — retail, multi-channel, front-of-house. I watched businesses lose hours every day to work that a well-built system handles in seconds. So I learned to build those systems.</p>
         <p>I don't hand you a SaaS subscription and walk away. I build the tool, deploy it, hand you the source code, and you own it. No lock-in. No recurring fees. No dependency on me to keep the lights on.</p>
         <p>I work with restaurants, local businesses, and anyone who's tired of doing manually what a machine should be doing.</p>
+        <div style="margin:32px 0 24px;">
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Languages</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Python</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Node.js</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">JavaScript</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">SQL</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Bash</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Frameworks</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Flask</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Express.js</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Vue.js</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">React / Next.js</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">AI / Data</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">OpenRouter</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">ChromaDB</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">RAG pipelines</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">LLM function calling</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">n8n</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Infrastructure</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">GitHub Actions</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Render</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Railway</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Vercel</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">PostgreSQL</span>
+                <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">SQLite</span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="about-btns">
           <a href="https://github.com/IASC-00" class="btn-light-outline" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://linkedin.com/in/ian-swain-978326101" class="btn-light-outline" target="_blank" rel="noopener noreferrer">LinkedIn</a>
