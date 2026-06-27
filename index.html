@@ -11,7 +11,9 @@
 <link rel="canonical" href="https://iswain.dev/">
 
 <!-- Favicon -->
-<link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
 <!-- Open Graph -->
@@ -28,10 +30,8 @@
 <meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
 
 <!-- Security -->
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Real security headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Permissions-Policy) are served via Cloudflare; these directives are ignored as <meta> tags. -->
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -116,10 +116,10 @@ nav {
   100% { width: 56px; height: 56px; opacity: 0; }
 }
 .nav-links { display: flex; gap: 28px; list-style: none; flex: 1; justify-content: center; }
-.nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-links a { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.6); text-decoration: none; transition: color .15s; }
 .nav-links a:hover { color: #fff; }
 .nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-.nav-time { font-size: 11px; color: rgba(255,255,255,0.25); font-weight: 500; letter-spacing: 0.04em; }
+.nav-time { font-size: 11px; color: rgba(255,255,255,0.55); font-weight: 500; letter-spacing: 0.04em; }
 .nav-cta { font-size: 12px; font-weight: 700; background: var(--accent); color: var(--dark); padding: 7px 18px; border-radius: 6px; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
 .nav-cta:hover { opacity: 0.85; }
 
@@ -143,7 +143,7 @@ nav {
   50%       { filter: drop-shadow(0 0 36px rgba(61,232,208,0.45)); }
 }
 .hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; }
-.hero-label span { color: rgba(255,255,255,0.3); font-weight: 400; }
+.hero-label span { color: rgba(255,255,255,0.58); font-weight: 400; }
 .hero h1 {
   font-size: clamp(48px, 6.5vw, 84px);
   font-weight: 900; letter-spacing: -0.04em;
@@ -152,10 +152,10 @@ nav {
 }
 .hero h1 em { font-style: normal; color: var(--accent); }
 .hero-position { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.55); letter-spacing: -0.01em; margin-bottom: 28px; }
-.hero-tagline { font-size: 18px; color: rgba(255,255,255,0.38); line-height: 1.7; text-align: center; margin-bottom: 56px; max-width: 520px; }
+.hero-tagline { font-size: 18px; color: rgba(255,255,255,0.62); line-height: 1.7; text-align: center; margin-bottom: 56px; max-width: 520px; }
 .hero-bottom { display: flex; flex-direction: column; align-items: center; gap: 24px; }
-.hero-cred { font-size: 12.5px; color: rgba(255,255,255,0.28); letter-spacing: 0.03em; text-align: center; }
-.hero-desc { font-size: 16px; color: rgba(255,255,255,0.45); max-width: 480px; line-height: 1.75; }
+.hero-cred { font-size: 12.5px; color: rgba(255,255,255,0.58); letter-spacing: 0.03em; text-align: center; }
+.hero-desc { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 480px; line-height: 1.75; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .btn-accent { background: var(--accent); color: var(--dark); padding: 13px 26px; border-radius: 6px; font-size: 13px; font-weight: 800; text-decoration: none; transition: opacity .15s; white-space: nowrap; }
 .btn-accent:hover { opacity: 0.85; }
@@ -168,7 +168,7 @@ nav {
 .stat:last-child { border-right: none; margin-right: 0; }
 .stat-num { font-size: 38px; font-weight: 900; letter-spacing: -0.04em; color: #fff; line-height: 1; margin-bottom: 6px; }
 .stat-num span { color: var(--accent); }
-.stat-label { font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 500; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
 
 /* ── Section utils ── */
 .sec { padding: 120px 60px; border-top: 1px solid var(--bd); }
@@ -179,7 +179,7 @@ nav {
 .sec-h2 { font-size: clamp(36px, 4.5vw, 56px); font-weight: 900; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 16px; }
 .sec-lead { font-size: 18px; max-width: 520px; line-height: 1.7; margin-bottom: 56px; }
 .sec-h2-dark { color: #fff; }
-.sec-lead-dark { color: rgba(255,255,255,0.4); }
+.sec-lead-dark { color: rgba(255,255,255,0.62); }
 .sec-h2-light { color: #0f0f0f; }
 .sec-lead-light { color: var(--dim); }
 
@@ -206,13 +206,13 @@ nav {
 .card-img-dark::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: linear-gradient(to bottom, transparent, var(--dark2)); pointer-events: none; }
 .card-body { padding: 20px 24px 24px; display: flex; flex-direction: column; flex: 1; }
 .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.card-tag-d { font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.card-tag-d { font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.58); }
 .card-badge-d { font-size: 10.5px; font-weight: 700; color: var(--accent); background: rgba(79,255,224,0.1); padding: 3px 10px; border-radius: 20px; }
 .card-title-d { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; color: #fff; }
 .card-desc-d { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 16px; flex: 1; }
 .card-link-d { font-size: 12.5px; font-weight: 700; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(79,255,224,0.3); padding-bottom: 1px; align-self: flex-start; display: block; margin-top: 4px; }
 .card-tech { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
-.tech-pill { font-size: 10.5px; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 2px 9px; border-radius: 20px; }
+.tech-pill { font-size: 10.5px; color: rgba(255,255,255,0.58); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 2px 9px; border-radius: 20px; }
 
 /* Light cards (personal projects) */
 .card-light { background: #fff; border: 1px solid var(--bl); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
@@ -229,14 +229,14 @@ nav {
 .services { background: var(--dark2); border-top: 1px solid var(--bd); }
 .svc-list { border-top: 1px solid var(--bd); }
 .svc-row { display: grid; grid-template-columns: 52px 1fr 240px; gap: 40px; align-items: start; padding: 44px 0; border-bottom: 1px solid var(--bd); }
-.svc-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.2); padding-top: 5px; letter-spacing: 0.06em; }
+.svc-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.55); padding-top: 5px; letter-spacing: 0.06em; }
 .svc-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); background: rgba(79,255,224,0.1); padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
 .svc-main h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 10px; color: #fff; }
 .svc-main p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
 .svc-main a { font-size: 12px; color: rgba(79,255,224,0.6); text-decoration: none; display: block; margin-top: 10px; }
 .svc-main a:hover { color: var(--accent); }
 .svc-features { list-style: none; padding-top: 2px; }
-.svc-features li { font-size: 13px; color: rgba(255,255,255,0.35); padding: 6px 0; border-bottom: 1px solid var(--bd); display: flex; gap: 8px; align-items: baseline; }
+.svc-features li { font-size: 13px; color: rgba(255,255,255,0.6); padding: 6px 0; border-bottom: 1px solid var(--bd); display: flex; gap: 8px; align-items: baseline; }
 .svc-features li:last-child { border-bottom: none; }
 .svc-features li::before { content: '—'; color: var(--accent); font-size: 10px; flex-shrink: 0; }
 .svc-cta { display: inline-block; font-size: 12.5px; font-weight: 700; color: var(--accent); text-decoration: none; border-bottom: 1.5px solid rgba(79,255,224,0.4); padding-bottom: 1px; }
@@ -259,30 +259,30 @@ nav {
 .experience { background: var(--dark); border-top: 1px solid var(--bd); }
 .exp-list { border-top: 1px solid var(--bd); }
 .exp-row { display: grid; grid-template-columns: 52px 1fr 200px; gap: 40px; align-items: start; padding: 40px 0; border-bottom: 1px solid var(--bd); }
-.exp-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.2); padding-top: 4px; letter-spacing: 0.06em; }
+.exp-num { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.55); padding-top: 4px; letter-spacing: 0.06em; }
 .exp-main h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; color: #fff; }
-.exp-company { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 14px; display: block; }
-.exp-desc { font-size: 13.5px; color: rgba(255,255,255,0.35); line-height: 1.7; }
-.exp-date { font-size: 12px; color: rgba(255,255,255,0.25); text-align: right; padding-top: 4px; line-height: 1.5; }
+.exp-company { font-size: 13px; color: rgba(255,255,255,0.62); margin-bottom: 14px; display: block; }
+.exp-desc { font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+.exp-date { font-size: 12px; color: rgba(255,255,255,0.55); text-align: right; padding-top: 4px; line-height: 1.5; }
 
 /* ── Credentials (dark2) ── */
 .credentials { background: var(--dark2); border-top: 1px solid var(--bd); }
 .cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-.cred-heading { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 28px; }
+.cred-heading { font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.58); margin-bottom: 28px; }
 .cred-list { list-style: none; border-top: 1px solid var(--bd); }
 .cred-item { padding: 18px 0; border-bottom: 1px solid var(--bd); }
 .cred-title { font-size: 14.5px; font-weight: 700; color: #fff; display: block; margin-bottom: 4px; }
-.cred-meta { font-size: 12px; color: rgba(255,255,255,0.3); display: block; }
+.cred-meta { font-size: 12px; color: rgba(255,255,255,0.58); display: block; }
 
 /* ── Contact (dark) ── */
 .contact { background: var(--dark); padding: 120px 60px; border-top: 1px solid var(--bd); }
 .contact-inner { max-width: 640px; }
 .contact .sec-h2 { color: #fff; margin-bottom: 14px; }
-.contact-sub { font-size: 16px; color: rgba(255,255,255,0.4); margin-bottom: 44px; line-height: 1.7; }
+.contact-sub { font-size: 16px; color: rgba(255,255,255,0.62); margin-bottom: 44px; line-height: 1.7; }
 .contact-email { display: block; font-size: clamp(22px,3vw,36px); font-weight: 900; letter-spacing: -0.03em; color: #fff; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin-bottom: 48px; width: fit-content; }
 .contact-email:hover { opacity: 0.75; }
 .form { display: flex; flex-direction: column; gap: 16px; }
-.form label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 7px; }
+.form label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.58); margin-bottom: 7px; }
 .form input, .form textarea { width: 100%; background: var(--dark2); border: 1px solid var(--bd); border-radius: 8px; padding: 13px 16px; font-size: 14px; font-family: inherit; color: #fff; outline: none; transition: border-color .15s; }
 .form input:focus, .form textarea:focus { border-color: var(--accent); }
 .form input:focus-visible, .form textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -295,8 +295,8 @@ nav {
 .form-submit:hover { opacity: 0.85; }
 
 /* ── Footer ── */
-footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.2); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
-footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color .15s; }
+footer { background: #080808; padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.55); flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--bd); }
+footer a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color .15s; }
 footer a:hover { color: #fff; }
 .footer-links { display: flex; gap: 24px; }
 
@@ -315,10 +315,10 @@ footer a:hover { color: #fff; }
 .terminal { background: #0d1117; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px 24px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; line-height: 1.8; margin-top: 32px; overflow-x: auto; }
 .term-bar { display: flex; gap: 6px; margin-bottom: 16px; }
 .term-dot { width: 10px; height: 10px; border-radius: 50%; }
-.term-line { color: rgba(255,255,255,0.35); }
+.term-line { color: rgba(255,255,255,0.6); }
 .term-line .cmd { color: var(--accent); }
 .term-line .out { color: rgba(255,255,255,0.55); }
-.term-line .dim { color: rgba(255,255,255,0.2); }
+.term-line .dim { color: rgba(255,255,255,0.55); }
 
 /* ── How it works ── */
 .process { background: var(--dark2); border-top: 1px solid var(--bd); }
@@ -327,11 +327,11 @@ footer a:hover { color: #fff; }
 .process-step:last-child { border-right: none; }
 .step-num { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 24px; display: block; }
 .step-title { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; color: #fff; margin-bottom: 12px; }
-.step-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+.step-desc { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; }
 
 /* ── Demo video ── */
 .demo-video-wrap { margin: 32px 0 48px; }
-.demo-video-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+.demo-video-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.58); margin-bottom: 14px; }
 
 /* ── Lead Magnet ── */
 .lead-magnet-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
@@ -340,11 +340,11 @@ footer a:hover { color: #fff; }
 .lm-title { font-size: clamp(26px,3vw,38px); font-weight: 900; letter-spacing: -0.03em; color: #fff; margin-bottom: 14px; }
 .lm-desc { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 24px; }
 .lm-bullets { list-style: none; margin-bottom: 32px; }
-.lm-bullets li { font-size: 13.5px; color: rgba(255,255,255,0.45); padding: 6px 0; display: flex; gap: 10px; }
+.lm-bullets li { font-size: 13.5px; color: rgba(255,255,255,0.65); padding: 6px 0; display: flex; gap: 10px; }
 .lm-bullets li::before { content: '—'; color: var(--accent); flex-shrink: 0; }
 .lm-cta { display: inline-block; background: var(--accent); color: var(--dark); font-size: 14px; font-weight: 800; padding: 14px 28px; border-radius: 8px; text-decoration: none; transition: opacity .15s; }
 .lm-cta:hover { opacity: 0.85; }
-.lm-preview-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 16px; }
+.lm-preview-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 16px; }
 .lm-preview { background: var(--dark); border: 1px solid var(--bd); border-radius: 12px; padding: 24px; }
 .lm-preview-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--bd); font-size: 13.5px; color: rgba(255,255,255,0.6); line-height: 1.5; }
 .lm-preview-item:last-child { border-bottom: none; }
@@ -354,8 +354,8 @@ footer a:hover { color: #fff; }
 
 /* ── Credibility strip ── */
 .cred-strip { background: var(--dark); border-bottom: 1px solid var(--bd); padding: 16px 60px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.cred-strip-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.25); white-space: nowrap; }
-.cred-strip-items { font-size: 12.5px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+.cred-strip-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); white-space: nowrap; }
+.cred-strip-items { font-size: 12.5px; color: rgba(255,255,255,0.62); letter-spacing: 0.04em; }
 
 /* ── Most Popular badge ── */
 .svc-tag-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
@@ -367,7 +367,7 @@ footer a:hover { color: #fff; }
 .testimonial { max-width: 740px; }
 .testimonial-quote { font-size: 20px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.7; font-style: italic; margin-bottom: 24px; }
 .testimonial-quote::before { content: '\201C'; color: var(--accent); font-size: 32px; font-style: normal; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
-.testimonial-attr { font-size: 13px; color: rgba(255,255,255,0.35); font-style: normal; }
+.testimonial-attr { font-size: 13px; color: rgba(255,255,255,0.6); font-style: normal; }
 
 /* ── Problems I Solve (dark2) ── */
 .problems-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
@@ -376,7 +376,7 @@ footer a:hover { color: #fff; }
 .problem-card:hover { background: rgba(255,255,255,0.03); }
 .problem-q { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: -0.01em; }
 .problem-q::before { content: '→ '; color: var(--accent); font-weight: 900; }
-.problem-a { font-size: 13.5px; color: rgba(255,255,255,0.45); line-height: 1.65; }
+.problem-a { font-size: 13.5px; color: rgba(255,255,255,0.65); line-height: 1.65; }
 
 /* ── Real Outcomes (dark) ── */
 .outcomes-sec { background: var(--dark); border-top: 1px solid var(--bd); }
@@ -396,7 +396,7 @@ footer a:hover { color: #fff; }
 .pc-col-bad .pc-label { color: rgba(255,100,100,0.5); }
 .pc-col-good .pc-label { color: var(--accent); }
 .pc-list { list-style: none; }
-.pc-list li { font-size: 13.5px; color: rgba(255,255,255,0.45); padding: 10px 0; border-bottom: 1px solid var(--bd); display: flex; gap: 10px; line-height: 1.5; }
+.pc-list li { font-size: 13.5px; color: rgba(255,255,255,0.65); padding: 10px 0; border-bottom: 1px solid var(--bd); display: flex; gap: 10px; line-height: 1.5; }
 .pc-list li:last-child { border-bottom: none; }
 .pc-col-bad .pc-list li::before { content: '✕'; color: rgba(255,100,100,0.4); font-size: 10px; flex-shrink: 0; padding-top: 2px; }
 .pc-col-good .pc-list li::before { content: '—'; color: var(--accent); font-size: 10px; flex-shrink: 0; padding-top: 2px; }
@@ -404,7 +404,7 @@ footer a:hover { color: #fff; }
 
 /* ── Services inline timeline ── */
 .svc-timeline { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--bd); }
-.svct-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 20px; }
+.svct-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 20px; }
 .svct-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--bd); }
 .svct-row:last-of-type { border-bottom: none; }
 .svct-type { font-size: 14px; color: rgba(255,255,255,0.55); }
@@ -412,11 +412,11 @@ footer a:hover { color: #fff; }
 
 /* ── Case Study builds strip ── */
 .case-builds-strip { margin-top: 48px; padding-top: 36px; border-top: 1px solid var(--bd); }
-.cbs-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 18px; }
+.cbs-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 18px; }
 .cbs-items { display: flex; flex-wrap: wrap; gap: 10px; }
 .cbs-item { font-size: 13px; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.04); border: 1px solid var(--bd); padding: 6px 14px; border-radius: 20px; text-decoration: none; transition: border-color .15s, color .15s; }
 .cbs-item:hover { border-color: rgba(61,232,208,0.4); color: var(--accent); }
-.cbs-date { font-size: 11px; color: rgba(255,255,255,0.25); margin-left: 6px; }
+.cbs-date { font-size: 11px; color: rgba(255,255,255,0.55); margin-left: 6px; }
 
 /* ── Why Work With Me (dark2) ── */
 .why-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
@@ -425,7 +425,7 @@ footer a:hover { color: #fff; }
 .why-col-bad .why-col-label { color: rgba(255,100,100,0.6); }
 .why-col-good .why-col-label { color: var(--accent); }
 .why-list { list-style: none; border-top: 1px solid var(--bd); }
-.why-list li { padding: 16px 0; border-bottom: 1px solid var(--bd); font-size: 14.5px; color: rgba(255,255,255,0.45); display: flex; gap: 12px; align-items: baseline; line-height: 1.5; }
+.why-list li { padding: 16px 0; border-bottom: 1px solid var(--bd); font-size: 14.5px; color: rgba(255,255,255,0.65); display: flex; gap: 12px; align-items: baseline; line-height: 1.5; }
 .why-col-bad .why-list li::before { content: '✕'; color: rgba(255,100,100,0.4); font-size: 11px; flex-shrink: 0; }
 .why-col-good .why-list li::before { content: '—'; color: var(--accent); font-size: 11px; flex-shrink: 0; }
 .why-col-good .why-list li { color: rgba(255,255,255,0.75); }
@@ -436,18 +436,18 @@ footer a:hover { color: #fff; }
 .timeline-row { display: grid; grid-template-columns: 220px 1fr 140px; align-items: center; gap: 40px; padding: 32px 0; border-bottom: 1px solid var(--bd); }
 .timeline-row:last-child { border-bottom: none; }
 .timeline-type { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #fff; }
-.timeline-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.timeline-desc { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.6; }
 .timeline-dur { font-size: 14px; font-weight: 700; color: var(--accent); text-align: right; white-space: nowrap; }
-.timeline-note { margin-top: 28px; font-size: 13.5px; color: rgba(255,255,255,0.25); font-style: italic; }
+.timeline-note { margin-top: 28px; font-size: 13.5px; color: rgba(255,255,255,0.55); font-style: italic; }
 
 /* ── Recent Builds (dark2) ── */
 .builds-sec { background: var(--dark2); border-top: 1px solid var(--bd); }
 .builds-list { border-top: 1px solid var(--bd); margin-top: 48px; }
 .build-row { display: grid; grid-template-columns: 100px 1fr; gap: 40px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--bd); }
 .build-row:last-child { border-bottom: none; }
-.build-date { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: rgba(255,255,255,0.25); text-transform: uppercase; white-space: nowrap; padding-top: 3px; }
+.build-date { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: rgba(255,255,255,0.55); text-transform: uppercase; white-space: nowrap; padding-top: 3px; }
 .build-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 5px; letter-spacing: -0.015em; }
-.build-desc { font-size: 13.5px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+.build-desc { font-size: 13.5px; color: rgba(255,255,255,0.62); line-height: 1.5; }
 
 /* ── Sticky CTA ── */
 .sticky-cta { position: fixed; bottom: 28px; right: 28px; z-index: 200; background: var(--accent); color: var(--dark); font-size: 13px; font-weight: 800; padding: 13px 22px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 24px rgba(61,232,208,0.3); opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s; pointer-events: none; white-space: nowrap; }
@@ -472,7 +472,7 @@ footer a:hover { color: #fff; }
 .case-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
 .case-text { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.75; }
 .case-results { background: var(--dark2); border: 1px solid var(--bd); border-radius: 14px; padding: 40px; }
-.case-results-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 32px; }
+.case-results-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.58); margin-bottom: 32px; }
 .case-result-item { display: flex; align-items: baseline; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--bd); }
 .case-result-item:last-of-type { border-bottom: none; }
 .case-result-num { font-size: 32px; font-weight: 900; letter-spacing: -0.04em; color: var(--accent); flex-shrink: 0; min-width: 72px; }
@@ -513,9 +513,10 @@ footer a:hover { color: #fff; }
   .who-item:nth-child(even) { border-right: none; }
   .who-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--bl); }
   .who-item:last-child { border-bottom: none; }
-  .exp-row { grid-template-columns: 1fr; gap: 8px; }
+  .exp-row { grid-template-columns: 1fr; gap: 24px; }
   .exp-num { display: none; }
-  .exp-date { text-align: left; }
+  .exp-date { text-align: left; margin-bottom: 8px; order: -1; }
+  .exp-main { order: 1; }
   .stats { flex-direction: column; }
   .stat { border-right: none; border-bottom: 1px solid var(--bd); padding: 24px 0; margin: 0; }
   footer { padding-left: 28px; padding-right: 28px; }
@@ -544,7 +545,7 @@ footer a:hover { color: #fff; }
   footer { flex-direction: column; }
 }
 </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -571,7 +572,8 @@ footer a:hover { color: #fff; }
     ],
     "priceRange": "$$",
     "sameAs": [
-      "https://github.com/IASC-00"
+      "https://github.com/IASC-00",
+      "https://www.linkedin.com/in/ian-swain-978326101"
     ]
   }
   </script>
@@ -593,12 +595,13 @@ footer a:hover { color: #fff; }
     <li><a href="#work">Work</a></li>
     <li><a href="https://demos.iswain.dev" target="_blank" rel="noopener noreferrer">Live Demos</a></li>
     <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
     <span class="nav-time" id="nav-time"></span>
-    <a href="/intake.html" class="nav-cta">Start a Project</a>
+    <a href="/intake.html" class="nav-cta" data-goatcounter-click="cta-nav-start-project">Start a Project</a>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -608,11 +611,13 @@ footer a:hover { color: #fff; }
   <a href="#work">Work</a>
   <a href="https://demos.iswain.dev" target="_blank" rel="noopener noreferrer">Live Demos</a>
   <a href="#services">Services</a>
+  <a href="#experience">Experience</a>
   <a href="#about">About</a>
   <a href="#contact">Contact</a>
   <a href="/intake.html">Start a Project &rarr;</a>
 </div>
 
+<main id="main">
 <!-- Hero -->
 <section class="hero">
   <img src="/images/swan-logo.png" alt="iswain.dev" class="hero-swan" width="120" height="120">
@@ -624,7 +629,7 @@ footer a:hover { color: #fff; }
   <div class="hero-bottom">
     <div class="hero-actions">
       <a href="#services" class="btn-accent">See What I Build</a>
-      <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener noreferrer" class="btn-ghost">Book a Call</a>
+      <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener noreferrer" class="btn-ghost" data-goatcounter-click="cta-book-call">Book a Call</a>
     </div>
     <p class="hero-cred">Deployed in days, not months. &nbsp;You see it running before the final invoice.</p>
   </div>
@@ -929,7 +934,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag">full build</div>
           <h3>Website Design &amp; Overhaul</h3>
           <p>No templates. No page builders. I build fast, clean websites that convert — coded from scratch, source code yours. If your site looks like it was built in 2015 or made on Wix, this is for you.</p>
-          <a href="#contact">Get a quote &rarr;</a>
+          <a href="#contact" data-goatcounter-click="cta-service-quote">Get a quote &rarr;</a>
         </div>
         <ul class="svc-features">
           <li>Custom design — not a theme</li>
@@ -945,7 +950,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag">custom system</div>
           <h3>Custom Automation System</h3>
           <p>You tell me where time and revenue are leaking. I map the full workflow, identify every manual step a system should own, and build the fix — deployed, documented, and tested against your real data before handover.</p>
-          <a href="#contact">Describe your problem &rarr;</a>
+          <a href="#contact" data-goatcounter-click="cta-service-problem">Describe your problem &rarr;</a>
         </div>
         <ul class="svc-features">
           <li>Scoped to your exact workflow — not a template</li>
@@ -961,7 +966,7 @@ footer a:hover { color: #fff; }
           <div class="svc-tag-row"><div class="svc-tag">audit</div><div class="svc-popular">Start here</div></div>
           <h3>The Discovery Sprint</h3>
           <p>$499. A 5-page technical audit that maps your current workflow against an automated future state — every time cost, every gap, every fix, in priority order. If we build together, the $499 applies to your project cost.</p>
-          <a href="#contact">Book a Discovery Sprint &rarr;</a>
+          <a href="#contact" data-goatcounter-click="cta-service-discovery">Book a Discovery Sprint &rarr;</a>
         </div>
         <ul class="svc-features">
           <li>5-page written audit delivered in 5 business days</li>
@@ -980,7 +985,7 @@ footer a:hover { color: #fff; }
       <div class="svct-row"><span class="svct-type">Custom Automation System</span><span class="svct-dur">1–3 weeks</span></div>
     </div>
     <div style="margin-top:48px;text-align:center;">
-      <a href="#contact" style="display:inline-block;background:var(--accent);color:var(--dark);font-size:15px;font-weight:900;padding:16px 48px;border-radius:10px;text-decoration:none;letter-spacing:-.01em;">Start a project &rarr;</a>
+      <a href="#contact" data-goatcounter-click="cta-services-start" style="display:inline-block;background:var(--accent);color:var(--dark);font-size:15px;font-weight:900;padding:16px 48px;border-radius:10px;text-decoration:none;letter-spacing:-.01em;">Start a project &rarr;</a>
     </div>
   </div>
 </section>
@@ -998,9 +1003,9 @@ footer a:hover { color: #fff; }
         <div style="margin:32px 0 24px;">
           <div style="display:flex;flex-direction:column;gap:18px;">
             <div>
-              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Languages</div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6b6b6b;margin-bottom:8px;">Languages</div>
             <div>
-              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">AI & Automation</div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6b6b6b;margin-bottom:8px;">AI & Automation</div>
               <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;">
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">RAG Pipelines</span>
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Multi-Agent Systems</span>
@@ -1018,7 +1023,7 @@ footer a:hover { color: #fff; }
               </div>
             </div>
             <div>
-              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Frameworks</div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6b6b6b;margin-bottom:8px;">Frameworks</div>
               <div style="display:flex;flex-wrap:wrap;gap:7px;">
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Flask</span>
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Express.js</span>
@@ -1027,7 +1032,7 @@ footer a:hover { color: #fff; }
               </div>
             </div>
             <div>
-              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">AI / Data</div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6b6b6b;margin-bottom:8px;">AI / Data</div>
               <div style="display:flex;flex-wrap:wrap;gap:7px;">
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">OpenRouter</span>
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">ChromaDB</span>
@@ -1037,7 +1042,7 @@ footer a:hover { color: #fff; }
               </div>
             </div>
             <div>
-              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:8px;">Infrastructure</div>
+              <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6b6b6b;margin-bottom:8px;">Infrastructure</div>
               <div style="display:flex;flex-wrap:wrap;gap:7px;">
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">GitHub Actions</span>
                 <span style="font-size:12px;background:#1a1a1a;border:1px solid #2a2a2a;color:#ccc;padding:4px 12px;border-radius:20px;">Render</span>
@@ -1134,7 +1139,7 @@ footer a:hover { color: #fff; }
     <span class="label-sm label-accent-dark" style="margin-bottom:16px;display:block;">Contact</span>
     <h2 class="sec-h2" style="color:#fff;margin-bottom:14px;">Let's build<br>something.</h2>
     <p class="contact-sub">Tell me what task is eating your time. I'll tell you if it can be automated.<br><span style="font-size:13px;color:rgba(255,255,255,0.25);">Available Mon–Sat, 9am–9pm EST &middot; Usually responds same day</span></p>
-    <a href="mailto:contact@iswain.dev" class="contact-email">contact@iswain.dev</a>
+    <a href="mailto:contact@iswain.dev" class="contact-email" data-goatcounter-click="cta-email">contact@iswain.dev</a>
     <form class="form" action="https://formspree.io/f/mzdaldva" method="POST">
       <!-- Honeypot — bots fill this, humans don't -->
       <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
@@ -1167,6 +1172,7 @@ footer a:hover { color: #fff; }
     </form>
   </div>
 </section>
+</main>
 
 <footer>
   <span>Ian Swain &middot; iswain.dev</span>
@@ -1178,7 +1184,7 @@ footer a:hover { color: #fff; }
   </div>
 </footer>
 
-<a href="/intake.html" class="sticky-cta" id="sticky-cta">Start a Project &rarr;</a>
+<a href="/intake.html" class="sticky-cta" id="sticky-cta" data-goatcounter-click="cta-sticky-start-project">Start a Project &rarr;</a>
 
 <script>
   // Mobile hamburger menu
@@ -1224,11 +1230,14 @@ footer a:hover { color: #fff; }
   setInterval(updateTime, 10000);
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js" integrity="sha384-SALc35EccAf6RzGw4iNsyj7kTPr33K7RoGzYu+7heZhT8s0GZouafRiCg1qy44AS" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
   emailjs.init('0gqwG4ADip17Q2LRg');
   document.querySelector('.form').addEventListener('submit', function(e) {
     e.preventDefault();
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: 'event-contact-submit', title: 'Contact form submit', event: true });
+    }
     var form = this;
     var name = form.querySelector('[name="name"]').value;
     var email = form.querySelector('[name="email"]').value;
