@@ -143,6 +143,7 @@
         </div>
       </div>
       <input type="hidden" name="tier" id="tier-value">
+      <input type="hidden" name="track" id="track-value">
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(2)">Back</button>
         <button type="button" class="btn btn-next" onclick="nextStep(2)">Continue →</button>
@@ -272,6 +273,19 @@
       alert('Something went wrong. Please email contact@iswain.dev directly.');
     }
   });
+
+  // Pre-select from homepage hand-off (?tier=... &track=...)
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const tier = params.get('tier');
+    const track = params.get('track');
+    if (track) { const t = document.getElementById('track-value'); if (t) t.value = track; }
+    if (tier) {
+      const match = Array.from(document.querySelectorAll('.form-step[data-step="2"] .option'))
+        .find(o => (o.getAttribute('onclick') || '').includes("'" + tier + "'"));
+      if (match) match.click();
+    }
+  })();
 </script>
 </body>
 </html>
