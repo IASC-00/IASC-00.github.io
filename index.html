@@ -273,6 +273,8 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .stack-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 20px; }
 .stack-items { display: flex; flex-wrap: wrap; gap: 8px; }
 .stack-items span { font-family: var(--mono); font-size: 12.5px; color: var(--tx-dim); background: rgba(255,255,255,0.03); border: 1px solid var(--line); padding: 6px 13px; border-radius: 8px; }
+.stack-note { margin-top: 18px; font-size: 13.5px; color: var(--tx-dim); line-height: 1.6; }
+.stack-note b { color: var(--teal); font-weight: 500; }
 
 /* ── Contact ── */
 .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(36px, 6vw, 80px); align-items: start; }
@@ -663,8 +665,9 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       <div class="stack reveal">
         <div class="stack-label">What I build with</div>
         <div class="stack-items">
-          <span>Python</span><span>Node.js</span><span>JavaScript</span><span>Vue / React</span><span>Flask / Express</span><span>PostgreSQL / SQLite</span><span>AI retrieval &amp; tool-use</span><span>n8n</span><span>Render / Vercel / Railway</span>
+          <span>Python</span><span>JavaScript / Node</span><span>Flask / FastAPI</span><span>Hand-coded front-ends</span><span>Local AI (Ollama, Whisper, ComfyUI)</span><span>PostgreSQL / SQLite</span><span>Tested &amp; security-audited</span><span>n8n automation</span><span>Render / Vercel / Netlify</span>
         </div>
+        <p class="stack-note"><b>I run the AI locally</b> — models, voice, and image generation on my own hardware. A build can skip the per-seat SaaS fees and keep your data in-house.</p>
       </div>
     </div>
   </div>
