@@ -274,15 +274,6 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .stack-items { display: flex; flex-wrap: wrap; gap: 8px; }
 .stack-items span { font-family: var(--mono); font-size: 12.5px; color: var(--tx-dim); background: rgba(255,255,255,0.03); border: 1px solid var(--line); padding: 6px 13px; border-radius: 8px; }
 
-/* ── Experience ── */
-.exp-list { border-top: 1px solid var(--line); }
-.exp-row { display: grid; grid-template-columns: 150px 1fr 150px; gap: clamp(16px, 3vw, 44px); align-items: baseline; padding: clamp(24px, 2.6vw, 34px) 0; border-bottom: 1px solid var(--line); }
-.exp-when { font-family: var(--mono); font-size: 12px; color: var(--tx-dim2); letter-spacing: 0.02em; }
-.exp-main h3 { font-size: 18px; color: #fff; margin-bottom: 5px; }
-.exp-co { font-size: 13.5px; color: var(--tx-dim); margin-bottom: 10px; display: block; }
-.exp-desc { font-size: 14px; color: var(--tx-dim); line-height: 1.6; max-width: 60ch; }
-.exp-role-loc { font-family: var(--mono); font-size: 11.5px; color: var(--tx-dim2); text-align: right; }
-
 /* ── Contact ── */
 .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(36px, 6vw, 80px); align-items: start; }
 .contact-email { display: inline-block; font-family: var(--disp); font-size: clamp(20px, 2.6vw, 30px); font-weight: 600; color: #fff; text-decoration: none; border-bottom: 2px solid var(--teal); padding-bottom: 3px; margin: 22px 0 30px; letter-spacing: -0.02em; }
@@ -329,9 +320,6 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   .compare-col.bad { border-right: none; border-bottom: 1px solid var(--line); }
   .svc-row { grid-template-columns: 1fr; gap: 16px; }
   .svc-ship { text-align: left; }
-  .exp-row { grid-template-columns: 1fr; gap: 6px; }
-  .exp-when { order: -1; color: var(--teal); }
-  .exp-role-loc { text-align: left; }
 }
 @media (max-width: 640px) {
   .nav-links, .nav-time { display: none; }
@@ -682,65 +670,8 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   </div>
 </section>
 
-<!-- ── Experience ── -->
-<section class="section" id="experience">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow">Background</span>
-      <h2 class="h2">Before the code.</h2>
-    </div>
-    <div class="exp-list reveal">
-      <div class="exp-row">
-        <div class="exp-when">Oct 2025 — now</div>
-        <div class="exp-main">
-          <h3>Software developer &amp; founder</h3>
-          <span class="exp-co">ISDev (iswain.dev)</span>
-          <p class="exp-desc">Design and deliver custom software, automation, and web apps for local-business clients — from first brief to live deployment, source code handed over.</p>
-        </div>
-        <div class="exp-role-loc">Philadelphia, PA</div>
-      </div>
-      <div class="exp-row">
-        <div class="exp-when">2024 — 2025</div>
-        <div class="exp-main">
-          <h3>Certified Sales Representative</h3>
-          <span class="exp-co">GreenLabs — Baltimore, MD</span>
-          <p class="exp-desc">High-volume retail floor. HIPAA compliance. Repeat Employee of the Month.</p>
-        </div>
-        <div class="exp-role-loc">Retail</div>
-      </div>
-      <div class="exp-row">
-        <div class="exp-when">2022 — 2023</div>
-        <div class="exp-main">
-          <h3>Team Manager</h3>
-          <span class="exp-co">Charm City Hemp — Baltimore, MD</span>
-          <p class="exp-desc">Ran operations across three retail locations — staffing, scheduling, inventory, and performance. Lifted staff retention through structured coaching.</p>
-        </div>
-        <div class="exp-role-loc">Operations</div>
-      </div>
-      <div class="exp-row">
-        <div class="exp-when">2017 — 2020</div>
-        <div class="exp-main">
-          <h3>General Manager</h3>
-          <span class="exp-co">Harbor Vapor — Fells Point, MD</span>
-          <p class="exp-desc">Full store operations — training, scheduling, inventory systems, and team culture. Grew the location into the top performer in the group.</p>
-        </div>
-        <div class="exp-role-loc">Operations</div>
-      </div>
-      <div class="exp-row">
-        <div class="exp-when">2012 — 2015</div>
-        <div class="exp-main">
-          <h3>Social Marketing Director &amp; Sales Manager</h3>
-          <span class="exp-co">Baltimore Food Truck Festivals — Baltimore, MD</span>
-          <p class="exp-desc">Led promotion for three multi-city festival events and 50+ independent vendors. Grew the audience past 1M views and 200,000 followers.</p>
-        </div>
-        <div class="exp-role-loc">Marketing</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ── Contact ── -->
-<section class="section section--ink2" id="contact">
+<section class="section" id="contact">
   <div class="wrap">
     <div class="contact-grid">
       <div class="reveal">
