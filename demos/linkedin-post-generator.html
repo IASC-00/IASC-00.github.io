@@ -319,6 +319,37 @@ function getActive(groupId) {
   return document.querySelector(`#${groupId} .chip.active`)?.dataset.val;
 }
 
+const IND = {
+  re_agent:     { label: 'real estate',        role: 'a real estate agent',  who: 'buyers and sellers', def: 'the spring market' },
+  property_mgr: { label: 'property management', role: 'a property manager',   who: 'owners and tenants', def: 'tenant communication' },
+  restaurant:   { label: 'the restaurant',      role: 'a restaurant owner',   who: 'our guests',         def: 'our new seasonal menu' },
+  small_biz:    { label: 'the business',        role: 'a small business owner',who: 'our customers',      def: 'taking care of customers' }
+};
+
+function buildPost(industry, type, tone) {
+  const I = IND[industry] || IND.small_biz;
+  let T = (document.getElementById('topic-input').value || '').trim();
+  if (!T) T = I.def;
+  const Tcap = T.charAt(0).toUpperCase() + T.slice(1);
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+
+  const signoff = {
+    professional:   pick(['Happy to talk it through if it helps.', 'Always glad to share what’s working.', 'Reach out if this is on your mind.']),
+    conversational: pick(['Curious how others handle this — tell me below.', 'Anyone else run into this? Would love to hear.', 'Drop a comment, I read them all.']),
+    bold:           pick(['If you’re not doing this yet, start.', 'Steal it. It works.', 'That’s the whole post. Go.'])
+  }[tone];
+
+  const templates = {
+    tip:      () => `${tone === 'bold' ? 'One thing that changes everything with ' + T + ':' : 'A quick tip on ' + T + ':'}\n\nMost people overthink it. Here’s what actually moves the needle:\n\n• Start with the outcome ${I.who} want, not the process.\n• Cut the step you’re only keeping out of habit.\n• Make the next action obvious.\n\nI’ve watched this work over and over as ${I.role}. ${signoff}`,
+    market:   () => `${Tcap} — here’s what I’m actually seeing right now:\n\nThe headlines don’t tell the whole story. On the ground, ${I.who} are asking sharper questions and moving with more intention than they were a few months ago.\n\nMy read: the ones who prepare early are the ones who come out ahead. ${signoff}`,
+    story:    () => `A quick story about ${T}.\n\nNot long ago a small decision here turned into a much bigger result than anyone expected. It reminded me that in ${I.label}, the details ${I.who} never see are usually the ones that matter most.\n\nThe lesson I keep relearning: do the unglamorous work well. ${signoff}`,
+    win:      () => `Just wrapped something I’m proud of — ${T}.\n\nIt wasn’t flashy. It was showing up, listening to what ${I.who} actually needed, and following through when it would have been easier not to.\n\nThat’s the whole job, honestly. ${signoff}`,
+    question: () => `Honest question about ${T}:\n\nAre you doing it because it works — or because it’s how it’s always been done?\n\nI ask myself this constantly as ${I.role}, and the answer usually tells me exactly what to change next. ${signoff}`,
+    behind:   () => `Behind the scenes on ${T}:\n\nWhat ${I.who} see is the finished version. What they don’t see is the ten small adjustments, the second-guessing, and the one detail we redid three times because “close enough” wasn’t.\n\nThe real work happens where no one’s looking. ${signoff}`
+  };
+  return (templates[type] || templates.tip)();
+}
+
 function generate() {
   const industry = getActive('industry-chips');
   const type = getActive('type-chips');
@@ -330,31 +361,7 @@ function generate() {
   document.getElementById('gen-btn').disabled = true;
 
   setTimeout(() => {
-    const industryPosts = posts[industry] || posts.small_biz;
-    const typePosts = industryPosts[type] || industryPosts.tip || {};
-    const tonePosts = typePosts[tone] || typePosts.professional || typePosts.conversational || typePosts.bold || [];
-
-    let pool = tonePosts;
-    if (!pool || pool.length === 0) {
-      // fallback to any available tone
-      for (const t of ['professional','conversational','bold']) {
-        if (typePosts[t]?.length) { pool = typePosts[t]; break; }
-      }
-    }
-    if (!pool || pool.length === 0) {
-      // fallback to any available type
-      for (const tp of Object.values(industryPosts)) {
-        for (const t of ['professional','conversational','bold']) {
-          if (tp[t]?.length) { pool = tp[t]; break; }
-        }
-        if (pool?.length) break;
-      }
-    }
-
-    const post = pool[Math.floor(Math.random() * pool.length)] || "Post generated. Customize this to match your voice and current market conditions.";
-
-    const topic = document.getElementById('topic-input').value.trim();
-    const finalPost = topic ? post.replace('[your neighborhood]', topic).replace('[Neighborhood]', topic).replace('spring market', topic) : post;
+    const finalPost = buildPost(industry, type, tone);
 
     document.getElementById('skeleton').style.display = 'none';
     document.getElementById('result').style.display = 'block';
