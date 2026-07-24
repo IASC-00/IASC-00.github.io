@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <script>document.documentElement.classList.add('js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ian Swain builds custom software and automation for Philadelphia restaurants, landlords, and local businesses — booking systems, guest chatbots, lead capture, and websites. Built to your workflow, live in days, source code yours.">
+<meta name="description" content="Ian Swain runs the tech and operations side of your business — websites, custom software, analytics, and security — so you don't have to hire a team. Philadelphia-based; the source code is yours.">
 <script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<title>Ian Swain | Software &amp; Automation for Local Business | iswain.dev</title>
+<title>Ian Swain | Fractional Tech &amp; Ops Partner for Small Business | iswain.dev</title>
 
 <!-- Canonical -->
 <link rel="canonical" href="https://iswain.dev/">
@@ -19,14 +19,14 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://iswain.dev">
-<meta property="og:title" content="Ian Swain — Software &amp; Automation, iswain.dev">
-<meta property="og:description" content="Custom booking systems, guest chatbots, lead capture, and websites for Philadelphia local businesses. Built to your workflow, live in days, source code yours.">
+<meta property="og:title" content="Ian Swain — Fractional Tech &amp; Ops Partner, iswain.dev">
+<meta property="og:description" content="One person for your whole technical side — websites, custom software, analytics, and security. Philadelphia-based; source code yours.">
 <meta property="og:image" content="https://iswain.dev/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ian Swain — iswain.dev">
-<meta name="twitter:description" content="Custom software and automation for Philadelphia local businesses. Built to your workflow, live in days, source code yours.">
+<meta name="twitter:description" content="One person for your whole technical side — websites, custom software, analytics, and security. Philadelphia-based; source code yours.">
 <meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
 
 <!-- Security -->
@@ -191,7 +191,8 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .credstrip-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
 
 /* ── Two-track chooser ── */
-.tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .tracks { grid-template-columns: 1fr; } }
 .track { background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px; padding: clamp(28px, 3.4vw, 40px); display: flex; flex-direction: column; transition: border-color .2s, transform .2s, background .2s; }
 .track:hover { border-color: rgba(61,232,208,0.35); transform: translateY(-4px); }
 .track-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 18px; }
@@ -345,7 +346,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   "name": "ISDev — Ian Swain",
   "url": "https://iswain.dev",
   "email": "contact@iswain.dev",
-  "description": "Ian Swain builds custom software and automation for Philadelphia restaurants, property managers, and local businesses — booking systems, guest chatbots, lead capture, and websites. Source code delivered.",
+  "description": "Ian Swain runs the tech and operations side of small businesses — websites, custom software and automation, analytics, and cybersecurity. Philadelphia-based; source code delivered.",
   "founder": { "@type": "Person", "name": "Ian Swain" },
   "areaServed": [
     { "@type": "City", "name": "Philadelphia", "addressRegion": "PA" },
@@ -353,11 +354,11 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     { "@type": "Country", "name": "United States" }
   ],
   "serviceType": [
-    "Business Automation",
-    "Custom Chatbots",
-    "Lead Capture Systems",
-    "Web Application Development",
-    "Website Design"
+    "Web Design and Development",
+    "Website Maintenance and Hosting",
+    "Business Software and Automation",
+    "Analytics and Reporting",
+    "Business Cybersecurity"
   ],
   "priceRange": "$$",
   "sameAs": [
@@ -410,17 +411,17 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <section class="hero">
   <div class="hero-inner">
     <div>
-      <div class="eyebrow hero-eyebrow">Ian Swain — software &amp; automation · Philadelphia</div>
-      <h1>I build the software your team keeps doing <span class="hl">by hand.</span></h1>
-      <p class="hero-sub">I spent 14 years running operations before I wrote a line of code. Now I build the tools that handle the repetitive part — bookings, guest questions, lead capture, whole websites. Built around how you actually work, live in days, and the code is yours.</p>
+      <div class="eyebrow hero-eyebrow">Ian Swain — fractional tech &amp; ops partner · Philadelphia</div>
+      <h1>I run the tech and operations side of your business, <span class="hl">so you don't have to.</span></h1>
+      <p class="hero-sub">Your website, your data, your tools, your security — handled by one person, instead of a team you can't afford or five vendors you have to chase. I spent 14 years running operations before I built the systems. Now I do both, for businesses without someone in-house.</p>
       <div class="hero-actions">
         <a href="/intake.html" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-hero-start-project"><span>Start a project</span></a>
         <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-goatcounter-click="cta-hero-book-call">Book a call</a>
       </div>
       <div class="hero-trust">
-        <span>No subscriptions</span>
-        <span>No lock-in</span>
-        <span>You see it live before the final invoice</span>
+        <span>One point of contact</span>
+        <span>Source code stays yours</span>
+        <span>No long contracts</span>
       </div>
     </div>
     <div class="console" aria-hidden="true">
@@ -431,11 +432,11 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <span class="console-title">handoff.log — live</span>
       </div>
       <div class="console-body">
-        <div class="log-line"><span class="log-time">08:41</span><span class="log-task">guest asks “are you open Monday?”</span><span class="log-res">answered</span></div>
-        <div class="log-line"><span class="log-time">09:15</span><span class="log-task">table for 4, Friday 7pm</span><span class="log-res">booked &amp; logged</span></div>
-        <div class="log-line"><span class="log-time">11:02</span><span class="log-task">new lead from contact form</span><span class="log-res">captured</span></div>
-        <div class="log-line"><span class="log-time">16:30</span><span class="log-task">end-of-day summary</span><span class="log-res">sent</span></div>
-        <div class="console-foot">— nobody on staff touched any of these. <b>That's the point.</b></div>
+        <div class="log-line"><span class="log-time">09:02</span><span class="log-task">new lead from the website</span><span class="log-res">captured &amp; tagged</span></div>
+        <div class="log-line"><span class="log-time">11:20</span><span class="log-task">invoice #1042</span><span class="log-res">sent &amp; logged</span></div>
+        <div class="log-line"><span class="log-time">14:05</span><span class="log-task">nightly backup + security scan</span><span class="log-res">passed</span></div>
+        <div class="log-line"><span class="log-time">17:00</span><span class="log-task">weekly traffic report</span><span class="log-res">in your inbox</span></div>
+        <div class="console-foot">— nobody on your team touched any of these. <b>That's the point.</b></div>
       </div>
     </div>
   </div>
@@ -455,25 +456,31 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <section class="section section--ink2" id="start">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">Where to start</span>
-      <h2 class="h2">Two ways in.</h2>
-      <p class="lead">Both land in the same short form. Pick the one that sounds like you.</p>
+      <span class="eyebrow">How to work with me</span>
+      <h2 class="h2">Three ways in. Priced to your project.</h2>
+      <p class="lead">No packages to squeeze into. I scope to what you actually need and quote it up front — you approve the number before I start.</p>
     </div>
     <div class="tracks reveal">
       <div class="track">
-        <div class="track-tag">You run a local business</div>
+        <div class="track-tag">Single build</div>
         <h3>One thing, handled well.</h3>
-        <p>A restaurant, shop, rental, or service that needs one problem solved — guest questions, bookings, a lead system, or a site that turns visitors into customers. I build it, deploy it, and hand you the keys. Usually live within a week.</p>
-        <a href="/intake.html?track=local&amp;tier=implementation" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-track-local"><span>Start a build</span></a>
+        <p>A website, a tool, a fix, an automation — one clear problem solved end to end. I build it, deploy it, and hand you the keys with the source code. Usually live within a week or two.</p>
+        <a href="/intake.html?track=local&amp;tier=implementation" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-tier-single"><span>Scope a build</span></a>
       </div>
       <div class="track">
-        <div class="track-tag">You've got a bigger project</div>
-        <h3>A system, built to spec.</h3>
-        <p>A custom internal tool, a multi-part workflow, or an app you've been meaning to get built right. Scoped properly, tested against your real data, documented, and fully yours at handover. No retainer required to own it.</p>
-        <a href="/intake.html?track=studio&amp;tier=implementation" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-track-studio"><span>Scope a project</span></a>
+        <div class="track-tag">System build</div>
+        <h3>A whole system, built to spec.</h3>
+        <p>A multi-part project — an operations hub, a customer database, a dashboard, a site plus the automation behind it. Scoped properly, tested on your real data, documented, and fully yours at handover.</p>
+        <a href="/intake.html?track=studio&amp;tier=implementation" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-tier-system"><span>Scope a system</span></a>
+      </div>
+      <div class="track">
+        <div class="track-tag">Fractional partner</div>
+        <h3>I run it, ongoing.</h3>
+        <p>Keep me on to handle the whole technical side month to month — hosting, changes, analytics, and security monitoring — so you never have to hire in-house or chase a vendor. Custom to your business.</p>
+        <a href="/intake.html?track=partner&amp;tier=retainer" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-tier-partner"><span>Talk it through</span></a>
       </div>
     </div>
-    <p class="tracks-note reveal">Not sure which? Start with a <b>$499 Discovery Sprint</b> — a 5-page written audit of what to automate first, credited toward the build.<a href="/intake.html?tier=discovery" class="txt-link" data-goatcounter-click="cta-track-discovery">Book the sprint</a></p>
+    <p class="tracks-note reveal">Not sure where you fit? Start with a <b>$499 Discovery Sprint</b> — a written audit of what to fix or automate first, credited toward whatever you build.<a href="/intake.html?tier=discovery" class="txt-link" data-goatcounter-click="cta-tier-discovery">Book the sprint</a></p>
   </div>
 </section>
 
@@ -528,11 +535,13 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     </div>
 
     <div class="uth reveal">
-      <div class="uth-label">Under the hood — engineering work</div>
+      <div class="uth-label">Live apps I built &amp; host</div>
       <div class="uth-items">
-        <a href="https://decipher.iswain.dev" class="uth-item" target="_blank" rel="noopener">Decipher — word puzzle game <span class="st">· live</span></a>
-        <a href="https://github.com/IASC-00/tool-agent" class="uth-item" target="_blank" rel="noopener">AI tool-use agent <span class="st">· code</span></a>
-        <a href="https://github.com/IASC-00/slack-bot" class="uth-item" target="_blank" rel="noopener">Slack → GitHub bot <span class="st">· code</span></a>
+        <a href="https://operarihq.com" class="uth-item" target="_blank" rel="noopener">OPERARI — operations platform <span class="st">· live</span></a>
+        <a href="https://decipher.iswain.dev" class="uth-item" target="_blank" rel="noopener">Decipher — game <span class="st">· live</span></a>
+        <a href="https://crm.iswain.dev" class="uth-item" target="_blank" rel="noopener">CRM — contact manager <span class="st">· live</span></a>
+        <a href="https://rag.iswain.dev" class="uth-item" target="_blank" rel="noopener">AI knowledge-base chat <span class="st">· live</span></a>
+        <a href="https://audit.iswain.dev" class="uth-item" target="_blank" rel="noopener">Automation audit tool <span class="st">· live</span></a>
         <a href="https://github.com/IASC-00" class="uth-item" target="_blank" rel="noopener">More on GitHub <span class="st">· ↗</span></a>
       </div>
     </div>
@@ -548,9 +557,9 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <section class="section section--ink2" id="services">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">What I build</span>
-      <h2 class="h2">Scoped to your workflow. Not a template.</h2>
-      <p class="lead">Every build includes the source code, deployment, and two weeks of support after launch. You see it running before the final invoice.</p>
+      <span class="eyebrow">What I handle</span>
+      <h2 class="h2">Everything on the technical side. One person.</h2>
+      <p class="lead">The whole digital and operational surface of your business — built, connected, and kept running. Take one piece, or hand me all of it.</p>
     </div>
     <div class="svc-list reveal">
 
@@ -558,57 +567,56 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <div class="svc-lead-col">
           <span class="svc-idx">01</span>
           <div class="svc-main">
-            <div class="svc-tag-row"><span class="svc-tag">AI &amp; automation</span><span class="svc-flag">Most requested</span></div>
-            <h3>AI tools &amp; automation</h3>
-            <p>Chatbots, assistants, and behind-the-scenes automation that handle the repetitive work — answering guests, capturing every lead, booking appointments, moving data between your tools. Your team stops doing by hand what a machine should be doing. Runs on my own hardware where it fits, so you can skip the per-seat fees.</p>
+            <h3>Websites</h3>
+            <p>Designed and coded from scratch — no page builder, no theme. Fast, mobile-first, and built to turn visitors into customers. A new site, or a rebuild of the one that looks like it was made in 2015. The code is yours.</p>
           </div>
         </div>
-        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">48 hrs – 2 wks</div></div>
+        <div class="svc-ship"><div class="k">Scope</div><div class="v">One-off build</div></div>
       </div>
 
       <div class="svc-row">
         <div class="svc-lead-col">
           <span class="svc-idx">02</span>
           <div class="svc-main">
-            <h3>Business software &amp; dashboards</h3>
-            <p>Custom internal tools built around how you actually work — a customer database, a booking system, an invoicing or reporting dashboard, a full operations hub. Not a template you bend to fit. Deployed, documented, and yours to keep.</p>
+            <div class="svc-tag-row"><span class="svc-tag">upkeep</span><span class="svc-flag">Ongoing</span></div>
+            <h3>Site care &amp; changes</h3>
+            <p>The edits, updates, and fixes a live site always needs — plus hosting and uptime — handled without you filing a ticket and waiting a week. I keep it fast, current, and online so you can forget it exists.</p>
           </div>
         </div>
-        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">1–3 weeks</div></div>
+        <div class="svc-ship"><div class="k">Scope</div><div class="v">Monthly</div></div>
       </div>
 
       <div class="svc-row">
         <div class="svc-lead-col">
           <span class="svc-idx">03</span>
           <div class="svc-main">
-            <h3>Website &amp; brand</h3>
-            <p>Coded from scratch — no page builder, no theme. Fast, mobile-first, and built to turn visitors into customers. Brand and identity work if you need it. The code is yours, with no monthly fee to keep it running.</p>
+            <h3>Business software &amp; automation</h3>
+            <p>Custom tools built around how you actually work — a customer database, a booking system, an invoicing or reporting dashboard, a full operations hub — plus the automation that moves data between them. I built one to run my own business (OPERARI); I can build yours.</p>
           </div>
         </div>
-        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">1–2 weeks</div></div>
+        <div class="svc-ship"><div class="k">Scope</div><div class="v">Built to spec</div></div>
       </div>
 
       <div class="svc-row">
         <div class="svc-lead-col">
           <span class="svc-idx">04</span>
           <div class="svc-main">
-            <h3>Decks &amp; presentation design</h3>
-            <p>Pitch decks, proposals, and reports that turn your position into a document that moves the room. Designed end-to-end — the words, the structure, and the visuals — so you walk in ready.</p>
+            <h3>Analytics &amp; reporting</h3>
+            <p>Tracking set up properly, then turned into something you'll actually read — a plain-English report on what's working, what isn't, and what to do next. Numbers that drive decisions instead of sitting in a dashboard nobody opens.</p>
           </div>
         </div>
-        <div class="svc-ship"><div class="k">Delivered in</div><div class="v">3–7 days</div></div>
+        <div class="svc-ship"><div class="k">Scope</div><div class="v">Setup + monthly</div></div>
       </div>
 
       <div class="svc-row">
         <div class="svc-lead-col">
           <span class="svc-idx">05</span>
           <div class="svc-main">
-            <div class="svc-tag-row"><span class="svc-tag">$499</span><span class="svc-flag">Start here</span></div>
-            <h3>Discovery Sprint</h3>
-            <p>Not sure which of the above you need? Start here. A 5-page written audit: your current workflow against an automated one — every time cost, every gap, every fix, in priority order. If we build together, the $499 comes off the project.</p>
+            <h3>Business cybersecurity</h3>
+            <p>The basics done right for a small operation — hardened sites and accounts, backups that actually restore, and monitoring that flags trouble early. Practical protection, not enterprise theater you'll never use.</p>
           </div>
         </div>
-        <div class="svc-ship"><div class="k">Delivered in</div><div class="v">5 business days</div></div>
+        <div class="svc-ship"><div class="k">Scope</div><div class="v">Audit + monitoring</div></div>
       </div>
 
     </div>
@@ -640,7 +648,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       <div class="step">
         <div class="step-n">03</div>
         <h3>You own it</h3>
-        <p>Full source code, documentation, and two weeks of support after launch. No subscription, no lock-in, no dependency on me.</p>
+        <p>Full source code and documentation at handover. Keep me on for ongoing care if you want it — you're never locked in.</p>
       </div>
     </div>
     <div class="compare reveal">
@@ -655,7 +663,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       <div class="compare-col good">
         <div class="compare-label">Working with me</div>
         <ul>
-          <li>One flat build — no recurring fees</li>
+          <li>Own the build outright — or keep me on, your call</li>
           <li>Source code delivered; yours to keep or move</li>
           <li>Running live in days, not weeks</li>
         </ul>
@@ -675,8 +683,8 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <span class="eyebrow">About</span>
         <h2 class="h2" style="margin:16px 0 28px;">14 years running operations.<br>Now I build the systems.</h2>
         <p>I spent 14 years in operations — retail, multi-channel, front-of-house. I watched good teams lose hours a day to work a decent system handles in seconds. So I learned to build the systems.</p>
-        <p>I don't hand you a subscription and walk away. <b>I build the tool, deploy it, hand over the code, and you own it</b> — no lock-in, no recurring fee, no dependency on me to keep the lights on.</p>
-        <p>I work with restaurants, local businesses, and founders tired of doing by hand what a machine should be doing.</p>
+        <p>Two ways to work with me, and you pick: I build something and <b>hand you the code to own outright</b>, or I stay on as the person who runs your whole technical side. No lock-in either way.</p>
+        <p>I work with small businesses that need their whole technical side handled but aren't ready to hire someone in-house for it.</p>
         <div class="about-btns">
           <a href="https://github.com/IASC-00" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://linkedin.com/in/ian-swain-978326101" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">LinkedIn</a>
