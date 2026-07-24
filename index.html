@@ -31,7 +31,7 @@
 
 <!-- Security -->
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<!-- Real security headers (HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Permissions-Policy) are served via Cloudflare; these directives are ignored as <meta> tags. -->
+<!-- Note: GitHub Pages does not serve custom security headers (CSP/HSTS/X-Frame-Options). To add them, front the domain with Cloudflare (proxy on) or move hosting to Netlify/Cloudflare Pages. -->
 
 <!-- Fonts: Space Grotesk (display) + Inter (body) + Space Mono (data/labels) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +52,7 @@ html { scroll-behavior: smooth; }
   --teal-deep:  #0A7A5E;
   --tx:         #ECECEA;
   --tx-dim:     rgba(255,255,255,0.56);
-  --tx-dim2:    rgba(255,255,255,0.40);
+  --tx-dim2:    rgba(255,255,255,0.55);
   --line:       rgba(255,255,255,0.09);
   --line-2:     rgba(255,255,255,0.15);
 
@@ -215,7 +215,7 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .demo-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .demo-info { padding: 16px 18px 18px; }
 .demo-info .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 8px; }
-.demo-info h4 { font-family: var(--disp); font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.01em; }
+.demo-info h3 { font-family: var(--disp); font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.01em; }
 .demo-info p { font-size: 13px; color: var(--tx-dim); line-height: 1.55; }
 .demo-info .open { font-family: var(--mono); font-size: 11.5px; color: var(--teal); margin-top: 12px; display: inline-block; }
 .demo-info .open::after { content: ' →'; }
@@ -412,7 +412,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     <div>
       <div class="eyebrow hero-eyebrow">Ian Swain — software &amp; automation · Philadelphia</div>
       <h1>I build the software your team keeps doing <span class="hl">by hand.</span></h1>
-      <p class="hero-sub">I spent 13 years running operations before I wrote a line of code. Now I build the tools that handle the repetitive part — bookings, guest questions, lead capture, whole websites. Built around how you actually work, live in days, and the code is yours.</p>
+      <p class="hero-sub">I spent 14 years running operations before I wrote a line of code. Now I build the tools that handle the repetitive part — bookings, guest questions, lead capture, whole websites. Built around how you actually work, live in days, and the code is yours.</p>
       <div class="hero-actions">
         <a href="/intake.html" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-hero-start-project"><span>Start a project</span></a>
         <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-goatcounter-click="cta-hero-book-call">Book a call</a>
@@ -444,7 +444,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <!-- ── Credibility strip ── -->
 <div class="credstrip">
   <div class="credstrip-inner">
-    <span class="credstrip-item"><b>13 years</b> running operations</span>
+    <span class="credstrip-item"><b>14 years</b> running operations</span>
     <span class="credstrip-item"><b>Full source code</b> — yours to keep</span>
     <span class="credstrip-item"><b>Live in days</b>, not months</span>
     <span class="credstrip-item">Based in <b>Philadelphia</b></span>
@@ -502,26 +502,35 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     <div class="demo-grid reveal">
       <a href="/demos/appointment-booking.html" class="demo-card" target="_blank" rel="noopener" data-goatcounter-click="demo-appointment">
         <div class="demo-shot"><img src="/images/demo-appointment-booking.png" alt="Appointment booking chatbot demo" loading="lazy"></div>
-        <div class="demo-info"><div class="k">Booking</div><h4>Appointment Booking Bot</h4><p>Takes booking requests in plain language and slots them in — no back-and-forth.</p><span class="open">Open the demo</span></div>
+        <div class="demo-info"><div class="k">Booking</div><h3>Appointment Booking Bot</h3><p>Takes booking requests in plain language and slots them in — no back-and-forth.</p><span class="open">Open the demo</span></div>
       </a>
       <a href="/demos/listing-generator.html" class="demo-card" target="_blank" rel="noopener" data-goatcounter-click="demo-listing">
         <div class="demo-shot"><img src="/images/demo-listing.png" alt="MLS listing description generator demo" loading="lazy"></div>
-        <div class="demo-info"><div class="k">Real estate</div><h4>Listing Generator</h4><p>Turns property details into a finished MLS description in seconds.</p><span class="open">Open the demo</span></div>
+        <div class="demo-info"><div class="k">Real estate</div><h3>Listing Generator</h3><p>Turns property details into a finished MLS description in seconds.</p><span class="open">Open the demo</span></div>
       </a>
       <a href="/demos/audit-sample.html" class="demo-card" target="_blank" rel="noopener" data-goatcounter-click="demo-audit">
         <div class="demo-shot"><img src="/images/demo-audit.png" alt="Sample automation audit report" loading="lazy"></div>
-        <div class="demo-info"><div class="k">Audit</div><h4>Automation Audit Report</h4><p>A sample of the scored report you get from a Discovery Sprint.</p><span class="open">Open the demo</span></div>
+        <div class="demo-info"><div class="k">Audit</div><h3>Automation Audit Report</h3><p>A sample of the scored report you get from a Discovery Sprint.</p><span class="open">Open the demo</span></div>
       </a>
       <a href="/demos/linkedin-post-generator.html" class="demo-card" target="_blank" rel="noopener" data-goatcounter-click="demo-linkedin">
         <div class="demo-shot"><img src="/images/demo-linkedin-generator.png" alt="LinkedIn post generator demo" loading="lazy"></div>
-        <div class="demo-info"><div class="k">Content</div><h4>Post Generator</h4><p>Drafts on-brand social posts from a one-line prompt.</p><span class="open">Open the demo</span></div>
+        <div class="demo-info"><div class="k">Content</div><h3>Post Generator</h3><p>Drafts on-brand social posts from a one-line prompt.</p><span class="open">Open the demo</span></div>
       </a>
+    </div>
+
+    <div class="uth reveal">
+      <div class="uth-label">Live sites — design &amp; build</div>
+      <div class="uth-items">
+        <a href="https://iammajorkey.com" class="uth-item" target="_blank" rel="noopener">I AM MAJOR KEY <span class="st">· live</span></a>
+        <a href="https://exoneratedmovers.com" class="uth-item" target="_blank" rel="noopener">Exonerated Moving <span class="st">· live</span></a>
+        <a href="https://futuristamantes.com" class="uth-item" target="_blank" rel="noopener">Futuristamantes <span class="st">· live</span></a>
+      </div>
     </div>
 
     <div class="uth reveal">
       <div class="uth-label">Under the hood — engineering work</div>
       <div class="uth-items">
-        <a href="https://decipher-vue.vercel.app" class="uth-item" target="_blank" rel="noopener">Decipher — Vue 3 web app <span class="st">· live</span></a>
+        <a href="https://github.com/IASC-00/decipher-vue" class="uth-item" target="_blank" rel="noopener">Decipher — Vue 3 web app <span class="st">· code</span></a>
         <a href="https://github.com/IASC-00/tool-agent" class="uth-item" target="_blank" rel="noopener">AI tool-use agent <span class="st">· code</span></a>
         <a href="https://github.com/IASC-00/slack-bot" class="uth-item" target="_blank" rel="noopener">Slack → GitHub bot <span class="st">· code</span></a>
         <a href="https://github.com/IASC-00" class="uth-item" target="_blank" rel="noopener">More on GitHub <span class="st">· ↗</span></a>
@@ -549,31 +558,20 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <div class="svc-lead-col">
           <span class="svc-idx">01</span>
           <div class="svc-main">
-            <div class="svc-tag-row"><span class="svc-tag">lead capture</span><span class="svc-flag">Most requested</span></div>
-            <h3>Lead capture &amp; booking</h3>
-            <p>Guest questions, reservations, hours, and lead collection handled 24/7. Every inquiry is captured as a named lead. Your staff stops answering the same three questions by phone all day.</p>
+            <div class="svc-tag-row"><span class="svc-tag">AI &amp; automation</span><span class="svc-flag">Most requested</span></div>
+            <h3>AI tools &amp; automation</h3>
+            <p>Chatbots, assistants, and behind-the-scenes automation that handle the repetitive work — answering guests, capturing every lead, booking appointments, moving data between your tools. Your team stops doing by hand what a machine should be doing. Runs on my own hardware where it fits, so you can skip the per-seat fees.</p>
           </div>
         </div>
-        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">~48 hours</div></div>
+        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">48 hrs – 2 wks</div></div>
       </div>
 
       <div class="svc-row">
         <div class="svc-lead-col">
           <span class="svc-idx">02</span>
           <div class="svc-main">
-            <h3>Website design &amp; rebuild</h3>
-            <p>Coded from scratch — no page builder, no theme. Fast, mobile-first, and built to turn visitors into leads. If your site looks like it was made in 2015, this is the fix. The code is yours.</p>
-          </div>
-        </div>
-        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">1–2 weeks</div></div>
-      </div>
-
-      <div class="svc-row">
-        <div class="svc-lead-col">
-          <span class="svc-idx">03</span>
-          <div class="svc-main">
-            <h3>Custom automation system</h3>
-            <p>You show me where time and revenue leak. I map the full workflow, build the fix, and test it against your real data before handover. Deployed, documented, and yours — no recurring fee.</p>
+            <h3>Business software &amp; dashboards</h3>
+            <p>Custom internal tools built around how you actually work — a customer database, a booking system, an invoicing or reporting dashboard, a full operations hub. Not a template you bend to fit. Deployed, documented, and yours to keep.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Typically live in</div><div class="v">1–3 weeks</div></div>
@@ -581,11 +579,33 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 
       <div class="svc-row">
         <div class="svc-lead-col">
+          <span class="svc-idx">03</span>
+          <div class="svc-main">
+            <h3>Website &amp; brand</h3>
+            <p>Coded from scratch — no page builder, no theme. Fast, mobile-first, and built to turn visitors into customers. Brand and identity work if you need it. The code is yours, with no monthly fee to keep it running.</p>
+          </div>
+        </div>
+        <div class="svc-ship"><div class="k">Typically live in</div><div class="v">1–2 weeks</div></div>
+      </div>
+
+      <div class="svc-row">
+        <div class="svc-lead-col">
           <span class="svc-idx">04</span>
+          <div class="svc-main">
+            <h3>Decks &amp; presentation design</h3>
+            <p>Pitch decks, proposals, and reports that turn your position into a document that moves the room. Designed end-to-end — the words, the structure, and the visuals — so you walk in ready.</p>
+          </div>
+        </div>
+        <div class="svc-ship"><div class="k">Delivered in</div><div class="v">3–7 days</div></div>
+      </div>
+
+      <div class="svc-row">
+        <div class="svc-lead-col">
+          <span class="svc-idx">05</span>
           <div class="svc-main">
             <div class="svc-tag-row"><span class="svc-tag">$499</span><span class="svc-flag">Start here</span></div>
             <h3>Discovery Sprint</h3>
-            <p>A 5-page written audit: your current workflow against an automated one — every time cost, every gap, every fix, in priority order. If we build together, the $499 comes off the project.</p>
+            <p>Not sure which of the above you need? Start here. A 5-page written audit: your current workflow against an automated one — every time cost, every gap, every fix, in priority order. If we build together, the $499 comes off the project.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Delivered in</div><div class="v">5 business days</div></div>
@@ -653,10 +673,10 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     <div class="about-grid">
       <div class="about-body reveal">
         <span class="eyebrow">About</span>
-        <h2 class="h2" style="margin:16px 0 28px;">13 years running operations.<br>Now I build the systems.</h2>
-        <p>I spent 13 years in operations — retail, multi-channel, front-of-house. I watched good teams lose hours a day to work a decent system handles in seconds. So I learned to build the systems.</p>
+        <h2 class="h2" style="margin:16px 0 28px;">14 years running operations.<br>Now I build the systems.</h2>
+        <p>I spent 14 years in operations — retail, multi-channel, front-of-house. I watched good teams lose hours a day to work a decent system handles in seconds. So I learned to build the systems.</p>
         <p>I don't hand you a subscription and walk away. <b>I build the tool, deploy it, hand over the code, and you own it</b> — no lock-in, no recurring fee, no dependency on me to keep the lights on.</p>
-        <p>I work with restaurants, local businesses, and anyone tired of doing by hand what a machine should be doing.</p>
+        <p>I work with restaurants, local businesses, and founders tired of doing by hand what a machine should be doing.</p>
         <div class="about-btns">
           <a href="https://github.com/IASC-00" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://linkedin.com/in/ian-swain-978326101" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -695,9 +715,10 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
           <label for="svc">What do you need?</label>
           <select id="svc" name="service">
             <option value="">Select one</option>
-            <option value="lead-capture-booking">Lead capture &amp; booking</option>
-            <option value="website">Website design &amp; rebuild</option>
-            <option value="custom-automation">Custom automation system</option>
+            <option value="ai-automation">AI tools &amp; automation</option>
+            <option value="business-software">Business software &amp; dashboards</option>
+            <option value="website-brand">Website &amp; brand</option>
+            <option value="decks">Decks &amp; presentation design</option>
             <option value="discovery-sprint">Discovery Sprint ($499)</option>
             <option value="not-sure">Not sure yet — let's talk</option>
           </select>
