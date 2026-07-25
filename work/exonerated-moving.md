@@ -3,6 +3,7 @@ slug: exonerated-moving
 title: Exonerated Moving & Logistics
 one_line: A new Philadelphia moving company built on second-chance hiring — brand, imagery, and site.
 url: https://exoneratedmovers.com
+dates: Built June 2026 · updated through July
 status: live
 role: Brand, imagery, build, deploy
 stack: [WordPress, PHP, Custom theme, Responsive CSS]
@@ -17,7 +18,11 @@ A new Philadelphia moving and logistics company was starting from nothing: no na
 
 I built the brand first, because the site could not be designed until the company knew what it looked like. That meant a color direction, typefaces, and a full set of imagery produced in-house rather than bought from a stock library, so the company did not look like every other moving company using the same three photos.
 
-Then I designed and built the site and deployed it. The founder's own story runs on its own page, with the homepage leading into it — the mission gets room to be told properly instead of being compressed into a banner. After launch I took the owner's revisions to the copy and structure and deployed those too.
+Then I designed and built the site and deployed it. The founder's own story runs on its own page, with the homepage leading into it — the mission gets room to be told properly instead of being compressed into a banner.
+
+The version that is live is not the version I first shipped. After launch the owner and his business partner came back with a real list: different mission wording, a different set of company values, a reworked commitments section in their words rather than mine, and a request to move the founder's story onto its own page with the homepage leading into it. I made those changes and redeployed. Some of the copy on the site is theirs verbatim, because on the parts of the business they know better than I do, their wording was better than mine.
+
+There is still an open list of things I am waiting on them for — real hours, confirmed services, testimonials — and the site says nothing I cannot support until those arrive.
 
 ## Result
 

@@ -35,6 +35,7 @@ class CaseStudy:
     role: str
     stack: list[str]
     order: int
+    dates: str = ""  # when it was built / how long it has run
     repo: str = ""  # public source URL, or "" when the source is not public
     extra_urls: list[str] = field(default_factory=list)
     sections: dict[str, str] = field(default_factory=dict)
@@ -109,6 +110,7 @@ def parse_case_study(path: Path) -> CaseStudy:
         role=meta.get("role", ""),
         stack=meta.get("stack", []),
         order=order,
+        dates=meta.get("dates", ""),
         repo=meta.get("repo", ""),
         extra_urls=meta.get("extra_urls", []),
         sections=sections,
@@ -166,6 +168,7 @@ def render_page(cs: CaseStudy, template: str) -> str:
         .replace("{slug}", cs.slug)
         .replace("{url_links}", url_links)
         .replace("{source_html}", source_html)
+        .replace("{dates}", _esc(cs.dates))
         .replace("{one_line}", _esc(cs.one_line))
         .replace("{url}", _esc(cs.url))
         .replace("{role}", _esc(cs.role))

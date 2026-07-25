@@ -115,7 +115,7 @@
     <div class="ai-header">
       <span class="ai-title">AI Resume &amp; Cover Letter Generator</span>
       <span style="display:flex;gap:10px;align-items:center;">
-        <span class="ai-badge">Claude Haiku</span>
+        <span class="ai-badge">AI-generated</span>
         <button class="gen-btn" onclick="showGenerated()">Generate Sample →</button>
       </span>
     </div>
@@ -186,7 +186,7 @@ function showGenerated() {
   body.classList.add('visible');
   body.innerHTML='<div style="margin-bottom:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);">Generated for: '+target.role+' @ '+target.company+'</div>'+
     '<pre style="white-space:pre-wrap;font-family:var(--font);font-size:13.5px;line-height:1.8;">'+sample.cover+'</pre>'+
-    '<div style="margin-top:14px;font-size:12px;color:var(--dim);">In the real tool, Claude generates this from your master resume, the job description, and company context — tailored per application.</div>';
+    '<div style="margin-top:14px;font-size:12px;color:var(--dim);">In the real tool, this is generated from your master resume, the job description, and company context — tailored per application.</div>';
 }
 
 renderBoard();
