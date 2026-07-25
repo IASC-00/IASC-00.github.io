@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="My own site — hand-written, no framework, no build step, and it scores at the top of Lighthouse. — a build by Ian Swain, Philadelphia.">
+<title>iswain.dev — Work | Ian Swain</title>
+
+<link rel="canonical" href="https://iswain.dev/work/iswain-dev.html">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://iswain.dev/work/iswain-dev.html">
+<meta property="og:title" content="iswain.dev — Ian Swain">
+<meta property="og:description" content="My own site — hand-written, no framework, no build step, and it scores at the top of Lighthouse.">
+<meta property="og:image" content="https://iswain.dev/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="iswain.dev — Ian Swain">
+<meta name="twitter:description" content="My own site — hand-written, no framework, no build step, and it scores at the top of Lighthouse.">
+<meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/work.css">
+<script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo" aria-label="iswain.dev home">
+    <img src="/images/swan-logo.png" alt="" width="26" height="26">
+    <span>iswain.dev</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/work/" aria-current="page">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#approach">Approach</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/intake.html" class="nav-cta">Start a project</a>
+</nav>
+
+<header class="work-hero">
+  <div class="wrap">
+    <span class="eyebrow">Case study</span>
+    <h1>iswain.dev</h1>
+    <p class="work-oneline">My own site — hand-written, no framework, no build step, and it scores at the top of Lighthouse.</p>
+    <dl class="work-meta">
+      <div class="work-meta-item"><dt>Status</dt><dd>Live</dd></div>
+      <div class="work-meta-item"><dt>Role</dt><dd>Design, build, deploy</dd></div>
+      <div class="work-meta-item"><dt>Live at</dt><dd><a class="txt-link" href="https://iswain.dev" target="_blank" rel="noopener noreferrer">https://iswain.dev</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="work-body">
+  <div class="wrap">
+    <h2 class="section-title">The problem</h2><p>Most small-business sites are slow because of what was used to build them, not because of what they contain. A brochure site with six sections does not need a framework, a bundler, or a hundred requests — but that is what most of them ship, and the owner pays for it in load time and in the cost of every future change.</p>
+<p>I wanted my own site to be the argument against that, since a prospective client can check it themselves.</p><h2 class="section-title">What I built</h2><p>The site I run my business from. It explains what I do, shows the work, and takes enquiries through a structured intake form that qualifies a project before a call rather than during one.</p>
+<p>It is hand-written — no framework, no build step, no dependency to update. That is not nostalgia; it is a maintenance decision. A site with no build step still deploys in five years, and changing a headline is editing a line rather than reinstalling a toolchain.</p><h2 class="section-title">Result</h2><p>Checked with Lighthouse on 25 July 2026: <strong>100 for accessibility, 100 for best practices, 100 for SEO, and 99 for performance.</strong> Performance moves between 99 and 100 between runs, which is measurement noise rather than a change in the page.</p>
+<p>Anyone can run that audit against the site themselves in about thirty seconds. That is the point of including it here — it is the one claim in this portfolio that a reader can independently verify without taking my word for anything.</p>
+    <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">HTML</span><span class="work-tag">CSS</span><span class="work-tag">JavaScript</span><span class="work-tag">GitHub Pages</span><span class="work-tag">JSON-LD</span></div><p>Hand-written HTML, CSS, and vanilla JavaScript served as static files from GitHub Pages. Structured data through JSON-LD. Forms post to a hosted form endpoint with an email auto-reply, so there is no backend to run or secure.</p>
+<p>The accessibility score is the one that takes actual work: every image carries a considered alt attribute, interactive controls expose their state, the navigation is operable from the keyboard, and the contrast ratios were chosen against the standard rather than checked afterward. A browser-driven test suite in the repository asserts those properties — alt text present, no duplicate ARIA labels, the mobile menu's expanded state correct — so a future edit that breaks accessibility fails a test instead of quietly shipping.</p>
+<p>One known limitation, stated plainly: GitHub Pages cannot serve custom security headers, so there is no Content-Security-Policy or HSTS on this domain. Fixing it means fronting the domain with a proxy or moving hosts. For a static marketing site with no authentication and no user data, I judged that not worth the added moving parts — but it is a real gap and I would not make the same call on a site that logged anyone in.</p></div>
+    <a class="txt-link work-back" href="/work/">← All work</a>
+  </div>
+</main>
+
+<footer>
+  <span class="f-brand">Ian Swain · iswain.dev · Philadelphia, PA</span>
+  <div class="footer-links">
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>

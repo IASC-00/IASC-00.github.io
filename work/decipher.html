@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A browser puzzle game that teaches programming — four rounds, playable now. — a build by Ian Swain, Philadelphia.">
+<title>Decipher — Work | Ian Swain</title>
+
+<link rel="canonical" href="https://iswain.dev/work/decipher.html">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://iswain.dev/work/decipher.html">
+<meta property="og:title" content="Decipher — Ian Swain">
+<meta property="og:description" content="A browser puzzle game that teaches programming — four rounds, playable now.">
+<meta property="og:image" content="https://iswain.dev/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Decipher — Ian Swain">
+<meta name="twitter:description" content="A browser puzzle game that teaches programming — four rounds, playable now.">
+<meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/work.css">
+<script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo" aria-label="iswain.dev home">
+    <img src="/images/swan-logo.png" alt="" width="26" height="26">
+    <span>iswain.dev</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/work/" aria-current="page">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#approach">Approach</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/intake.html" class="nav-cta">Start a project</a>
+</nav>
+
+<header class="work-hero">
+  <div class="wrap">
+    <span class="eyebrow">Case study</span>
+    <h1>Decipher</h1>
+    <p class="work-oneline">A browser puzzle game that teaches programming — four rounds, playable now.</p>
+    <dl class="work-meta">
+      <div class="work-meta-item"><dt>Status</dt><dd>Live</dd></div>
+      <div class="work-meta-item"><dt>Role</dt><dd>Design, build, deploy</dd></div>
+      <div class="work-meta-item"><dt>Live at</dt><dd><a class="txt-link" href="https://decipher.iswain.dev" target="_blank" rel="noopener noreferrer">https://decipher.iswain.dev</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="work-body">
+  <div class="wrap">
+    <h2 class="section-title">The problem</h2><p>Most people who try to learn programming quit during setup. Installing a language, picking an editor, and configuring a toolchain all happen before anyone writes a line that does something — and that is where the motivation goes.</p><h2 class="section-title">What I built</h2><p>A puzzle game that runs in a browser. Four rounds cover Python, JavaScript, HTML and CSS, and finding a bug in code that looks correct. The bug-finding round is the one I care about most, because reading broken code is the skill people actually need and almost nothing teaches it directly.</p>
+<p>Players work through puzzles in sequence with their progress saved. There is no install, no account setup ceremony, and nothing to configure — the first puzzle is one click from the link.</p><h2 class="section-title">Result</h2><p>Live and playable. It runs continuously on infrastructure I control, after two earlier hosted versions went offline when their free tiers expired.</p>
+    <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">Flask</span><span class="work-tag">Python</span><span class="work-tag">PostgreSQL</span><span class="work-tag">SQLite</span></div><p>Python and Flask with Gunicorn, rate-limited at the application layer.</p>
+<p>The detail worth naming is the database layer. It runs against SQLite locally and PostgreSQL in production through a single <code>db_exec</code> utility that normalizes the differences — parameter style, auto-increment syntax, datetime handling — so application code has no idea which database it is talking to. That was originally a fix for a broken deploy, and it became the reason deploys stopped breaking.</p>
+<p>The puzzle seeder is idempotent and self-heals on cold start: it checks what content exists and inserts only what is missing. A fresh deploy comes up fully populated with no manual migration step, and adding puzzles is a matter of raising a threshold rather than writing a migration.</p></div>
+    <a class="txt-link work-back" href="/work/">← All work</a>
+  </div>
+</main>
+
+<footer>
+  <span class="f-brand">Ian Swain · iswain.dev · Philadelphia, PA</span>
+  <div class="footer-links">
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>
