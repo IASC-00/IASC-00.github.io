@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A Philadelphia recording artist had no website. Now they own one. — a build by Ian Swain, Philadelphia.">
+<title>I AM MAJOR KEY — Work | Ian Swain</title>
+
+<link rel="canonical" href="https://iswain.dev/work/i-am-major-key.html">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://iswain.dev/work/i-am-major-key.html">
+<meta property="og:title" content="I AM MAJOR KEY — Ian Swain">
+<meta property="og:description" content="A Philadelphia recording artist had no website. Now they own one.">
+<meta property="og:image" content="https://iswain.dev/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="I AM MAJOR KEY — Ian Swain">
+<meta name="twitter:description" content="A Philadelphia recording artist had no website. Now they own one.">
+<meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/work.css">
+<script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo" aria-label="iswain.dev home">
+    <span class="nav-logo-mark" aria-hidden="true"></span>
+    <span>iswain.dev</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/work/">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#approach">Approach</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/intake.html" class="nav-cta">Start a project</a>
+</nav>
+
+<header class="work-hero">
+  <div class="wrap">
+    <span class="eyebrow">Case study</span>
+    <h1>I AM MAJOR KEY</h1>
+    <p class="work-oneline">A Philadelphia recording artist had no website. Now they own one.</p>
+    <dl class="work-meta">
+      <div class="work-meta-item"><dt>Status</dt><dd>Live</dd></div>
+      <div class="work-meta-item"><dt>Role</dt><dd>Design, build, deploy</dd></div>
+      <div class="work-meta-item"><dt>Live at</dt><dd><a class="txt-link" href="https://iammajorkey.com" target="_blank" rel="noopener noreferrer">https://iammajorkey.com</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="work-body">
+  <div class="wrap">
+    <h2 class="section-title">The problem</h2><p>A working recording artist in Philadelphia had no website. Everything lived on social platforms — no single place that was theirs, nothing that would survive a platform changing its rules or an account going away. Booking inquiries had nowhere to land.</p><h2 class="section-title">What I built</h2><p>I designed and built a one-page site around the music: a full-screen opening, the releases, and a direct way to reach the artist. It is deliberately one page, because an artist site that asks a visitor to navigate is a site that loses them.</p>
+<p>I did the whole thing — design, build, and deploy onto the artist's own hosting — and locked down the parts of the platform that are exposed by default. I keep a versioned copy of the site and a written restore runbook, so it can be rebuilt from scratch if the host ever loses it.</p><h2 class="section-title">Result</h2><p>Live and public. It is the artist's own site on their own domain, and it is the first thing that shows up when someone goes looking for them.</p>
+    <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">WordPress</span><span class="work-tag">PHP</span><span class="work-tag">Custom theme</span><span class="work-tag">LiteSpeed</span></div><p>Custom WordPress theme, hand-written — no page builder, no purchased template. PHP templates with a hardened <code>functions.php</code>.</p>
+<p>Two things worth naming. The host serves pages through LiteSpeed with a seven-day full-page cache, so a deploy that skips the cache purge looks like it silently failed — the runbook makes that step explicit rather than institutional knowledge. And rather than editing theme files on a host where file editing is disabled, I built a small companion plugin that hooks <code>plugins_loaded</code> at priority 0 and redirects author-enumeration probes before anything else runs.</p>
+<p>The source is a git repository with a WordPress-installable release artifact, so a restore is an upload, not a rebuild.</p></div>
+    <a class="txt-link work-back" href="/work/">← All work</a>
+  </div>
+</main>
+
+<footer>
+  <span class="f-brand">Ian Swain · iswain.dev · Philadelphia, PA</span>
+  <div class="footer-links">
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>

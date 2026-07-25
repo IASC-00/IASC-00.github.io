@@ -1,0 +1,9 @@
+# Ruff config for the iswain.dev portfolio.
+# The coding-os pre-commit gate runs `ruff check --select S` (bandit security
+# lints) on staged Python. In test files two of those rules are false positives:
+#   S101 — `assert` is the normal, correct idiom in pytest.
+#   S105 — the smoke test's `PASS = "✓"` result marker is not a password.
+# Ignore those two in test files ONLY. Every other S rule, and all non-test
+# files, stay fully enforced.
+[lint.per-file-ignores]
+"**/tests/**" = ["S101", "S105"]

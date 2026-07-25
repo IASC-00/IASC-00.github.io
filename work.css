@@ -1,0 +1,161 @@
+/* work.css — styles for /work (portfolio case studies).
+   index.html keeps its CSS inline; this is a standalone sheet using the same
+   tokens so the case-study pages match the site without touching the homepage.
+   Note: style.css in the repo root is a separate, older sheet — client-roi.html
+   still loads it. Don't delete it, and don't assume it applies here. */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --ink:        #0E0E10;
+  --ink-2:      #161719;
+  --ink-3:      #1E2023;
+  --teal:       #3DE8D0;
+  --teal-2:     #5cf0dc;
+  --tx:         #ECECEA;
+  --tx-dim:     rgba(255,255,255,0.56);
+  --line:       rgba(255,255,255,0.09);
+  --line-2:     rgba(255,255,255,0.15);
+
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --disp: 'Space Grotesk', 'Inter', sans-serif;
+  --mono: 'Space Mono', 'SF Mono', ui-monospace, monospace;
+
+  --pad-x: clamp(24px, 5vw, 60px);
+  --pad-y: clamp(60px, 8vw, 96px);
+  --wrap: 1180px;
+  --read: 760px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--tx);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+img, video { max-width: 100%; display: block; }
+
+h1, h2, h3 { font-family: var(--disp); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-left: var(--pad-x); padding-right: var(--pad-x); }
+.read { max-width: var(--read); }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--teal); display: inline-flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.7; }
+
+/* ── Nav ── */
+nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line); height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--pad-x); gap: 24px; }
+.nav-logo { display: flex; align-items: center; gap: 11px; text-decoration: none; white-space: nowrap; }
+.nav-logo span { font-family: var(--disp); font-size: 14px; font-weight: 700; color: #fff; }
+/* Background, not <img>: the source file is 256x384 (2:3), so forcing it into
+   a 26x26 <img> box distorts it. contain letterboxes it instead. Matches the
+   homepage, which uses the same approach. */
+.nav-logo-mark { width: 26px; height: 26px; flex-shrink: 0;
+  background: url('/images/swan-logo.png') center/contain no-repeat; }
+.nav-links { display: flex; gap: 26px; list-style: none; }
+.nav-links a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; color: var(--tx-dim); text-decoration: none; transition: color .15s; }
+.nav-links a:hover, .nav-links a[aria-current="page"] { color: #fff; }
+.nav-cta { font-size: 12.5px; font-weight: 600; background: var(--teal); color: #06201a; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background .15s; white-space: nowrap; }
+.nav-cta:hover { background: var(--teal-2); }
+
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
+  text-decoration: none; border-radius: 9px; padding: 14px 24px; cursor: pointer;
+  border: 1px solid transparent; white-space: nowrap;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+.btn-primary { background: var(--teal); color: #06201a; }
+.btn-primary:hover { background: var(--teal-2); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: #fff; border-color: var(--line-2); }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.55); transform: translateY(-2px); }
+.txt-link { font-family: var(--mono); font-size: 12.5px; color: var(--teal); text-decoration: none;
+  border-bottom: 1px solid rgba(61,232,208,0.35); padding-bottom: 2px; transition: border-color .15s; }
+.txt-link:hover { border-color: var(--teal); }
+
+/* ── Work index ── */
+.work-intro { padding: clamp(48px, 7vw, 88px) 0 0; }
+.work-intro h1 { font-size: clamp(34px, 5vw, 58px); color: #fff; margin: 16px 0 18px; }
+.work-intro p { color: var(--tx-dim); font-size: clamp(16px, 1.4vw, 19px); max-width: 62ch; }
+
+.work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;
+  padding: clamp(40px, 5vw, 64px) 0; }
+.work-card { display: flex; flex-direction: column; gap: 12px; background: var(--ink-2);
+  border: 1px solid var(--line); border-radius: 14px; padding: 26px; text-decoration: none;
+  transition: border-color .15s ease, transform .15s ease, background .15s ease; }
+.work-card:hover { border-color: var(--line-2); background: var(--ink-3); transform: translateY(-3px); }
+.work-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+.work-card h2 { font-size: 21px; color: #fff; }
+.work-card p { color: var(--tx-dim); font-size: 15px; line-height: 1.6; flex: 1; }
+.work-status { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--teal); white-space: nowrap; }
+.work-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.work-tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.03em; color: var(--tx-dim);
+  border: 1px solid var(--line); border-radius: 5px; padding: 3px 8px; }
+
+.work-also { border-top: 1px solid var(--line); padding: clamp(40px, 5vw, 64px) 0; }
+.work-also h2 { font-size: clamp(22px, 2.6vw, 30px); color: #fff; margin-bottom: 20px; }
+.work-also ul { list-style: none; display: grid; gap: 14px; max-width: var(--read); }
+.work-also li { color: var(--tx-dim); font-size: 15px; line-height: 1.6;
+  padding-left: 18px; position: relative; }
+.work-also li::before { content: '—'; position: absolute; left: 0; color: var(--teal); }
+.work-also strong { color: var(--tx); font-weight: 600; }
+
+.work-cta { border-top: 1px solid var(--line); padding: clamp(48px, 6vw, 80px) 0;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 20px; justify-content: space-between; }
+.work-cta p { color: var(--tx-dim); max-width: 46ch; }
+
+/* ── Case study page ── */
+.work-hero { padding: clamp(44px, 6vw, 76px) 0 clamp(28px, 3vw, 40px); border-bottom: 1px solid var(--line); }
+.work-hero h1 { font-size: clamp(32px, 4.6vw, 54px); color: #fff; margin: 16px 0 14px; }
+.work-hero .work-oneline { color: var(--tx-dim); font-size: clamp(16px, 1.5vw, 20px); max-width: 60ch; }
+.work-meta { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 26px;
+  font-family: var(--mono); font-size: 12px; color: var(--tx-dim); }
+/* Explicit colour, no opacity: at 10.5px this must clear WCAG AA (4.5:1).
+   --tx-dim at 0.7 opacity rendered ~3.7:1 and failed the contrast audit. */
+.work-meta dt { text-transform: uppercase; letter-spacing: 0.1em; font-size: 10.5px; color: #9BA1A8; }
+.work-meta dd { color: var(--tx); }
+.work-meta-item { display: flex; flex-direction: column; gap: 3px; }
+
+.work-body { padding: clamp(40px, 5vw, 64px) 0; }
+.work-body .section-title { font-size: clamp(20px, 2.2vw, 26px); color: #fff;
+  margin: 44px 0 14px; }
+.work-body .section-title:first-child { margin-top: 0; }
+.work-body p { color: var(--tx-dim); margin-bottom: 16px; max-width: var(--read); }
+.work-body ul, .work-body ol { color: var(--tx-dim); margin: 0 0 16px 20px; max-width: var(--read); }
+.work-body li { margin-bottom: 8px; }
+.work-body strong { color: var(--tx); font-weight: 600; }
+.work-body code { font-family: var(--mono); font-size: 0.9em; background: var(--ink-3);
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+
+.work-tech { margin-top: 56px; background: var(--ink-2); border: 1px solid var(--line);
+  border-radius: 14px; padding: clamp(24px, 3vw, 36px); }
+.work-tech .section-title { margin-top: 0; font-size: 19px; }
+.work-tech .work-tags { margin-bottom: 20px; }
+.work-tech p:last-child { margin-bottom: 0; }
+
+.work-back { display: inline-block; margin-top: 48px; }
+
+/* ── Footer ── */
+footer { background: #090909; padding: 30px var(--pad-x); display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 14px; border-top: 1px solid var(--line); }
+footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim); }
+.footer-links { display: flex; gap: 22px; }
+.footer-links a { font-family: var(--mono); font-size: 12px; color: var(--tx-dim); text-decoration: none; transition: color .15s; }
+.footer-links a:hover { color: #fff; }
+
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .work-cta { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,59 @@
+/* work-print.css — print/PDF styles for the portfolio.
+   Used only by work/print.html, which exists to be rendered to PDF.
+   Light on white, no nav, no chrome, URLs printed as visible text. */
+
+@page { margin: 18mm 16mm; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sans: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --disp: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --mono: 'Space Mono', ui-monospace, 'Courier New', monospace;
+  --tx: #16181C;
+  --tx-dim: #4A5058;
+  --line: #D8DBE0;
+  --accent: #0A7A5E;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--tx);
+  background: #fff;
+  line-height: 1.55;
+  font-size: 10.5pt;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+h1, h2, h3 { font-family: var(--disp); font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; }
+a { color: var(--accent); text-decoration: none; }
+p { margin-bottom: 9pt; }
+ul, ol { margin: 0 0 9pt 16pt; }
+li { margin-bottom: 4pt; }
+strong { font-weight: 600; color: var(--tx); }
+code { font-family: var(--mono); font-size: 0.88em; background: #F2F3F5; border: 1px solid var(--line);
+  border-radius: 3px; padding: 0 3px; }
+
+/* ── Cover ── */
+.cover { page-break-after: always; padding-top: 34mm; }
+.cover h1 { font-size: 30pt; margin-bottom: 8pt; }
+.cover .cover-role { font-size: 13pt; color: var(--tx-dim); margin-bottom: 26pt; }
+.cover .cover-lede { font-size: 11pt; max-width: 46em; margin-bottom: 30pt; }
+.cover .cover-contact { font-family: var(--mono); font-size: 9.5pt; color: var(--tx-dim); line-height: 2; }
+.cover .cover-contact strong { color: var(--tx); font-weight: 400; }
+.cover-rule { border: 0; border-top: 2px solid var(--accent); width: 54pt; margin-bottom: 20pt; }
+
+/* ── Case studies ── */
+.work-study { page-break-before: always; page-break-inside: auto; }
+.work-study:first-of-type { page-break-before: avoid; }
+.work-study h2 { font-size: 19pt; margin-bottom: 5pt; }
+.work-study .work-oneline { font-size: 11pt; color: var(--tx-dim); margin-bottom: 6pt; }
+.work-study .work-meta { font-family: var(--mono); font-size: 8.5pt; color: var(--tx-dim);
+  border-bottom: 1px solid var(--line); padding-bottom: 9pt; margin-bottom: 14pt; }
+.work-study h3 { font-size: 11.5pt; margin: 15pt 0 6pt; color: var(--accent); page-break-after: avoid; }
+
+.print-foot { margin-top: 22pt; padding-top: 9pt; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 8.5pt; color: var(--tx-dim); page-break-before: always; }
+.print-foot ul { list-style: none; margin-left: 0; }
+.print-foot li { margin-bottom: 5pt; }

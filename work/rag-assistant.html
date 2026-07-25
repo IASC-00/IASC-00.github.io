@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ask questions across a set of documents and get answers grounded in what they actually say. — a build by Ian Swain, Philadelphia.">
+<title>Document assistant — Work | Ian Swain</title>
+
+<link rel="canonical" href="https://iswain.dev/work/rag-assistant.html">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://iswain.dev/work/rag-assistant.html">
+<meta property="og:title" content="Document assistant — Ian Swain">
+<meta property="og:description" content="Ask questions across a set of documents and get answers grounded in what they actually say.">
+<meta property="og:image" content="https://iswain.dev/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Document assistant — Ian Swain">
+<meta name="twitter:description" content="Ask questions across a set of documents and get answers grounded in what they actually say.">
+<meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/work.css">
+<script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo" aria-label="iswain.dev home">
+    <span class="nav-logo-mark" aria-hidden="true"></span>
+    <span>iswain.dev</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/work/">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#approach">Approach</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/intake.html" class="nav-cta">Start a project</a>
+</nav>
+
+<header class="work-hero">
+  <div class="wrap">
+    <span class="eyebrow">Case study</span>
+    <h1>Document assistant</h1>
+    <p class="work-oneline">Ask questions across a set of documents and get answers grounded in what they actually say.</p>
+    <dl class="work-meta">
+      <div class="work-meta-item"><dt>Status</dt><dd>Live</dd></div>
+      <div class="work-meta-item"><dt>Role</dt><dd>Design, build, deploy</dd></div>
+      <div class="work-meta-item"><dt>Live at</dt><dd><a class="txt-link" href="https://rag.iswain.dev" target="_blank" rel="noopener noreferrer">https://rag.iswain.dev</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="work-body">
+  <div class="wrap">
+    <h2 class="section-title">The problem</h2><p>A business accumulates documents — policies, contracts, manuals, past proposals — and answering a question about them means knowing which file to open. General-purpose chat tools will answer confidently from their own training instead of from your documents, which is worse than no answer, because it sounds right.</p><h2 class="section-title">What I built</h2><p>An assistant that answers only from a supplied set of documents. Documents are processed once into a searchable index. When a question comes in, the system retrieves the passages that actually relate to it and answers from those, so the response is tied to the source material rather than to whatever the model already believed.</p><h2 class="section-title">Result</h2><p>Live with a sample document set, so the behavior can be checked directly: ask something the documents cover and the answer tracks them.</p>
+    <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">Flask</span><span class="work-tag">Python</span><span class="work-tag">ChromaDB</span><span class="work-tag">Vector search</span></div><p>Python and Flask. Ingestion (<code>ingest.py</code>) chunks documents and stores embeddings in a ChromaDB vector store; the query path (<code>query.py</code>) embeds the question, retrieves the nearest passages, and passes only those to the language model as context.</p>
+<p>The deliberate constraint is cost: it runs against a free hosted model through a provider-agnostic client, which keeps the running cost at zero. That is also its known fragility — free model endpoints get deprecated with little notice, and this one has already needed swapping once. The client is configured through environment variables specifically so changing models is a config edit and a restart, not a code change. For a client build I would put this on a paid endpoint and treat model choice as a stability decision rather than a cost one.</p></div>
+    <a class="txt-link work-back" href="/work/">← All work</a>
+  </div>
+</main>
+
+<footer>
+  <span class="f-brand">Ian Swain · iswain.dev · Philadelphia, PA</span>
+  <div class="footer-links">
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>

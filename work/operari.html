@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A private operations hub for a small team — projects, tasks, files, and invoicing in one place. — a build by Ian Swain, Philadelphia.">
+<title>OPERARI — Work | Ian Swain</title>
+
+<link rel="canonical" href="https://iswain.dev/work/operari.html">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://iswain.dev/work/operari.html">
+<meta property="og:title" content="OPERARI — Ian Swain">
+<meta property="og:description" content="A private operations hub for a small team — projects, tasks, files, and invoicing in one place.">
+<meta property="og:image" content="https://iswain.dev/images/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OPERARI — Ian Swain">
+<meta name="twitter:description" content="A private operations hub for a small team — projects, tasks, files, and invoicing in one place.">
+<meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/work.css">
+<script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo" aria-label="iswain.dev home">
+    <span class="nav-logo-mark" aria-hidden="true"></span>
+    <span>iswain.dev</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/work/">Work</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#approach">Approach</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/intake.html" class="nav-cta">Start a project</a>
+</nav>
+
+<header class="work-hero">
+  <div class="wrap">
+    <span class="eyebrow">Case study</span>
+    <h1>OPERARI</h1>
+    <p class="work-oneline">A private operations hub for a small team — projects, tasks, files, and invoicing in one place.</p>
+    <dl class="work-meta">
+      <div class="work-meta-item"><dt>Status</dt><dd>Live · private</dd></div>
+      <div class="work-meta-item"><dt>Role</dt><dd>Architecture, build, deploy, ongoing</dd></div>
+      <div class="work-meta-item"><dt>Live at</dt><dd><a class="txt-link" href="https://operarihq.com" target="_blank" rel="noopener noreferrer">https://operarihq.com</a></dd></div>
+    </dl>
+  </div>
+</header>
+
+<main class="work-body">
+  <div class="wrap">
+    <h2 class="section-title">The problem</h2><p>A small team was running its work across email, chat threads, and shared drive folders. Nothing was wrong with any one of those tools; the problem was that the work lived in the gaps between them. Decisions were made in a thread nobody could find later, files were attached to messages instead of to projects, and the only person who knew the current state of anything was whoever had most recently touched it.</p><h2 class="section-title">What I built</h2><p>I built the team a single place for the work: projects, tasks with owners and due dates, contacts, invoices, file attachments, comments, an activity log, and a calendar — all attached to the project they belong to rather than scattered.</p>
+<p>Two parts go beyond a tracker. There is an assistant grounded in the team's own workspace, so asking what is outstanding on a project returns an answer from the actual data and can act on it — create tasks, add notes, mark work done. And there is a bulk capture flow: paste a wall of unstructured notes from a meeting, and it comes back sorted into proposed tasks, contacts, and a note for review before anything is saved.</p>
+<p>Because it holds real business information, I treated access as the first requirement rather than a later hardening pass. Every route requires an authenticated user on an explicit allowlist. The database denies access by default at the row level, and files are private and served through expiring signed links rather than public URLs.</p><h2 class="section-title">Result</h2><p>Live and in daily use by its three users. It is the team's actual system of record, not a pilot.</p>
+<p>It is private and has no public sign-up, which is why there is no demo link here — the login is real and the data behind it is real. I can walk through it live on a call.</p>
+    <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">FastAPI</span><span class="work-tag">Python</span><span class="work-tag">React</span><span class="work-tag">PostgreSQL</span><span class="work-tag">Cloudflare R2</span><span class="work-tag">Docker</span></div><p>Python and FastAPI on the backend, React and Vite on the front end, PostgreSQL for data, Docker for deploys. Over 200 automated tests cover the backend.</p>
+<p>The piece I would point a technical reader at is the storage migration. File storage sat on a hosted free tier with a 1GB cap and had already blown through it. I made the storage layer dual-read — persisted paths route to the new store, anything older falls back to the old one — so the swap could ship before a single file moved. Then I migrated 233 files to object storage with a canary run first and zero failures, and reclaimed the old bucket. No downtime, no big-bang cutover, and a rollback path that stayed open the whole time.</p>
+<p>Access control is enforced in one place rather than repeated per route: a shared check that honors project membership, which the assistant and the bulk-capture flow both delegate to instead of reimplementing.</p></div>
+    <a class="txt-link work-back" href="/work/">← All work</a>
+  </div>
+</main>
+
+<footer>
+  <span class="f-brand">Ian Swain · iswain.dev · Philadelphia, PA</span>
+  <div class="footer-links">
+    <a href="/privacy-policy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://linkedin.com/in/ian-swain-978326101" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</footer>
+
+</body>
+</html>
