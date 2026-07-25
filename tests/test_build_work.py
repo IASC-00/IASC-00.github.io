@@ -63,3 +63,30 @@ def test_load_all_sorts_by_order(tmp_path):
             f"status: live\nrole: r\nstack: [X]\norder: {order}\n---\n\n## The problem\n\nx\n"
         )
     assert [c.slug for c in load_all(tmp_path)] == ["a", "b"]
+
+
+def test_render_page_splits_client_and_technical_halves():
+    from build_work import render_page, CaseStudy
+
+    cs = CaseStudy(
+        slug="s",
+        title="S",
+        one_line="One line.",
+        url="https://e.com",
+        status="live",
+        role="Design, build, deploy",
+        stack=["Flask"],
+        order=1,
+        sections={
+            "The problem": "<p>Broken.</p>",
+            "What I built": "<p>Built it.</p>",
+            "Result": "<p>Runs.</p>",
+            "Stack & implementation": "<p>Flask.</p>",
+        },
+    )
+    template = "<title>{title}</title>{client_html}{tech_html}{status_label}"
+    html = render_page(cs, template)
+    assert "Broken." in html and "Built it." in html and "Runs." in html
+    assert "Flask." in html
+    assert html.index("Runs.") < html.index("Flask.")  # technical half comes last
+    assert "Live" in html
