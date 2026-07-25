@@ -1,7 +1,7 @@
 ---
 slug: demo-infrastructure
-title: Always-on demo infrastructure
-one_line: Four demo apps kept going offline on free hosting. I moved them onto one server for about $7 a month.
+title: Hosting that stays up
+one_line: I run my own production server — hardened, automatic HTTPS, four apps that don't go down. The same setup I'd run for a client.
 url: https://decipher.iswain.dev
 extra_urls: [https://crm.iswain.dev, https://rag.iswain.dev, https://audit.iswain.dev]
 status: live
@@ -12,19 +12,23 @@ order: 4
 
 ## The problem
 
-Four working applications were deployed across free hosting tiers, and they kept going dark. One returned a 404 after its service was reclaimed. Another stopped when its credit ran out. The rest slept after a period of inactivity, so the first visitor to arrive waited thirty seconds for a cold start — or gave up.
+Software that is live is only useful if it stays live, and most cheap hosting quietly fails at exactly that. Platforms reclaim inactive services, credits run out, and free tiers put an application to sleep so the first visitor waits thirty seconds or gives up. You usually find out because someone tells you your site is down.
 
-This is the worst possible failure for demo software. The apps worked. Anyone who went looking found them broken, and a broken link is worse than no link, because it says the work was abandoned.
+I learned this on my own applications — four of them went dark across three different platforms — and it is the same failure a small business hits when the person who set up their site is no longer around and something silently expires.
 
 ## What I built
 
-I moved all four onto a single small server that I control, with each application isolated in its own container behind a shared entry point that handles the domains and certificates. Everything restarts automatically after a reboot, and certificates renew without anyone touching them.
+Infrastructure I control, running four applications continuously.
 
-The server is locked down to the three ports it needs, with automatic security updates and repeated-failure banning enabled. Redeploying any application is a file sync and a single command.
+Each one is isolated so a fault in one cannot touch the others. A single entry point handles the domains and renews the HTTPS certificates automatically, with no annual scramble over an expired certificate. Everything restarts by itself after a reboot or a crash, which means recovery does not depend on me being awake.
+
+The server is closed to everything except the three ports it needs, with automatic security patching and automatic banning of repeated login attempts. Deploying an update is one command, so a change is never postponed because deploying is a chore.
 
 ## Result
 
-All four run continuously — no sleeping, no cold starts, no expiry. Total cost is about $7 a month, replacing four unreliable free services, and I own the box rather than renting a platform that can change its terms.
+Four applications running continuously — no sleeping, no cold starts, nothing that expires on a schedule I do not control. The whole thing runs for a fraction of what the equivalent managed platforms charge.
+
+This is the part of the work that clients usually pay for after something has already broken. It is also exactly what an ongoing care arrangement covers: the site stays up, the certificates renew, the patches land, and nobody has to remember to check.
 
 ## Stack & implementation
 

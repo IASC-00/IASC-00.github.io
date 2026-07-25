@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Four demo apps kept going offline on free hosting. I moved them onto one server for about $7 a month. — a build by Ian Swain, Philadelphia.">
-<title>Always-on demo infrastructure — Work | Ian Swain</title>
+<meta name="description" content="I run my own production server — hardened, automatic HTTPS, four apps that don&#x27;t go down. The same setup I&#x27;d run for a client. — a build by Ian Swain, Philadelphia.">
+<title>Hosting that stays up — Work | Ian Swain</title>
 
 <link rel="canonical" href="https://iswain.dev/work/demo-infrastructure.html">
 
@@ -14,12 +14,12 @@
 
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://iswain.dev/work/demo-infrastructure.html">
-<meta property="og:title" content="Always-on demo infrastructure — Ian Swain">
-<meta property="og:description" content="Four demo apps kept going offline on free hosting. I moved them onto one server for about $7 a month.">
+<meta property="og:title" content="Hosting that stays up — Ian Swain">
+<meta property="og:description" content="I run my own production server — hardened, automatic HTTPS, four apps that don&#x27;t go down. The same setup I&#x27;d run for a client.">
 <meta property="og:image" content="https://iswain.dev/images/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Always-on demo infrastructure — Ian Swain">
-<meta name="twitter:description" content="Four demo apps kept going offline on free hosting. I moved them onto one server for about $7 a month.">
+<meta name="twitter:title" content="Hosting that stays up — Ian Swain">
+<meta name="twitter:description" content="I run my own production server — hardened, automatic HTTPS, four apps that don&#x27;t go down. The same setup I&#x27;d run for a client.">
 <meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
 
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -50,8 +50,8 @@
 <header class="work-hero">
   <div class="wrap">
     <span class="eyebrow">Case study</span>
-    <h1>Always-on demo infrastructure</h1>
-    <p class="work-oneline">Four demo apps kept going offline on free hosting. I moved them onto one server for about $7 a month.</p>
+    <h1>Hosting that stays up</h1>
+    <p class="work-oneline">I run my own production server — hardened, automatic HTTPS, four apps that don&#x27;t go down. The same setup I&#x27;d run for a client.</p>
     <dl class="work-meta">
       <div class="work-meta-item"><dt>Status</dt><dd>Live</dd></div>
       <div class="work-meta-item"><dt>Role</dt><dd>Architecture, provisioning, deploy</dd></div>
@@ -62,9 +62,11 @@
 
 <main class="work-body">
   <div class="wrap">
-    <h2 class="section-title">The problem</h2><p>Four working applications were deployed across free hosting tiers, and they kept going dark. One returned a 404 after its service was reclaimed. Another stopped when its credit ran out. The rest slept after a period of inactivity, so the first visitor to arrive waited thirty seconds for a cold start — or gave up.</p>
-<p>This is the worst possible failure for demo software. The apps worked. Anyone who went looking found them broken, and a broken link is worse than no link, because it says the work was abandoned.</p><h2 class="section-title">What I built</h2><p>I moved all four onto a single small server that I control, with each application isolated in its own container behind a shared entry point that handles the domains and certificates. Everything restarts automatically after a reboot, and certificates renew without anyone touching them.</p>
-<p>The server is locked down to the three ports it needs, with automatic security updates and repeated-failure banning enabled. Redeploying any application is a file sync and a single command.</p><h2 class="section-title">Result</h2><p>All four run continuously — no sleeping, no cold starts, no expiry. Total cost is about $7 a month, replacing four unreliable free services, and I own the box rather than renting a platform that can change its terms.</p>
+    <h2 class="section-title">The problem</h2><p>Software that is live is only useful if it stays live, and most cheap hosting quietly fails at exactly that. Platforms reclaim inactive services, credits run out, and free tiers put an application to sleep so the first visitor waits thirty seconds or gives up. You usually find out because someone tells you your site is down.</p>
+<p>I learned this on my own applications — four of them went dark across three different platforms — and it is the same failure a small business hits when the person who set up their site is no longer around and something silently expires.</p><h2 class="section-title">What I built</h2><p>Infrastructure I control, running four applications continuously.</p>
+<p>Each one is isolated so a fault in one cannot touch the others. A single entry point handles the domains and renews the HTTPS certificates automatically, with no annual scramble over an expired certificate. Everything restarts by itself after a reboot or a crash, which means recovery does not depend on me being awake.</p>
+<p>The server is closed to everything except the three ports it needs, with automatic security patching and automatic banning of repeated login attempts. Deploying an update is one command, so a change is never postponed because deploying is a chore.</p><h2 class="section-title">Result</h2><p>Four applications running continuously — no sleeping, no cold starts, nothing that expires on a schedule I do not control. The whole thing runs for a fraction of what the equivalent managed platforms charge.</p>
+<p>This is the part of the work that clients usually pay for after something has already broken. It is also exactly what an ongoing care arrangement covers: the site stays up, the certificates renew, the patches land, and nobody has to remember to check.</p>
     <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">Docker</span><span class="work-tag">Caddy</span><span class="work-tag">Ubuntu</span><span class="work-tag">Let&#x27;s Encrypt</span></div><p>Ubuntu on a small cloud instance. Docker Compose runs one service per application plus Caddy as a reverse proxy, which handles automatic Let's Encrypt certificates and maps each subdomain to its container. Containers are set to restart unless explicitly stopped, so the whole stack survives a reboot without intervention.</p>
 <p>Hardening is ufw limited to ports 22, 80, and 443, fail2ban, unattended upgrades, and key-only SSH with a dedicated deploy key — no password authentication.</p>
 <p>Secrets live in an environment file that Compose substitutes at run time rather than in any image. One application keeps a named volume for its database; the rest are stateless and seed themselves on start, which means a rebuild is never a data-loss risk.</p>
