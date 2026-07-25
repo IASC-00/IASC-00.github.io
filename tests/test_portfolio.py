@@ -19,7 +19,7 @@ BASE = f"http://localhost:{PORT}"
 
 def start_server():
     handler = functools.partial(
-        http.server.SimpleHTTPRequestHandler, directory="/home/iswai/portfolio"
+        http.server.SimpleHTTPRequestHandler, directory="/home/ias/portfolio"
     )
     server = http.server.HTTPServer(("127.0.0.1", PORT), handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
