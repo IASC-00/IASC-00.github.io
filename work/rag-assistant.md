@@ -3,6 +3,7 @@ slug: rag-assistant
 title: Document assistant
 one_line: Ask questions across a set of documents and get answers grounded in what they actually say.
 url: https://rag.iswain.dev
+repo: https://github.com/IASC-00/rag-chatbot
 status: live
 role: Design, build, deploy
 stack: [Flask, Python, ChromaDB, Vector search]

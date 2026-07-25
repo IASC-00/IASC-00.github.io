@@ -35,6 +35,7 @@ class CaseStudy:
     role: str
     stack: list[str]
     order: int
+    repo: str = ""  # public source URL, or "" when the source is not public
     extra_urls: list[str] = field(default_factory=list)
     sections: dict[str, str] = field(default_factory=dict)
 
@@ -108,6 +109,7 @@ def parse_case_study(path: Path) -> CaseStudy:
         role=meta.get("role", ""),
         stack=meta.get("stack", []),
         order=order,
+        repo=meta.get("repo", ""),
         extra_urls=meta.get("extra_urls", []),
         sections=sections,
     )
@@ -149,10 +151,21 @@ def render_page(cs: CaseStudy, template: str) -> str:
         f'rel="noopener noreferrer">{_esc(u)}</a>'
         for u in [cs.url, *cs.extra_urls]
     )
+    if cs.repo:
+        source_html = (
+            f'<a class="txt-link" href="{_esc(cs.repo)}" target="_blank" '
+            f'rel="noopener noreferrer">Read the source</a>'
+        )
+    else:
+        source_html = (
+            '<span class="work-private">Private — walkthrough on request</span>'
+        )
+
     return (
         template.replace("{title}", _esc(cs.title))
         .replace("{slug}", cs.slug)
         .replace("{url_links}", url_links)
+        .replace("{source_html}", source_html)
         .replace("{one_line}", _esc(cs.one_line))
         .replace("{url}", _esc(cs.url))
         .replace("{role}", _esc(cs.role))
@@ -275,13 +288,14 @@ def _head_status(url: str, timeout: int) -> int:
 def verify_urls(items: list[CaseStudy], timeout: int = 15) -> list[tuple[str, int]]:
     """Every URL a case study claims is live must return 200 on its own host.
 
-    Covers extra_urls too, so a study that asserts several running apps has
-    every one of them checked rather than just the headline link.
+    Covers extra_urls and the source repo too, so a study that asserts several
+    running apps — or links code a reader is invited to read — has every one of
+    them checked rather than just the headline link.
     """
     failures = []
     seen: set[str] = set()
     for cs in items:
-        for url in [cs.url, *cs.extra_urls]:
+        for url in [cs.url, *cs.extra_urls, *([cs.repo] if cs.repo else [])]:
             if url in seen:
                 continue
             seen.add(url)

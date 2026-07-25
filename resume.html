@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ian Swain — full-stack developer in Philadelphia. Résumé: production web applications, Python and Node, and the infrastructure they run on.">
+<title>Résumé — Ian Swain</title>
+
+<link rel="canonical" href="https://iswain.dev/resume.html">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/swan-logo.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://iswain.dev/resume.html">
+<meta property="og:title" content="Ian Swain — Résumé">
+<meta property="og:description" content="Full-stack developer in Philadelphia. Production web applications, Python and Node, and the infrastructure they run on.">
+<meta property="og:image" content="https://iswain.dev/images/og-image.png">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/resume.css">
+</head>
+<body>
+
+<nav class="cv-nav">
+  <a href="/">← iswain.dev</a>
+  <div class="cv-nav-right">
+    <a href="/work/">Case studies</a>
+    <a href="https://github.com/IASC-00" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <button type="button" onclick="window.print()">Print / save as PDF</button>
+  </div>
+</nav>
+
+<header class="cv-head">
+  <h1>Ian Swain</h1>
+  <p class="cv-role">Full-stack developer · Philadelphia, PA</p>
+  <p class="cv-avail">Open to full-time and contract engineering roles.</p>
+  <p class="cv-contact">
+    <a href="mailto:iswaindev@proton.me">iswaindev@proton.me</a> ·
+    <a href="https://iswain.dev">iswain.dev</a> ·
+    <a href="https://iswain.dev/work/">iswain.dev/work</a> ·
+    <a href="https://github.com/IASC-00">github.com/IASC-00</a>
+  </p>
+</header>
+
+<main class="cv">
+<hr />
+<h2>Profile</h2>
+<p>Full-stack developer with a career built through 14 years of operations and leadership, now specializing in AI systems and automation pipelines that solve real-world operational bottlenecks. Ships production tools end-to-end — Node.js/Express APIs, Vue 3 SPAs, RAG pipelines, and agentic AI systems. 15+ production tools shipped. 25,000+ leads automated. This practical, business-first background informs engineering that is resilient, scalable, and focused on measurable impact.</p>
+<hr />
+<h2>Technical Skills</h2>
+<p><strong>Languages:</strong> Python, Node.js, SQL, Bash, HTML/CSS/JavaScript</p>
+<p><strong>AI / Automation:</strong> OpenRouter, Ollama (local inference), RAG pipelines, vector embeddings, LLM function calling/tool use, multi-agent orchestration, prompt engineering</p>
+<p><strong>Frameworks &amp; Tools:</strong> Flask, Express.js, Vue.js (Pinia, vue-router), React/Next.js, ChromaDB, SQLAlchemy, Click, Pydantic, httpx</p>
+<p><strong>Infrastructure:</strong> Linux/WSL2, Git/GitHub, GitHub Actions (CI/CD), PostgreSQL, SQLite, Render, Railway, Vercel, n8n</p>
+<hr />
+<h2>Projects</h2>
+<p><strong>AI Investment Committee</strong> — Python, Claude API, Flask, yfinance | github.com/IASC-00/invest-manager</p>
+<ul>
+<li>Built a 4-role multi-agent equity analysis system (fundamental, macro, bear, decision engine) producing BUY/AVOID decisions with confidence scores</li>
+<li>Integrated Claude API with Ollama local fallback through a custom hybrid proxy architecture</li>
+<li>Auto-executes paper trades with Kelly Criterion position sizing; tracks a live 44-asset watchlist with portfolio performance</li>
+<li>Includes a pre-screener and full Flask web UI</li>
+</ul>
+<p><strong>NE USA Lead Pipeline</strong> — Python, SQLite, httpx, OSM Overpass</p>
+<ul>
+<li>Automated lead generation system targeting 25,000+ self-employed business owners across the NE US</li>
+<li>Chains open-data sourcing → website scraping → WHOIS → DNS verification → email enrichment for ~40% email hit rate at zero recurring cost</li>
+<li>CLI-driven with a private Tailscale-accessible web dashboard</li>
+</ul>
+<p><strong>Decipher — Full-Stack Word Puzzle Game</strong> — Flask, PostgreSQL, Vue 3, Pinia, Vite | Live: decipher.iswain.dev</p>
+<ul>
+<li>Competitive word puzzle game — ranked leaderboard, duel mechanic, share links, tutorial — designed, built, and shipped across four feature rounds on a Flask + Neon Postgres backend</li>
+<li>Migrated the server-rendered frontend to a Vue 3 SPA: Composition API, Pinia state, vue-router auth guards, real-time countdown timers — deployed independently, documenting the legacy → SPA refactor pattern applicable to ColdFusion modernisation work</li>
+</ul>
+<p><strong>Job Search Tracker</strong> — Python, SQLAlchemy, Click, Anthropic SDK</p>
+<ul>
+<li>Aggregates listings from RemoteOK, WeWorkRemotely, and Adzuna with a full application pipeline</li>
+<li>AI-generates tailored resumes and cover letters per role using concurrent Claude API calls; Rich terminal output and HTML dashboard</li>
+</ul>
+<p><strong>Node.js CRM</strong> — Node.js, Express, bcrypt, SQLite, Vue 3 | github.com/IASC-00/node-crm</p>
+<ul>
+<li>Full-stack contact manager: Express REST API with session auth, bcrypt password hashing, and ownership-checked CRUD for contacts and notes</li>
+<li>Vue 3 frontend with Pinia state management, debounced search, and inline editing; single Render deployment serving the built Vue SPA statically</li>
+</ul>
+<p><strong>RAG Knowledge Base</strong> — Python, ChromaDB, OpenRouter, Flask | github.com/IASC-00/rag-chatbot</p>
+<ul>
+<li>End-to-end RAG pipeline: document chunking, local ONNX embeddings (all-MiniLM-L6-v2), ChromaDB semantic retrieval, LLM answer synthesis with source citations</li>
+<li>Multi-model fallback chain handles per-provider rate limits on OpenRouter free tier</li>
+</ul>
+<p><strong>Slack → GitHub Issue Bot</strong> — Python, Flask, Slack API, GitHub API | github.com/IASC-00/slack-bot</p>
+<ul>
+<li>Webhook middleware: HMAC-SHA256 Slack signature verification, AI-generated issue titles and labels via OpenRouter, GitHub Issues REST API integration</li>
+</ul>
+<p><strong>Tool-Use Agent</strong> — Python, OpenRouter function calling | github.com/IASC-00/tool-agent</p>
+<ul>
+<li>Agentic AI system: 4 tools (web search, stock prices, sandboxed math, SQLite notes) with OpenRouter function-calling schema design, multi-step reasoning loop, 10-iteration safety cap</li>
+</ul>
+<hr />
+<h2>Certifications</h2>
+<ul>
+<li>Intuit QuickBooks Online Certification</li>
+<li>Email Marketing Professional Certificate — Intuit Mailchimp</li>
+<li>MCA Certified Sales Representative (Maryland)</li>
+</ul>
+<hr />
+<h2>Experience</h2>
+<p><strong>Freelance Software Developer</strong> — ISDev (iswain.dev), Philadelphia, PA
+<em>Oct 2025 – Present</em></p>
+<ul>
+<li>Built 15+ live AI tools and web apps for small business clients: chatbots, inventory managers, automation audit tools, and social media generators</li>
+<li>Contracted and delivered Inbox Intelligence (AI email management system) on a 2-week timeline — invoiced and shipped</li>
+<li>Designed multi-agent AI workflows, lead generation pipelines, and full-stack apps using Python, Node.js, Vue.js, and LLM APIs</li>
+<li>Typical project timeline: 3 days–4 weeks from description to live deployment</li>
+</ul>
+<p><strong>Certified Sales Representative</strong> — GreenLabs, Baltimore, MD
+<em>Sep 2024 – Oct 2025</em></p>
+<ul>
+<li>Maintained HIPAA and MCA regulatory compliance in a high-volume retail environment</li>
+<li>Proposed workflow improvements adopted by management; earned multiple Employee of the Month awards</li>
+</ul>
+<p><strong>Team Manager</strong> — Charm City Hemp LLC, Baltimore, MD
+<em>May 2022 – Nov 2023</em></p>
+<ul>
+<li>Managed operations across three retail locations: staffing, scheduling, inventory, and performance management</li>
+<li>Reduced turnover through structured coaching and team culture initiatives</li>
+</ul>
+<p><strong>General Manager</strong> — Harbor Vapor LLC, Fells Point, MD
+<em>Oct 2017 – Nov 2020</em></p>
+<ul>
+<li>Owned all operational systems for a retail location; grew it to top performer within the portfolio</li>
+</ul>
+<p><strong>Social Marketing Director &amp; Sales Manager</strong> — The Gathering / Baltimore Food Truck Festivals, Baltimore, MD
+<em>Apr 2012 – Dec 2015</em></p>
+<ul>
+<li>Grew combined festival audience to 1M+ views and 200,000+ followers across platforms</li>
+<li>Managed sponsorships, 50+ vendor relationships, and end-to-end event logistics for multi-city events</li>
+</ul>
+</main>
+
+<footer class="cv-foot">
+  <p>Case studies with the problem, the build and the result are at <a href="https://iswain.dev/work/">iswain.dev/work</a>. Several projects are in private repositories because the code belongs to a client — happy to walk through any of them.</p>
+</footer>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ slug: iswain-dev
 title: iswain.dev
 one_line: My own site — hand-written, no framework, no build step, and it scores at the top of Lighthouse.
 url: https://iswain.dev
+repo: https://github.com/IASC-00/IASC-00.github.io
 status: live
 role: Design, build, deploy
 stack: [HTML, CSS, JavaScript, GitHub Pages, JSON-LD]

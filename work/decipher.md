@@ -3,6 +3,7 @@ slug: decipher
 title: Decipher
 one_line: A browser puzzle game that teaches programming — four rounds, playable now.
 url: https://decipher.iswain.dev
+repo: https://github.com/IASC-00/decipher
 status: live
 role: Design, build, deploy
 stack: [Flask, Python, PostgreSQL, SQLite]

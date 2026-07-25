@@ -3,6 +3,7 @@ slug: automation-audit
 title: Automation Audit Generator
 one_line: Turns a business's intake answers into a scored report on what's worth automating.
 url: https://audit.iswain.dev
+repo: https://github.com/IASC-00/automation-audit-generator
 status: live
 role: Design, build, deploy
 stack: [FastAPI, Python, Pydantic]

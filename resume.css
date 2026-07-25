@@ -1,0 +1,101 @@
+/* resume.css — /resume.html only.
+   Deliberately light-on-white, unlike the rest of the site: a résumé gets
+   printed and saved to PDF, and the dark theme prints badly. Same typefaces
+   as iswain.dev so it still reads as the same person's work. */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --disp: 'Space Grotesk', 'Inter', sans-serif;
+  --mono: 'Space Mono', ui-monospace, monospace;
+  --tx: #15171A;
+  --tx-dim: #4C525A;
+  --line: #E1E4E8;
+  --accent: #0A7A5E;
+  --wrap: 820px;
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--tx);
+  background: #fff;
+  line-height: 1.62;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(10,122,94,0.3); }
+a:hover { border-color: var(--accent); }
+
+h1, h2, h3 { font-family: var(--disp); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+
+/* ── Nav ── */
+.cv-nav {
+  max-width: var(--wrap); margin: 0 auto; padding: 20px 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+  font-family: var(--mono); font-size: 12.5px;
+}
+.cv-nav-right { display: flex; gap: 18px; align-items: center; }
+.cv-nav a { color: var(--tx-dim); border: none; }
+.cv-nav a:hover { color: var(--accent); }
+.cv-nav button {
+  font-family: var(--mono); font-size: 12.5px; cursor: pointer;
+  background: none; border: 1px solid var(--line); border-radius: 6px;
+  padding: 6px 12px; color: var(--tx-dim); transition: border-color .15s, color .15s;
+}
+.cv-nav button:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Header ── */
+.cv-head {
+  max-width: var(--wrap); margin: 0 auto; padding: 20px 28px 26px;
+  border-bottom: 2px solid var(--tx);
+}
+.cv-head h1 { font-size: clamp(30px, 5vw, 42px); }
+.cv-role { color: var(--tx-dim); font-size: 16px; margin-top: 4px; }
+.cv-avail {
+  display: inline-block; margin-top: 12px;
+  font-family: var(--mono); font-size: 12.5px; color: var(--accent);
+  border: 1px solid rgba(10,122,94,0.35); border-radius: 5px; padding: 4px 10px;
+}
+.cv-contact { margin-top: 14px; font-family: var(--mono); font-size: 12.5px; color: var(--tx-dim); line-height: 2; }
+
+/* ── Body ── */
+.cv { max-width: var(--wrap); margin: 0 auto; padding: 8px 28px 40px; }
+.cv h2 {
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--accent); margin: 34px 0 4px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.cv h2 + p, .cv h2 + ul { margin-top: 12px; }
+.cv h3 { font-size: 16px; margin: 22px 0 2px; }
+.cv p { margin-bottom: 11px; }
+.cv strong { font-weight: 600; }
+.cv em { color: var(--tx-dim); font-style: normal; font-family: var(--mono); font-size: 12.5px; }
+.cv ul { margin: 8px 0 14px 18px; }
+.cv li { margin-bottom: 6px; }
+.cv hr { display: none; }
+
+/* Job / project heading lines: "**Title** — stack | link" render as <p><strong> */
+.cv p > strong:first-child { font-family: var(--disp); font-size: 16px; }
+
+.cv-foot {
+  max-width: var(--wrap); margin: 0 auto; padding: 22px 28px 60px;
+  border-top: 1px solid var(--line);
+  color: var(--tx-dim); font-size: 13.5px;
+}
+
+/* ── Print ── */
+@media print {
+  @page { margin: 14mm; }
+  body { font-size: 10.5pt; line-height: 1.45; }
+  .cv-nav, .cv-foot { display: none; }
+  .cv-head { padding: 0 0 12pt; }
+  .cv { padding: 0; max-width: none; }
+  .cv h2 { margin: 16pt 0 4pt; page-break-after: avoid; }
+  .cv h3, .cv p > strong:first-child { page-break-after: avoid; }
+  .cv li { page-break-inside: avoid; }
+  a { color: var(--tx); border: none; }
+  .cv-avail { border-color: #999; color: #000; }
+}

@@ -159,3 +159,16 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   .nav-links { display: none; }
   .work-cta { flex-direction: column; align-items: flex-start; }
 }
+
+/* Source line in the case-study meta block — private studies say so plainly
+   rather than leaving the reader wondering why there's no link. */
+.work-private { color: var(--tx-dim); }
+
+/* ── Hiring block ──
+   The rest of the site sells services; this is the one place an employer has
+   somewhere to go. Deliberately on /work and not the homepage, so a client
+   evaluating a fractional engagement isn't reading a job-hunt notice. */
+.work-hiring { border-top: 1px solid var(--line); padding: clamp(40px, 5vw, 64px) 0; }
+.work-hiring h2 { font-size: clamp(22px, 2.6vw, 30px); color: #fff; margin-bottom: 14px; }
+.work-hiring p { color: var(--tx-dim); max-width: 62ch; margin-bottom: 22px; }
+.work-hiring-links { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; }
