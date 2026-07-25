@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from build_work import parse_case_study, load_all, VALID_STATUSES  # noqa: E402
+from build_work import VALID_STATUSES, load_all, parse_case_study
 
 
 def test_parses_frontmatter_and_sections(tmp_path):
@@ -66,7 +66,7 @@ def test_load_all_sorts_by_order(tmp_path):
 
 
 def test_render_page_splits_client_and_technical_halves():
-    from build_work import render_page, CaseStudy
+    from build_work import CaseStudy, render_page
 
     cs = CaseStudy(
         slug="s",
@@ -93,7 +93,7 @@ def test_render_page_splits_client_and_technical_halves():
 
 
 def test_render_index_lists_all_studies_in_order():
-    from build_work import render_index, CaseStudy
+    from build_work import CaseStudy, render_index
 
     items = [
         CaseStudy("a", "Alpha", "First.", "https://a.com", "live", "r", ["X"], 1, {}),
@@ -106,7 +106,7 @@ def test_render_index_lists_all_studies_in_order():
 
 
 def test_render_print_concatenates_every_study():
-    from build_work import render_print, CaseStudy
+    from build_work import CaseStudy, render_print
 
     items = [
         CaseStudy(
@@ -150,7 +150,7 @@ def test_render_print_concatenates_every_study():
 
 def test_verify_urls_reports_non_200(monkeypatch):
     import build_work
-    from build_work import verify_urls, CaseStudy
+    from build_work import CaseStudy, verify_urls
 
     monkeypatch.setattr(
         build_work, "_head_status", lambda url, timeout: 503 if "dead" in url else 200

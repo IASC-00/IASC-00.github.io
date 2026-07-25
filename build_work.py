@@ -7,6 +7,7 @@ edit the Markdown, re-run this script, never hand-edit the output.
 
 from __future__ import annotations
 
+import http.client
 import html
 import re
 import shutil
@@ -125,8 +126,10 @@ def render_page(cs: CaseStudy, template: str) -> str:
 ALSO_BUILT = [
     (
         "microtools",
-        "22 small AI tools that run entirely on my own hardware — no per-seat fees, "
-        "and nothing leaves the machine.",
+        (
+            "22 small AI tools that run entirely on my own hardware — "
+            "no per-seat fees, and nothing leaves the machine."
+        ),
     ),
     ("Cadence", "Scheduling and habit-tracking web app."),
     (
@@ -192,15 +195,17 @@ def _head_status(url: str, timeout: int) -> int:
     if urllib.parse.urlparse(url).scheme not in ALLOWED_SCHEMES:
         raise ValueError(f"refusing to fetch non-web URL: {url!r}")
 
-    req = urllib.request.Request(  # noqa: S310 - scheme checked immediately above
+    req = urllib.request.Request(  # noqa: S310 - scheme validated immediately above
         url, method="GET", headers={"User-Agent": "iswain-dev-build"}
     )
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310 - scheme checked above
+        with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310 - scheme validated above
             return resp.status
     except urllib.error.HTTPError as e:
         return e.code
-    except Exception:
+    except (OSError, http.client.HTTPException):
+        # Unreachable host, DNS failure, timeout, malformed response — all mean
+        # "this link does not work", which verify_urls treats as a build failure.
         return 0
 
 
@@ -234,7 +239,7 @@ def _find_chrome() -> str:
 
 def export_pdf(html_path: Path, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(  # noqa: S603 - absolute binary, fixed args, no shell
+    subprocess.run(  # noqa: S603 - absolute binary from _find_chrome, fixed args, no shell
         [
             _find_chrome(),
             "--headless",
