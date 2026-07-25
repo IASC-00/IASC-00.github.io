@@ -1,101 +1,169 @@
 /* resume.css — /resume.html only.
-   Deliberately light-on-white, unlike the rest of the site: a résumé gets
-   printed and saved to PDF, and the dark theme prints badly. Same typefaces
-   as iswain.dev so it still reads as the same person's work. */
+
+   Set in Georgia to match the DOCX ("Style 3": Georgia body, sans metadata,
+   charcoal #1F2937, #E5E7EB rules), so the page a recruiter reads and the file
+   they download are recognisably the same document. Georgia is web-safe, so
+   this page loads no webfonts.
+
+   Two type systems on purpose:
+     - the document (name, headings, entries, body) is strictly Style 3 monochrome
+     - the chrome (nav, availability chip) carries the site's green, so the page
+       still belongs to iswain.dev
+
+   Light-on-white, unlike the rest of the site: a résumé gets printed. */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --disp: 'Space Grotesk', 'Inter', sans-serif;
-  --mono: 'Space Mono', ui-monospace, monospace;
-  --tx: #15171A;
-  --tx-dim: #4C525A;
-  --line: #E1E4E8;
-  --accent: #0A7A5E;
-  --wrap: 820px;
+  --serif: Georgia, 'Times New Roman', serif;
+  /* Calibri first so Windows matches the DOCX exactly; the rest are the
+     equivalent UI sans on each platform. */
+  --sans: Calibri, 'Segoe UI', -apple-system, system-ui, 'Helvetica Neue', sans-serif;
+
+  --tx: #1F2937;       /* body */
+  --tx-2: #374151;     /* companies, skill labels, section headings */
+  --tx-3: #9CA3AF;     /* dates, stacks, contact line */
+  --line: #E5E7EB;
+  --accent: #0A7A5E;   /* chrome only */
+  --wrap: 780px;
 }
 
 body {
-  font-family: var(--sans);
+  font-family: var(--serif);
   color: var(--tx);
   background: #fff;
-  line-height: 1.62;
-  font-size: 15px;
+  line-height: 1.6;
+  font-size: 15.5px;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(10,122,94,0.3); }
-a:hover { border-color: var(--accent); }
+a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); }
+a:hover { border-bottom-color: var(--tx-2); }
 
-h1, h2, h3 { font-family: var(--disp); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
-
-/* ── Nav ── */
+/* ── Chrome ── */
 .cv-nav {
-  max-width: var(--wrap); margin: 0 auto; padding: 20px 28px;
+  max-width: var(--wrap); margin: 0 auto; padding: 18px 28px;
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 12px;
-  font-family: var(--mono); font-size: 12.5px;
+  font-family: var(--sans); font-size: 14px;
 }
-.cv-nav-right { display: flex; gap: 18px; align-items: center; }
-.cv-nav a { color: var(--tx-dim); border: none; }
+.cv-nav-right { display: flex; gap: 20px; align-items: center; }
+.cv-nav a { color: var(--tx-3); border: none; }
 .cv-nav a:hover { color: var(--accent); }
 .cv-nav button {
-  font-family: var(--mono); font-size: 12.5px; cursor: pointer;
-  background: none; border: 1px solid var(--line); border-radius: 6px;
-  padding: 6px 12px; color: var(--tx-dim); transition: border-color .15s, color .15s;
+  font-family: var(--sans); font-size: 14px; cursor: pointer;
+  background: none; border: 1px solid var(--line); border-radius: 5px;
+  padding: 5px 12px; color: var(--tx-3);
+  transition: border-color .15s, color .15s;
 }
 .cv-nav button:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── Header ── */
-.cv-head {
-  max-width: var(--wrap); margin: 0 auto; padding: 20px 28px 26px;
-  border-bottom: 2px solid var(--tx);
+/* ── Masthead ── */
+.cv-head { max-width: var(--wrap); margin: 0 auto; padding: 14px 28px 0; }
+.cv-head h1 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(30px, 6vw, 41px); line-height: 1.05;
+  letter-spacing: -0.015em;
 }
-.cv-head h1 { font-size: clamp(30px, 5vw, 42px); }
-.cv-role { color: var(--tx-dim); font-size: 16px; margin-top: 4px; }
+.cv-role { font-family: var(--sans); font-size: 15px; color: var(--tx-2); margin-top: 6px; }
+.cv-contact {
+  font-family: var(--sans); font-size: 14px; color: var(--tx-3);
+  margin-top: 8px; line-height: 1.9;
+}
+.cv-contact a { color: var(--tx-3); border-bottom-color: var(--line); }
+.cv-contact a:hover { color: var(--tx-2); border-bottom-color: var(--tx-3); }
 .cv-avail {
-  display: inline-block; margin-top: 12px;
-  font-family: var(--mono); font-size: 12.5px; color: var(--accent);
-  border: 1px solid rgba(10,122,94,0.35); border-radius: 5px; padding: 4px 10px;
+  display: inline-block; margin-top: 14px;
+  font-family: var(--sans); font-size: 13.5px; color: var(--accent);
+  border: 1px solid rgba(10,122,94,0.3); border-radius: 4px; padding: 3px 10px;
 }
-.cv-contact { margin-top: 14px; font-family: var(--mono); font-size: 12.5px; color: var(--tx-dim); line-height: 2; }
 
-/* ── Body ── */
-.cv { max-width: var(--wrap); margin: 0 auto; padding: 8px 28px 40px; }
-.cv h2 {
-  font-size: 13px; text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--accent); margin: 34px 0 4px; padding-bottom: 6px;
+/* ── Document ── */
+.cv { max-width: var(--wrap); margin: 0 auto; padding: 0 28px 48px; }
+
+.cv-sec { margin-top: 34px; }
+.cv-sec > h2 {
+  font-family: var(--sans); font-weight: 700;
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.17em;
+  color: var(--tx-2);
+  padding-bottom: 7px; margin-bottom: 4px;
   border-bottom: 1px solid var(--line);
 }
-.cv h2 + p, .cv h2 + ul { margin-top: 12px; }
-.cv h3 { font-size: 16px; margin: 22px 0 2px; }
-.cv p { margin-bottom: 11px; }
-.cv strong { font-weight: 600; }
-.cv em { color: var(--tx-dim); font-style: normal; font-family: var(--mono); font-size: 12.5px; }
-.cv ul { margin: 8px 0 14px 18px; }
-.cv li { margin-bottom: 6px; }
-.cv hr { display: none; }
 
-/* Job / project heading lines: "**Title** — stack | link" render as <p><strong> */
-.cv p > strong:first-child { font-family: var(--disp); font-size: 16px; }
+.cv-profile { margin-top: 14px; }
+
+/* Skills: label column, value column. A long value wraps under itself rather
+   than back under the label. */
+.cv-skills {
+  margin-top: 14px;
+  display: grid; grid-template-columns: max-content 1fr; gap: 7px 20px;
+  font-family: var(--sans); font-size: 15px;
+}
+.cv-skills dt { font-weight: 700; color: var(--tx-2); }
+.cv-skills dd { color: var(--tx); }
+
+/* Entries: space is tight inside an entry and open between them, so each role
+   reads as one block instead of an even grey column. */
+.cv-entry { margin-top: 22px; }
+.cv-entry-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 8px 20px; flex-wrap: wrap;
+}
+.cv-entry h3 {
+  font-family: var(--serif); font-weight: 700; font-size: 17px;
+  line-height: 1.3; letter-spacing: -0.005em;
+}
+.cv-dates {
+  font-family: var(--sans); font-size: 13.5px; color: var(--tx-3);
+  white-space: nowrap;
+}
+.cv-meta {
+  font-family: var(--sans); font-size: 13.5px; color: var(--tx-3);
+  margin-top: 1px; line-height: 1.55;
+}
+/* An experience entry's meta is the company — the one line that should read
+   louder than the stack line on a project. */
+#experience .cv-meta { font-family: var(--serif); font-size: 15px; color: var(--tx-2); }
+/* Links here keep a faint underline: a URL that looks exactly like the plain
+   text beside it gives a reader no reason to try clicking it. */
+.cv-meta a { color: var(--tx-3); border-bottom-color: var(--line); }
+.cv-meta a:hover { color: var(--tx-2); border-bottom-color: var(--tx-3); }
+.cv-link-label { color: var(--tx-3); }
+.cv-sep { opacity: .65; }
+
+.cv-entry ul, .cv-certs { margin: 8px 0 0 19px; }
+.cv-entry li, .cv-certs li { margin-bottom: 5px; }
+.cv-certs { margin-top: 14px; }
+.cv-entry p { margin-top: 8px; }
 
 .cv-foot {
   max-width: var(--wrap); margin: 0 auto; padding: 22px 28px 60px;
   border-top: 1px solid var(--line);
-  color: var(--tx-dim); font-size: 13.5px;
+  color: var(--tx-3); font-size: 14px;
+}
+
+@media (max-width: 560px) {
+  .cv-skills { grid-template-columns: 1fr; gap: 2px; }
+  .cv-skills dd { margin-bottom: 8px; }
 }
 
 /* ── Print ── */
 @media print {
   @page { margin: 14mm; }
-  body { font-size: 10.5pt; line-height: 1.45; }
-  .cv-nav, .cv-foot { display: none; }
-  .cv-head { padding: 0 0 12pt; }
+  body { font-size: 10pt; line-height: 1.42; }
+  .cv-nav, .cv-foot, .cv-avail { display: none; }
+  .cv-head { padding: 0; max-width: none; }
   .cv { padding: 0; max-width: none; }
-  .cv h2 { margin: 16pt 0 4pt; page-break-after: avoid; }
-  .cv h3, .cv p > strong:first-child { page-break-after: avoid; }
-  .cv li { page-break-inside: avoid; }
-  a { color: var(--tx); border: none; }
-  .cv-avail { border-color: #999; color: #000; }
+  .cv-head h1 { font-size: 23pt; }
+  .cv-role, .cv-contact { font-size: 8.5pt; }
+  .cv-sec { margin-top: 15pt; }
+  .cv-sec > h2 { font-size: 8pt; page-break-after: avoid; break-after: avoid; }
+  .cv-skills { font-size: 9.5pt; gap: 3pt 14pt; }
+  .cv-entry { margin-top: 11pt; page-break-inside: avoid; break-inside: avoid; }
+  .cv-entry h3 { font-size: 11pt; }
+  .cv-dates, .cv-meta { font-size: 8.5pt; }
+  #experience .cv-meta { font-size: 9.5pt; }
+  .cv-entry li { page-break-inside: avoid; break-inside: avoid; }
+  a { border: none; }
 }
