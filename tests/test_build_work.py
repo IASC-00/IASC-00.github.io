@@ -146,3 +146,17 @@ def test_render_print_concatenates_every_study():
     for marker in ("P1", "B1", "R1", "S1", "P2", "B2", "R2", "S2"):
         assert marker in html
     assert html.count("work-study") == 2
+
+
+def test_verify_urls_reports_non_200(monkeypatch):
+    import build_work
+    from build_work import verify_urls, CaseStudy
+
+    monkeypatch.setattr(
+        build_work, "_head_status", lambda url, timeout: 503 if "dead" in url else 200
+    )
+    items = [
+        CaseStudy("a", "A", "x", "https://ok.com", "live", "r", [], 1, {}),
+        CaseStudy("b", "B", "x", "https://dead.com", "live", "r", [], 2, {}),
+    ]
+    assert verify_urls(items) == [("https://dead.com", 503)]

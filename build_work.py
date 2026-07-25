@@ -11,6 +11,9 @@ import html
 import re
 import shutil
 import subprocess
+import urllib.error
+import urllib.parse
+import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -173,6 +176,46 @@ def render_print(items: list[CaseStudy], template: str) -> str:
     return template.replace("{studies}", "".join(studies))
 
 
+# ── Verification gate ────────────────────────────────────────────────────────
+
+
+ALLOWED_SCHEMES = ("http", "https")
+
+
+def _head_status(url: str, timeout: int) -> int:
+    """HTTP status for url, or 0 if the request could not be completed.
+
+    Only http/https are fetched — a case study URL is always a public web
+    address, so anything else (file:, ftp:, custom schemes) is a authoring
+    mistake and is rejected rather than opened.
+    """
+    if urllib.parse.urlparse(url).scheme not in ALLOWED_SCHEMES:
+        raise ValueError(f"refusing to fetch non-web URL: {url!r}")
+
+    req = urllib.request.Request(  # noqa: S310 - scheme checked immediately above
+        url, method="GET", headers={"User-Agent": "iswain-dev-build"}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310 - scheme checked above
+            return resp.status
+    except urllib.error.HTTPError as e:
+        return e.code
+    except Exception:
+        return 0
+
+
+def verify_urls(items: list[CaseStudy], timeout: int = 15) -> list[tuple[str, int]]:
+    """Every case study URL must return 200. Anything else is a build failure."""
+    failures = []
+    for cs in items:
+        code = _head_status(cs.url, timeout)
+        if code != 200:
+            failures.append((cs.url, code))
+    return failures
+
+
+# ── PDF ──────────────────────────────────────────────────────────────────────
+
 CHROME_CANDIDATES = ("google-chrome", "chromium", "chromium-browser")
 
 
@@ -216,6 +259,15 @@ def main() -> None:
 
     def tpl(name: str) -> str:
         return (root / "work-templates" / name).read_text()
+
+    # Verify before writing anything, so a dead link never reaches the output.
+    failures = verify_urls(items)
+    if failures:
+        detail = ", ".join(f"{url} -> {code}" for url, code in failures)
+        raise SystemExit(
+            f"URL verification failed: {detail}\n"
+            "Cut the case study rather than softening its wording."
+        )
 
     page_tpl = tpl("page.html")
     for cs in items:
