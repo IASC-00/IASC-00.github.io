@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- This page exists only to be rendered to PDF. It duplicates the eight case
+     studies, so keep it out of search results. -->
+<meta name="robots" content="noindex, nofollow">
 <title>Ian Swain — Selected Work</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,19 +53,12 @@
 <p>I wanted my own site to be the argument against that, since a prospective client can check it themselves.</p><h3>What I built</h3><p>The site I run my business from. It explains what I do, shows the work, and takes enquiries through a structured intake form that qualifies a project before a call rather than during one.</p>
 <p>It is hand-written — no framework, no build step, no dependency to update. That is not nostalgia; it is a maintenance decision. A site with no build step still deploys in five years, and changing a headline is editing a line rather than reinstalling a toolchain.</p><h3>Result</h3><p>Checked with Lighthouse on 25 July 2026: <strong>100 for accessibility, 100 for best practices, 100 for SEO, and 99 for performance</strong> — performance moves between 99 and 100 run to run, which is measurement noise rather than a change in the page.</p>
 <p>Anyone can run that audit themselves in about thirty seconds. That is why it is here: it is the one claim in this portfolio a reader can verify without taking my word for anything.</p><h3>Stack &amp; implementation</h3><p>Hand-written HTML, CSS, and vanilla JavaScript served as static files from GitHub Pages. Structured data through JSON-LD. Forms post to a hosted endpoint with an email auto-reply, so there is no backend to run or secure.</p>
-<p>Accessibility is the score that takes real work: considered alt text on every image, interactive controls that expose their state, keyboard-operable navigation, and contrast ratios chosen against the standard rather than checked afterward. A browser-driven test suite asserts those properties, so an edit that breaks accessibility fails a test instead of quietly shipping.</p>
+<p>Accessibility is the score that takes real work: considered alt text on every image, interactive controls that expose their state, keyboard-operable navigation, and contrast ratios chosen against the standard rather than checked afterward. A browser-driven test suite covers the homepage — alt text present, no duplicate ARIA labels, the mobile menu's expanded state correct — so an edit that breaks one of those fails a test rather than quietly shipping. That suite does not yet cover these case-study pages; they are checked with Lighthouse by hand, which is weaker, and extending the suite to them is on the list.</p>
 <p>One known limitation: GitHub Pages cannot serve custom security headers, so there is no Content-Security-Policy or HSTS here. Fixing it means fronting the domain with a proxy or changing hosts. For a static site with no authentication and no user data I judged that not worth the moving parts — but it is a real gap, and I would not make the same call on a site that logged anyone in.</p></article>
 
 <section class="print-foot">
   <p><strong>Also built</strong></p>
-  <ul>
-    <li>microtools — 22 small AI tools running entirely on my own hardware.</li>
-    <li>Cadence — scheduling and habit-tracking web app.</li>
-    <li>AppForge — turns a plain-English description of an app into a working single-file build.</li>
-    <li>Cosmic Rift — browser game with physics, nine missions, and progression.</li>
-    <li>Futuristamantes — site build for a creative venture.</li>
-    <li>CRM demo — contact and pipeline tracker, live at crm.iswain.dev.</li>
-  </ul>
+  <ul><li><strong>microtools</strong> — 22 small AI tools that run entirely on my own hardware — no per-seat fees, and nothing leaves the machine.</li><li><strong>Cadence</strong> — Scheduling and habit-tracking web app.</li><li><strong>AppForge</strong> — Turns a plain-English description of an app into a working single-file build.</li><li><strong>Cosmic Rift</strong> — Browser card game — nine-mission campaign, ability engine, and an opponent AI. Pre-launch.</li><li><strong>Futuristamantes</strong> — Site build for a creative venture.</li><li><strong>CRM demo</strong> — Contact and pipeline tracker, live at crm.iswain.dev.</li></ul>
   <p>Generated from iswain.dev/work — the web version is always current.</p>
 </section>
 

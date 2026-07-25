@@ -34,11 +34,11 @@
 
 <nav>
   <a href="/" class="nav-logo" aria-label="iswain.dev home">
-    <img src="/images/swan-logo.png" alt="" width="26" height="26">
+    <span class="nav-logo-mark" aria-hidden="true"></span>
     <span>iswain.dev</span>
   </a>
   <ul class="nav-links">
-    <li><a href="/work/" aria-current="page">Work</a></li>
+    <li><a href="/work/">Work</a></li>
     <li><a href="/#services">Services</a></li>
     <li><a href="/#approach">Approach</a></li>
     <li><a href="/#about">About</a></li>
@@ -67,7 +67,7 @@
 <p>It is hand-written — no framework, no build step, no dependency to update. That is not nostalgia; it is a maintenance decision. A site with no build step still deploys in five years, and changing a headline is editing a line rather than reinstalling a toolchain.</p><h2 class="section-title">Result</h2><p>Checked with Lighthouse on 25 July 2026: <strong>100 for accessibility, 100 for best practices, 100 for SEO, and 99 for performance</strong> — performance moves between 99 and 100 run to run, which is measurement noise rather than a change in the page.</p>
 <p>Anyone can run that audit themselves in about thirty seconds. That is why it is here: it is the one claim in this portfolio a reader can verify without taking my word for anything.</p>
     <div class="work-tech"><h2 class="section-title">Stack &amp; implementation</h2><div class="work-tags"><span class="work-tag">HTML</span><span class="work-tag">CSS</span><span class="work-tag">JavaScript</span><span class="work-tag">GitHub Pages</span><span class="work-tag">JSON-LD</span></div><p>Hand-written HTML, CSS, and vanilla JavaScript served as static files from GitHub Pages. Structured data through JSON-LD. Forms post to a hosted endpoint with an email auto-reply, so there is no backend to run or secure.</p>
-<p>Accessibility is the score that takes real work: considered alt text on every image, interactive controls that expose their state, keyboard-operable navigation, and contrast ratios chosen against the standard rather than checked afterward. A browser-driven test suite asserts those properties, so an edit that breaks accessibility fails a test instead of quietly shipping.</p>
+<p>Accessibility is the score that takes real work: considered alt text on every image, interactive controls that expose their state, keyboard-operable navigation, and contrast ratios chosen against the standard rather than checked afterward. A browser-driven test suite covers the homepage — alt text present, no duplicate ARIA labels, the mobile menu's expanded state correct — so an edit that breaks one of those fails a test rather than quietly shipping. That suite does not yet cover these case-study pages; they are checked with Lighthouse by hand, which is weaker, and extending the suite to them is on the list.</p>
 <p>One known limitation: GitHub Pages cannot serve custom security headers, so there is no Content-Security-Policy or HSTS here. Fixing it means fronting the domain with a proxy or changing hosts. For a static site with no authentication and no user data I judged that not worth the moving parts — but it is a real gap, and I would not make the same call on a site that logged anyone in.</p></div>
     <a class="txt-link work-back" href="/work/">← All work</a>
   </div>

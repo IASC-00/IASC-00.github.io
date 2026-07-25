@@ -3,6 +3,7 @@ slug: demo-infrastructure
 title: Always-on demo infrastructure
 one_line: Four demo apps kept going offline on free hosting. I moved them onto one server for about $7 a month.
 url: https://decipher.iswain.dev
+extra_urls: [https://crm.iswain.dev, https://rag.iswain.dev, https://audit.iswain.dev]
 status: live
 role: Architecture, provisioning, deploy
 stack: [Docker, Caddy, Ubuntu, Let's Encrypt]

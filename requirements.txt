@@ -1,0 +1,8 @@
+# Build-time only. The published site is static HTML/CSS/JS with no runtime
+# dependencies — this is what build_work.py needs to regenerate /work.
+markdown>=3.5
+
+# Also required, but not installable via pip:
+#   google-chrome (or chromium) — headless PDF export
+# Optional, for tests/test_portfolio.py:
+#   pytest-playwright + `playwright install chromium`
