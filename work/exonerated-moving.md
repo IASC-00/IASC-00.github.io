@@ -17,7 +17,7 @@ A new Philadelphia moving and logistics company was starting from nothing: no na
 
 I built the brand first, because the site could not be designed until the company knew what it looked like. That meant a color direction, typefaces, and a full set of imagery produced in-house rather than bought from a stock library, so the company did not look like every other moving company using the same three photos.
 
-Then I designed and built the site and deployed it. The founder's own story runs on its own page, with the homepage leading into it — the mission gets room to be told properly instead of being compressed into a banner. After launch I took the owner's revisions to the copy and structure and shipped those too.
+Then I designed and built the site and deployed it. The founder's own story runs on its own page, with the homepage leading into it — the mission gets room to be told properly instead of being compressed into a banner. After launch I took the owner's revisions to the copy and structure and deployed those too.
 
 ## Result
 

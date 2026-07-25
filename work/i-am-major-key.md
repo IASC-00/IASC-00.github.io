@@ -27,6 +27,6 @@ Live and public. It is the artist's own site on their own domain, and it is the 
 
 Custom WordPress theme, hand-written — no page builder, no purchased template. PHP templates with a hardened `functions.php`.
 
-Two things worth naming. The host serves pages through LiteSpeed with a seven-day full-page cache, so a deploy that skips the cache purge looks like it silently failed — the runbook makes that step explicit rather than institutional knowledge. And rather than editing theme files on a host where file editing is disabled, I shipped a small companion plugin that hooks `plugins_loaded` at priority 0 and redirects author-enumeration probes before anything else runs.
+Two things worth naming. The host serves pages through LiteSpeed with a seven-day full-page cache, so a deploy that skips the cache purge looks like it silently failed — the runbook makes that step explicit rather than institutional knowledge. And rather than editing theme files on a host where file editing is disabled, I built a small companion plugin that hooks `plugins_loaded` at priority 0 and redirects author-enumeration probes before anything else runs.
 
 The source is a git repository with a WordPress-installable release artifact, so a restore is an upload, not a rebuild.
