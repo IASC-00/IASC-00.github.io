@@ -103,3 +103,46 @@ def test_render_index_lists_all_studies_in_order():
     assert html.index("Alpha") < html.index("Beta")
     assert "/work/a.html" in html
     assert "Cadence" in html  # from ALSO_BUILT
+
+
+def test_render_print_concatenates_every_study():
+    from build_work import render_print, CaseStudy
+
+    items = [
+        CaseStudy(
+            "a",
+            "Alpha",
+            "First.",
+            "https://a.com",
+            "live",
+            "r",
+            ["X"],
+            1,
+            {
+                "The problem": "<p>P1</p>",
+                "What I built": "<p>B1</p>",
+                "Result": "<p>R1</p>",
+                "Stack & implementation": "<p>S1</p>",
+            },
+        ),
+        CaseStudy(
+            "b",
+            "Beta",
+            "Second.",
+            "https://b.com",
+            "live",
+            "r",
+            ["Y"],
+            2,
+            {
+                "The problem": "<p>P2</p>",
+                "What I built": "<p>B2</p>",
+                "Result": "<p>R2</p>",
+                "Stack & implementation": "<p>S2</p>",
+            },
+        ),
+    ]
+    html = render_print(items, "{studies}")
+    for marker in ("P1", "B1", "R1", "S1", "P2", "B2", "R2", "S2"):
+        assert marker in html
+    assert html.count("work-study") == 2

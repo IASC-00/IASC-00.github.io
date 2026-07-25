@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import html
 import re
+import shutil
+import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -154,6 +156,56 @@ def render_index(items: list[CaseStudy], template: str) -> str:
     )
 
 
+def render_print(items: list[CaseStudy], template: str) -> str:
+    studies = []
+    for cs in items:
+        body = "".join(
+            f"<h3>{_esc(name)}</h3>{cs.sections.get(name, '')}"
+            for name in CLIENT_SECTIONS + [TECH_SECTION]
+        )
+        studies.append(
+            f'<article class="work-study">'
+            f"<h2>{_esc(cs.title)}</h2>"
+            f'<p class="work-oneline">{_esc(cs.one_line)}</p>'
+            f'<p class="work-meta">{STATUS_LABELS[cs.status]} · {_esc(cs.url)}</p>'
+            f"{body}</article>"
+        )
+    return template.replace("{studies}", "".join(studies))
+
+
+CHROME_CANDIDATES = ("google-chrome", "chromium", "chromium-browser")
+
+
+def _find_chrome() -> str:
+    """Absolute path to a Chrome binary, or raise with a usable message."""
+    for name in CHROME_CANDIDATES:
+        found = shutil.which(name)
+        if found:
+            return found
+    raise SystemExit(
+        "no Chrome binary found (tried: "
+        + ", ".join(CHROME_CANDIDATES)
+        + ") — the PDF export needs one"
+    )
+
+
+def export_pdf(html_path: Path, out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(  # noqa: S603 - absolute binary, fixed args, no shell
+        [
+            _find_chrome(),
+            "--headless",
+            "--disable-gpu",
+            "--no-sandbox",
+            "--no-pdf-header-footer",
+            f"--print-to-pdf={out_path}",
+            html_path.as_uri(),
+        ],
+        check=True,
+        capture_output=True,
+    )
+
+
 # ── Build ────────────────────────────────────────────────────────────────────
 
 
@@ -169,8 +221,18 @@ def main() -> None:
     for cs in items:
         (work / f"{cs.slug}.html").write_text(render_page(cs, page_tpl))
     (work / "index.html").write_text(render_index(items, tpl("index.html")))
+    print_path = work / "print.html"
+    print_path.write_text(render_print(items, tpl("print.html")))
+
+    pdf_path = (
+        Path.home()
+        / "Desktop/ISDev Projects/09_Live_Products/Work_Portfolio"
+        / "Ian_Swain_Portfolio_2026-07-25.pdf"
+    )
+    export_pdf(print_path, pdf_path)
 
     print(f"built {len(items)} case study page(s) + index")
+    print(f"pdf -> {pdf_path}")
 
 
 if __name__ == "__main__":

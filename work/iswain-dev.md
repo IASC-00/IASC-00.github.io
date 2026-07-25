@@ -23,14 +23,14 @@ It is hand-written — no framework, no build step, no dependency to update. Tha
 
 ## Result
 
-Checked with Lighthouse on 25 July 2026: **100 for accessibility, 100 for best practices, 100 for SEO, and 99 for performance.** Performance moves between 99 and 100 between runs, which is measurement noise rather than a change in the page.
+Checked with Lighthouse on 25 July 2026: **100 for accessibility, 100 for best practices, 100 for SEO, and 99 for performance** — performance moves between 99 and 100 run to run, which is measurement noise rather than a change in the page.
 
-Anyone can run that audit against the site themselves in about thirty seconds. That is the point of including it here — it is the one claim in this portfolio that a reader can independently verify without taking my word for anything.
+Anyone can run that audit themselves in about thirty seconds. That is why it is here: it is the one claim in this portfolio a reader can verify without taking my word for anything.
 
 ## Stack & implementation
 
-Hand-written HTML, CSS, and vanilla JavaScript served as static files from GitHub Pages. Structured data through JSON-LD. Forms post to a hosted form endpoint with an email auto-reply, so there is no backend to run or secure.
+Hand-written HTML, CSS, and vanilla JavaScript served as static files from GitHub Pages. Structured data through JSON-LD. Forms post to a hosted endpoint with an email auto-reply, so there is no backend to run or secure.
 
-The accessibility score is the one that takes actual work: every image carries a considered alt attribute, interactive controls expose their state, the navigation is operable from the keyboard, and the contrast ratios were chosen against the standard rather than checked afterward. A browser-driven test suite in the repository asserts those properties — alt text present, no duplicate ARIA labels, the mobile menu's expanded state correct — so a future edit that breaks accessibility fails a test instead of quietly shipping.
+Accessibility is the score that takes real work: considered alt text on every image, interactive controls that expose their state, keyboard-operable navigation, and contrast ratios chosen against the standard rather than checked afterward. A browser-driven test suite asserts those properties, so an edit that breaks accessibility fails a test instead of quietly shipping.
 
-One known limitation, stated plainly: GitHub Pages cannot serve custom security headers, so there is no Content-Security-Policy or HSTS on this domain. Fixing it means fronting the domain with a proxy or moving hosts. For a static marketing site with no authentication and no user data, I judged that not worth the added moving parts — but it is a real gap and I would not make the same call on a site that logged anyone in.
+One known limitation: GitHub Pages cannot serve custom security headers, so there is no Content-Security-Policy or HSTS here. Fixing it means fronting the domain with a proxy or changing hosts. For a static site with no authentication and no user data I judged that not worth the moving parts — but it is a real gap, and I would not make the same call on a site that logged anyone in.
