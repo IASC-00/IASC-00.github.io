@@ -117,6 +117,43 @@ def render_page(cs: CaseStudy, template: str) -> str:
     )
 
 
+ALSO_BUILT = [
+    (
+        "microtools",
+        "22 small AI tools that run entirely on my own hardware — no per-seat fees, "
+        "and nothing leaves the machine.",
+    ),
+    ("Cadence", "Scheduling and habit-tracking web app."),
+    (
+        "AppForge",
+        "Turns a plain-English description of an app into a working single-file build.",
+    ),
+    ("Cosmic Rift", "Browser game — physics, nine missions, and progression."),
+    ("Futuristamantes", "Site build for a creative venture."),
+    ("CRM demo", "Contact and pipeline tracker, live at crm.iswain.dev."),
+]
+
+
+def render_index(items: list[CaseStudy], template: str) -> str:
+    cards = "".join(
+        f'<a class="work-card" href="/work/{cs.slug}.html">'
+        f'<div class="work-card-head"><h2>{_esc(cs.title)}</h2>'
+        f'<span class="work-status">{STATUS_LABELS[cs.status]}</span></div>'
+        f"<p>{_esc(cs.one_line)}</p>"
+        '<div class="work-tags">'
+        + "".join(f'<span class="work-tag">{_esc(s)}</span>' for s in cs.stack[:3])
+        + "</div></a>"
+        for cs in items
+    )
+    also = "".join(
+        f"<li><strong>{_esc(name)}</strong> — {_esc(desc)}</li>"
+        for name, desc in ALSO_BUILT
+    )
+    return template.replace("{cards}", cards).replace(
+        "{also_built}", f"<ul>{also}</ul>"
+    )
+
+
 # ── Build ────────────────────────────────────────────────────────────────────
 
 
@@ -131,8 +168,9 @@ def main() -> None:
     page_tpl = tpl("page.html")
     for cs in items:
         (work / f"{cs.slug}.html").write_text(render_page(cs, page_tpl))
+    (work / "index.html").write_text(render_index(items, tpl("index.html")))
 
-    print(f"built {len(items)} case study page(s)")
+    print(f"built {len(items)} case study page(s) + index")
 
 
 if __name__ == "__main__":

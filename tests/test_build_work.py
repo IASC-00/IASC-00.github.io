@@ -90,3 +90,16 @@ def test_render_page_splits_client_and_technical_halves():
     assert "Flask." in html
     assert html.index("Runs.") < html.index("Flask.")  # technical half comes last
     assert "Live" in html
+
+
+def test_render_index_lists_all_studies_in_order():
+    from build_work import render_index, CaseStudy
+
+    items = [
+        CaseStudy("a", "Alpha", "First.", "https://a.com", "live", "r", ["X"], 1, {}),
+        CaseStudy("b", "Beta", "Second.", "https://b.com", "demo", "r", ["Y"], 2, {}),
+    ]
+    html = render_index(items, "{cards}{also_built}")
+    assert html.index("Alpha") < html.index("Beta")
+    assert "/work/a.html" in html
+    assert "Cadence" in html  # from ALSO_BUILT
