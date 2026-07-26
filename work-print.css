@@ -47,6 +47,13 @@ code { font-family: var(--mono); font-size: 0.88em; background: #F2F3F5; border:
 /* ── Case studies ── */
 .work-study { page-break-before: always; page-break-inside: auto; }
 .work-study:first-of-type { page-break-before: avoid; }
+/* A study that runs just over a page was spilling three or four lines onto a fresh
+   sheet, and the next study's forced break then left that sheet 90% empty — four
+   such pages in the 2026-07-25 build. Keep at least three lines on either side of
+   any break, and never split the meta block or a heading off its first paragraph. */
+.work-study p, .work-study li { orphans: 3; widows: 3; }
+.work-study .work-meta { page-break-inside: avoid; }
+.work-study h3 + p { page-break-before: avoid; }
 .work-study h2 { font-size: 19pt; margin-bottom: 5pt; }
 .work-study .work-oneline { font-size: 11pt; color: var(--tx-dim); margin-bottom: 6pt; }
 .work-study .work-meta { font-family: var(--mono); font-size: 8.5pt; color: var(--tx-dim);
