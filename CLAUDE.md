@@ -27,7 +27,7 @@ No Stripe links or deposit text on the public site. Payment handled via invoice 
 
 ## Content rules
 - All project/service names are plain English — no tech brand names visible to clients
-- Location: "United States" until moved to Philadelphia (within ~2 months as of March 2026)
+- Location: **Philadelphia, PA** — relocation complete. Hero, résumé and JSON-LD all say Philadelphia; `terms.html` governing law is Pennsylvania (Court of Common Pleas of Philadelphia County / E.D. Pa.) as of 2026-07-26. "United States" is correct only inside the JSON-LD `Country` field.
 - Contact email: contact@iswain.dev (portfolio) / iswaindev@proton.me (resume/professional)
 
 ## Do not
@@ -36,8 +36,14 @@ No Stripe links or deposit text on the public site. Payment handled via invoice 
 - Expose tech stack names in client-facing copy (say "AI-powered tool" not "Claude API")
 - Make any GitHub repos public without auditing for personal info first
 
-## When moved to Philly
-- Update location in hero section
-- Update governing law in contract templates (Virginia → Pennsylvania)
-  - Desktop/ClaudeCode/Business/Project Contract Template.md — Section 11
-  - Desktop/ClaudeCode/Business/Project Contract Template.html — Section 11
+## Philadelphia move — DONE (closed 2026-07-26)
+- Hero, résumé and structured data say Philadelphia. Done before 07-26.
+- `terms.html` §9 governing law switched Virginia → Pennsylvania on 2026-07-26
+  (Commonwealth of Pennsylvania · Court of Common Pleas of Philadelphia County ·
+  E.D. Pa.), and the page's "Last updated" moved to that date.
+- **The contract templates this checklist pointed at no longer exist.** The paths
+  (`Desktop/ClaudeCode/Business/Project Contract Template.{md,html}`) are
+  pre-migration and gone; a sweep of `ISDev_Projects`, `upwield` and `omaha` on
+  2026-07-26 found no surviving template carrying a governing-law clause. If a
+  client contract gets written, its venue clause has to be authored fresh — do not
+  assume an old template is being reused and is already correct.
