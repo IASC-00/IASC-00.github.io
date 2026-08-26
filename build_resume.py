@@ -115,6 +115,11 @@ def render_body(data: dict) -> str:
             + "".join(f"<li>{esc(c)}</li>" for c in data["certifications"])
             + "</ul>"
         ),
+        "education": lambda: (
+            '<ul class="cv-certs">'
+            + "".join(f"<li>{esc(e)}</li>" for e in data.get("education", []))
+            + "</ul>"
+        ),
     }
 
     out = []
@@ -142,6 +147,10 @@ def main() -> None:
     page = TEMPLATE.read_text()
     page = page.replace("{resume_body}", render_body(data))
     page = page.replace(
+        "{title}",
+        f'<p class="cv-title">{esc(data["title"])}</p>' if data.get("title") else "",
+    )
+    page = page.replace(
         "{contact}",
         " · ".join(
             f'<a href="mailto:{esc(p)}">{esc(p)}</a>'
@@ -157,7 +166,8 @@ def main() -> None:
     print(
         f"built {OUT.name} from {source.name} — "
         f"{len(data['skills'])} skill groups, {len(data['experience'])} roles, "
-        f"{len(data['projects'])} projects, {len(data['certifications'])} certifications"
+        f"{len(data['projects'])} projects, {len(data['certifications'])} certifications, "
+        f"{len(data.get('education', []))} education"
     )
 
 

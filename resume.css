@@ -167,3 +167,11 @@ a:hover { border-bottom-color: var(--tx-2); }
   .cv-entry li { page-break-inside: avoid; break-inside: avoid; }
   a { border: none; }
 }
+
+
+.cv-title {
+  margin: .15rem 0 .35rem;
+  font-family: Calibri, Carlito, "Segoe UI", sans-serif;
+  font-size: .95rem;
+  color: #374151;
+}
