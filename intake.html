@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Start a project with Ian Swain — AI automation and custom tool development for Philadelphia businesses.">
+<meta name="description" content="Start a project with Ian Swain: AI automation and custom tool development for Philadelphia businesses.">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-<title>Start a Project — Ian Swain | iswain.dev</title>
+<title>Start a Project | Ian Swain | iswain.dev</title>
 <link rel="icon" type="image/png" href="/images/swan-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a; --card: #141414; --accent: #4fffe0;
-    --text: #e0e0e0; --dim: #888; --border: rgba(255,255,255,0.1);
+    --bg: #0a0a0a; --card: #141414; --accent: #A3CF9B;
+    --text: #e0e0e0; --dim: #9A9A9A; --border: rgba(255,255,255,0.1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -48,7 +48,7 @@
   .form-step.active { display: block; }
   @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
-  .step-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 12px; }
+  .step-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 12px; }
   .question { font-size: 20px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.02em; }
 
   input[type="text"], input[type="email"], textarea {
@@ -65,8 +65,8 @@
     border-radius: 10px; padding: 16px 18px; cursor: pointer;
     transition: all .2s; display: flex; align-items: center; gap: 12px;
   }
-  .option:hover { border-color: rgba(79,255,224,.4); background: rgba(255,255,255,.02); }
-  .option.selected { border-color: var(--accent); background: rgba(79,255,224,.05); }
+  .option:hover { border-color: rgba(163,207,155,.4); background: rgba(255,255,255,.02); }
+  .option.selected { border-color: var(--accent); background: rgba(163,207,155,.05); }
   .option-dot { width: 12px; height: 12px; border: 2px solid var(--dim); border-radius: 50%; flex-shrink: 0; }
   .option.selected .option-dot { border-color: var(--accent); background: var(--accent); }
   .opt-title { font-size: 14px; font-weight: 600; color: #fff; }
@@ -124,21 +124,21 @@
           <div class="option-dot"></div>
           <div>
             <div class="opt-title">Discovery Sprint</div>
-            <div class="opt-sub">Feasibility audit + 5-page automation roadmap ($499 — applied to any build)</div>
+            <div class="opt-sub">Feasibility audit + 5-page automation roadmap ($499, applied to any build)</div>
           </div>
         </div>
         <div class="option" onclick="selectOption(this, 'tier', 'implementation')">
           <div class="option-dot"></div>
           <div>
             <div class="opt-title">Build a System</div>
-            <div class="opt-sub">Custom automation, lead capture, or AI tool — ready to start</div>
+            <div class="opt-sub">Custom automation, lead capture, or an AI tool, ready to start</div>
           </div>
         </div>
         <div class="option" onclick="selectOption(this, 'tier', 'retainer')">
           <div class="option-dot"></div>
           <div>
             <div class="opt-title">Ongoing Support</div>
-            <div class="opt-sub">Monthly retainer — monitoring, tuning, and optimization ($80–$150/hr)</div>
+            <div class="opt-sub">Monthly retainer for monitoring, tuning, and optimization ($80–$150/hr)</div>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
     <div class="form-step" data-step="3">
       <div class="step-label">Step 03 / 05</div>
       <p class="question">What's the biggest bottleneck in your business right now?</p>
-      <textarea name="bottleneck" placeholder="e.g. We spend 3 hours a day answering the same phone questions. Guests ask about hours, menu, and reservations — staff can't focus on anything else." required style="min-height:120px;"></textarea>
+      <textarea name="bottleneck" placeholder="e.g. We spend 3 hours a day answering the same phone questions. Guests ask about hours, menu, and reservations, so staff can't focus on anything else." required style="min-height:120px;"></textarea>
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(3)">Back</button>
         <button type="button" class="btn btn-next" onclick="nextStep(3)">Next →</button>
@@ -165,7 +165,7 @@
     <div class="form-step" data-step="4">
       <div class="step-label">Step 04 / 05</div>
       <p class="question">What tools or systems are you currently using?</p>
-      <input type="text" name="tools" placeholder="e.g. Toast POS, OpenTable, Google Sheets, Mailchimp — or 'nothing formal'">
+      <input type="text" name="tools" placeholder="e.g. Toast POS, OpenTable, Google Sheets, Mailchimp, or 'nothing formal'">
       <div class="btn-row">
         <button type="button" class="btn btn-back" onclick="prevStep(4)">Back</button>
         <button type="button" class="btn btn-next" onclick="nextStep(4)">Almost done →</button>

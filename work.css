@@ -11,8 +11,8 @@ html { scroll-behavior: smooth; }
   --ink:        #0E0E10;
   --ink-2:      #161719;
   --ink-3:      #1E2023;
-  --teal:       #3DE8D0;
-  --teal-2:     #5cf0dc;
+  --accent:     #A3CF9B;
+  --accent-2:   #BCDDB5;
   --tx:         #ECECEA;
   --tx-dim:     rgba(255,255,255,0.56);
   --line:       rgba(255,255,255,0.09);
@@ -47,10 +47,10 @@ h1, h2, h3 { font-family: var(--disp); font-weight: 600; letter-spacing: -0.025e
 
 .eyebrow {
   font-family: var(--mono);
-  font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--teal); display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); display: inline-flex; align-items: center; gap: 10px;
 }
-.eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.7; }
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--accent); opacity: 0.7; }
 
 /* ── Nav ── */
 nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
@@ -68,21 +68,21 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .nav-links { display: flex; gap: 26px; list-style: none; }
 .nav-links a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; color: var(--tx-dim); text-decoration: none; transition: color .15s; }
 .nav-links a:hover, .nav-links a[aria-current="page"] { color: #fff; }
-.nav-cta { font-size: 12.5px; font-weight: 600; background: var(--teal); color: #06201a; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background .15s; white-space: nowrap; }
-.nav-cta:hover { background: var(--teal-2); }
+.nav-cta { font-size: 12.5px; font-weight: 600; background: var(--accent); color: #10220F; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background .15s; white-space: nowrap; }
+.nav-cta:hover { background: var(--accent-2); }
 
 /* ── Buttons ── */
 .btn { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
   text-decoration: none; border-radius: 9px; padding: 14px 24px; cursor: pointer;
   border: 1px solid transparent; white-space: nowrap;
   transition: transform .15s ease, background .15s ease, border-color .15s ease; }
-.btn-primary { background: var(--teal); color: #06201a; }
-.btn-primary:hover { background: var(--teal-2); transform: translateY(-2px); }
+.btn-primary { background: var(--accent); color: #10220F; }
+.btn-primary:hover { background: var(--accent-2); transform: translateY(-2px); }
 .btn-ghost { background: transparent; color: #fff; border-color: var(--line-2); }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.55); transform: translateY(-2px); }
-.txt-link { font-family: var(--mono); font-size: 12.5px; color: var(--teal); text-decoration: none;
-  border-bottom: 1px solid rgba(61,232,208,0.35); padding-bottom: 2px; transition: border-color .15s; }
-.txt-link:hover { border-color: var(--teal); }
+.txt-link { font-family: var(--mono); font-size: 12.5px; color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid rgba(163,207,155,0.35); padding-bottom: 2px; transition: border-color .15s; }
+.txt-link:hover { border-color: var(--accent); }
 
 /* ── Work index ── */
 .work-intro { padding: clamp(48px, 7vw, 88px) 0 0; }
@@ -98,10 +98,10 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .work-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
 .work-card h2 { font-size: 21px; color: #fff; }
 .work-card p { color: var(--tx-dim); font-size: 15px; line-height: 1.6; flex: 1; }
-.work-status { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--teal); white-space: nowrap; }
+.work-status { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent); white-space: nowrap; }
 .work-tags { display: flex; flex-wrap: wrap; gap: 7px; }
-.work-tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.03em; color: var(--tx-dim);
+.work-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; color: var(--tx-dim);
   border: 1px solid var(--line); border-radius: 5px; padding: 3px 8px; }
 
 .work-also { border-top: 1px solid var(--line); padding: clamp(40px, 5vw, 64px) 0; }
@@ -109,7 +109,7 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .work-also ul { list-style: none; display: grid; gap: 14px; max-width: var(--read); }
 .work-also li { color: var(--tx-dim); font-size: 15px; line-height: 1.6;
   padding-left: 18px; position: relative; }
-.work-also li::before { content: '—'; position: absolute; left: 0; color: var(--teal); }
+.work-also li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
 .work-also strong { color: var(--tx); font-weight: 600; }
 
 .work-cta { border-top: 1px solid var(--line); padding: clamp(48px, 6vw, 80px) 0;
@@ -124,7 +124,7 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
   font-family: var(--mono); font-size: 12px; color: var(--tx-dim); }
 /* Explicit colour, no opacity: at 10.5px this must clear WCAG AA (4.5:1).
    --tx-dim at 0.7 opacity rendered ~3.7:1 and failed the contrast audit. */
-.work-meta dt { text-transform: uppercase; letter-spacing: 0.1em; font-size: 10.5px; color: #9BA1A8; }
+.work-meta dt { text-transform: uppercase; letter-spacing: 0.1em; font-size: 12px; color: #9BA1A8; }
 .work-meta dd { color: var(--tx); }
 .work-meta-item { display: flex; flex-direction: column; gap: 3px; }
 

@@ -1,7 +1,7 @@
 ---
 slug: operari
 title: OPERARI
-one_line: A private operations hub for a small team — projects, tasks, files, and invoicing in one place.
+one_line: A private operations hub that keeps a small team's projects, tasks, files, and invoicing in one place.
 url: https://operarihq.com
 dates: May 2026 – present · 214 commits
 status: live-private

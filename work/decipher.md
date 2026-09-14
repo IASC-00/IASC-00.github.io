@@ -1,7 +1,7 @@
 ---
 slug: decipher
 title: Decipher
-one_line: A browser puzzle game that teaches programming — four rounds, accounts, a leaderboard, and a duel mode. Playable now.
+one_line: A browser puzzle game that teaches programming, with four rounds, accounts, a leaderboard, and a duel mode. Playable now.
 url: https://decipher.iswain.dev
 repo: https://github.com/IASC-00/decipher
 dates: March 2026 – present

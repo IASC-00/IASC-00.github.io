@@ -1,7 +1,7 @@
 ---
 slug: exonerated-moving
 title: Exonerated Moving & Logistics
-one_line: A new Philadelphia moving company built on second-chance hiring — brand, imagery, and site.
+one_line: Brand, imagery, and website for a new Philadelphia moving company built on second-chance hiring.
 url: https://exoneratedmovers.com
 dates: Built June 2026 · updated through July
 status: live

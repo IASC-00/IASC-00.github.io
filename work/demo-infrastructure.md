@@ -1,7 +1,7 @@
 ---
 slug: demo-infrastructure
 title: Hosting that stays up
-one_line: I run my own production server — hardened, automatic HTTPS, four apps that don't go down. The same setup I'd run for a client.
+one_line: I run my own hardened production server with automatic HTTPS and four apps that don't go down. The same setup I'd run for a client.
 url: https://decipher.iswain.dev
 extra_urls: [https://crm.iswain.dev, https://rag.iswain.dev, https://audit.iswain.dev]
 dates: Built July 2026

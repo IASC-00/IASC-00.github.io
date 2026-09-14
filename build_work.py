@@ -182,8 +182,8 @@ ALSO_BUILT = [
     (
         "microtools",
         (
-            "22 small AI tools that run entirely on my own hardware — "
-            "no per-seat fees, and nothing leaves the machine."
+            "22 small AI tools that run entirely on my own hardware, "
+            "with no per-seat fees and nothing leaving the machine."
         ),
     ),
     ("Cadence", "Scheduling and habit-tracking web app."),
@@ -193,7 +193,7 @@ ALSO_BUILT = [
     ),
     (
         "Cosmic Rift",
-        "Browser card game — nine-mission campaign, ability engine, "
+        "Browser card game with a nine-mission campaign, an ability engine, "
         "and an opponent AI. Pre-launch.",
     ),
     ("Futuristamantes", "Site build for a creative venture."),
@@ -219,7 +219,7 @@ def render_index(items: list[CaseStudy], template: str) -> str:
 
 def _also_built_items() -> str:
     return "".join(
-        f"<li><strong>{_esc(name)}</strong> — {_esc(desc)}</li>"
+        f"<li><strong>{_esc(name)}</strong>: {_esc(desc)}</li>"
         for name, desc in ALSO_BUILT
     )
 

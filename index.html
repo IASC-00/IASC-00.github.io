@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script>document.documentElement.classList.add('js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ian Swain runs the tech and operations side of your business — websites, custom software, analytics, and security — so you don't have to hire a team. Philadelphia-based; the source code is yours.">
+<meta name="description" content="Ian Swain runs the tech and operations side of your business, from websites and custom software to analytics and security, so you don't have to hire a team. Philadelphia-based; the source code is yours.">
 <script data-goatcounter="https://iswaindev.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <title>Ian Swain | Fractional Tech &amp; Ops Partner for Small Business | iswain.dev</title>
 
@@ -19,14 +19,14 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://iswain.dev">
-<meta property="og:title" content="Ian Swain — Fractional Tech &amp; Ops Partner, iswain.dev">
-<meta property="og:description" content="One person for your whole technical side — websites, custom software, analytics, and security. Philadelphia-based; source code yours.">
+<meta property="og:title" content="Ian Swain | Fractional Tech &amp; Ops Partner, iswain.dev">
+<meta property="og:description" content="One person for your whole technical side: websites, custom software, analytics, and security. Philadelphia-based; source code yours.">
 <meta property="og:image" content="https://iswain.dev/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ian Swain — iswain.dev">
-<meta name="twitter:description" content="One person for your whole technical side — websites, custom software, analytics, and security. Philadelphia-based; source code yours.">
+<meta name="twitter:title" content="Ian Swain | iswain.dev">
+<meta name="twitter:description" content="One person for your whole technical side: websites, custom software, analytics, and security. Philadelphia-based; source code yours.">
 <meta name="twitter:image" content="https://iswain.dev/images/og-image.png">
 
 <!-- Security -->
@@ -47,10 +47,9 @@ html { scroll-behavior: smooth; }
   --ink-2:      #161719;
   --ink-3:      #1E2023;
   --paper:      #F5F4EF;
-  --teal:       #3DE8D0;
-  --teal-2:     #5cf0dc;
-  --teal-deep:  #0A7A5E;
-  --tx:         #ECECEA;
+  --accent:     #A3CF9B;
+  --accent-2:   #BCDDB5;
+    --tx:         #ECECEA;
   --tx-dim:     rgba(255,255,255,0.56);
   --tx-dim2:    rgba(255,255,255,0.55);
   --line:       rgba(255,255,255,0.09);
@@ -80,13 +79,13 @@ img, video { max-width: 100%; display: block; }
 /* ── Type primitives ── */
 .eyebrow {
   font-family: var(--mono);
-  font-size: 11.5px; font-weight: 400;
+  font-size: 12px; font-weight: 400;
   letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--teal);
+  color: var(--accent);
   display: inline-flex; align-items: center; gap: 10px;
 }
 .eyebrow::before {
-  content: ''; width: 22px; height: 1px; background: var(--teal); opacity: 0.7;
+  content: ''; width: 22px; height: 1px; background: var(--accent); opacity: 0.7;
 }
 .eyebrow.solo::before { display: none; }
 
@@ -106,14 +105,14 @@ h1, h2, h3 { font-family: var(--disp); font-weight: 600; letter-spacing: -0.025e
 .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans);
   font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 9px;
   padding: 14px 24px; transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease; cursor: pointer; border: 1px solid transparent; white-space: nowrap; }
-.btn-primary { background: var(--teal); color: #06201a; box-shadow: 0 0 0 0 rgba(61,232,208,0.5); }
-.btn-primary:hover { background: var(--teal-2); transform: translateY(-2px); box-shadow: 0 10px 30px -8px rgba(61,232,208,0.45); }
+.btn-primary { background: var(--accent); color: #10220F; }
+.btn-primary:hover { background: var(--accent-2); transform: translateY(-2px); box-shadow: 0 10px 24px -10px rgba(0,0,0,0.6); }
 .btn-ghost { background: transparent; color: #fff; border-color: var(--line-2); }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.55); transform: translateY(-2px); }
 .btn-arrow::after { content: '→'; font-family: var(--mono); transition: transform .15s ease; }
 .btn:hover .btn-arrow::after, .btn-arrow:hover::after { transform: translateX(3px); }
-.txt-link { font-family: var(--mono); font-size: 12.5px; color: var(--teal); text-decoration: none; letter-spacing: 0.02em; border-bottom: 1px solid rgba(61,232,208,0.35); padding-bottom: 2px; transition: border-color .15s; }
-.txt-link:hover { border-color: var(--teal); }
+.txt-link { font-family: var(--mono); font-size: 12.5px; color: var(--accent); text-decoration: none; letter-spacing: 0.02em; border-bottom: 1px solid rgba(163,207,155,0.35); padding-bottom: 2px; transition: border-color .15s; }
+.txt-link:hover { border-color: var(--accent); }
 
 /* ── Nav ── */
 nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
@@ -124,7 +123,7 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .nav-logo { display: flex; align-items: center; gap: 11px; text-decoration: none; white-space: nowrap; }
 .nav-logo span { font-family: var(--disp); font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: #fff; }
 .logo-pond { position: relative; width: 26px; height: 26px; flex-shrink: 0; }
-.logo-pond::before, .logo-pond::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; border: 1.5px solid rgba(61,232,208,0.7); transform: translate(-50%,-50%); opacity: 0; pointer-events: none; z-index: 2; }
+.logo-pond::before, .logo-pond::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; border: 1.5px solid rgba(163,207,155,0.7); transform: translate(-50%,-50%); opacity: 0; pointer-events: none; z-index: 2; }
 .nav-logo:hover .logo-pond::before { animation: pond-ripple 1.4s ease-out infinite; }
 .nav-logo:hover .logo-pond::after  { animation: pond-ripple 1.4s ease-out 0.5s infinite; }
 .logo-part { position: absolute; inset: 0; background: url('/images/swan-logo.png') center/contain no-repeat; }
@@ -141,9 +140,9 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .nav-links a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; color: var(--tx-dim); text-decoration: none; transition: color .15s; }
 .nav-links a:hover { color: #fff; }
 .nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
-.nav-time { font-family: var(--mono); font-size: 11px; color: var(--tx-dim2); letter-spacing: 0.02em; }
-.nav-cta { font-size: 12.5px; font-weight: 600; background: var(--teal); color: #06201a; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background .15s; white-space: nowrap; }
-.nav-cta:hover { background: var(--teal-2); }
+.nav-time { font-family: var(--mono); font-size: 12px; color: var(--tx-dim2); letter-spacing: 0.02em; }
+.nav-cta { font-size: 12.5px; font-weight: 600; background: var(--accent); color: #10220F; padding: 8px 16px; border-radius: 7px; text-decoration: none; transition: background .15s; white-space: nowrap; }
+.nav-cta:hover { background: var(--accent-2); }
 .nav-hamburger { display: none; flex-direction: column; justify-content: space-between; width: 22px; height: 15px; background: none; border: none; cursor: pointer; padding: 0; }
 .nav-hamburger span { display: block; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; transition: transform .2s, opacity .2s; }
 .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
@@ -152,50 +151,50 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .nav-mobile { display: none; position: fixed; top: 60px; left: 0; right: 0; background: rgba(12,12,14,0.98); border-bottom: 1px solid var(--line); padding: 12px var(--pad-x) 20px; z-index: 99; backdrop-filter: blur(14px); }
 .nav-mobile.open { display: flex; flex-direction: column; }
 .nav-mobile a { font-family: var(--mono); font-size: 14px; color: var(--tx-dim); text-decoration: none; padding: 13px 0; border-bottom: 1px solid var(--line); }
-.nav-mobile a:last-child { border-bottom: none; color: var(--teal); }
+.nav-mobile a:last-child { border-bottom: none; color: var(--accent); }
 
 /* ── Hero ── */
 .hero { padding: clamp(56px, 8vw, 104px) var(--pad-x) clamp(64px, 8vw, 96px); border-bottom: 1px solid var(--line); }
 .hero-inner { max-width: var(--wrap); margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
 .hero-eyebrow { margin-bottom: 26px; }
 .hero h1 { font-size: clamp(38px, 6vw, 78px); font-weight: 600; color: #fff; max-width: 15ch; margin-bottom: 26px; }
-.hero h1 .hl { color: var(--teal); }
+.hero h1 .hl { color: var(--accent); }
 .hero-sub { font-size: clamp(16px, 1.5vw, 19px); color: var(--tx-dim); max-width: 48ch; line-height: 1.62; margin-bottom: 34px; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 26px; }
-.hero-trust { font-family: var(--mono); font-size: 11.5px; color: var(--tx-dim2); letter-spacing: 0.02em; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.hero-trust { font-family: var(--mono); font-size: 12px; color: var(--tx-dim2); letter-spacing: 0.02em; display: flex; flex-wrap: wrap; gap: 8px 16px; }
 .hero-trust span { display: inline-flex; align-items: center; gap: 8px; }
-.hero-trust span::before { content: '✓'; color: var(--teal); }
+.hero-trust span::before { content: '✓'; color: var(--accent); }
 
 /* ── Hand-off console (hero signature) ── */
-.console { background: linear-gradient(180deg, #101214 0%, #0c0d0f 100%); border: 1px solid var(--line-2); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 80px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(61,232,208,0.04); }
+.console { background: linear-gradient(180deg, #101214 0%, #0c0d0f 100%); border: 1px solid var(--line-2); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 80px -30px rgba(0,0,0,0.8); }
 .console-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,0.02); }
 .console-dot { width: 10px; height: 10px; border-radius: 50%; }
-.console-title { font-family: var(--mono); font-size: 11px; color: var(--tx-dim2); margin-left: 8px; letter-spacing: 0.03em; }
+.console-title { font-family: var(--mono); font-size: 12px; color: var(--tx-dim2); margin-left: 8px; letter-spacing: 0.03em; }
 .console-body { padding: 20px 18px 22px; font-family: var(--mono); font-size: 12.5px; line-height: 1.5; }
 .log-line { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); opacity: 0; transform: translateY(6px); animation: log-in 0.5s ease forwards; }
 .log-line:nth-child(1){animation-delay:.2s} .log-line:nth-child(2){animation-delay:.5s}
 .log-line:nth-child(3){animation-delay:.8s} .log-line:nth-child(4){animation-delay:1.1s}
 @keyframes log-in { to { opacity: 1; transform: none; } }
-.log-time { color: var(--tx-dim2); font-size: 11px; }
+.log-time { color: var(--tx-dim2); font-size: 12px; }
 .log-task { color: rgba(255,255,255,0.78); }
-.log-res { color: var(--teal); white-space: nowrap; font-size: 11.5px; }
+.log-res { color: var(--accent); white-space: nowrap; font-size: 12px; }
 .log-res::before { content: '→ '; color: var(--tx-dim2); }
-.console-foot { padding: 16px 18px 4px; font-family: var(--mono); font-size: 11.5px; color: var(--tx-dim); opacity: 0; animation: log-in 0.5s ease forwards 1.4s; }
-.console-foot b { color: var(--teal); font-weight: 400; }
+.console-foot { padding: 16px 18px 4px; font-family: var(--mono); font-size: 12px; color: var(--tx-dim); opacity: 0; animation: log-in 0.5s ease forwards 1.4s; }
+.console-foot b { color: var(--accent); font-weight: 400; }
 
 /* ── Credibility strip ── */
 .credstrip { border-top: 1px solid var(--line); background: var(--ink-2); }
 .credstrip-inner { max-width: var(--wrap); margin: 0 auto; padding: 22px var(--pad-x); display: flex; flex-wrap: wrap; gap: 14px 40px; }
 .credstrip-item { font-family: var(--mono); font-size: 12px; color: var(--tx-dim); letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 10px; }
 .credstrip-item b { color: #fff; font-weight: 400; }
-.credstrip-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+.credstrip-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
 /* ── Two-track chooser ── */
 .tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 900px) { .tracks { grid-template-columns: 1fr; } }
 .track { background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px; padding: clamp(28px, 3.4vw, 40px); display: flex; flex-direction: column; transition: border-color .2s, transform .2s, background .2s; }
-.track:hover { border-color: rgba(61,232,208,0.35); transform: translateY(-4px); }
-.track-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 18px; }
+.track:hover { border-color: rgba(163,207,155,0.35); transform: translateY(-4px); }
+.track-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
 .track h3 { font-size: clamp(22px, 2.4vw, 28px); color: #fff; margin-bottom: 14px; }
 .track p { font-size: 15px; color: var(--tx-dim); line-height: 1.65; margin-bottom: 24px; flex: 1; }
 .track .btn { align-self: flex-start; }
@@ -206,39 +205,39 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .proof-video-wrap { margin-bottom: 40px; border: 1px solid var(--line-2); border-radius: 16px; overflow: hidden; background: #000; position: relative; }
 .proof-video-wrap video { width: 100%; height: auto; display: block; aspect-ratio: 16 / 10; object-fit: cover; background: #0c0d0f; }
 .proof-caption { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; margin-bottom: 44px; }
-.proof-caption .badge { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #06201a; background: var(--teal); padding: 3px 10px; border-radius: 20px; }
+.proof-caption .badge { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #10220F; background: var(--accent); padding: 3px 10px; border-radius: 20px; }
 .proof-caption p { font-size: 14.5px; color: var(--tx-dim); }
 .proof-caption p b { color: #fff; font-weight: 500; }
 .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 18px; }
 .demo-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; text-decoration: none; display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
-.demo-card:hover { border-color: rgba(61,232,208,0.35); transform: translateY(-4px); }
+.demo-card:hover { border-color: rgba(163,207,155,0.35); transform: translateY(-4px); }
 .demo-shot { aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--ink-3); }
 .demo-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .demo-info { padding: 16px 18px 18px; }
-.demo-info .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 8px; }
+.demo-info .k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 8px; }
 .demo-info h3 { font-family: var(--disp); font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.01em; }
 .demo-info p { font-size: 13px; color: var(--tx-dim); line-height: 1.55; }
-.demo-info .open { font-family: var(--mono); font-size: 11.5px; color: var(--teal); margin-top: 12px; display: inline-block; }
+.demo-info .open { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 12px; display: inline-block; }
 .demo-info .open::after { content: ' →'; }
 .section-cta { margin-top: 48px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
 /* ── Under the hood (engineering strip) ── */
 .uth { margin-top: 44px; padding-top: 32px; border-top: 1px solid var(--line); }
-.uth-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 16px; }
+.uth-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 16px; }
 .uth-items { display: flex; flex-wrap: wrap; gap: 10px; }
 .uth-item { font-family: var(--mono); font-size: 12.5px; color: var(--tx-dim); background: rgba(255,255,255,0.03); border: 1px solid var(--line); padding: 7px 14px; border-radius: 8px; text-decoration: none; transition: border-color .15s, color .15s; }
-.uth-item:hover { border-color: rgba(61,232,208,0.4); color: var(--teal); }
+.uth-item:hover { border-color: rgba(163,207,155,0.4); color: var(--accent); }
 .uth-item .st { color: var(--tx-dim2); }
 
 /* ── Live apps (running software — the headline proof) ── */
-.row-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 16px; }
+.row-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 16px; }
 .live-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 18px; }
 .live-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 14px; padding: 20px 20px 18px; text-decoration: none; display: flex; flex-direction: column; gap: 9px; transition: border-color .2s, transform .2s; }
-.live-card:hover { border-color: rgba(61,232,208,0.35); transform: translateY(-4px); }
-.live-card .host { font-family: var(--mono); font-size: 11px; letter-spacing: 0.03em; color: var(--teal); }
+.live-card:hover { border-color: rgba(163,207,155,0.35); transform: translateY(-4px); }
+.live-card .host { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; color: var(--accent); }
 .live-card h3 { font-family: var(--disp); font-size: 16.5px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
 .live-card p { font-size: 13px; color: var(--tx-dim); line-height: 1.55; flex: 1; }
-.live-card .open { font-family: var(--mono); font-size: 11.5px; color: var(--teal); margin-top: 2px; }
+.live-card .open { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 2px; }
 .live-card .open::after { content: ' →'; }
 .demo-block { margin-top: 44px; padding-top: 32px; border-top: 1px solid var(--line); }
 
@@ -246,36 +245,36 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .svc-list { border-top: 1px solid var(--line); }
 .svc-row { display: grid; grid-template-columns: 1fr 260px; gap: clamp(24px, 4vw, 56px); align-items: start; padding: clamp(30px, 3.4vw, 44px) 0; border-bottom: 1px solid var(--line); }
 .svc-lead-col { display: flex; align-items: baseline; gap: 18px; }
-.svc-idx { font-family: var(--mono); font-size: 12px; color: var(--teal); padding-top: 6px; flex-shrink: 0; }
+.svc-idx { font-family: var(--mono); font-size: 12px; color: var(--accent); padding-top: 6px; flex-shrink: 0; }
 .svc-tag-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.svc-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); background: rgba(61,232,208,0.09); padding: 3px 10px; border-radius: 20px; }
-.svc-flag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #06201a; background: var(--teal); padding: 3px 10px; border-radius: 20px; }
+.svc-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); background: rgba(163,207,155,0.09); padding: 3px 10px; border-radius: 20px; }
+.svc-flag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #10220F; background: var(--accent); padding: 3px 10px; border-radius: 20px; }
 .svc-main h3 { font-size: clamp(20px, 2.2vw, 26px); color: #fff; margin-bottom: 10px; }
 .svc-main p { font-size: 15px; color: var(--tx-dim); line-height: 1.65; max-width: 52ch; }
 .svc-ship { text-align: right; }
-.svc-ship .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 6px; }
-.svc-ship .v { font-family: var(--disp); font-size: 17px; font-weight: 600; color: var(--teal); }
+.svc-ship .k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 6px; }
+.svc-ship .v { font-family: var(--disp); font-size: 17px; font-weight: 600; color: var(--accent); }
 
 /* ── Approach ── */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
 .step { padding: clamp(28px, 3.2vw, 42px); border-right: 1px solid var(--line); }
 .step:last-child { border-right: none; }
-.step-n { font-family: var(--mono); font-size: 12px; color: var(--teal); margin-bottom: 22px; }
+.step-n { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 22px; }
 .step h3 { font-size: 20px; color: #fff; margin-bottom: 12px; }
 .step p { font-size: 14.5px; color: var(--tx-dim); line-height: 1.65; }
 .compare { display: grid; grid-template-columns: 1fr 1fr; margin-top: 20px; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
 .compare-col { padding: clamp(26px, 3vw, 38px); }
 .compare-col.bad { border-right: 1px solid var(--line); background: rgba(255,255,255,0.015); }
-.compare-col.good { background: rgba(61,232,208,0.035); }
-.compare-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
-.compare-col.bad .compare-label { color: rgba(255,120,120,0.7); }
-.compare-col.good .compare-label { color: var(--teal); }
+.compare-col.good { background: rgba(163,207,155,0.035); }
+.compare-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+.compare-col.bad .compare-label { color: #F08A8A; }
+.compare-col.good .compare-label { color: var(--accent); }
 .compare-col ul { list-style: none; }
 .compare-col li { font-size: 14px; color: var(--tx-dim); padding: 11px 0; border-bottom: 1px solid var(--line); display: flex; gap: 12px; line-height: 1.5; }
 .compare-col li:last-child { border-bottom: none; }
-.compare-col.bad li::before { content: '✕'; color: rgba(255,120,120,0.55); flex-shrink: 0; }
+.compare-col.bad li::before { content: '✕'; color: #D97878; flex-shrink: 0; }
 .compare-col.good li { color: rgba(255,255,255,0.78); }
-.compare-col.good li::before { content: '✓'; color: var(--teal); flex-shrink: 0; }
+.compare-col.good li::before { content: '✓'; color: var(--accent); flex-shrink: 0; }
 
 /* ── About ── */
 .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(36px, 6vw, 88px); align-items: start; }
@@ -283,28 +282,28 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .about-body p b { color: #fff; font-weight: 500; }
 .about-btns { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
 .stack { background: var(--ink-2); border: 1px solid var(--line); border-radius: 16px; padding: clamp(26px, 3vw, 36px); }
-.stack-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 20px; }
+.stack-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim2); margin-bottom: 20px; }
 .stack-items { display: flex; flex-wrap: wrap; gap: 8px; }
 .stack-items span { font-family: var(--mono); font-size: 12.5px; color: var(--tx-dim); background: rgba(255,255,255,0.03); border: 1px solid var(--line); padding: 6px 13px; border-radius: 8px; }
 .stack-note { margin-top: 18px; font-size: 13.5px; color: var(--tx-dim); line-height: 1.6; }
-.stack-note b { color: var(--teal); font-weight: 500; }
+.stack-note b { color: var(--accent); font-weight: 500; }
 
 /* ── Contact ── */
 .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(36px, 6vw, 80px); align-items: start; }
-.contact-email { display: inline-block; font-family: var(--disp); font-size: clamp(20px, 2.6vw, 30px); font-weight: 600; color: #fff; text-decoration: none; border-bottom: 2px solid var(--teal); padding-bottom: 3px; margin: 22px 0 30px; letter-spacing: -0.02em; }
-.contact-email:hover { color: var(--teal); }
+.contact-email { display: inline-block; font-family: var(--disp); font-size: clamp(20px, 2.6vw, 30px); font-weight: 600; color: #fff; text-decoration: none; border-bottom: 2px solid var(--accent); padding-bottom: 3px; margin: 22px 0 30px; letter-spacing: -0.02em; }
+.contact-email:hover { color: var(--accent); }
 .contact-meta { font-family: var(--mono); font-size: 12px; color: var(--tx-dim2); line-height: 1.8; }
 .form { display: flex; flex-direction: column; gap: 15px; }
-.form-field label { display: block; font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim); margin-bottom: 8px; }
+.form-field label { display: block; font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tx-dim); margin-bottom: 8px; }
 .form input, .form textarea, .form select { width: 100%; background: var(--ink-2); border: 1px solid var(--line-2); border-radius: 9px; padding: 13px 15px; font-size: 14px; font-family: var(--sans); color: #fff; outline: none; transition: border-color .15s; }
-.form input:focus, .form textarea:focus, .form select:focus { border-color: var(--teal); }
-.form input:focus-visible, .form textarea:focus-visible, .form select:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.form input:focus, .form textarea:focus, .form select:focus { border-color: var(--accent); }
+.form input:focus-visible, .form textarea:focus-visible, .form select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .form textarea { resize: vertical; min-height: 120px; }
 .form select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.35)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
 .form select option { background: var(--ink-2); color: #fff; }
-.form-submit { align-self: flex-start; background: var(--teal); color: #06201a; padding: 14px 30px; border-radius: 9px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: var(--sans); transition: background .15s; }
-.form-submit:hover { background: var(--teal-2); }
-.form-disclaimer { font-size: 11px; color: var(--tx-dim2); margin-top: 8px; }
+.form-submit { align-self: flex-start; background: var(--accent); color: #10220F; padding: 14px 30px; border-radius: 9px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: var(--sans); transition: background .15s; }
+.form-submit:hover { background: var(--accent-2); }
+.form-disclaimer { font-size: 12px; color: var(--tx-dim2); margin-top: 8px; }
 
 /* ── Footer ── */
 footer { background: #090909; padding: 30px var(--pad-x); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; border-top: 1px solid var(--line); }
@@ -314,9 +313,9 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 .footer-links a:hover { color: #fff; }
 
 /* ── Sticky CTA ── */
-.sticky-cta { position: fixed; bottom: 24px; right: 24px; z-index: 200; background: var(--teal); color: #06201a; font-size: 13.5px; font-weight: 600; padding: 13px 22px; border-radius: 10px; text-decoration: none; box-shadow: 0 10px 34px -8px rgba(61,232,208,0.5); opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .3s; pointer-events: none; white-space: nowrap; }
+.sticky-cta { position: fixed; bottom: 24px; right: 24px; z-index: 200; background: var(--accent); color: #10220F; font-size: 13.5px; font-weight: 600; padding: 13px 22px; border-radius: 10px; text-decoration: none; box-shadow: 0 10px 28px -10px rgba(0,0,0,0.6); opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .3s; pointer-events: none; white-space: nowrap; }
 .sticky-cta.visible { opacity: 1; transform: none; pointer-events: auto; }
-.sticky-cta:hover { background: var(--teal-2); }
+.sticky-cta:hover { background: var(--accent-2); }
 
 /* ── Scroll reveal (progressive enhancement — sections stay visible if JS is off/slow) ── */
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
@@ -355,10 +354,10 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "ISDev — Ian Swain",
+  "name": "ISDev | Ian Swain",
   "url": "https://iswain.dev",
   "email": "contact@iswain.dev",
-  "description": "Ian Swain runs the tech and operations side of small businesses — websites, custom software and automation, analytics, and cybersecurity. Philadelphia-based; source code delivered.",
+  "description": "Ian Swain runs the tech and operations side of small businesses: websites, custom software and automation, analytics, and cybersecurity. Philadelphia-based; source code delivered.",
   "founder": { "@type": "Person", "name": "Ian Swain" },
   "areaServed": [
     { "@type": "City", "name": "Philadelphia", "addressRegion": "PA" },
@@ -423,9 +422,9 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <section class="hero">
   <div class="hero-inner">
     <div>
-      <div class="eyebrow hero-eyebrow">Ian Swain — fractional tech &amp; ops partner · Philadelphia</div>
+      <div class="eyebrow hero-eyebrow">Ian Swain · fractional tech &amp; ops partner · Philadelphia</div>
       <h1>I run the tech and operations side of your business, <span class="hl">so you don't have to.</span></h1>
-      <p class="hero-sub">Your website, your data, your tools, your security — handled by one person, instead of a team you can't afford or five vendors you have to chase. I spent 14 years running operations before I built the systems. Now I do both, for businesses without someone in-house.</p>
+      <p class="hero-sub">One person handles your website, data, tools, and security, instead of a team you can't afford or five vendors you have to chase. I worked in operations for 14 years before I started building the systems. Now I do both, for businesses without someone in-house.</p>
       <div class="hero-actions">
         <a href="/intake.html" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-hero-start-project"><span>Start a project</span></a>
         <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-goatcounter-click="cta-hero-book-call">Book a call</a>
@@ -441,14 +440,14 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <span class="console-dot" style="background:#ff5f57"></span>
         <span class="console-dot" style="background:#febc2e"></span>
         <span class="console-dot" style="background:#28c840"></span>
-        <span class="console-title">handoff.log — live</span>
+        <span class="console-title">handoff.log · live</span>
       </div>
       <div class="console-body">
         <div class="log-line"><span class="log-time">09:02</span><span class="log-task">new lead from the website</span><span class="log-res">captured &amp; tagged</span></div>
         <div class="log-line"><span class="log-time">11:20</span><span class="log-task">invoice #1042</span><span class="log-res">sent &amp; logged</span></div>
         <div class="log-line"><span class="log-time">14:05</span><span class="log-task">nightly backup + security scan</span><span class="log-res">passed</span></div>
         <div class="log-line"><span class="log-time">17:00</span><span class="log-task">weekly traffic report</span><span class="log-res">in your inbox</span></div>
-        <div class="console-foot">— nobody on your team touched any of these. <b>That's the point.</b></div>
+        <div class="console-foot">Nobody on your team touched any of these. <b>That's the point.</b></div>
       </div>
     </div>
   </div>
@@ -458,8 +457,8 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <div class="credstrip">
   <div class="credstrip-inner">
     <span class="credstrip-item"><b>14 years</b> running operations</span>
-    <span class="credstrip-item"><b>Full source code</b> — yours to keep</span>
-    <span class="credstrip-item"><b>Live in days</b>, not months</span>
+    <span class="credstrip-item"><b>Full source code</b> is yours to keep</span>
+    <span class="credstrip-item"><b>Live in days</b></span>
     <span class="credstrip-item">Based in <b>Philadelphia</b></span>
   </div>
 </div>
@@ -468,31 +467,31 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
 <section class="section section--ink2" id="start">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">How to work with me</span>
+      <span class="eyebrow">Options</span>
       <h2 class="h2">Three ways to work with me. Priced to your job.</h2>
-      <p class="lead">No packages to squeeze into. I look at what you actually need and give you the number up front — you say yes before I start.</p>
+      <p class="lead">No packages to squeeze into. I look at what you actually need and give you the number up front. You say yes before I start.</p>
     </div>
     <div class="tracks reveal">
       <div class="track">
         <div class="track-tag">Most popular</div>
         <h3>I handle your technology, every month.</h3>
-        <p>Your website, your email, your backups, your security — all of it looked after so you never think about it and never have to hire someone. Something breaks, you text me. Something needs changing, it's done. Ongoing, month to month.</p>
+        <p>I look after your website, email, backups, and security, so you never think about them and never have to hire someone. Something breaks, you text me. Something needs changing, it's done. Ongoing, month to month.</p>
         <a href="/intake.html?track=partner&amp;tier=retainer" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-tier-partner"><span>See what it would cost</span></a>
       </div>
       <div class="track">
         <div class="track-tag">One job</div>
         <h3>I'll build the thing you need.</h3>
-        <p>A new website. A tool that does the job you're doing by hand. One thing that's broken, fixed properly. I build it, put it live, and hand you the keys — you own it outright. Usually done in a week or two.</p>
+        <p>A new website. A tool that does the job you're doing by hand. One thing that's broken, fixed properly. I build it and put it live, then hand you the keys. You own it outright. Usually done in a week or two.</p>
         <a href="/intake.html?track=local&amp;tier=implementation" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-tier-single"><span>Get a price</span></a>
       </div>
       <div class="track">
         <div class="track-tag">Bigger job</div>
         <h3>I'll build the system that runs your business.</h3>
-        <p>Your customers, your jobs, your quotes and your paperwork in one place instead of five — with the repetitive parts done automatically. Built around how you actually work, tested on your real information, and yours to keep.</p>
+        <p>Your customers, your jobs, your quotes and your paperwork in one place instead of five, with the repetitive parts done automatically. Built around how you actually work, tested on your real information, and yours to keep.</p>
         <a href="/intake.html?track=studio&amp;tier=implementation" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-tier-system"><span>Get a price</span></a>
       </div>
     </div>
-    <p class="tracks-note reveal">Not sure which one you need? <b>Get a free automation audit</b> — answer a few questions and get back a written report on what's costing you time and what to fix first. No call required, nothing to pay.<a href="https://audit.iswain.dev" class="txt-link" data-goatcounter-click="cta-audit-frontdoor">Run the free audit</a></p>
+    <p class="tracks-note reveal">Not sure which one you need? <b>Get a free automation audit.</b> Answer a few questions and get back a written report on what's costing you time and what to fix first. No call required, nothing to pay.<a href="https://audit.iswain.dev" class="txt-link" data-goatcounter-click="cta-audit-frontdoor">Run the free audit</a></p>
   </div>
 </section>
 
@@ -501,23 +500,23 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Proof</span>
-      <h2 class="h2">Not mockups. Builds you can watch.</h2>
-      <p class="lead">Every link here loads — no cold starts, no “coming soon.” Four applications I built and host, running right now, plus demos you can open and real sites in production.</p>
+      <h2 class="h2">Working builds you can open right now.</h2>
+      <p class="lead">Every link here loads, with no cold starts and no “coming soon” pages. Four applications I built and host, running right now, plus demos you can open and real sites in production.</p>
     </div>
 
     <div class="reveal">
-      <div class="row-label">Applications I built and host — open any of them</div>
+      <div class="row-label">Applications I built and host. Open any of them.</div>
       <div class="live-grid">
         <a href="https://decipher.iswain.dev" class="live-card" target="_blank" rel="noopener" data-goatcounter-click="live-decipher">
           <span class="host">decipher.iswain.dev</span>
           <h3>Decipher</h3>
-          <p>A timed code-reading game. Built, deployed and hosted end to end — play a round in the browser.</p>
+          <p>A timed code-reading game. I built, deployed and host it end to end. Play a round in the browser.</p>
           <span class="open">Open it</span>
         </a>
         <a href="https://crm.iswain.dev" class="live-card" target="_blank" rel="noopener" data-goatcounter-click="live-crm">
           <span class="host">crm.iswain.dev</span>
           <h3>Contact manager</h3>
-          <p>People, companies and follow-ups in one place — a working application, not a spreadsheet.</p>
+          <p>People, companies and follow-ups kept in one working application you can click through.</p>
           <span class="open">Open it</span>
         </a>
         <a href="https://rag.iswain.dev" class="live-card" target="_blank" rel="noopener" data-goatcounter-click="live-rag">
@@ -528,7 +527,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         </a>
         <a href="https://audit.iswain.dev" class="live-card" target="_blank" rel="noopener" data-goatcounter-click="live-audit">
           <span class="host">audit.iswain.dev</span>
-          <h3>Automation audit — free, start here</h3>
+          <h3>Free automation audit: start here</h3>
           <p>Answer a few questions about how your business runs and get a written report on what's costing you time and what to fix first. Free, no call needed.</p>
           <span class="open">Open it</span>
         </a>
@@ -545,14 +544,14 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       </div>
       <div class="proof-caption">
         <span class="badge">Working demo</span>
-        <p><b>AI guest chatbot — restaurant demo build.</b> Answers hours, menu, and reservation questions around the clock — a full working example of what a restaurant would get. Press play.</p>
+        <p><b>AI guest chatbot, restaurant demo build.</b> It answers questions about hours, the menu, and reservations around the clock. This is the full working version a restaurant would get. Press play.</p>
       </div>
     </div>
 
     <div class="demo-grid reveal">
       <a href="/demos/appointment-booking.html" class="demo-card" target="_blank" rel="noopener" data-goatcounter-click="demo-appointment">
         <div class="demo-shot"><img src="/images/demo-appointment-booking.png" alt="Appointment booking chatbot demo" loading="lazy"></div>
-        <div class="demo-info"><div class="k">Booking</div><h3>Appointment Booking Bot</h3><p>Takes booking requests in plain language and slots them in — no back-and-forth.</p><span class="open">Open the demo</span></div>
+        <div class="demo-info"><div class="k">Booking</div><h3>Appointment Booking Bot</h3><p>Takes booking requests in plain language and slots them in without the back-and-forth.</p><span class="open">Open the demo</span></div>
       </a>
       <a href="/demos/listing-generator.html" class="demo-card" target="_blank" rel="noopener" data-goatcounter-click="demo-listing">
         <div class="demo-shot"><img src="/images/demo-listing.png" alt="MLS listing description generator demo" loading="lazy"></div>
@@ -569,7 +568,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     </div>
 
     <div class="uth reveal">
-      <div class="uth-label">Live sites — design &amp; build</div>
+      <div class="uth-label">Live sites I designed &amp; built</div>
       <div class="uth-items">
         <a href="/work/i-am-major-key.html" class="uth-item">I AM MAJOR KEY <span class="st">· case study</span></a>
         <a href="/work/exonerated-moving.html" class="uth-item">Exonerated Moving <span class="st">· case study</span></a>
@@ -580,7 +579,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     <div class="uth reveal">
       <div class="uth-label">How they were built</div>
       <div class="uth-items">
-        <a href="/work/operari.html" class="uth-item">OPERARI — operations platform <span class="st">· case study</span></a>
+        <a href="/work/operari.html" class="uth-item">OPERARI operations platform <span class="st">· case study</span></a>
         <a href="/work/decipher.html" class="uth-item">Decipher <span class="st">· case study</span></a>
         <a href="/work/rag-assistant.html" class="uth-item">Knowledge-base chat <span class="st">· case study</span></a>
         <a href="/work/automation-audit.html" class="uth-item">Automation audit <span class="st">· case study</span></a>
@@ -603,7 +602,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     <div class="section-head reveal">
       <span class="eyebrow">What I handle</span>
       <h2 class="h2">Everything on the technical side. One person.</h2>
-      <p class="lead">The whole digital and operational surface of your business — built, connected, and kept running. Take one piece, or hand me all of it.</p>
+      <p class="lead">I build and run the digital and operational side of your business, and I connect the pieces. Take one piece, or hand me all of it.</p>
     </div>
     <div class="svc-list reveal">
 
@@ -612,7 +611,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
           <span class="svc-idx">01</span>
           <div class="svc-main">
             <h3>Websites</h3>
-            <p>Designed and coded from scratch — no page builder, no theme. Fast, mobile-first, and built to turn visitors into customers. A new site, or a rebuild of the one that looks like it was made in 2015. The code is yours.</p>
+            <p>Designed and coded from scratch, without a page builder or theme. Fast, mobile-first, and built to turn visitors into customers. A new site, or a rebuild of the one that looks like it was made in 2015. The code is yours.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Scope</div><div class="v">One-off build</div></div>
@@ -624,7 +623,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
           <div class="svc-main">
             <div class="svc-tag-row"><span class="svc-tag">upkeep</span><span class="svc-flag">Ongoing</span></div>
             <h3>Site care &amp; changes</h3>
-            <p>The edits, updates, and fixes a live site always needs — plus hosting and uptime — handled without you filing a ticket and waiting a week. I keep it fast, current, and online so you can forget it exists.</p>
+            <p>I handle the edits and fixes a live site always needs, plus hosting and uptime, without you filing a ticket and waiting a week. Your site stays fast and up to date, and you can forget about it.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Scope</div><div class="v">Monthly</div></div>
@@ -635,7 +634,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
           <span class="svc-idx">03</span>
           <div class="svc-main">
             <h3>Business software &amp; automation</h3>
-            <p>Custom tools built around how you actually work — a customer database, a booking system, an invoicing or reporting dashboard, a full operations hub — plus the automation that moves data between them. I built one to run my own business (OPERARI); I can build yours.</p>
+            <p>Custom tools built around how you actually work: a customer database, a booking system, an invoicing or reporting dashboard, or a full operations hub. I also set up the automation that moves data between them. I built one to run my own business (OPERARI); I can build yours.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Scope</div><div class="v">Built to spec</div></div>
@@ -646,7 +645,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
           <span class="svc-idx">04</span>
           <div class="svc-main">
             <h3>Analytics &amp; reporting</h3>
-            <p>Tracking set up properly, then turned into something you'll actually read — a plain-English report on what's working, what isn't, and what to do next. Numbers that drive decisions instead of sitting in a dashboard nobody opens.</p>
+            <p>I set up tracking properly and turn it into a plain-English report you'll actually read. It covers what's working and what to change next, so the numbers drive decisions instead of sitting in a dashboard nobody opens.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Scope</div><div class="v">Setup + monthly</div></div>
@@ -657,7 +656,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
           <span class="svc-idx">05</span>
           <div class="svc-main">
             <h3>Business cybersecurity</h3>
-            <p>The basics done right for a small operation — hardened sites and accounts, backups that actually restore, and monitoring that flags trouble early. Practical protection, not enterprise theater you'll never use.</p>
+            <p>The basics done right for a small operation: hardened sites and accounts, backups that actually restore, and monitoring that flags trouble early. Protection sized for a small business, without big-company tools you'll never use.</p>
           </div>
         </div>
         <div class="svc-ship"><div class="k">Scope</div><div class="v">Audit + monitoring</div></div>
@@ -687,19 +686,19 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       <div class="step">
         <div class="step-n">02</div>
         <h3>I build it and show you</h3>
-        <p>I design, build, and deploy. You watch it run live before the final invoice — no scope creep, no surprise bill.</p>
+        <p>Once it's live, you watch it run before the final invoice, so there's no scope creep and no surprise bill.</p>
       </div>
       <div class="step">
         <div class="step-n">03</div>
         <h3>You own it</h3>
-        <p>Full source code and documentation at handover. Keep me on for ongoing care if you want it — you're never locked in.</p>
+        <p>Full source code and documentation at handover. Keep me on for ongoing care if you want it. You're never locked in.</p>
       </div>
     </div>
     <div class="compare reveal">
       <div class="compare-col bad">
         <div class="compare-label">The usual dev shop</div>
         <ul>
-          <li>Long contracts with no exit — fees forever</li>
+          <li>Long contracts with no exit and fees forever</li>
           <li>They keep the code; you can't leave</li>
           <li>Weeks of discovery before you see anything</li>
         </ul>
@@ -707,9 +706,9 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       <div class="compare-col good">
         <div class="compare-label">Working with me</div>
         <ul>
-          <li>Own the build outright — or keep me on, your call</li>
+          <li>Own the build outright or keep me on. Your call.</li>
           <li>Source code delivered; yours to keep or move</li>
-          <li>Running live in days, not weeks</li>
+          <li>Running live within days</li>
         </ul>
       </div>
     </div>
@@ -726,8 +725,8 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
       <div class="about-body reveal">
         <span class="eyebrow">About</span>
         <h2 class="h2" style="margin:16px 0 28px;">14 years running operations.<br>Now I build the systems.</h2>
-        <p>I spent 14 years in operations — retail, multi-channel, front-of-house. I watched good teams lose hours a day to work a decent system handles in seconds. So I learned to build the systems.</p>
-        <p>Two ways to work with me, and you pick: I build something and <b>hand you the code to own outright</b>, or I stay on as the person who runs your whole technical side. No lock-in either way.</p>
+        <p>I spent 14 years in operations across retail, multi-channel, and front-of-house work. I watched good teams lose hours a day to work a decent system handles in seconds. So I learned to build the systems.</p>
+        <p>You pick how we work: I build something and <b>hand you the code to own outright</b>, or I stay on as the person who runs your whole technical side. No lock-in either way.</p>
         <p>I work with small businesses that need their whole technical side handled but aren't ready to hire someone in-house for it.</p>
         <div class="about-btns">
           <a href="https://github.com/IASC-00" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -739,7 +738,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <div class="stack-items">
           <span>Python</span><span>JavaScript / Node</span><span>Flask / FastAPI</span><span>Hand-coded front-ends</span><span>Local AI (Ollama, Whisper, ComfyUI)</span><span>PostgreSQL / SQLite</span><span>Tested &amp; security-audited</span><span>n8n automation</span><span>Render / Vercel / Netlify</span>
         </div>
-        <p class="stack-note"><b>I run the AI locally</b> — models, voice, and image generation on my own hardware. A build can skip the per-seat SaaS fees and keep your data in-house.</p>
+        <p class="stack-note"><b>I run the AI locally.</b> Models, voice, and image generation all run on my own hardware. A build can skip the per-seat SaaS fees and keep your data in-house.</p>
       </div>
     </div>
   </div>
@@ -753,7 +752,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
         <span class="eyebrow">Start</span>
         <h2 class="h2" style="margin:16px 0 0;">Tell me what's<br>eating your time.</h2>
         <a href="mailto:contact@iswain.dev" class="contact-email" data-goatcounter-click="cta-email">contact@iswain.dev</a>
-        <p class="contact-meta">Describe the task — I'll tell you if it can be automated,<br>and what it'd take. Usually a same-day reply.<br><br>Available Mon–Sat · 9am–9pm ET</p>
+        <p class="contact-meta">Describe the task and I'll tell you if it can be automated,<br>and what it'd take. Usually a same-day reply.<br><br>Available Mon–Sat · 9am–9pm ET</p>
         <div class="hero-actions" style="margin-top:28px;">
           <a href="/intake.html" class="btn btn-primary btn-arrow" data-goatcounter-click="cta-contact-start-project"><span>Start a project</span></a>
           <a href="https://calendly.com/iswain-dev" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-goatcounter-click="cta-contact-book-call">Book a call</a>
@@ -772,7 +771,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
             <option value="website-brand">Website &amp; brand</option>
             <option value="decks">Decks &amp; presentation design</option>
             <option value="discovery-sprint">Discovery Sprint ($499)</option>
-            <option value="not-sure">Not sure yet — let's talk</option>
+            <option value="not-sure">Not sure yet, let's talk</option>
           </select>
         </div>
         <div class="form-field">
@@ -784,7 +783,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
             <option value="flexible">Flexible / no rush</option>
           </select>
         </div>
-        <div class="form-field"><label for="m">What's eating your time?</label><textarea id="m" name="message" placeholder="What does the task look like now — and what does it look like once it's fixed?" required></textarea></div>
+        <div class="form-field"><label for="m">What's eating your time?</label><textarea id="m" name="message" placeholder="What does the task look like now, and what should it look like once it's fixed?" required></textarea></div>
         <button type="submit" class="form-submit">Send message</button>
       </form>
     </div>
