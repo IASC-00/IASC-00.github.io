@@ -213,6 +213,7 @@ nav { background: rgba(15,15,15,0.95); backdrop-filter: blur(12px); border-botto
     <div class="results-title">Here's what you could automate.</div>
     <p class="results-sub">Based on your answers — specific to your business type and team size.</p>
     <div class="result-list" id="result-list"></div>
+    <p class="results-sub" id="lead-note" hidden>Your answers did not reach me, so I can't follow up. Email <a href="mailto:contact@iswain.dev">contact@iswain.dev</a> if you'd like to talk them through.</p>
     <div style="margin-bottom:16px;">
       <button onclick="downloadPDF()" style="width:100%;padding:13px;border-radius:8px;background:var(--accent);color:var(--dark);font-family:inherit;font-size:14px;font-weight:800;border:none;cursor:pointer;letter-spacing:-.01em;">↓ Download Results as PDF</button>
     </div>
@@ -317,7 +318,11 @@ function submitAudit() {
       biggest_pain: answers.pain_text,
       _subject: 'Automation Audit Submission — ' + answers.biz
     })
-  }).catch(() => {}); // silent fail — don't block results
+  })
+    // Results show either way, but a rejected lead (spam flag, quota, disabled
+    // form) must not vanish silently: tell the visitor it did not arrive.
+    .then((res) => { if (!res.ok) throw new Error('formspree ' + res.status); })
+    .catch(() => { document.getElementById('lead-note').hidden = false; });
 
   // Show results
   document.getElementById('step-5').classList.remove('active');

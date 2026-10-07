@@ -951,16 +951,24 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
     var btn = form.querySelector('.form-submit');
     btn.disabled = true;
     btn.textContent = 'Sending…';
-    emailjs.send('service_sq9pa4c', 'template_ri4lgfr', {
-      from_name: name, reply_to: email, service: service, timeline: timeline, message: message
-    }).catch(function () {});
     fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-      .then(function () {
+      .then(function (res) {
+        // Formspree answers 4xx (spam flag, quota, disabled form) without throwing.
+        // Only a 2xx is a delivered message; anything else must not read as "Sent!".
+        if (!res.ok) { throw new Error('formspree ' + res.status); }
+        // Auto-reply only once the message is known to have reached Ian.
+        emailjs.send('service_sq9pa4c', 'template_ri4lgfr', {
+          from_name: name, reply_to: email, service: service, timeline: timeline, message: message
+        }).catch(function () {});
         btn.textContent = 'Sent!';
         form.reset();
         setTimeout(function () { btn.disabled = false; btn.textContent = 'Send message'; }, 3000);
       })
-      .catch(function () { btn.disabled = false; btn.textContent = 'Send message'; });
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Send message';
+        alert('That did not send. Please email contact@iswain.dev directly.');
+      });
   });
 </script>
 
