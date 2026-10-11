@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script>document.documentElement.classList.add('js');</script>
+<script src="/intro/intro.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Ian Swain runs the tech and operations side of your business, from websites and custom software to analytics and security, so you don't have to hire a team. Philadelphia-based; the source code is yours.">
 <script data-goatcounter="https://stats.iswain.dev/count" async src="//stats.iswain.dev/count.js"></script>
@@ -348,6 +349,27 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   .log-line, .console-foot { opacity: 1; transform: none; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* ── Intro (10 Oct): screens of running work arrive, settle, then the page. intro/intro.js.
+   iw-cover hides the page until the overlay exists; iw-lock stops scrolling and holds the
+   hero console until the intro is over. ── */
+html.iw-lock, html.iw-lock body { overflow: hidden; }
+html.iw-cover body::before { content: ''; position: fixed; inset: 0; background: var(--ink); z-index: 998; }
+html.iw-lock .hero *, html.iw-lock .hero *::before, html.iw-lock .hero *::after { animation-play-state: paused; }
+.iw { position: fixed; inset: 0; z-index: 999; background: var(--ink); overflow: hidden; }
+.iw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.iw-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; perspective: 1100px; perspective-origin: 50% 45%; }
+.iw-grid { display: grid; transform-style: preserve-3d; }
+.iw-card { margin: 0; transform-style: preserve-3d; backface-visibility: hidden; }
+.iw-card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; border-radius: 6px; border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 18px 40px -18px rgba(0,0,0,0.9); background: var(--ink-3); }
+.iw-card figcaption { font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em; color: var(--accent); margin-top: 8px; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; }
+.iw-card figcaption::before { content: ''; width: 14px; height: 1px; background: var(--accent); opacity: 0.8; flex-shrink: 0; }
+.iw-skip { position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 2;
+  min-height: 44px; min-width: 44px; padding: 0 18px; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.03em; color: var(--paper);
+  background: rgba(14,14,16,0.72); border: 1px solid rgba(255,255,255,0.28); border-radius: 8px; cursor: pointer; }
+.iw-skip:hover { border-color: var(--accent); color: var(--accent); }
+.iw-skip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .iw { display: none; } html.iw-cover body::before { display: none; } html.iw-lock, html.iw-lock body { overflow: auto; } }
 </style>
 
 <script type="application/ld+json">
@@ -378,6 +400,7 @@ footer .f-brand { font-family: var(--mono); font-size: 12px; color: var(--tx-dim
   ]
 }
 </script>
+<link rel="stylesheet" href="/touch.css">
 </head>
 <body>
 

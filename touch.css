@@ -1,0 +1,28 @@
+/* Touch targets (10 Oct responsive pass): on phones and tablets every link and button
+   gets a tap area of at least 44 x 44px. The area is an invisible layer centred on
+   the link, so nothing moves and nothing looks different. Screen only, so print and
+   the PDF are unchanged. */
+@media screen and (max-width: 1024px) {
+  nav a, nav button, footer a,
+  .nav-logo, .nav-cta, .nav-brand, .nav-back, .txt-link, .uth-item, .contact-email,
+  .btn-ghost, .btn-next, .work-back, .footer-links a,
+  :where(p, li, address, dd, td) a:not([class]) {
+    position: relative;
+  }
+  nav a::after, nav button::after, footer a::after,
+  .nav-logo::after, .nav-cta::after, .nav-brand::after, .nav-back::after, .txt-link::after,
+  .uth-item::after, .contact-email::after, .btn-ghost::after, .btn-next::after, .work-back::after,
+  .footer-links a::after,
+  :where(p, li, address, dd, td) a:not([class])::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+  /* The menu button is drawn at 22 x 15; padding with a matching negative margin
+     makes it 44 x 44 to the finger without moving it. */
+  .nav-hamburger { box-sizing: content-box; padding: 14.5px 11px; margin: -14.5px -11px; }
+}
