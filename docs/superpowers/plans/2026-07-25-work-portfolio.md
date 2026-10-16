@@ -349,7 +349,7 @@ Each file uses the same four sections and obeys every Global Constraint. Verifie
 - [ ] **Step 6: `rag-assistant.md`** — order 7, `status: live`, url `https://rag.iswain.dev`, stack `[Flask, Python, ChromaDB, Vector embeddings, OpenRouter]`.
   Facts: answering questions against a set of documents meant reading all of them. Ian built a retrieval-augmented assistant: `ingest.py` chunks and embeds documents into a ChromaDB vector store, `query.py` retrieves the relevant passages and passes them to a language model so answers stay grounded in the source documents. Live with a sample corpus. Flag honestly that it runs on a free hosted model, which is a deliberate cost choice and a known fragility — free models get deprecated.
 
-- [ ] **Step 7: `iswain-dev.md`** — order 8, `status: live`, url `https://iswain.dev`, stack `[HTML, CSS, JavaScript, GitHub Pages, Formspree, JSON-LD]`.
+- [ ] **Step 7: `iswain-dev.md`** — order 8, `status: live`, url `https://www.iswain.dev`, stack `[HTML, CSS, JavaScript, GitHub Pages, Formspree, JSON-LD]`.
   Facts: Ian's own site. Hand-written HTML and CSS, no framework and no build step, served from GitHub Pages. Scores 100/100/100/100 on Lighthouse — performance, accessibility, best practices, SEO — with zero audit failures, and every outbound link resolves. Structured data via JSON-LD. Includes a multi-step intake form. Use it as the proof that Ian holds a quality bar on his own work, since a reader can run Lighthouse against it themselves.
 
 - [ ] **Step 8: Build all eight and check for parse errors**
@@ -731,7 +731,7 @@ Expected: build exits 0, all tests pass, PDF regenerated.
 cd ~/portfolio
 git push
 ```
-Then wait ~60s and verify live: `curl -s -o /dev/null -w '%{http_code}\n' https://iswain.dev/work/`
+Then wait ~60s and verify live: `curl -s -o /dev/null -w '%{http_code}\n' https://www.iswain.dev/work/`
 Expected: `200`.
 
 - [ ] **Step 7: Write the handoff**

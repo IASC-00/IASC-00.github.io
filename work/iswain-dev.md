@@ -2,7 +2,7 @@
 slug: iswain-dev
 title: iswain.dev
 one_line: My own site, written by hand with no framework or build step. It scores at the top of Lighthouse.
-url: https://iswain.dev
+url: https://www.iswain.dev
 repo: https://github.com/IASC-00/IASC-00.github.io
 dates: February 2026 – present · 217 commits
 status: live
