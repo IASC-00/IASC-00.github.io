@@ -1,6 +1,6 @@
 # Portfolio Site
 
-Live at https://www.iswain.dev — GitHub Pages, repo: IASC-00/IASC-00.github.io
+Live at https://iswain.dev (apex; CNAME is apex since 16 Oct 2026, www has no certificate) — GitHub Pages, repo: IASC-00/IASC-00.github.io
 
 ## Deploy
 ```bash
@@ -15,7 +15,7 @@ git add -A && git commit -m "..." && git push
 - `intake.html` — 7-step pre-qual form
 - `full-intake.html` — full intake after pre-qual
 - `privacy-policy.html`, `terms.html` — legal pages
-- `demos/` — static demo pages (automation.html, investment-committee.html)
+- `demos/` — static demo pages (appointment-booking, audit-sample, maintenance-intake, rental-generator, security-lab). Cut 18 Oct 2026: crypto/trading demos, LinkedIn post generator, automation quiz, MLS listing generator, job pages.
 
 ## Payments
 No Stripe links or deposit text on the public site. Payment handled via invoice or prior agreement only.

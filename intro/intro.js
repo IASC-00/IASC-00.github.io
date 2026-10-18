@@ -35,7 +35,7 @@
     ['/images/sites/upwield.webp', 'upwield.com'],
     ['/images/intro/app-rag.webp', 'rag.iswain.dev'],
     ['/images/intro/app-crm.webp', 'crm.iswain.dev'],
-    ['/images/sites/demo-investment-committee.webp', 'iswain.dev/demos']
+    ['/images/sites/demo-security-lab.webp', 'iswain.dev/demos']
   ];
 
   root.classList.add('iw-cover', 'iw-lock');
