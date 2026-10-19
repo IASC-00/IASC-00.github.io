@@ -56,7 +56,7 @@ def test_hamburger_nav(page):
     page.wait_for_load_state("networkidle")
 
     hamburger = page.locator("#nav-hamburger")
-    menu = page.locator("#nav-mobile-menu")
+    menu = page.locator("#nav-mobile")
 
     check("hamburger button is visible on mobile", lambda: hamburger.is_visible())
 
@@ -292,6 +292,8 @@ if __name__ == "__main__":
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
+        # The first-visit intro covers the page for up to 9s; these tests are about the page.
+        page.add_init_script("try { sessionStorage.setItem('iswainIntroPlayed', '1') } catch (e) {}")
 
         print("── Hamburger Nav ─────────────────────────────")
         test_hamburger_nav(page)
