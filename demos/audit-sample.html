@@ -7,73 +7,98 @@
 <link rel="canonical" href="https://iswain.dev/demos/audit-sample.html">
 <meta name="description" content="Sample Business Automation Audit — see what your report looks like before you take the audit.">
 <link rel="icon" type="image/png" href="/images/swan-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a12; --surface: #12121e; --surface2: #1a1a2e; --border: #2a2a44;
-    --accent: #6c8eff; --accent2: #a78bfa; --green: #34d399; --red: #f87171;
-    --yellow: #fbbf24; --text: #e2e8f0; --muted: #94a3b8;
+    --ink: #0E0E10;
+    --ink-2: #161719;
+    --ink-3: #1E2023;
+    --paper: #F5F4EF;
+    --accent: #A3CF9B;
+    --accent-2: #BCDDB5;
+    --tx: #ECECEA;
+    --tx-dim: rgba(255,255,255,0.56);
+    --line: rgba(255,255,255,0.09);
+    --line-2: rgba(255,255,255,0.15);
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --disp: 'Space Grotesk', 'Inter', sans-serif;
+    --mono: 'Space Mono', 'SF Mono', ui-monospace, monospace;
+    --green: var(--accent);
+    --red: #f87171;
+    --yellow: #fbbf24;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem 1rem; }
+  body { font-family: var(--sans);
+    background: var(--ink); color: var(--tx); min-height: 100vh; padding: 2rem 1rem;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   .container { max-width: 760px; margin: 0 auto; }
 
   /* Sample banner */
-  .sample-banner { background: rgba(108,142,255,0.1); border: 1px solid rgba(108,142,255,0.3);
+  .sample-banner { background: var(--ink-2); border: 1px solid var(--line-2);
     border-radius: 10px; padding: 14px 20px; margin-bottom: 1.5rem; display: flex;
     align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-  .sample-banner p { font-size: 0.875rem; color: var(--muted); }
+  .sample-banner p { font-size: 0.875rem; color: var(--tx-dim); line-height: 1.5; }
   .sample-banner strong { color: var(--accent); }
-  .sample-banner a { font-size: 0.875rem; color: var(--accent); white-space: nowrap; }
+  .sample-banner a { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(163,207,155,0.35); padding-bottom: 2px; white-space: nowrap; transition: border-color .15s; }
+  .sample-banner a:hover { border-color: var(--accent); }
 
   header { text-align: center; margin-bottom: 2.5rem; }
-  .report-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .report-meta { color: var(--muted); font-size: 0.85rem; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  .report-title { font-family: var(--disp); font-size: clamp(1.45rem, 4vw, 1.9rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 0.5rem; color: var(--tx); }
+  .report-meta { font-family: var(--mono); color: var(--tx-dim); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; }
+  .card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 12px;
     padding: 1.5rem; margin-bottom: 1.25rem; }
-  .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+  .section-label { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--accent); margin-bottom: 1rem; }
   .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 0; }
-  @media (max-width: 560px) { .score-grid { grid-template-columns: 1fr 1fr; } }
-  .score-box { background: var(--surface2); border-radius: 10px; padding: 1rem; text-align: center; }
-  .score-val { font-size: 1.8rem; font-weight: 800; line-height: 1; margin-bottom: 0.25rem; }
-  .score-lbl { font-size: 0.72rem; color: var(--muted); line-height: 1.3; }
-  .cat-row { display: flex; align-items: center; gap: 1rem; padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04); }
+  @media (max-width: 560px) {
+    .score-grid { grid-template-columns: 1fr; }
+    .cat-row { flex-wrap: wrap; gap: 0.4rem 0.75rem; }
+    .cat-name { flex: 1 1 65%; }
+    .cat-bar-wrap { flex: 1 1 100%; order: 3; }
+  }
+  .score-box { background: var(--ink-3); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; text-align: center; }
+  .score-val { font-family: var(--disp); font-size: 1.8rem; font-weight: 700; line-height: 1; margin-bottom: 0.35rem; }
+  .score-box:nth-child(3) .score-val { color: var(--accent) !important; }
+  .score-lbl { font-size: 0.75rem; color: var(--tx-dim); line-height: 1.35; }
+  .cat-row { display: flex; align-items: center; gap: 1rem; padding: 0.65rem 0;
+    border-bottom: 1px solid var(--line); }
   .cat-row:last-child { border-bottom: none; }
-  .cat-name { flex: 1; font-size: 0.9rem; }
+  .cat-name { flex: 1; font-size: 0.9rem; color: var(--tx); }
   .cat-bar-wrap { flex: 1.5; }
-  .cat-bar { height: 6px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+  .cat-bar { height: 6px; background: var(--ink-3); border-radius: 99px; overflow: hidden; }
   .cat-bar-fill { height: 100%; border-radius: 99px; }
-  .cat-score { font-size: 0.85rem; font-weight: 600; width: 44px; text-align: right; }
-  .rec-item { padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .cat-score { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; width: 44px; text-align: right; }
+  .rec-item { padding: 1rem 0; border-bottom: 1px solid var(--line); }
   .rec-item:last-child { border-bottom: none; }
   .rec-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.5rem; }
-  .priority-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.06em; padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+  .priority-badge { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; padding: 2px 8px; border-radius: 4px; white-space: nowrap;
     flex-shrink: 0; margin-top: 2px; }
-  .priority-high { background: rgba(248,113,113,0.2); color: var(--red); }
-  .priority-medium { background: rgba(251,191,36,0.15); color: var(--yellow); }
-  .rec-title { font-weight: 600; font-size: 0.95rem; }
-  .rec-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.4rem; }
-  .rec-tool { font-size: 0.78rem; color: rgba(108,142,255,0.7); font-style: italic; }
-  .cta { background: linear-gradient(135deg, #1a1040, #0f1628); border: 1px solid #3730a3;
+  .priority-high { background: rgba(248,113,113,0.16); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+  .priority-medium { background: rgba(251,191,36,0.14); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .rec-title { font-family: var(--disp); font-weight: 600; font-size: 0.98rem; color: var(--tx); }
+  .rec-desc { font-size: 0.875rem; color: var(--tx-dim); line-height: 1.65; margin-bottom: 0.45rem; }
+  .rec-tool { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); }
+  .cta { background: var(--ink-2); border: 1px solid var(--line-2);
     border-radius: 12px; padding: 1.75rem; text-align: center; }
-  .cta h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .cta p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.5; }
+  .cta h2 { font-family: var(--disp); font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; color: var(--tx); margin-bottom: 0.5rem; }
+  .cta p { color: var(--tx-dim); font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.6; }
   .cta-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff;
-    border: none; border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 0.95rem;
-    font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
-  .btn-secondary { background: transparent; color: var(--muted); border: 1px solid var(--border);
-    border-radius: 8px; padding: 0.7rem 1.5rem; font-size: 0.9rem; text-decoration: none;
-    display: inline-block; }
+  .btn-primary { background: var(--accent); color: var(--ink); font-family: var(--sans);
+    border: 1px solid transparent; border-radius: 9px; padding: 0.75rem 1.5rem; font-size: 0.9rem;
+    font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: background .15s; }
+  .btn-primary:hover { background: var(--accent-2); }
+  .btn-secondary { background: transparent; color: var(--tx); font-family: var(--sans); border: 1px solid var(--line-2);
+    border-radius: 9px; padding: 0.75rem 1.5rem; font-size: 0.9rem; font-weight: 500; text-decoration: none;
+    display: inline-block; transition: border-color .15s, color .15s; }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
   nav { display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 2rem; font-size: 13px; }
-  nav a { color: var(--muted); text-decoration: none; }
-  nav a:hover { color: var(--text); }
+    margin-bottom: 2rem; font-family: var(--mono); font-size: 12.5px; gap: 12px; flex-wrap: wrap; }
+  nav a { color: var(--tx-dim); text-decoration: none; transition: color .15s; }
+  nav a:last-child { color: var(--accent); }
+  nav a:hover { color: var(--tx); }
 </style>
 </head>
 <body>
