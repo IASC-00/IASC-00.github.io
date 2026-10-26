@@ -104,7 +104,7 @@ a:hover { border-bottom-color: var(--tx-2); }
 .cv-skills dd { color: var(--tx); }
 
 /* Entries: space is tight inside an entry and open between them, so each role
-   reads as one block instead of an even grey column. */
+   reads as one block instead of an even gray column. */
 .cv-entry { margin-top: 22px; }
 .cv-entry-head {
   display: flex; justify-content: space-between; align-items: baseline;

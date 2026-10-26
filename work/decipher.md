@@ -31,7 +31,7 @@ Live and playable. It runs continuously on infrastructure I control, after two e
 
 Python and Flask with Gunicorn, rate-limited at the application layer.
 
-**One database layer, two databases.** It runs on SQLite locally and PostgreSQL in production through a single `db_exec` function, so no application code branches on which database it is talking to. That function does three things: rewrites `INSERT OR IGNORE INTO x` into `INSERT INTO x … ON CONFLICT DO NOTHING`, swaps `?` placeholders for `%s`, and returns a cursor from either driver. A companion `_scalar` helper normalises row access, because SQLite hands back a `sqlite3.Row` and the Postgres driver hands back a dict — code that indexed one broke silently on the other.
+**One database layer, two databases.** It runs on SQLite locally and PostgreSQL in production through a single `db_exec` function, so no application code branches on which database it is talking to. That function does three things: rewrites `INSERT OR IGNORE INTO x` into `INSERT INTO x … ON CONFLICT DO NOTHING`, swaps `?` placeholders for `%s`, and returns a cursor from either driver. A companion `_scalar` helper normalizes row access, because SQLite hands back a `sqlite3.Row` and the Postgres driver hands back a dict — code that indexed one broke silently on the other.
 
 This started as a fix for a deploy that kept failing on Postgres-only syntax, and it became the reason deploys stopped failing. The payoff is local development with zero configuration: no `DATABASE_URL`, no container, no migration step. Clone it and run it.
 

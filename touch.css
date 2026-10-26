@@ -1,5 +1,5 @@
 /* Touch targets (10 Oct responsive pass): on phones and tablets every link and button
-   gets a tap area of at least 44 x 44px. The area is an invisible layer centred on
+   gets a tap area of at least 44 x 44px. The area is an invisible layer centered on
    the link, so nothing moves and nothing looks different. Screen only, so print and
    the PDF are unchanged. */
 @media screen and (max-width: 1024px) {

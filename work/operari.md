@@ -42,6 +42,6 @@ Then the migration ran with a `--limit 1` canary first: move one file, open it o
 
 **Defense in depth on the data.** Row-level security denies by default on all 17 tables — every permissive policy was dropped, so the database itself refuses anonymous reads even if application code has a bug. The backend holds the only key that bypasses it; the frontend key can no longer touch tables or files at all. The storage bucket is private and served through signed URLs with an expiry.
 
-**Known gap, stated plainly:** signed URLs are gated on authentication and the allowlist, not per-project ACL. For three trusted users that is a deliberate stopping point rather than an oversight, and it is the first thing I would close before a fourth organisation touched it.
+**Known gap, stated plainly:** signed URLs are gated on authentication and the allowlist, not per-project ACL. For three trusted users that is a deliberate stopping point rather than an oversight, and it is the first thing I would close before a fourth organization touched it.
 
 160 tests cover the backend.

@@ -19,7 +19,7 @@ I wanted my own site to be the argument against that, since a prospective client
 
 ## What I built
 
-The site I run my business from. It explains what I do, shows the work, and takes enquiries through a structured intake form that qualifies a project before a call rather than during one.
+The site I run my business from. It explains what I do, shows the work, and takes inquiries through a structured intake form that qualifies a project before a call rather than during one.
 
 It is hand-written — no framework, no build step, no dependency to update. That is not nostalgia; it is a maintenance decision. A site with no build step still deploys in five years, and changing a headline is editing a line rather than reinstalling a toolchain.
 

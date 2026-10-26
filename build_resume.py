@@ -47,7 +47,7 @@ def esc(text: str) -> str:
 
 
 def render_links(links: list[dict]) -> list[str]:
-    """The meta line's links: labelled ("Live: …") or bare, anchored if a URL."""
+    """The meta line's links: labeled ("Live: …") or bare, anchored if a URL."""
     out = []
     for link in links:
         label = (

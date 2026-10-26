@@ -20,7 +20,7 @@ I designed and built a one-page site around the music: a full-screen opening, th
 
 I did the whole thing — design, build, and deploy onto the artist's own hosting — and locked down the parts of the platform that are exposed by default. I keep a versioned copy of the site and a written restore runbook, so it can be rebuilt from scratch if the host ever loses it.
 
-This came to me through a business partner rather than a cold enquiry: he brought the client and handled the relationship, I did the build and the handover. That is how most of my client work arrives, and it means the brief usually reaches me secondhand — so the first thing I do is write down what I think was asked for and get it confirmed before building anything.
+This came to me through a business partner rather than a cold inquiry: he brought the client and handled the relationship, I did the build and the handover. That is how most of my client work arrives, and it means the brief usually reaches me secondhand — so the first thing I do is write down what I think was asked for and get it confirmed before building anything.
 
 ## Result
 

@@ -88,7 +88,7 @@ def parse_case_study(path: Path) -> CaseStudy:
     unknown = [h for h in sections if h not in REQUIRED_SECTIONS]
     if unknown:
         raise ValueError(
-            f"{path.name}: unrecognised section heading(s) {unknown} — "
+            f"{path.name}: unrecognized section heading(s) {unknown} — "
             f"headings must be exactly {REQUIRED_SECTIONS}"
         )
     missing = [h for h in REQUIRED_SECTIONS if not sections.get(h, "").strip()]

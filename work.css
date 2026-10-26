@@ -122,7 +122,7 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(14,14,16,0.86);
 .work-hero .work-oneline { color: var(--tx-dim); font-size: clamp(16px, 1.5vw, 20px); max-width: 60ch; }
 .work-meta { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 26px;
   font-family: var(--mono); font-size: 12px; color: var(--tx-dim); }
-/* Explicit colour, no opacity: at 10.5px this must clear WCAG AA (4.5:1).
+/* Explicit color, no opacity: at 10.5px this must clear WCAG AA (4.5:1).
    --tx-dim at 0.7 opacity rendered ~3.7:1 and failed the contrast audit. */
 .work-meta dt { text-transform: uppercase; letter-spacing: 0.1em; font-size: 12px; color: #9BA1A8; }
 .work-meta dd { color: var(--tx); }
