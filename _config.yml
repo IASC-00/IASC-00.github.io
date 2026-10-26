@@ -1,0 +1,16 @@
+# GitHub Pages builds this repo with Jekyll. Keep repo-internal files off iswain.dev.
+# The repo itself is public on GitHub; this only stops them being served as pages.
+# Folder names need the trailing slash. Nothing public links to any of these
+# (checked 26 Oct 2026 against every page, stylesheet and script).
+exclude:
+  - CLAUDE.md
+  - docs/
+  - tests/
+  - work-templates/
+  - art/
+  - build_work.py
+  - build_resume.py
+  - requirements.txt
+  - ruff.toml
+  - work/*.md
+  - script.js

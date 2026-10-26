@@ -66,32 +66,59 @@ function show(msg, isError = false) {
     `<strong>FreeRead</strong><p class="${isError ? 'error' : ''}">${msg}</p>`;
 }
 
+// Only ever leave for a real http(s) address. Anything else (javascript:, data:, a
+// string that merely contains a known domain) is refused.
+function safeUrl(raw) {
+  try {
+    const u = new URL(raw);
+    return (u.protocol === 'https:' || u.protocol === 'http:') ? u : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function hostIs(u, domain) {
+  const h = u.hostname.toLowerCase();
+  return h === domain || h.endsWith('.' + domain);
+}
+
 function redirect(url) {
-  window.location.replace(url);
+  const u = safeUrl(url);
+  if (!u) { show('That link could not be opened.', true); return; }
+  window.location.replace(u.href);
 }
 
 async function freeRead() {
   // Parse the article URL from the query string
   const params = new URLSearchParams(window.location.search);
-  const url = decodeURIComponent(params.get('url') || '');
+  let raw = params.get('url') || '';
+  try { raw = decodeURIComponent(raw); } catch (e) { /* already decoded */ }
 
-  if (!url) {
+  if (!raw) {
     show('No URL found. Use the FreeRead shortcut from the iOS Share Sheet.', true);
     return;
   }
 
-  const isAcademic = ACADEMIC_DOMAINS.some(d => url.toLowerCase().includes(d));
+  const u = safeUrl(raw);
+  if (!u) {
+    show('That doesn\'t look like a web address.', true);
+    return;
+  }
+
+  const isAcademic = ACADEMIC_DOMAINS.some(d =>
+    d === 'pubmed' ? u.hostname.toLowerCase().includes('pubmed') : hostIs(u, d));
 
   if (isAcademic) {
-    await handleAcademic(url);
+    await handleAcademic(u);
   } else {
-    handleArticle(url);
+    handleArticle(u.href);
   }
 }
 
-async function handleAcademic(url) {
+async function handleAcademic(u) {
+  const url = u.href;
   // ── arXiv: free PDFs available at /pdf/ instead of /abs/ ──────
-  if (url.includes('arxiv.org')) {
+  if (hostIs(u, 'arxiv.org')) {
     const pdfUrl = url
       .replace('/abs/', '/pdf/')
       .replace('/html/', '/pdf/');
@@ -101,7 +128,7 @@ async function handleAcademic(url) {
   }
 
   // ── bioRxiv / medRxiv: already free, open directly ────────────
-  if (url.includes('biorxiv.org') || url.includes('medrxiv.org')) {
+  if (hostIs(u, 'biorxiv.org') || hostIs(u, 'medrxiv.org')) {
     show('Opening preprint&hellip;');
     // Append .full.pdf for direct PDF if it's an abstract page
     redirect(url.includes('.full') ? url : url + '.full.pdf');
