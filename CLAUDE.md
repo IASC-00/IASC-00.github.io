@@ -1,6 +1,6 @@
 # Portfolio Site
 
-Live at https://iswain.dev (apex; CNAME is apex since 16 Oct 2026, www has no certificate) — GitHub Pages, repo: IASC-00/IASC-00.github.io
+Live at https://www.iswain.dev (apex; CNAME is apex since 16 Oct 2026, www has no certificate) — GitHub Pages, repo: IASC-00/IASC-00.github.io
 
 ## Deploy
 ```bash
