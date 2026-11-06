@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beat Matching, Visualized</title>
+<meta name="description" content="A teaching demo: see two drum loops' beats line up before your ears are trained.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --magenta:#c2185b; --pink:#f3cdd8; --ink:#1c1c1e; --white:#ffffff;
+  --bg:#fdf6f9; --surface:#ffffff; --surface-2:#f8e7ee; --text:#1c1c1e; --muted:#5b4a52;
+  --line:#e6c6d3; --accent:#c2185b; --accent-text:#ffffff; --focus:#c2185b;
+  --ok:#1b7f3b; --ok-bg:#dff3e5; --warn:#8a5a00; --warn-bg:#fbefd5; --bad:#b3261e; --bad-bg:#fbe3e1;
+  --screen:#1c1c1e; --screen-2:#26262a;
+  --radius:14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1c1e; --surface:#26262a; --surface-2:#323036; --text:#ffffff; --muted:#d9c3cc;
+    --line:#4a3a42; --accent:#f06292; --accent-text:#1c1c1e; --focus:#f3cdd8;
+    --ok:#5fe08a; --ok-bg:#163d24; --warn:#ffcf70; --warn-bg:#3d2e10; --bad:#ff8a80; --bad-bg:#45201d;
+    --screen:#121214; --screen-2:#1a1a1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1c1e; --surface:#26262a; --surface-2:#323036; --text:#ffffff; --muted:#d9c3cc;
+  --line:#4a3a42; --accent:#f06292; --accent-text:#1c1c1e; --focus:#f3cdd8;
+  --ok:#5fe08a; --ok-bg:#163d24; --warn:#ffcf70; --warn-bg:#3d2e10; --bad:#ff8a80; --bad-bg:#45201d;
+  --screen:#121214; --screen-2:#1a1a1d;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;font-size:16px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 16px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 8px;flex-wrap:wrap}
+h1{font-size:clamp(1.6rem,4.5vw,2.4rem);line-height:1.1;margin:0;letter-spacing:-.02em}
+h1 span{color:var(--accent)}
+.sub{margin:4px 0 0;color:var(--muted)}
+.top-actions{display:flex;gap:8px}
+.btn{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;min-height:44px;cursor:pointer;font-weight:500;touch-action:manipulation;-webkit-user-select:none;user-select:none;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.layout{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);padding-bottom:24px}
+@media (min-width:1180px){.layout{grid-template-columns:minmax(0,1fr) 330px;align-items:start}.lesson{position:sticky;top:16px;order:2}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+/* screen */
+.screen{background:var(--screen);border-radius:var(--radius);padding:10px;position:relative;border:1px solid var(--line)}
+canvas#lanes{display:block;width:100%;height:270px;border-radius:8px;touch-action:pan-y}
+@media (max-width:600px){canvas#lanes{height:200px}}
+@media (max-width:1179px){.screen{position:sticky;top:0;z-index:5;box-shadow:0 6px 18px rgba(0,0,0,.25)}}
+.meter{margin-top:12px}
+.meter-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.meter-head h2{font-size:1rem;margin:0}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 12px;font-weight:700;font-size:.9rem;background:var(--surface-2);color:var(--muted)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.track{position:relative;height:34px;margin:10px 0 4px;border-radius:8px;background:var(--surface-2);overflow:hidden}
+.track .zone{position:absolute;top:0;bottom:0;left:calc(50% - 4%);width:8%;background:var(--ok-bg)}
+.track .center{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:var(--text);opacity:.6}
+.track .mark{position:absolute;top:5px;bottom:5px;width:10px;margin-left:-5px;border-radius:4px;background:var(--accent);left:50%}
+.track.ok .mark{background:var(--ok)}
+.track-labels{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.readouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.readout{background:var(--surface-2);border-radius:10px;padding:8px 10px;min-width:0}
+.readout .k{font-size:.78rem;color:var(--muted);display:block}
+.readout .v{font-weight:700;font-size:1.05rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.hint{margin:10px 0 0;color:var(--muted);min-height:1.5em}
+@media (max-width:480px){.readouts{grid-template-columns:1fr 1fr}.readout:last-child{grid-column:1/-1}}
+/* controls */
+.controls{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:860px){.controls{grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,1fr)}.deck-b{order:3}.mixer{order:2}}
+.deck h2,.mixer h2{margin:0 0 2px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--accent);color:var(--accent-text);font-size:.95rem}
+.deck-b .badge{background:var(--pink);color:var(--ink)}
+.bpm{font-variant-numeric:tabular-nums;color:var(--muted);margin:0 0 10px}
+.bpm strong{color:var(--text);font-size:1.3rem}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.row .btn{flex:1 1 auto}
+.field{margin-bottom:12px}
+.field label{display:flex;justify-content:space-between;font-weight:500;gap:8px}
+.field output{font-variant-numeric:tabular-nums;color:var(--muted)}
+input[type=range]{width:100%;height:44px;margin:0;accent-color:var(--accent);cursor:pointer;touch-action:pan-y}
+.scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-top:-6px}
+.note{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+/* lesson */
+.lesson h2{margin:0;font-size:1.15rem}
+.steps{display:flex;gap:6px;margin:10px 0 12px;padding:0;list-style:none}
+.steps li{flex:1;height:6px;border-radius:3px;background:var(--surface-2)}
+.steps li.done{background:var(--ok)}
+.steps li.current{background:var(--accent)}
+.lesson .kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;margin:0}
+.lesson h3{margin:2px 0 8px;font-size:1.25rem}
+.lesson p{margin:0 0 10px}
+.status{border-radius:10px;padding:8px 12px;margin:10px 0;font-weight:500;background:var(--surface-2);color:var(--muted)}
+.status.ok{background:var(--ok-bg);color:var(--ok)}
+.lesson-nav{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.lesson[hidden]{display:none}
+footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.92rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:.85em;background:var(--surface-2)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Beat Matching, <span>Visualized</span></h1>
+      <p class="sub">See the beat before your ears can hear it.</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="lessonToggle" aria-controls="lesson" aria-expanded="true">Hide lesson</button>
+      <button class="btn" id="themeToggle" aria-label="Switch color theme">Light / Dark</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="lesson card" id="lesson" aria-labelledby="lessonTitle">
+      <h2 id="lessonTitle">Lesson</h2>
+      <ol class="steps" id="stepBar" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+      <p class="kicker" id="lessonKicker"></p>
+      <h3 id="lessonHeading" tabindex="-1"></h3>
+      <div id="lessonBody"></div>
+      <div class="status" id="lessonStatus" role="status" aria-live="polite"></div>
+      <div class="lesson-nav">
+        <button class="btn" id="lessonBack">Back</button>
+        <button class="btn primary" id="lessonNext">Next</button>
+      </div>
+    </aside>
+
+    <div class="stage">
+      <section class="screen" aria-label="Waveforms">
+        <canvas id="lanes" role="img" aria-label="Scrolling waveforms. Deck A on top, Deck B below, with a shared playhead line in the middle. The alignment meter below describes the same thing in words."></canvas>
+      </section>
+
+      <section class="card meter" aria-labelledby="meterTitle">
+        <div class="meter-head">
+          <h2 id="meterTitle">Alignment meter</h2>
+          <span class="pill" id="lockPill" role="status" aria-live="polite">Press Play</span>
+        </div>
+        <div class="track" id="track" aria-hidden="true"><div class="zone"></div><div class="center"></div><div class="mark" id="mark"></div></div>
+        <div class="track-labels" aria-hidden="true"><span>B is behind</span><span>Locked</span><span>B is ahead</span></div>
+        <div class="readouts">
+          <div class="readout"><span class="k">Tempo gap</span><span class="v" id="rTempo">0.00 BPM</span></div>
+          <div class="readout"><span class="k">Beat gap</span><span class="v" id="rBeat">0 ms</span></div>
+          <div class="readout"><span class="k">Downbeats (the 1s)</span><span class="v" id="rBar">-</span></div>
+        </div>
+        <p class="hint" id="hint"></p>
+      </section>
+
+      <div class="controls" style="margin-top:16px">
+        <section class="card deck deck-a" aria-labelledby="deckAh" data-deck="0"></section>
+        <section class="card deck deck-b" aria-labelledby="deckBh" data-deck="1"></section>
+        <section class="card mixer" aria-labelledby="mixh">
+          <h2 id="mixh">Mixer</h2>
+          <div class="field">
+            <label for="xfader">Crossfader <output id="xfOut" for="xfader">All A</output></label>
+            <input type="range" id="xfader" min="0" max="100" step="1" value="0">
+            <div class="scale" aria-hidden="true"><span>A</span><span>Both</span><span>B</span></div>
+          </div>
+          <div class="field">
+            <label for="master">Master volume <output id="masterOut" for="master">70%</output></label>
+            <input type="range" id="master" min="0" max="100" step="1" value="70">
+          </div>
+          <button class="btn" id="syncBtn" style="width:100%">Sync B to A</button>
+          <p class="note">Sync snaps Deck B's tempo and beat to Deck A. Handy, but matching by hand is what trains your ear. Try without it first.</p>
+          <button class="btn" id="resetBtn" style="width:100%;margin-top:10px">Start over</button>
+        </section>
+      </div>
+      <p class="note" style="margin-top:12px">Keyboard: every control works with <kbd>Tab</kbd>, <kbd>Enter</kbd> and the arrow keys. Shortcuts: <kbd>A</kbd> play/pause Deck A, <kbd>B</kbd> play/pause Deck B, <kbd>[</kbd> <kbd>]</kbd> nudge Deck B.</p>
+    </div>
+  </main>
+</div>
+<footer><div class="wrap">A teaching demo for Learn to DJ with Jeilah. Both drum loops are generated in your browser; no recorded music is used.</div></footer>
+
+<template id="deckTpl">
+  <h2><span class="badge"></span><span class="dname"></span></h2>
+  <p class="bpm"><strong class="bpmv">124.00</strong> BPM</p>
+  <div class="row">
+    <button class="btn primary play" aria-pressed="false">Play</button>
+    <button class="btn cue">Cue</button>
+  </div>
+  <div class="field">
+    <label>Tempo <output class="pout">+0.00%</output></label>
+    <input type="range" class="tempo" min="-8" max="8" step="0.01" value="0">
+    <div class="scale" aria-hidden="true"><span>-8% slower</span><span>0</span><span>faster +8%</span></div>
+  </div>
+  <div class="row">
+    <button class="btn nb">&#9664; Nudge back</button>
+    <button class="btn nf">Nudge ahead &#9654;</button>
+  </div>
+  <p class="note">Tap Nudge for a small push. Hold it to slow down or speed up for as long as you hold. Cue jumps to the first beat (the 1) and stops.</p>
+</template>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+/* ---------- Patterns (16 steps = one bar of 16th notes) ---------- */
+const DECKS = [
+  { id:'A', name:'Deck A', sub:'House loop', base:124, pattern:{
+      kick:  'x...x...x...x...',
+      clap:  '....x.......x...',
+      ohat:  '..x...x...x...x.',
+      shaker:'x.xxx.xxx.xxx.xx',
+      bass:  '..x...x..x.x..x.'
+  }},
+  { id:'B', name:'Deck B', sub:'Breaks-style loop', base:126, pattern:{
+      kick:  'x...x...x...x..x',
+      snare: '....x.......x...',
+      hat:   'xxxxxxxxxxxxxxxx',
+      rim:   '...x..x....x..x.',
+      tom:   '..........x...x.'
+  }}
+];
+const ENV = { // band, amplitude, decay seconds (for the drawn waveform)
+  kick:['low',1,.12], bass:['low',.45,.12], tom:['low',.55,.12],
+  clap:['high',.75,.07], snare:['high',.8,.1], ohat:['high',.42,.07],
+  hat:['high',.26,.03], shaker:['high',.18,.03], rim:['high',.45,.03]
+};
+const RES = 96; // table samples per beat
+
+function buildTables(d){
+  const N = RES*4, low = new Float32Array(N), high = new Float32Array(N);
+  const spb = 60/d.base;
+  for (const [inst, pat] of Object.entries(d.pattern)){
+    const [band, amp, dec] = ENV[inst];
+    const arr = band === 'low' ? low : high;
+    for (let s=0; s<16; s++){
+      if (pat[s] === '.') continue;
+      const vel = inst==='hat' ? (s%4===2 ? 1 : .55) : 1;
+      const start = s/4; // beats
+      for (let i=0;i<N;i++){
+        let db = i/RES - start; if (db < 0) db += 4;
+        const v = amp*vel*Math.exp(-(db*spb)/dec);
+        if (v > .002) arr[i] += v;
+      }
+    }
+  }
+  for (const a of [low,high]) for (let i=0;i<N;i++) a[i] = Math.min(1, a[i]);
+  d.low = low; d.high = high;
+}
+
+/* ---------- Audio ---------- */
+let ctx = null, master, comp, noiseBuf;
+function ensureAudio(){
+  if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return; }
+  const AC = window.AudioContext || window.webkitAudioContext;
+  ctx = new AC();
+  comp = ctx.createDynamicsCompressor();
+  comp.threshold.value = -10; comp.ratio.value = 4;
+  master = ctx.createGain(); master.gain.value = +$('#master').value/100;
+  master.connect(comp).connect(ctx.destination);
+  noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+  const ch = noiseBuf.getChannelData(0); for (let i=0;i<ch.length;i++) ch[i] = Math.random()*2-1;
+  for (const d of DECKS){ d.out = ctx.createGain(); d.out.connect(master); }
+  applyFader();
+  setInterval(schedule, 25);
+}
+function env(g, t, peak, dec){
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t+0.003);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dec);
+}
+function noise(t, dest, type, freq, q, peak, dec){
+  const s = ctx.createBufferSource(); s.buffer = noiseBuf;
+  const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+  const g = ctx.createGain(); env(g, t, peak, dec);
+  s.connect(f).connect(g).connect(dest); s.start(t); s.stop(t+dec+.02);
+  return s;
+}
+function tone(t, dest, wave, f0, f1, sweep, peak, dec, lp){
+  const o = ctx.createOscillator(); o.type = wave;
+  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t+sweep);
+  const g = ctx.createGain(); env(g, t, peak, dec);
+  let n = o;
+  if (lp){ const f = ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value = lp; o.connect(f); n = f; }
+  n.connect(g).connect(dest); o.start(t); o.stop(t+dec+.02);
+  return o;
+}
+const VOICE = {
+  kick:  (t,d,v)=>tone(t,d,'sine',150,45,.11,1.0*v,.42),
+  bass:  (t,d,v)=>tone(t,d,'sawtooth',55,55,.01,.32*v,.16,420),
+  tom:   (t,d,v)=>tone(t,d,'sine',190,110,.12,.55*v,.22),
+  clap:  (t,d,v)=>noise(t,d,'bandpass',1400,1.2,.7*v,.16),
+  snare: (t,d,v)=>{ tone(t,d,'triangle',220,160,.05,.35*v,.1); return noise(t,d,'highpass',1800,.7,.55*v,.17); },
+  ohat:  (t,d,v)=>noise(t,d,'highpass',7500,.7,.22*v,.13),
+  hat:   (t,d,v)=>noise(t,d,'highpass',8500,.7,.16*v,.035),
+  shaker:(t,d,v)=>noise(t,d,'bandpass',6000,1.5,.13*v,.04),
+  rim:   (t,d,v)=>tone(t,d,'square',820,800,.01,.13*v,.03)
+};
+
+/* ---------- Deck state & timing ---------- */
+const now = () => ctx ? ctx.currentTime : performance.now()/1000;
+function bpmEff(d){ return d.base*(1+d.pitch/100)*(1+d.bend); }
+// linear in time (also before the anchor), so re-anchoring never makes the picture jump
+function posAt(d, t){ return d.playing ? d.anchorPos + (t-d.anchorTime)*bpmEff(d)/60 : d.pos; }
+function viewPos(d){
+  if (!d.playing || !ctx) return posAt(d, now());
+  return posAt(d, ctx.currentTime - (ctx.outputLatency || 0));
+}
+function reanchor(d){
+  if (!d.playing) return;
+  const t = now();
+  d.anchorPos = posAt(d, t); d.anchorTime = t;
+}
+function stopVoices(d){
+  const t = now();
+  for (const s of d.sources){ if (s.t > t) { try{ s.n.stop(); }catch(e){} } }
+  d.sources = [];
+}
+function play(d){
+  ensureAudio();
+  if (d.playing) return;
+  d.playing = true; d.anchorPos = d.pos; d.anchorTime = ctx.currentTime + 0.03;
+  d.nextStep = Math.ceil(d.pos*4 - 1e-9);
+  updateDeckUI(d);
+}
+function pause(d){
+  if (!d.playing) return;
+  d.pos = Math.max(0, posAt(d, now())); d.playing = false; d.bend = 0; stopVoices(d);
+  updateDeckUI(d);
+}
+function cue(d){
+  pause(d); d.pos = 0; d.nextStep = 0; updateDeckUI(d);
+}
+function setPitch(d, v){ reanchor(d); d.pitch = v; updateDeckUI(d); }
+function shiftPhase(d, ms){
+  const beats = ms/1000*bpmEff(d)/60;
+  if (d.playing){ reanchor(d); d.anchorPos = Math.max(0, d.anchorPos + beats); }
+  else { d.pos = Math.max(0, d.pos + beats); }
+}
+function stepTime(d, s){ return d.anchorTime + (s/4 - d.anchorPos)*60/bpmEff(d); }
+function schedule(){
+  if (!ctx) return;
+  const t = ctx.currentTime, ahead = t + 0.12;
+  for (const d of DECKS){
+    if (!d.playing) continue;
+    d.sources = d.sources.filter(s => s.t > t - 1);
+    let guard = 0;
+    while (stepTime(d, d.nextStep) < ahead && guard++ < 64){
+      const s = d.nextStep, st = stepTime(d, s);
+      if (s >= 0 && st >= t - 0.005){
+        const i = s % 16;
+        for (const [inst, pat] of Object.entries(d.pattern)){
+          if (pat[i] === '.') continue;
+          const v = inst==='hat' ? (i%4===2 ? 1 : .55) : 1;
+          const n = VOICE[inst](Math.max(st, t), d.out, v);
+          d.sources.push({ n, t: st });
+        }
+      }
+      d.nextStep++;
+    }
+  }
+}
+
+/* ---------- UI: decks ---------- */
+const tpl = $('#deckTpl');
+DECKS.forEach((d, i) => {
+  Object.assign(d, { pitch:0, bend:0, playing:false, pos:0, anchorPos:0, anchorTime:0, nextStep:0, sources:[] });
+  buildTables(d);
+  const el = $(`.deck[data-deck="${i}"]`);
+  el.appendChild(tpl.content.cloneNode(true));
+  el.querySelector('h2').id = `deck${d.id}h`;
+  el.querySelector('.badge').textContent = d.id;
+  el.querySelector('.badge').setAttribute('aria-hidden','true');
+  el.querySelector('.dname').textContent = `${d.name} · ${d.sub}`;
+  const tempo = el.querySelector('.tempo'), pout = el.querySelector('.pout');
+  tempo.id = `tempo${d.id}`; el.querySelector('.field label').htmlFor = tempo.id;
+  pout.htmlFor = tempo.id;
+  tempo.setAttribute('aria-describedby', `deck${d.id}h`);
+  const playBtn = el.querySelector('.play');
+  playBtn.setAttribute('aria-label', `Play ${d.name}`);
+  el.querySelector('.cue').setAttribute('aria-label', `Cue ${d.name} to the first beat`);
+  el.querySelector('.nb').setAttribute('aria-label', `Nudge ${d.name} back`);
+  el.querySelector('.nf').setAttribute('aria-label', `Nudge ${d.name} ahead`);
+  d.ui = { el, tempo, pout, playBtn, bpmv: el.querySelector('.bpmv') };
+  playBtn.addEventListener('click', () => { d.playing ? pause(d) : play(d); });
+  el.querySelector('.cue').addEventListener('click', () => cue(d));
+  tempo.addEventListener('input', () => setPitch(d, +tempo.value));
+  tempo.addEventListener('dblclick', () => { tempo.value = 0; setPitch(d, 0); });
+  wireNudge(d, el.querySelector('.nb'), -1);
+  wireNudge(d, el.querySelector('.nf'), +1);
+  updateDeckUI(d);
+});
+
+function wireNudge(d, btn, dir){
+  let holdTimer = null, held = false, pointerUsed = false;
+  const start = (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    pointerUsed = true; held = false;
+    try { btn.setPointerCapture(e.pointerId); } catch(_){}
+    holdTimer = setTimeout(() => { held = true; reanchor(d); d.bend = dir*0.06; }, 220);
+  };
+  const end = () => {
+    if (holdTimer === null) return;
+    clearTimeout(holdTimer); holdTimer = null;
+    if (held){ reanchor(d); d.bend = 0; } else { shiftPhase(d, dir*12); }
+    held = false;
+  };
+  btn.addEventListener('pointerdown', start);
+  btn.addEventListener('pointerup', end);
+  btn.addEventListener('pointercancel', end);
+  btn.addEventListener('lostpointercapture', end);
+  btn.addEventListener('contextmenu', e => e.preventDefault());
+  // keyboard (Enter/Space) fires click without pointer: small push each time
+  btn.addEventListener('click', () => { if (pointerUsed){ pointerUsed = false; return; } shiftPhase(d, dir*12); });
+}
+
+function updateDeckUI(d){
+  const u = d.ui; if (!u) return;
+  u.playBtn.textContent = d.playing ? 'Pause' : 'Play';
+  u.playBtn.setAttribute('aria-pressed', String(d.playing));
+  u.playBtn.setAttribute('aria-label', `${d.playing ? 'Pause' : 'Play'} ${d.name}`);
+  const p = d.pitch;
+  u.pout.textContent = (p >= 0 ? '+' : '') + p.toFixed(2) + '%';
+  u.tempo.setAttribute('aria-valuetext', `${u.pout.textContent}, ${(d.base*(1+p/100)).toFixed(2)} BPM`);
+  u.bpmv.textContent = (d.base*(1+p/100)).toFixed(2);
+}
+
+/* ---------- Mixer ---------- */
+const xf = $('#xfader'), xfOut = $('#xfOut'), mv = $('#master');
+function applyFader(){
+  const x = +xf.value/100;
+  xfOut.textContent = x < .03 ? 'All A' : x > .97 ? 'All B' : Math.abs(x-.5) < .04 ? 'Both' : `${Math.round((1-x)*100)}% A / ${Math.round(x*100)}% B`;
+  xf.setAttribute('aria-valuetext', xfOut.textContent);
+  if (!ctx) return;
+  const t = ctx.currentTime;
+  DECKS[0].out.gain.setTargetAtTime(Math.cos(x*Math.PI/2), t, .015);
+  DECKS[1].out.gain.setTargetAtTime(Math.sin(x*Math.PI/2), t, .015);
+}
+xf.addEventListener('input', applyFader);
+mv.addEventListener('input', () => {
+  $('#masterOut').textContent = mv.value + '%';
+  if (master) master.gain.setTargetAtTime(+mv.value/100, ctx.currentTime, .02);
+});
+$('#syncBtn').addEventListener('click', () => {
+  const A = DECKS[0], B = DECKS[1];
+  ensureAudio();
+  if (!A.playing) play(A);
+  const target = (bpmEff(A)/(1+A.bend)) / B.base;
+  B.bend = 0;
+  setPitch(B, (target-1)*100);
+  B.ui.tempo.value = B.pitch;
+  const t = now();
+  const diff = wrap(posAt(B,t) - posAt(A,t), 4);
+  if (B.playing){ reanchor(B); B.anchorPos = Math.max(0, B.anchorPos - diff); }
+  else { B.pos = posAt(A, t + 0.03); play(B); }
+  syncUsed = true;
+});
+$('#resetBtn').addEventListener('click', () => {
+  for (const d of DECKS){ cue(d); d.pitch = 0; d.ui.tempo.value = 0; updateDeckUI(d); }
+  xf.value = 0; applyFader(); syncUsed = false; lessonStep = 0; doneSteps.clear(); renderLesson();
+});
+
+/* ---------- Keyboard shortcuts ---------- */
+document.addEventListener('keydown', e => {
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea') return;
+  const k = e.key.toLowerCase();
+  if (k === 'a'){ const d = DECKS[0]; d.playing ? pause(d) : play(d); }
+  else if (k === 'b'){ const d = DECKS[1]; d.playing ? pause(d) : play(d); }
+  else if (e.key === '['){ shiftPhase(DECKS[1], -12); }
+  else if (e.key === ']'){ shiftPhase(DECKS[1], 12); }
+});
+
+/* ---------- Theme ---------- */
+const root = document.documentElement;
+try { const th = localStorage.getItem('bmv-theme'); if (th) root.dataset.theme = th; } catch(e){}
+$('#themeToggle').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('bmv-theme', root.dataset.theme); } catch(e){}
+});
+
+/* ---------- Analysis ---------- */
+function wrap(x, m){ return ((x % m) + m*1.5) % m - m/2; } // to [-m/2, m/2)
+const BEAT_OK_MS = 10, TEMPO_OK = 0.03;
+function analyze(){
+  const A = DECKS[0], B = DECKS[1];
+  const pa = viewPos(A), pb = viewPos(B);
+  const beatDiff = wrap(pb - pa, 1);
+  const barDiff = wrap(pb - pa, 4);
+  const ms = beatDiff*60000/bpmEff(A);
+  const tempoGap = bpmEff(B) - bpmEff(A);
+  const both = A.playing && B.playing;
+  const tempoOk = Math.abs(tempoGap) < TEMPO_OK;
+  const beatOk = Math.abs(ms) < BEAT_OK_MS;
+  const barOk = beatOk && Math.abs(barDiff) < 0.25;
+  return { pa, pb, ms, beatDiff, barDiff, tempoGap, both, tempoOk, beatOk, barOk, locked: both && tempoOk && barOk };
+}
+
+/* ---------- Canvas ---------- */
+const cv = $('#lanes'), g = cv.getContext('2d');
+let W = 0, H = 0, dpr = 1;
+function resize(){
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = cv.getBoundingClientRect();
+  W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+  cv.width = W*dpr; cv.height = H*dpr; g.setTransform(dpr,0,0,dpr,0,0);
+}
+new ResizeObserver(resize).observe(cv); resize();
+
+const COL = {
+  A:{ low:'#c2185b', high:'#f3cdd8' },
+  B:{ low:'#e86a9a', high:'#ffe6ee' },
+  grid:'rgba(255,255,255,.28)', bar:'rgba(255,255,255,.75)', ok:'#5fe08a',
+  bad:'#ffb347', play:'#ffffff', lane:'#1f1f23', text:'#ffffff', dim:'rgba(255,255,255,.6)'
+};
+
+function drawLane(d, top, h, pos, a, locked){
+  const cx = W/2, pxs = Math.max(W/3.2, 110); // pixels per second
+  const mid = top + h/2, half = h/2 - 6;
+  g.fillStyle = COL.lane; g.fillRect(0, top, W, h);
+  const bpm = bpmEff(d), N = RES*4;
+  // waveform columns
+  const colsLow = new Float32Array(W), colsHigh = new Float32Array(W);
+  for (let x=0; x<W; x++){
+    const p = pos + ((x - cx)/pxs)*bpm/60;
+    if (p < 0) continue;
+    const i = Math.floor(((p % 4)/4)*N) % N;
+    colsLow[x] = d.low[i]; colsHigh[x] = d.high[i];
+  }
+  g.fillStyle = COL[d.id].low; g.beginPath();
+  for (let x=0;x<W;x++){ const v = colsLow[x]*half; if (v>0.5) g.rect(x, mid - v, 1, v*2); }
+  g.fill();
+  g.fillStyle = COL[d.id].high; g.beginPath();
+  for (let x=0;x<W;x++){ const v = colsHigh[x]*half*.5; if (v>0.5) g.rect(x, mid - v, 1, v*2); }
+  g.fill();
+  // beat grid
+  const p0 = pos - (cx/pxs)*bpm/60, p1 = pos + ((W-cx)/pxs)*bpm/60;
+  g.font = '700 12px "Space Grotesk", system-ui, sans-serif'; g.textBaseline = 'top';
+  for (let k = Math.max(0, Math.ceil(p0)); k <= p1; k++){
+    const x = cx + (k - pos)*60/bpm*pxs;
+    const down = k % 4 === 0;
+    g.fillStyle = locked ? (down ? COL.ok : 'rgba(95,224,138,.55)') : (down ? COL.bar : COL.grid);
+    g.fillRect(Math.round(x) - (down?1.5:0.5), top, down?3:1, h);
+    if (down){
+      g.fillStyle = locked ? COL.ok : COL.text;
+      g.fillText(String(k/4 + 1), x + 5, top + 4);
+    }
+  }
+  // labels
+  g.font = '700 12px "Space Grotesk", system-ui, sans-serif';
+  const lbl = `${d.id} · ${bpm.toFixed(2)} BPM${d.playing ? '' : ' · paused'}`;
+  const tw = g.measureText(lbl).width;
+  g.fillStyle = 'rgba(18,18,20,.85)'; g.fillRect(4, top + h - 22, tw + 10, 18);
+  g.textBaseline = 'bottom'; g.fillStyle = COL.text;
+  g.fillText(lbl, 9, top + h - 7);
+}
+
+function draw(){
+  const a = analyze();
+  const gap = 34, laneH = (H - gap)/2;
+  g.clearRect(0,0,W,H);
+  drawLane(DECKS[0], 0, laneH, a.pa, a, a.locked);
+  drawLane(DECKS[1], laneH + gap, laneH, a.pb, a, a.locked);
+  // gap band: bracket between nearest beats at the playhead
+  const cx = W/2, pxs = Math.max(W/3.2, 110);
+  const A = DECKS[0], B = DECKS[1];
+  g.fillStyle = '#151517'; g.fillRect(0, laneH, W, gap);
+  const kA = Math.round(a.pa), xA = cx + (kA - a.pa)*60/bpmEff(A)*pxs;
+  const xB = xA - (a.ms/1000)*pxs; // B ahead = its beat already passed = left of A's
+  const y = laneH + gap/2;
+  const col = a.locked ? COL.ok : (a.beatOk && a.both ? COL.ok : COL.bad);
+  if (a.pa > 0 || a.pb > 0 || A.playing || B.playing){
+    g.strokeStyle = col; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(xA, laneH); g.lineTo(xA, y); g.lineTo(xB, y); g.lineTo(xB, laneH + gap); g.stroke();
+    g.fillStyle = col; g.font = '700 12px "Space Grotesk", system-ui, sans-serif'; g.textBaseline = 'middle';
+    const label = `${a.ms >= 0 ? '+' : ''}${Math.round(a.ms)} ms`;
+    const lx = Math.max(xA, xB, cx) + 8;
+    g.fillText(label, Math.min(lx, W - 60), y - 1);
+  }
+  // shared playhead
+  g.fillStyle = COL.play; g.fillRect(Math.round(cx) - 1, 0, 2, H);
+  g.beginPath(); g.moveTo(cx-6,0); g.lineTo(cx+6,0); g.lineTo(cx,7); g.fill();
+  g.beginPath(); g.moveTo(cx-6,H); g.lineTo(cx+6,H); g.lineTo(cx,H-7); g.fill();
+  updateMeter(a);
+  tickLesson(a);
+}
+
+/* ---------- Meter ---------- */
+const pill = $('#lockPill'), mark = $('#mark'), track = $('#track');
+let lastPill = '', lastHint = '', meterT = 0;
+function updateMeter(a){
+  const A = DECKS[0], B = DECKS[1];
+  mark.style.left = (50 + a.beatDiff*100) + '%';
+  track.classList.toggle('ok', a.beatOk && a.both);
+  const tNow = performance.now();
+  if (tNow - meterT < 100) return; // text at ~10 fps
+  meterT = tNow;
+  const tg = a.tempoGap;
+  $('#rTempo').textContent = Math.abs(tg) < 0.005 ? 'Matched' : `B ${tg > 0 ? '+' : ''}${tg.toFixed(2)} BPM`;
+  $('#rBeat').textContent = `${a.ms >= 0 ? '+' : ''}${Math.round(a.ms)} ms`;
+  const barBeats = Math.round(a.barDiff);
+  $('#rBar').textContent = !a.beatOk ? 'Beats first' : a.barOk ? 'Lined up' : `B ${barBeats > 0 ? barBeats + ' ahead' : -barBeats + ' behind'}`;
+  let p, cls, hint;
+  if (!A.playing && !B.playing){ p = 'Press Play'; cls = ''; hint = 'Press Play on Deck A to start. Audio begins only when you tap.'; }
+  else if (!a.both){ p = 'One deck playing'; cls = ''; hint = `Press Play on ${A.playing ? 'Deck B' : 'Deck A'} to compare the two.`; }
+  else if (a.locked){ p = 'Locked'; cls = 'ok'; hint = 'Beats and downbeats line up. If you bring in the crossfader, it should sound like one drummer.'; }
+  else if (!a.tempoOk){ p = 'Drifting'; cls = 'bad'; hint = `Deck B is ${tg > 0 ? 'faster' : 'slower'}, so the gap keeps growing. Move B's tempo ${tg > 0 ? 'down (left)' : 'up (right)'}.`; }
+  else if (!a.beatOk){ p = 'Same speed, off beat'; cls = 'warn'; hint = `Tempos match, but B's kick lands ${Math.abs(Math.round(a.ms))} ms ${a.ms > 0 ? 'early' : 'late'}. That gap is the "flam" you hear. Hold Nudge ${a.ms > 0 ? 'back' : 'ahead'}.`; }
+  else { p = 'Beats match, 1s don\'t'; cls = 'warn'; hint = 'The kicks line up, but B\'s 1 lands on a different beat of A\'s bar. Keep holding Nudge, or press Cue on B and hit Play right on A\'s 1.'; }
+  if (p !== lastPill){ pill.textContent = p; pill.className = 'pill ' + cls; lastPill = p; }
+  if (hint !== lastHint){ $('#hint').textContent = hint; lastHint = hint; }
+}
+
+/* ---------- Lesson ---------- */
+const STEPS = [
+  { k:'Start here', h:'Welcome to the decks',
+    b:`<p>Beat matching means getting two songs to play at the same speed, with their beats landing together. Your ears will learn this. Until they do, let your eyes help.</p><p>Press <strong>Play on Deck A</strong>. Each tall pink spike is a kick drum. The thick line marked with a number is the 1, the start of each bar.</p>`,
+    done: a => DECKS[0].playing, ok:'Deck A is playing. Tap Next.' },
+  { k:'Step 1 of 3', h:'Match the tempo',
+    b:`<p>Press <strong>Play on Deck B</strong>. You won't hear it yet: the crossfader is all the way on A, like a DJ listening in headphones. That's why the picture helps.</p><p>Watch the gap at the playhead. B's beat lines are spaced differently and the gap keeps sliding. Move <strong>Deck B's tempo slider</strong> until it reads 124.00 BPM, same as Deck A. Arrow keys make fine moves. When the gap stops moving, the tempos match.</p>`,
+    done: a => a.both && a.tempoOk, ok:'Tempos match. The gap holds still now. Tap Next.' },
+  { k:'Step 2 of 3', h:'Line up the downbeat',
+    b:`<p>Same speed doesn't mean together yet. <strong>Hold Nudge</strong> on Deck B to push it ahead or pull it back until the beat lines sit on top of each other and the thick 1 lines match.</p><p>Everything turns <strong>green</strong> when you're locked. Tap Nudge for tiny fixes.</p>`,
+    done: a => a.locked, ok:'Locked. Beats and 1s line up. Tap Next.' },
+  { k:'Step 3 of 3', h:'Bring in Deck B',
+    b:`<p>Slide the <strong>crossfader</strong> slowly toward the middle. If you hear one steady groove, not a galloping double kick, you nailed it. That's a mix.</p><p>Keep an eye out: if the lines start to slide apart, give Deck B a tiny nudge.</p>`,
+    done: a => a.locked && +xf.value >= 40, ok:'That\'s a mix. Nice work.' }
+];
+let lessonStep = 0, syncUsed = false; const doneSteps = new Set();
+const lessonBody = $('#lessonBody'), lessonStatus = $('#lessonStatus'), nextBtn = $('#lessonNext'), backBtn = $('#lessonBack');
+function renderLesson(focus){
+  if (lessonStep >= STEPS.length){
+    $('#lessonKicker').textContent = 'Done';
+    $('#lessonHeading').textContent = 'You beat matched two loops';
+    lessonBody.innerHTML = `<p>Now try it again${syncUsed ? ' without Sync' : ''}. Then try it with your eyes closed and see how far your ears get. That's the real goal.</p>`;
+    lessonStatus.textContent = 'Tap Start over to run it again.'; lessonStatus.className = 'status ok';
+    nextBtn.textContent = 'Start over'; backBtn.disabled = false;
+  } else {
+    const s = STEPS[lessonStep];
+    $('#lessonKicker').textContent = s.k; $('#lessonHeading').textContent = s.h; lessonBody.innerHTML = s.b;
+    nextBtn.textContent = lessonStep === STEPS.length - 1 ? 'Finish' : 'Next';
+    backBtn.disabled = lessonStep === 0;
+    lastStatus = '';
+  }
+  [...$('#stepBar').children].forEach((li, i) => {
+    li.className = i < lessonStep || doneSteps.has(i) && i !== lessonStep ? 'done' : i === lessonStep ? 'current' : '';
+  });
+  if (focus) $('#lessonHeading').focus();
+}
+let lastStatus = '';
+function tickLesson(a){
+  if (lessonStep >= STEPS.length) return;
+  const s = STEPS[lessonStep];
+  const ok = s.done(a);
+  if (ok) doneSteps.add(lessonStep);
+  const met = doneSteps.has(lessonStep);
+  const txt = met ? s.ok : 'Waiting for you...';
+  if (txt !== lastStatus){ lessonStatus.textContent = txt; lessonStatus.className = 'status' + (met ? ' ok' : ''); lastStatus = txt; }
+}
+nextBtn.addEventListener('click', () => {
+  if (lessonStep >= STEPS.length){ $('#resetBtn').click(); renderLesson(true); return; }
+  lessonStep++; renderLesson(true);
+});
+backBtn.addEventListener('click', () => { lessonStep = Math.max(0, lessonStep - 1); renderLesson(true); });
+$('#lessonToggle').addEventListener('click', e => {
+  const L = $('#lesson'); L.hidden = !L.hidden;
+  e.currentTarget.textContent = L.hidden ? 'Show lesson' : 'Hide lesson';
+  e.currentTarget.setAttribute('aria-expanded', String(!L.hidden));
+});
+renderLesson();
+
+/* ---------- Loop ---------- */
+function frame(){ draw(); requestAnimationFrame(frame); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {});
+requestAnimationFrame(frame);
+window.__bmv = { DECKS, analyze, bpmEff };
+})();
+</script>
+</body>
+</html>
