@@ -29,6 +29,81 @@ button,input,select,textarea{font:inherit}
 .steps button{background:transparent;color:#d8d8dc;border:1px solid #48484a;border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer}
 .steps button[aria-current="step"]{background:var(--rose);border-color:var(--rose);color:#fff}
 .steps .who{opacity:.7;font-size:11px;margin-left:4px}
+.steps .stepl{display:inline-block;color:#d8d8dc;border:1px dashed #6e6e73;border-radius:999px;padding:5px 11px;font-size:13px;text-decoration:none}
+.frame .grp{font-weight:500;color:#aeaeb2}
+
+/* New pages */
+.page-hero{position:relative;background:linear-gradient(120deg,var(--blush),var(--pink));padding:96px 24px 40px}
+.page-hero .in{max-width:1080px;margin:0 auto}
+.page-hero h1{font-size:clamp(32px,5vw,52px);margin-bottom:10px}
+.page-hero p{max-width:640px;font-size:17px;margin:0}
+.page-hero .site-nav img{filter:brightness(0)}
+.page-hero .site-nav nav{color:var(--ink)}
+.page-hero .site-nav nav a.cur{border-bottom-color:var(--magenta)}
+.sub-nav{max-width:1080px;margin:22px auto 0;display:flex;flex-wrap:wrap;gap:8px}
+.sub-nav a{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid rgba(29,29,31,.25);border-radius:999px;padding:6px 13px;background:rgba(255,255,255,.55)}
+.sub-nav a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.wrap{max-width:1080px;margin:0 auto;padding:34px 24px 60px}
+.wrap.narrow{max-width:820px}
+.flag{border:1px dashed var(--rose);background:#fff;color:var(--ink);padding:12px 16px;font-size:14px;margin:0 0 24px}
+.flag b{color:var(--rose)}
+.her{background:#fff4f8;border:1px solid #f3c4d7;color:var(--rose);border-radius:4px;padding:1px 6px;font-size:.92em;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);padding:22px}
+.card h3{font-size:19px;margin-bottom:8px}
+.card p{margin:0 0 10px;font-size:15px}
+.card .tag{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--rose);padding:2px 8px;border-radius:3px;margin-bottom:10px}
+.card .tag.alt{background:var(--ink)}
+.card a{color:var(--rose)}
+.path{list-style:none;margin:0;padding:0;counter-reset:p}
+.path>li{display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.path>li:first-child{border-top:1px solid var(--line)}
+.path .num{font-family:"Mollies","Josefin Sans",sans-serif;font-size:34px;color:var(--rose);line-height:1}
+.path h3{font-size:20px;margin-bottom:6px}
+.path p,.path ul{margin:0 0 8px;font-size:15px}
+.path ul{padding-left:18px}
+.path a{color:var(--rose)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:8px 0}
+.tiers div{background:#fff;border:1px solid var(--line);border-top:3px solid var(--rose);padding:14px}
+.tiers b{display:block;color:var(--ink);margin-bottom:4px}
+.tiers span{font-size:14px}
+.vids{counter-reset:v;list-style:none;padding:0;margin:0 0 8px;columns:2;column-gap:28px}
+.vids li{counter-increment:v;break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.vids li::before{content:counter(v,decimal-leading-zero);font-weight:600;color:var(--rose);margin-right:10px}
+.buy{display:grid;grid-template-columns:1.4fr .9fr;gap:28px;align-items:start}
+.buybox{background:#fff;border:1px solid var(--line);padding:24px;position:sticky;top:110px}
+.buybox .price{font-size:22px;color:var(--ink);margin:6px 0 14px}
+.buybox ul{padding-left:18px;font-size:15px;margin:0 0 18px}
+.okmsg{display:none;margin-top:16px;padding:14px 16px;background:#f4fbf7;border:1px solid #bfe3cf;color:var(--ok);font-size:15px}
+.okmsg.show{display:block}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--ink);margin-bottom:6px}
+.check input{margin-top:4px;accent-color:var(--magenta);width:18px;height:18px;flex:none}
+.fine{font-size:13px;color:var(--muted);margin:0 0 18px}
+.fine a,.form-foot a,.small a{color:var(--rose)}
+
+/* Events widget (same markup and rules as the drop-in widget) */
+.jl-events{--jl-accent:var(--magenta);--jl-line:var(--line);max-width:860px;margin:0 auto;color:var(--ink)}
+.jl-events__list{list-style:none;margin:0;padding:0;border-top:1px solid var(--jl-line)}
+.jl-events__item{display:grid;grid-template-columns:5.5rem 1fr auto;gap:0 1.25rem;align-items:center;padding:1rem 0;border-bottom:1px solid var(--jl-line)}
+.jl-events__date{display:flex;flex-direction:column;line-height:1.1;text-transform:uppercase}
+.jl-events__dow{font-size:.75rem;letter-spacing:.12em;opacity:.8}
+.jl-events__day{font-size:1.6rem;font-weight:700}
+.jl-events__month{font-size:.8rem;letter-spacing:.12em}
+.jl-events__name{margin:0;font-size:1.05rem;font-weight:600;overflow-wrap:anywhere}
+.jl-events__meta{margin:.2rem 0 0;font-size:.9rem;color:var(--muted)}
+.jl-events__cta,.jl-events__private{justify-self:end;white-space:nowrap;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase}
+.jl-events__cta{display:inline-block;min-height:44px;line-height:44px;padding:0 1.25rem;border:2px solid var(--jl-accent);border-radius:999px;color:var(--magenta);text-decoration:none;font-weight:700;background:#fff;cursor:pointer}
+.jl-events__private{padding:0 1.25rem;color:var(--muted)}
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.rules div{font-size:14px;border-top:2px solid var(--rose);padding-top:10px}
+.rules b{display:block;color:var(--ink);margin-bottom:3px}
+
+/* Site footer */
+.site-foot{background:#1d1d1f;color:#d8d8dc;padding:26px 24px;font-size:13px;display:none}
+.site-foot.show{display:block}
+.site-foot .in{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.site-foot a{color:#fff;text-decoration:none;border-bottom:1px solid #6e6e73}
+.site-foot .d{font-size:11px;color:#ffb5d0;margin-left:3px}
 .note{max-width:1180px;margin:0 auto;padding:10px 16px;font-size:13px;color:var(--muted);background:#fff;border-bottom:1px solid var(--line)}
 .note strong{color:var(--ink);font-weight:600}
 
@@ -142,6 +217,23 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
   .site-nav nav{display:none}
   form.inq{padding:22px 16px;margin:16px}
   .days{grid-template-columns:repeat(3,1fr)}
+  .page-hero .site-nav nav{display:none}
+  .tiers,.buy,.rules{grid-template-columns:1fr}
+  .rules{grid-template-columns:1fr 1fr}
+  .vids{columns:1}
+  .buybox{position:static}
+  .wrap{padding:26px 16px 50px}
+  .frame-inner{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .steps{flex-wrap:nowrap}
+  .steps li{flex:none}
+  .frame b{white-space:nowrap}
+}
+@media (max-width:560px){
+  .jl-events__item{grid-template-columns:4.25rem 1fr;row-gap:.75rem}
+  .jl-events__cta,.jl-events__private{grid-column:2;justify-self:start}
+  .jl-events__private{padding:0}
+  .path>li{grid-template-columns:40px 1fr;gap:10px}
+  .path .num{font-size:26px}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
@@ -160,14 +252,25 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
       <li><button data-go="6">6 Pick a time <span class="who">student</span></button></li>
       <li><button data-go="7">7 Booked <span class="who">student</span></button></li>
     </ol>
+    <b class="grp">More pages:</b>
+    <ol class="steps" id="steps2">
+      <li><button data-go="8">Upcoming dates</button></li>
+      <li><button data-go="9">Student path</button></li>
+      <li><button data-go="10">Starter gear</button></li>
+      <li><button data-go="11">Weekend videos</button></li>
+      <li><button data-go="13">Students' night</button></li>
+      <li><button data-go="14">Newsletter</button></li>
+      <li><a class="stepl" href="../jeilah-beat-matching/">Practice tool</a></li>
+      <li><a class="stepl" href="privacy.html">Draft legal pages</a></li>
+    </ol>
   </div>
 </div>
 <p class="note" id="note"></p>
 
 <!-- 1. Her site, one new button -->
-<section class="screen" data-s="1" aria-label="Step 1: her home page">
+<section class="screen" data-site data-s="1" aria-label="Step 1: her home page">
   <div class="hero">
-    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" class="cur">Home</a><a href="#">Music</a><a href="#" data-go="2">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" class="cur">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2">Learn to DJ</a><a href="#">Contact</a></nav></div>
     <div class="ctas">
       <a class="btn" href="#">Booking Inquiries</a>
       <span class="cta-wrap"><span class="new-tag">NEW</span><a class="btn alt" href="#" data-go="2">Learn to DJ with Jeilah</a></span>
@@ -176,9 +279,9 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
 </section>
 
 <!-- 2. Lesson page + inquiry form -->
-<section class="screen" data-s="2" aria-label="Step 2: lesson page and inquiry form">
+<section class="screen" data-site data-s="2" aria-label="Step 2: lesson page and inquiry form">
   <div class="lesson-hero">
-    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
     <div class="in">
       <div>
         <h1>Learn to DJ<br>with Jeilah</h1>
@@ -186,6 +289,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
       </div>
       <img src="assets/Jeilah-02-Jeilah.com_music-e1691034913533.jpg" alt="Jeilah">
     </div>
+    <nav class="sub-nav" aria-label="Learn to DJ pages"><a href="#" data-go="2" aria-current="page">Lessons</a><a href="#" data-go="9">Student path</a><a href="#" data-go="10">Starter gear</a><a href="#" data-go="11">Weekend videos</a><a href="#" data-go="13">Students' night</a><a href="../jeilah-beat-matching/">Practice tool</a></nav>
   </div>
   <div class="how">
     <div><h3>1. Tell me about you</h3><p>Two minutes: your goals, your experience, the music you love.</p></div>
@@ -229,6 +333,8 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
         <label><input type="checkbox" name="av" value="Weekends"> Weekends</label>
       </div>
     </fieldset>
+    <label class="check"><input type="checkbox" id="inq-news"> <span>Also send me the newsletter (optional). I can unsubscribe at any time.</span></label>
+    <p class="fine">This box is separate from your inquiry and starts unchecked. Details in the <a href="privacy.html">Privacy Policy (draft)</a>.</p>
     <div class="form-foot">
       <button type="button" class="btn ghost" id="fill">Fill sample answers</button>
       <button type="submit" class="btn round">Send inquiry</button>
@@ -238,7 +344,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
 </section>
 
 <!-- 3. Thank you -->
-<section class="screen" data-s="3" aria-label="Step 3: inquiry sent">
+<section class="screen" data-site data-s="3" aria-label="Step 3: inquiry sent">
   <div class="lesson-hero" style="padding-bottom:20px"><div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"></div></div>
   <div class="center-card">
     <h2>Got it, <span class="who-name">thanks</span>.</h2>
@@ -290,6 +396,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
       <div class="days" id="days"></div>
       <h3 style="font-size:20px">Pick a time <span class="small" style="text-transform:none;font-family:Inter">(Central time)</span></h3>
       <div class="times" id="times"><p class="small">Choose a day first.</p></div>
+      <p class="fine">By confirming you agree to the <a href="lesson-terms.html">Lesson Terms (draft)</a>: cancel or move free up to <span class="her">[24 hours: her call]</span> before.</p>
       <button class="btn round" id="confirm" disabled>Confirm</button>
     </div>
   </div>
@@ -305,6 +412,187 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
   </div>
 </section>
 
+<!-- 8. Upcoming dates (events feed) -->
+<section class="screen" data-site data-s="8" aria-label="Upcoming dates">
+  <div class="page-hero">
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" class="cur">Events</a><a href="#" data-go="2">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="in"><h1>Upcoming dates</h1><p>Where to catch a set next. Tap Tickets to buy from the ticket seller.</p></div>
+  </div>
+  <div class="wrap">
+    <p class="flag"><b>Sample dates.</b> These gigs are made up to show the layout. Her real dates fill in once her ticket pages are connected.</p>
+    <section class="jl-events" aria-label="Upcoming dates list">
+      <p class="small" id="ev-status" role="status" aria-live="polite">Loading dates…</p>
+      <ul class="jl-events__list" id="ev-list" hidden></ul>
+    </section>
+    <div class="rules">
+      <div><b>Updates itself</b>Once a day the list pulls her dates from her ticket pages.</div>
+      <div><b>Private stays private</b>A private gig shows as "Private": no venue, no event name, no ticket link.</div>
+      <div><b>Hand edits win</b>She can add a late lineup spot or fix a date by hand, and her edit replaces the automatic one.</div>
+      <div><b>Old dates drop off</b>A gig disappears after midnight Chicago time on the night it happens.</div>
+    </div>
+    <p class="okmsg" id="ev-msg" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- 9. Student path -->
+<section class="screen" data-site data-s="9" aria-label="Student path">
+  <div class="page-hero">
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="in"><h1>The student path</h1><p>From never touching decks to your first set in front of people. Lessons come in tiers with practice time in between, not an everyday class.</p></div>
+    <nav class="sub-nav" aria-label="Learn to DJ pages"><a href="#" data-go="2">Lessons</a><a href="#" data-go="9" aria-current="page">Student path</a><a href="#" data-go="10">Starter gear</a><a href="#" data-go="11">Weekend videos</a><a href="#" data-go="13">Students' night</a><a href="../jeilah-beat-matching/">Practice tool</a></nav>
+  </div>
+  <div class="wrap narrow">
+    <ol class="path">
+      <li><span class="num">0</span><div><h3>Apply</h3><p>Fill in the short <a href="#" data-go="2">lesson inquiry</a>. I read every one myself and reply within <span class="her">[48-72 hours suggested: her call]</span> with a booking link, or let you know if now isn't the right time.</p></div></li>
+      <li><span class="num">1</span><div><h3>See it before you hear it</h3><p>Lesson one is on a laptop with free DJ software, so you can see the beats line up on screen. No gear needed yet.</p><p>Before then, try the <a href="../jeilah-beat-matching/">practice tool</a> in your browser: move the tempo and nudge one deck until its beats line up with the other.</p></div></li>
+      <li><span class="num">2</span><div><h3>Get gear without a big spend</h3><p>Two decks, a crossfader and some knobs is all you need. See <a href="#" data-go="10">starter gear</a> for picks, used options and ways to borrow before you buy.</p></div></li>
+      <li><span class="num">3</span><div><h3>Weekend videos</h3><p>About ten short videos you can work through in a weekend. Come out of it able to step up when a DJ waves you over. <a href="#" data-go="11">See the package</a>.</p></div></li>
+      <li><span class="num">4</span><div><h3>Live sessions, in tiers</h3>
+        <div class="tiers">
+          <div><b>Tier 1: Foundations</b><span>Tempo, beat matching, the crossfader, cueing in headphones. Laptop first.</span></div>
+          <div><b>Tier 2: Building a set</b><span>Transitions, phrasing, reading a room. Moving from software to USB.</span></div>
+          <div><b>Tier 3: Gig-ready</b><span>Playing from USB on club gear, prep, a demo mix, getting booked.</span></div>
+        </div>
+        <p class="small">Online for anyone, in person in Chicago. Tier names, lengths and prices: <span class="her">[her call]</span>. Sessions offered per month: <span class="her">[her call]</span>.</p></div></li>
+      <li><span class="num">5</span><div><h3>Play out</h3><p>The hardest part besides learning is getting chances to play. Students get a slot at a <a href="#" data-go="13">students' night</a>.</p></div></li>
+      <li><span class="num">6</span><div><h3>Keep going</h3><p>Advanced sessions and a plan built around you. Later, guest teachers from the Chicago scene.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 10. Starter gear -->
+<section class="screen" data-site data-s="10" aria-label="Starter gear">
+  <div class="page-hero">
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="in"><h1>Starter gear</h1><p>You don't need to buy anything before lesson one. When you're ready, here's what's worth getting.</p></div>
+    <nav class="sub-nav" aria-label="Learn to DJ pages"><a href="#" data-go="2">Lessons</a><a href="#" data-go="9">Student path</a><a href="#" data-go="10" aria-current="page">Starter gear</a><a href="#" data-go="11">Weekend videos</a><a href="#" data-go="13">Students' night</a><a href="../jeilah-beat-matching/">Practice tool</a></nav>
+  </div>
+  <div class="wrap">
+    <p class="flag"><b>Our suggestions; her picks to come.</b> Jeilah's own two or three controller picks replace these. No prices on purpose: they change, so they get checked when the page goes live.</p>
+    <div class="cards">
+      <div class="card"><span class="tag alt">Lesson one</span><h3>Free software, your laptop</h3><p>Serato DJ Lite is free and comes with both controllers below. rekordbox Free comes later, when you move to USB and club gear.</p><p>No gear at all yet? Start with the <a href="../jeilah-beat-matching/">practice tool</a>.</p></div>
+      <div class="card"><span class="tag">Main pick</span><h3>Pioneer DJ DDJ-FLX4</h3><p>Two decks with the same layout as club gear, one USB-C cable. Works with Serato DJ Lite and rekordbox, so it carries you from laptop lessons to USB play.</p></div>
+      <div class="card"><span class="tag">Budget pick</span><h3>Numark Mixtrack Platinum FX</h3><p>Lower cost, big jog wheels with displays, Serato DJ Lite included. Lots of buttons, which can feel like a lot on day one.</p><p><a href="https://www.numark.com/product/mixtrack-platinum-fx" target="_blank" rel="noopener">Maker's page</a></p></div>
+      <div class="card"><span class="tag alt">Headphones</span><h3>Closed-back, over-ear</h3><p>Pioneer HDJ-X5 (made for DJs) or Audio-Technica ATH-M40x (a good all-rounder). Closed-back so you can hear your cue over the room.</p></div>
+      <div class="card"><span class="tag alt">Save money</span><h3>Borrow or buy used</h3><p>Used controllers from music stores and resale sites often sell well under new. Chicago rentals are priced by the day, so they rarely make sense for a week or two.</p><p>Loaner controllers from Jeilah: <span class="her">[if she offers them: her call]</span>.</p></div>
+      <div class="card"><span class="tag alt">Need a computer?</span><h3>PCs for People</h3><p>Low-cost refurbished computers for people who qualify by income, with offices in Cook County, Illinois and in Philadelphia.</p><p><a href="https://www.pcsforpeople.org/" target="_blank" rel="noopener">pcsforpeople.org</a></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11. Weekend videos -->
+<section class="screen" data-site data-s="11" aria-label="Weekend video package">
+  <div class="page-hero">
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="in"><h1>The weekend package</h1><p>About ten short videos. Spend a weekend with them and come out ready to step up when a DJ waves you over.</p></div>
+    <nav class="sub-nav" aria-label="Learn to DJ pages"><a href="#" data-go="2">Lessons</a><a href="#" data-go="9">Student path</a><a href="#" data-go="10">Starter gear</a><a href="#" data-go="11" aria-current="page">Weekend videos</a><a href="#" data-go="13">Students' night</a><a href="../jeilah-beat-matching/">Practice tool</a></nav>
+  </div>
+  <div class="wrap">
+    <div class="buy">
+      <div>
+        <p class="flag"><b>Draft video list.</b> Jeilah writes the real one when she records.</p>
+        <ol class="vids">
+          <li>Your setup: laptop, controller, headphones</li>
+          <li>Reading the waveforms</li>
+          <li>Tempo and BPM</li>
+          <li>Beat matching by eye, then by ear</li>
+          <li>Cueing in your headphones</li>
+          <li>The crossfader and channel faders</li>
+          <li>EQ and the bass swap</li>
+          <li>Phrasing: when to bring a track in</li>
+          <li>Your first three-track mix</li>
+          <li>Stepping up on someone else's setup</li>
+        </ol>
+        <p class="small">Practice between videos with the <a href="../jeilah-beat-matching/">practice tool</a>.</p>
+      </div>
+      <aside class="buybox" aria-label="Buy the package">
+        <h3>Weekend package</h3>
+        <p class="price"><span class="her">[her price]</span></p>
+        <ul><li>About 10 videos, phone or laptop</li><li>Watch as often as you like for <span class="her">[access period: her call]</span></li><li>Free practice tool included</li></ul>
+        <button class="btn round" data-go="12" style="width:100%">Buy the package</button>
+        <p class="fine" style="margin-top:12px">Refunds: see the <a href="lesson-terms.html">Lesson Terms (draft)</a>.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- 12. Checkout placeholder -->
+<section class="screen" data-site data-s="12" aria-label="Checkout placeholder">
+  <div class="page-hero" style="padding-bottom:20px"><div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"></div></div>
+  <div class="center-card">
+    <h2>Checkout would open here</h2>
+    <p>On her live site, this button opens a secure card checkout run by her payment provider. After paying, the student gets an email with their login to the videos.</p>
+    <p class="small">This is a mockup: there is no payment link, nothing is charged and no card details are asked for.</p>
+    <a class="btn ghost" href="#" data-go="11">Back to the package</a>
+  </div>
+</section>
+
+<!-- 13. Students' night -->
+<section class="screen" data-site data-s="13" aria-label="Students' night">
+  <div class="page-hero">
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="in"><h1>Students' night</h1><p>A monthly open-decks night for my students. Short sets on real club gear, with friends and family in the room.</p></div>
+    <nav class="sub-nav" aria-label="Learn to DJ pages"><a href="#" data-go="2">Lessons</a><a href="#" data-go="9">Student path</a><a href="#" data-go="10">Starter gear</a><a href="#" data-go="11">Weekend videos</a><a href="#" data-go="13" aria-current="page">Students' night</a><a href="../jeilah-beat-matching/">Practice tool</a></nav>
+  </div>
+  <div class="wrap">
+    <p class="flag"><b>Pilot plan.</b> One night first at a Chicago venue that already runs open decks. Venue: <span class="her">[her call]</span>. First date: <span class="her">[her call]</span>. Then monthly if it works.</p>
+    <div class="cards" style="margin-bottom:34px">
+      <div class="card"><h3>20-30 minute sets</h3><p>Enough for three or four tracks mixed. Six to ten students a night.</p></div>
+      <div class="card"><h3>Gear set up for you</h3><p>Club gear for USB players plus a laptop and controller station, so changeovers take minutes.</p></div>
+      <div class="card"><h3>Hosted by Jeilah</h3><p>She opens or closes the night with her own set. Sets are recorded only with each player's OK.</p></div>
+    </div>
+    <form class="inq" id="show" novalidate style="margin:0 auto">
+      <h2>Ask for a slot</h2>
+      <p class="sub">For current and past students. Slots depend on readiness and the venue's age rules.</p>
+      <div class="row">
+        <div class="f"><label for="sn">Name or DJ name</label><input id="sn" type="text" autocomplete="name" required aria-describedby="sn-err"><div class="err" id="sn-err">Please add your name.</div></div>
+        <div class="f"><label for="se">Email</label><input id="se" type="email" autocomplete="email" required aria-describedby="se-err"><div class="err" id="se-err">Please add a valid email.</div></div>
+      </div>
+      <fieldset class="f"><legend>Slot preference</legend><div class="chips">
+        <label><input type="radio" name="slot" value="Early" checked> Early</label>
+        <label><input type="radio" name="slot" value="Middle"> Middle</label>
+        <label><input type="radio" name="slot" value="Late"> Late</label>
+        <label><input type="radio" name="slot" value="Any"> Any</label></div></fieldset>
+      <div class="f" id="stf"><label class="check"><input type="checkbox" id="st" aria-describedby="st-err"> <span>I agree to the <a href="lesson-terms.html">Lesson Terms (draft)</a>.</span></label><div class="err" id="st-err">Please agree to the Lesson Terms to ask for a slot.</div></div>
+      <label class="check"><input type="checkbox" id="srel"> <span>Optional: you may use photos and video of my set to promote the lessons and students' nights.</span></label>
+      <p class="fine">Separate from your slot request. Leave it unchecked and you stay out of promo photos and video.</p>
+      <div class="form-foot"><button type="button" class="btn ghost" id="sfill">Fill sample answers</button><button type="submit" class="btn round">Ask for a slot</button></div>
+      <p class="okmsg" id="show-ok" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<!-- 14. Newsletter -->
+<section class="screen" data-site data-s="14" aria-label="Newsletter sign-up">
+  <div class="page-hero">
+    <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2">Learn to DJ</a><a href="#">Contact</a></nav></div>
+    <div class="in"><h1>Newsletter</h1><p>Get new lesson dates, students' nights, gig dates and merch drops from Jeilah, about <span class="her">[twice a month]</span>. Unsubscribe any time.</p></div>
+  </div>
+  <div class="wrap narrow">
+    <form class="inq" id="news" novalidate style="margin:0 auto">
+      <h2>Sign up</h2>
+      <div class="row">
+        <div class="f"><label for="ne">Email</label><input id="ne" type="email" autocomplete="email" required aria-describedby="ne-err"><div class="err" id="ne-err">Please add a valid email.</div></div>
+        <div class="f"><label for="nf">First name <span class="opt">(optional)</span></label><input id="nf" type="text" autocomplete="given-name"></div>
+      </div>
+      <div class="f" id="ncf"><label class="check"><input type="checkbox" id="nc" aria-describedby="nc-err"> <span>Yes, email me the Jeilah newsletter. I can unsubscribe at any time using the link in every email.</span></label><div class="err" id="nc-err">Check the box to subscribe.</div></div>
+      <p class="fine">Sent by <span class="her">[legal business name]</span> d/b/a Jeilah, <span class="her">[mailing address]</span>, Chicago, IL, music@jeilah.com. We record when and where you signed up. You must be 16 or older. See the <a href="privacy.html">Privacy Policy (draft)</a>.</p>
+      <div class="form-foot"><span></span><button type="submit" class="btn round">Subscribe</button></div>
+      <div class="okmsg" id="news-ok" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="site-foot" id="site-foot"><div class="in">
+  <span>© Jeilah</span>
+  <a href="#" data-go="2">Learn to DJ</a>
+  <a href="#" data-go="8">Upcoming dates</a>
+  <a href="#" data-go="14">Newsletter</a>
+  <a href="privacy.html">Privacy</a><span class="d">draft</span>
+  <a href="terms.html">Terms</a><span class="d">draft</span>
+  <a href="lesson-terms.html">Lesson Terms</a><span class="d">draft</span>
+</div></footer>
+
 <script>
 (function(){
   const notes={
@@ -314,9 +602,16 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
     4:"<strong>Jeilah decides.</strong> Every inquiry lands in her email and in her website dashboard. In the pilot, a yes or no is one of two saved email replies she wrote once; buttons like these in the dashboard can come later. Only students she says yes to get the booking link.",
     5:"<strong>The yes email.</strong> Written once by Jeilah, reused for every student. The booking link isn't on her site, so only students she sends it to see it.",
     6:"<strong>Booking page</strong> on a scheduling tool, with her photo and colors where the tool allows. Only the times she opened show. Pick a day, then a time.",
-    7:"<strong>Done.</strong> The invite and video link go out by themselves; reminders too, if the plan she picks includes them. Payment can be added at this step later."
+    7:"<strong>Done.</strong> The invite and video link go out by themselves; reminders too, if the plan she picks includes them. Payment can be added at this step later.",
+    8:"<strong>Upcoming dates, filled in automatically.</strong> Once a day the list pulls her gigs from her ticket pages and merges them with dates she types in. These dates are samples. Real ones need her Bandsintown profile, her December dates and a free Ticketmaster key.",
+    9:"<strong>The student path</strong>, built from what she said on the call. Pink brackets are her decisions: tier lengths, prices, how many sessions a month, reply time.",
+    10:"<strong>Starter gear.</strong> Our research picks, shown until she sends her own two or three. Prices are left off on purpose and get checked at launch.",
+    11:"<strong>The weekend video package.</strong> The video list is a draft for her to rewrite. Price and access period are hers. Click Buy to see where checkout would go.",
+    12:"<strong>No payment in the mockup.</strong> On the live site this is a card checkout on her own site, so she keeps more of each sale than on a course platform.",
+    13:"<strong>Students' night pilot.</strong> One night at a Chicago open-decks venue first, then monthly if it works. The sign-up asks for the Lesson Terms and keeps the photo/video OK as a separate, optional box.",
+    14:"<strong>Newsletter sign-up</strong> with the draft consent wording: unchecked box, sender details, double opt-in. Nothing is sent from this mockup."
   };
-  const steps=[...document.querySelectorAll('#steps button')];
+  const steps=[...document.querySelectorAll('.steps button')];
   let cur=1;
   function go(n){
     n=+n; cur=n;
@@ -325,7 +620,10 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
     document.getElementById('note').innerHTML=notes[n];
     window.scrollTo(0,0);
     const h=document.querySelector('.screen.active h1, .screen.active h2, .screen.active h3'); if(h){h.setAttribute('tabindex','-1'); h.focus({preventScroll:true});}
+    const act=document.querySelector('.screen.active');
+    document.getElementById('site-foot').classList.toggle('show',!!(act&&act.hasAttribute('data-site')));
     if(n===4) renderList();
+    if(n===8) renderEvents();
   }
   document.addEventListener('click',e=>{const t=e.target.closest('[data-go]'); if(t){e.preventDefault(); go(t.dataset.go);}});
 
@@ -405,6 +703,70 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
   });
   const full={Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Mon:"Monday",Tue:"Tuesday"};
   $('confirm').onclick=()=>{ $('booked-line').textContent=`${full[days[pd][0]]}, ${days[pd][1]} · ${pt} Central · ${student.fmt.startsWith('In person')?'in person, Chicago':'video call'}`; go(7); };
+
+  // Upcoming dates: sample feed in the same shape as events.json, dated from today so it never empties
+  function iso(days){const d=new Date(); d.setDate(d.getDate()+days); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  const sampleFeed={generated:"SAMPLE",events:[
+    {date:iso(-30),start_time:"",event_name:"SAMPLE past gig (hidden by the rules)",venue:"Old",city:"Chicago",ticket_url:"https://example.com/old",private:false},
+    {date:iso(8),start_time:"22:00",event_name:"SAMPLE House Night",venue:"Sample Club",city:"Chicago",ticket_url:"https://example.com/t1",private:false},
+    {date:iso(15),start_time:"20:00",event_name:"Sample wedding",venue:"Sample Hotel",city:"Chicago",ticket_url:"",private:true},
+    {date:iso(29),start_time:"21:30",event_name:"SAMPLE Disco & Soul Rooftop",venue:"Sample Rooftop",city:"Chicago",ticket_url:"https://example.com/t2",private:false},
+    {date:iso(55),start_time:"",event_name:"SAMPLE New Year's Night",venue:"Sample Hall",city:"Chicago",ticket_url:"",private:false}
+  ]};
+  function localDate(i){const p=i.split('-'); return new Date(+p[0],+p[1]-1,+p[2]);}
+  function fmtTime(h){if(!h) return ''; const p=h.split(':'),x=+p[0],m=p[1]; return (x%12||12)+(m!=='00'?':'+m:'')+(x<12?' AM':' PM');}
+  function el(t,c,txt){const n=document.createElement(t); if(c) n.className=c; if(txt!=null) n.textContent=txt; return n;}
+  function renderEvents(){
+    const t=new Date(); t.setHours(0,0,0,0);
+    const evs=sampleFeed.events.filter(e=>/^\d{4}-\d{2}-\d{2}$/.test(e.date)&&localDate(e.date)>=t).sort((a,b)=>a.date.localeCompare(b.date));
+    const list=$('ev-list'); list.textContent='';
+    if(!evs.length){$('ev-status').textContent='New dates soon. Follow @therealjeilah for announcements.'; list.hidden=true; return;}
+    evs.forEach(e=>{
+      const d=localDate(e.date), long=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+      const li=el('li','jl-events__item'), tm=el('time','jl-events__date');
+      tm.setAttribute('datetime',e.date+(e.start_time?'T'+e.start_time:'')); tm.setAttribute('aria-label',long);
+      tm.appendChild(el('span','jl-events__dow',d.toLocaleDateString('en-US',{weekday:'short'})));
+      tm.appendChild(el('span','jl-events__day',String(d.getDate())));
+      tm.appendChild(el('span','jl-events__month',d.toLocaleDateString('en-US',{month:'short'})));
+      const body=el('div'), name=e.private?'Private event':(e.event_name||'TBA');
+      body.appendChild(el('p','jl-events__name',name));
+      const meta=[e.private?'':e.venue,e.city,fmtTime(e.start_time)].filter(Boolean).join(' · ');
+      if(meta) body.appendChild(el('p','jl-events__meta',meta));
+      li.appendChild(tm); li.appendChild(body);
+      if(e.private) li.appendChild(el('span','jl-events__private','Private'));
+      else if(/^https?:\/\//.test(e.ticket_url)){
+        const b=el('button','jl-events__cta','Tickets'); b.type='button';
+        b.setAttribute('aria-label','Tickets for '+name+', '+long);
+        b.onclick=()=>{const m=$('ev-msg'); m.textContent="On her live site, Tickets opens this gig's page on the ticket seller's site in a new tab. Sample gig, so no link here."; m.classList.add('show');};
+        li.appendChild(b);
+      }
+      list.appendChild(li);
+    });
+    $('ev-status').hidden=true; list.hidden=false;
+  }
+
+  // Generic client-side form check (nothing is sent anywhere)
+  function check(wrap,cond){wrap.classList.toggle('invalid',!cond); wrap.querySelectorAll('input,textarea').forEach(x=>x.setAttribute('aria-invalid',String(!cond))); return cond;}
+  const emailOk=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  $('sfill').addEventListener('click',()=>{$('sn').value="DJ Sample"; $('se').value="student@example.com"; $('st').checked=true; document.querySelectorAll('#show .invalid').forEach(x=>x.classList.remove('invalid'));});
+  $('show').addEventListener('submit',e=>{
+    e.preventDefault();
+    const a=check($('sn').closest('.f'),$('sn').value.trim()!==""), b=check($('se').closest('.f'),emailOk($('se').value)), c=check($('stf'),$('st').checked);
+    if(!(a&&b&&c)){(document.querySelector('#show .invalid input')||$('sn')).focus(); return;}
+    const slot=document.querySelector('input[name=slot]:checked').value;
+    const m=$('show-ok'); m.textContent=`Thanks, ${$('sn').value.trim()}. Jeilah will email ${$('se').value.trim()} when the date is set (slot preference: ${slot}; promo photos: ${$('srel').checked?'yes':'no'}). Mockup only: nothing was sent.`; m.classList.add('show');
+  });
+  $('news').addEventListener('submit',e=>{
+    e.preventDefault();
+    const a=check($('ne').closest('.f'),emailOk($('ne').value)), b=check($('ncf'),$('nc').checked);
+    if(!(a&&b)){(document.querySelector('#news .invalid input')||$('ne')).focus(); return;}
+    const m=$('news-ok'); m.innerHTML='';
+    m.appendChild(el('p',null,'Almost done. Check '+$('ne').value.trim()+' for a confirmation email and tap the button in it. Mockup only: nothing was sent.'));
+    const box=el('div'); box.style.cssText='background:#fff;border:1px solid var(--line);padding:12px 14px;margin-top:10px;color:var(--text)';
+    box.appendChild(el('p','small','Subject: Confirm your Jeilah newsletter sign-up'));
+    box.appendChild(el('p',null,"Tap the button to confirm you want the Jeilah newsletter: new lesson dates, showcase nights, gig dates and merch. If you didn't sign up, ignore this email and you won't hear from us."));
+    const bt=el('span','btn round','Yes, subscribe me'); box.appendChild(bt); m.appendChild(box); m.classList.add('show');
+  });
 
   setWho(); go(1);
 })();
