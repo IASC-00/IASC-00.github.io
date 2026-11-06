@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Josefin+Sans:wght@600;700&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:"Mollies";src:url("https://jeilah.com/wp-content/uploads/et-fonts/MOLLIES-Bold.ttf") format("truetype");font-display:swap}
 :root{
   --blush:#F1EBE8; --pink:#ffb5d0; --rose:#b8337c; --magenta:#ce1e7f;
   --ink:#1d1d1f; --text:#3a3a3c; --muted:#6e6e73; --line:#e4dcd9; --white:#fff;
@@ -17,7 +16,7 @@
 *{box-sizing:border-box}
 html,body{margin:0}
 body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:#faf7f6;line-height:1.55}
-h1,h2,h3,.display{font-family:"Mollies","Josefin Sans",Inter,sans-serif;font-weight:700;color:var(--ink);letter-spacing:.01em;text-transform:uppercase;line-height:1.05;margin:0}
+h1,h2,h3,.display{font-family:"Josefin Sans",Inter,sans-serif;font-weight:700;color:var(--ink);letter-spacing:.01em;text-transform:uppercase;line-height:1.05;margin:0}
 button,input,select,textarea{font:inherit}
 :focus-visible{outline:3px solid var(--magenta);outline-offset:2px}
 
@@ -58,7 +57,7 @@ button,input,select,textarea{font:inherit}
 .path{list-style:none;margin:0;padding:0;counter-reset:p}
 .path>li{display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
 .path>li:first-child{border-top:1px solid var(--line)}
-.path .num{font-family:"Mollies","Josefin Sans",sans-serif;font-size:34px;color:var(--rose);line-height:1}
+.path .num{font-family:"Josefin Sans",sans-serif;font-size:34px;color:var(--rose);line-height:1}
 .path h3{font-size:20px;margin-bottom:6px}
 .path p,.path ul{margin:0 0 8px;font-size:15px}
 .path ul{padding-left:18px}
@@ -348,7 +347,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
   <div class="lesson-hero" style="padding-bottom:20px"><div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"></div></div>
   <div class="center-card">
     <h2>Got it, <span class="who-name">thanks</span>.</h2>
-    <p>I read every inquiry myself. If we're a good fit, you'll get an email from me with a link to book your first session, usually within <strong>[2 days: Jeilah sets this]</strong>.</p>
+    <p>I read every inquiry myself. If we're a good fit, you'll get an email from me with a link to book your first session, usually within <span class="her">[reply time: her call]</span>.</p>
     <p class="small">A copy of your answers is on its way to <span class="who-email">your inbox</span>.</p>
     <a class="btn ghost" href="#" data-go="1">Back to jeilah.com</a>
   </div>
@@ -406,7 +405,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
 <section class="screen" data-s="7" aria-label="Step 7: booked">
   <div class="center-card">
     <h2>You're booked.</h2>
-    <p id="booked-line">Friday, Nov 6 · 2:00 PM Central · video call</p>
+    <p id="booked-line">Your chosen day and time · video call</p>
     <p>A calendar invite and the video link are in your email. You'll get a reminder before the session.</p>
     <p class="small">Need to move it? Use the link in your confirmation email.</p>
   </div>
@@ -443,7 +442,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
   </div>
   <div class="wrap narrow">
     <ol class="path">
-      <li><span class="num">0</span><div><h3>Apply</h3><p>Fill in the short <a href="#" data-go="2">lesson inquiry</a>. I read every one myself and reply within <span class="her">[48-72 hours suggested: her call]</span> with a booking link, or let you know if now isn't the right time.</p></div></li>
+      <li><span class="num">0</span><div><h3>Apply</h3><p>Fill in the short <a href="#" data-go="2">lesson inquiry</a>. I read every one myself and reply within <span class="her">[reply time: her call]</span> with a booking link, or let you know if now isn't the right time.</p></div></li>
       <li><span class="num">1</span><div><h3>See it before you hear it</h3><p>Lesson one is on a laptop with free DJ software, so you can see the beats line up on screen. No gear needed yet.</p><p>Before then, try the <a href="../jeilah-beat-matching/">practice tool</a> in your browser: move the tempo and nudge one deck until its beats line up with the other.</p></div></li>
       <li><span class="num">2</span><div><h3>Get gear without a big spend</h3><p>Two decks, a crossfader and some knobs is all you need. See <a href="#" data-go="10">starter gear</a> for picks, used options and ways to borrow before you buy.</p></div></li>
       <li><span class="num">3</span><div><h3>Weekend videos</h3><p>About ten short videos you can work through in a weekend. Come out of it able to step up when a DJ waves you over. <a href="#" data-go="11">See the package</a>.</p></div></li>
@@ -454,7 +453,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
           <div><b>Tier 3: Gig-ready</b><span>Playing from USB on club gear, prep, a demo mix, getting booked.</span></div>
         </div>
         <p class="small">Online for anyone, in person in Chicago. Tier names, lengths and prices: <span class="her">[her call]</span>. Sessions offered per month: <span class="her">[her call]</span>.</p></div></li>
-      <li><span class="num">5</span><div><h3>Play out</h3><p>The hardest part besides learning is getting chances to play. Students get a slot at a <a href="#" data-go="13">students' night</a>.</p></div></li>
+      <li><span class="num">5</span><div><h3>Play out</h3><p>The hardest part besides learning is getting chances to play. Students can ask for a slot at a <a href="#" data-go="13">students' night</a>.</p></div></li>
       <li><span class="num">6</span><div><h3>Keep going</h3><p>Advanced sessions and a plan built around you. Later, guest teachers from the Chicago scene.</p></div></li>
     </ol>
   </div>
@@ -531,15 +530,15 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
 <section class="screen" data-site data-s="13" aria-label="Students' night">
   <div class="page-hero">
     <div class="site-nav"><img src="assets/Jeilah-LOGO-W-980x295.png" alt="Jeilah"><nav><a href="#" data-go="1">Home</a><a href="#">Music</a><a href="#" data-go="8">Events</a><a href="#" data-go="2" class="cur">Learn to DJ</a><a href="#">Contact</a></nav></div>
-    <div class="in"><h1>Students' night</h1><p>A monthly open-decks night for my students. Short sets on real club gear, with friends and family in the room.</p></div>
+    <div class="in"><h1>Students' night</h1><p>An open-decks night for my students. Short sets on real club gear, with friends and family in the room.</p></div>
     <nav class="sub-nav" aria-label="Learn to DJ pages"><a href="#" data-go="2">Lessons</a><a href="#" data-go="9">Student path</a><a href="#" data-go="10">Starter gear</a><a href="#" data-go="11">Weekend videos</a><a href="#" data-go="13" aria-current="page">Students' night</a><a href="../jeilah-beat-matching/">Practice tool</a></nav>
   </div>
   <div class="wrap">
-    <p class="flag"><b>Pilot plan.</b> One night first at a Chicago venue that already runs open decks. Venue: <span class="her">[her call]</span>. First date: <span class="her">[her call]</span>. Then monthly if it works.</p>
+    <p class="flag"><b>Pilot plan.</b> One night first at a Chicago venue that already runs open decks. Venue: <span class="her">[her call]</span>. First date: <span class="her">[her call]</span>. How often after that: <span class="her">[her call]</span>.</p>
     <div class="cards" style="margin-bottom:34px">
-      <div class="card"><h3>20-30 minute sets</h3><p>Enough for three or four tracks mixed. Six to ten students a night.</p></div>
+      <div class="card"><h3>Short sets</h3><p>Set length: <span class="her">[20-30 minutes suggested: her call]</span>. Students per night: <span class="her">[six to ten suggested: her call]</span>.</p></div>
       <div class="card"><h3>Gear set up for you</h3><p>Club gear for USB players plus a laptop and controller station, so changeovers take minutes.</p></div>
-      <div class="card"><h3>Hosted by Jeilah</h3><p>She opens or closes the night with her own set. Sets are recorded only with each player's OK.</p></div>
+      <div class="card"><h3>Hosted by Jeilah</h3><p>Whether she plays her own set: <span class="her">[her call]</span>. Sets are recorded only with each player's OK.</p></div>
     </div>
     <form class="inq" id="show" novalidate style="margin:0 auto">
       <h2>Ask for a slot</h2>
@@ -597,7 +596,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
 (function(){
   const notes={
     1:"<strong>Her site, one change:</strong> a second button next to Booking Inquiries, plus a Learn to DJ menu item. Nothing else on her site moves. Click the white button.",
-    2:"<strong>A new page on her own WordPress site</strong> with a form built in her fonts and colors. Answers are saved on her site and emailed to her. Try Send with empty fields, or use Fill sample answers.",
+    2:"<strong>A new page on her own WordPress site</strong> with a form built in her colors (her headline font goes in on her site). Answers are saved on her site and emailed to her. Try Send with empty fields, or use Fill sample answers.",
     3:"<strong>What the student sees after sending.</strong> The reply time is hers to set. They also get a copy of their answers.",
     4:"<strong>Jeilah decides.</strong> Every inquiry lands in her email and in her website dashboard. In the pilot, a yes or no is one of two saved email replies she wrote once; buttons like these in the dashboard can come later. Only students she says yes to get the booking link.",
     5:"<strong>The yes email.</strong> Written once by Jeilah, reused for every student. The booking link isn't on her site, so only students she sends it to see it.",
@@ -608,7 +607,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
     10:"<strong>Starter gear.</strong> Our research picks, shown until she sends her own two or three. Prices are left off on purpose and get checked at launch.",
     11:"<strong>The weekend video package.</strong> The video list is a draft for her to rewrite. Price and access period are hers. Click Buy to see where checkout would go.",
     12:"<strong>No payment in the mockup.</strong> On the live site this is a card checkout on her own site, so she keeps more of each sale than on a course platform.",
-    13:"<strong>Students' night pilot.</strong> One night at a Chicago open-decks venue first, then monthly if it works. The sign-up asks for the Lesson Terms and keeps the photo/video OK as a separate, optional box.",
+    13:"<strong>Students' night pilot.</strong> One night at a Chicago open-decks venue first; how often after that is her call. The sign-up asks for the Lesson Terms and keeps the photo/video OK as a separate, optional box.",
     14:"<strong>Newsletter sign-up</strong> with the draft consent wording: unchecked box, sender details, double opt-in. Nothing is sent from this mockup."
   };
   const steps=[...document.querySelectorAll('.steps button')];
@@ -692,7 +691,11 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
   }
 
   // Booking
-  const days=[["Wed","Nov 4",[]],["Thu","Nov 5",["5:00 PM","6:30 PM"]],["Fri","Nov 6",["11:00 AM","2:00 PM","4:00 PM"]],["Mon","Nov 9",["6:00 PM"]],["Tue","Nov 10",["5:00 PM","7:00 PM"]]];
+  // Next 5 weekdays from tomorrow, so the sample never shows past days
+  const sampleTimes=[[],["5:00 PM","6:30 PM"],["11:00 AM","2:00 PM","4:00 PM"],["6:00 PM"],["5:00 PM","7:00 PM"]];
+  const days=[]; {const d=new Date(); d.setHours(12,0,0,0);
+    while(days.length<5){d.setDate(d.getDate()+1); const w=d.getDay(); if(w===0||w===6) continue;
+      days.push([d.toLocaleDateString('en-US',{weekday:'short'}), d.toLocaleDateString('en-US',{month:'short',day:'numeric'}), sampleTimes[days.length], d.toLocaleDateString('en-US',{weekday:'long'})]);}}
   let pd=null, pt=null;
   $('days').innerHTML=days.map((d,i)=>`<button aria-pressed="false" data-d="${i}" ${d[2].length?"":"disabled"}>${d[0]}<small>${d[1]}</small></button>`).join("");
   $('days').querySelectorAll('button').forEach(b=>b.onclick=()=>{
@@ -701,8 +704,7 @@ dl.ans dd{margin:0;color:var(--ink);font-size:15px}
     $('times').innerHTML=days[pd][2].map(t=>`<button aria-pressed="false">${t}</button>`).join("");
     $('times').querySelectorAll('button').forEach(tb=>tb.onclick=()=>{pt=tb.textContent; $('times').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===tb)); $('confirm').disabled=false;});
   });
-  const full={Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Mon:"Monday",Tue:"Tuesday"};
-  $('confirm').onclick=()=>{ $('booked-line').textContent=`${full[days[pd][0]]}, ${days[pd][1]} · ${pt} Central · ${student.fmt.startsWith('In person')?'in person, Chicago':'video call'}`; go(7); };
+  $('confirm').onclick=()=>{ $('booked-line').textContent=`${days[pd][3]}, ${days[pd][1]} · ${pt} Central · ${student.fmt.startsWith('In person')?'in person, Chicago':'video call'}`; go(7); };
 
   // Upcoming dates: sample feed in the same shape as events.json, dated from today so it never empties
   function iso(days){const d=new Date(); d.setDate(d.getDate()+days); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
