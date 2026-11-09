@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phrasing, Visualized</title>
+<meta name="description" content="A teaching demo: count bars and phrases, hear where a song changes, and start the next song on the phrase.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --magenta:#c2185b; --pink:#f3cdd8; --ink:#1c1c1e; --white:#ffffff;
+  --bg:#fdf6f9; --surface:#ffffff; --surface-2:#f8e7ee; --text:#1c1c1e; --muted:#5b4a52;
+  --line:#e6c6d3; --accent:#c2185b; --accent-text:#ffffff; --focus:#c2185b;
+  --ok:#17703a; --ok-bg:#dff3e5; --warn:#8a5a00; --warn-bg:#fbefd5; --bad:#b3261e; --bad-bg:#fbe3e1;
+  --screen:#1c1c1e; --screen-2:#26262a;
+  --radius:14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1c1e; --surface:#26262a; --surface-2:#323036; --text:#ffffff; --muted:#d9c3cc;
+    --line:#4a3a42; --accent:#f06292; --accent-text:#1c1c1e; --focus:#f3cdd8;
+    --ok:#5fe08a; --ok-bg:#163d24; --warn:#ffcf70; --warn-bg:#3d2e10; --bad:#ff8a80; --bad-bg:#45201d;
+    --screen:#121214; --screen-2:#1a1a1d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1c1e; --surface:#26262a; --surface-2:#323036; --text:#ffffff; --muted:#d9c3cc;
+  --line:#4a3a42; --accent:#f06292; --accent-text:#1c1c1e; --focus:#f3cdd8;
+  --ok:#5fe08a; --ok-bg:#163d24; --warn:#ffcf70; --warn-bg:#3d2e10; --bad:#ff8a80; --bad-bg:#45201d;
+  --screen:#121214; --screen-2:#1a1a1d;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;font-size:16px}
+button,input{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 16px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 8px;flex-wrap:wrap}
+h1{font-size:clamp(1.6rem,4.5vw,2.4rem);line-height:1.1;margin:0;letter-spacing:-.02em}
+h1 span{color:var(--accent)}
+.sub{margin:4px 0 0;color:var(--muted)}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{appearance:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;min-height:44px;cursor:pointer;font-weight:500;touch-action:manipulation;-webkit-user-select:none;user-select:none;transition:background .15s,border-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.layout{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);padding-bottom:24px}
+@media (min-width:1180px){.layout{grid-template-columns:minmax(0,1fr) 330px;align-items:start}.lesson{position:sticky;top:16px;order:2}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+/* screen */
+.screen{background:var(--screen);border-radius:var(--radius);padding:10px;position:relative;border:1px solid var(--line)}
+canvas#lanes{display:block;width:100%;height:300px;border-radius:8px;touch-action:pan-y}
+@media (max-width:600px){canvas#lanes{height:220px}}
+@media (max-width:1179px){.screen{position:sticky;top:0;z-index:5;box-shadow:0 6px 18px rgba(0,0,0,.25)}}
+/* count + tap */
+.panels{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);margin-top:16px}
+@media (min-width:860px){.panels{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.panel-head h2{font-size:1rem;margin:0}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 12px;font-weight:700;font-size:.9rem;background:var(--surface-2);color:var(--muted)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.section-name{font-size:clamp(1.5rem,4vw,2rem);font-weight:700;line-height:1.1;margin:10px 0 2px}
+.section-sub{color:var(--muted);margin:0}
+.bigcount{font-size:clamp(1.25rem,3.4vw,1.6rem);font-weight:700;font-variant-numeric:tabular-nums;margin:12px 0 6px}
+.bars{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin:0;padding:0;list-style:none}
+.bars li{height:34px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;font-weight:700;font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.bars li.past{background:var(--pink);color:var(--ink)}
+.bars li.now{background:var(--accent);color:var(--accent-text)}
+.beats{display:flex;gap:8px;margin:10px 0 0;padding:0;list-style:none}
+.beats li{width:16px;height:16px;border-radius:50%;background:var(--surface-2);border:1.5px solid var(--line)}
+.beats li.on{background:var(--accent);border-color:var(--accent)}
+.beats li:first-child.on{box-shadow:0 0 0 3px var(--pink)}
+.nextchange{margin:10px 0 0;font-weight:500}
+.deckb-line{margin:10px 0 0;color:var(--muted);min-height:1.5em}
+.hidden-msg{display:none;margin:12px 0 0;padding:12px;border-radius:10px;background:var(--surface-2)}
+body.listening .count-live{display:none}
+body.listening .hidden-msg{display:block}
+.tapbtn{width:100%;min-height:72px;font-size:1.15rem;font-weight:700;margin-top:12px}
+.feedback{border-radius:10px;padding:10px 12px;margin:12px 0 0;font-weight:500;background:var(--surface-2);color:var(--muted);min-height:3em}
+.feedback.ok{background:var(--ok-bg);color:var(--ok)}
+.feedback.warn{background:var(--warn-bg);color:var(--warn)}
+.score{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.readout{background:var(--surface-2);border-radius:10px;padding:8px 10px;min-width:0}
+.readout .k{font-size:.78rem;color:var(--muted);display:block}
+.readout .v{font-weight:700;font-size:1.05rem;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+/* controls */
+.controls{display:grid;gap:16px;grid-template-columns:minmax(0,1fr);margin-top:16px}
+@media (min-width:860px){.controls{grid-template-columns:minmax(0,1fr) minmax(0,.9fr) minmax(0,1fr)}.deck-b{order:3}.mixer{order:2}}
+.deck h2,.mixer h2{margin:0 0 2px;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--accent);color:var(--accent-text);font-size:.95rem}
+.deck-b .badge{background:var(--pink);color:var(--ink)}
+.bpm{font-variant-numeric:tabular-nums;color:var(--muted);margin:0 0 10px}
+.bpm strong{color:var(--text);font-size:1.3rem}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.row .btn{flex:1 1 auto}
+.field{margin-bottom:12px}
+.field label{display:flex;justify-content:space-between;font-weight:500;gap:8px}
+.field output{font-variant-numeric:tabular-nums;color:var(--muted)}
+input[type=range]{width:100%;height:44px;margin:0;accent-color:var(--accent);cursor:pointer;touch-action:pan-y}
+.scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-top:-6px}
+.note{font-size:.88rem;color:var(--muted);margin:6px 0 0}
+.map{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.map li{font-size:.8rem;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--muted)}
+/* lesson */
+.lesson h2{margin:0;font-size:1.15rem}
+.steps{display:flex;gap:6px;margin:10px 0 12px;padding:0;list-style:none}
+.steps li{flex:1;height:6px;border-radius:3px;background:var(--surface-2)}
+.steps li.done{background:var(--ok)}
+.steps li.current{background:var(--accent)}
+.lesson .kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;margin:0}
+.lesson h3{margin:2px 0 8px;font-size:1.25rem}
+.lesson p{margin:0 0 10px}
+.status{border-radius:10px;padding:8px 12px;margin:10px 0;font-weight:500;background:var(--surface-2);color:var(--muted)}
+.status.ok{background:var(--ok-bg);color:var(--ok)}
+.status.warn{background:var(--warn-bg);color:var(--warn)}
+.lesson-nav{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.lesson[hidden]{display:none}
+footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.92rem}
+kbd{font-family:inherit;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:.85em;background:var(--surface-2)}
+@media (max-width:600px){.score{display:none}.tapbtn{min-height:60px}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Phrasing, <span>Visualized</span></h1>
+      <p class="sub">Count the bars, hear the change coming, and bring the next song in on time.</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn" id="lessonToggle" aria-controls="lesson" aria-expanded="true">Hide lesson</button>
+      <button class="btn" id="themeToggle" aria-label="Switch color theme">Light / Dark</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="lesson card" id="lesson" aria-labelledby="lessonTitle">
+      <h2 id="lessonTitle">Lesson</h2>
+      <ol class="steps" id="stepBar" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+      <p class="kicker" id="lessonKicker"></p>
+      <h3 id="lessonHeading" tabindex="-1"></h3>
+      <div id="lessonBody"></div>
+      <div class="status" id="lessonStatus" role="status" aria-live="polite"></div>
+      <div class="lesson-nav">
+        <button class="btn" id="lessonBack">Back</button>
+        <button class="btn primary" id="lessonNext">Next</button>
+      </div>
+    </aside>
+
+    <div class="stage">
+      <section class="screen" aria-label="Song map">
+        <canvas id="lanes" role="img" aria-label="Scrolling song map. Deck A on top, Deck B below, with a shared playhead line in the middle. Thin lines are bars, thick lines start a new phrase, and the colored strip names each section. The count panel below says the same thing in words."></canvas>
+      </section>
+
+      <div class="panels">
+        <section class="card" aria-labelledby="tapTitle">
+          <div class="panel-head">
+            <h2 id="tapTitle">Tap on the change</h2>
+            <span class="pill" id="hitPill">0 of 3</span>
+          </div>
+          <button class="btn primary tapbtn" id="tapBtn">That's the change</button>
+          <p class="feedback" id="tapFeedback" role="status" aria-live="polite">Tap the moment a new section starts. Within half a beat counts.</p>
+          <div class="score">
+            <div class="readout"><span class="k">On time</span><span class="v" id="rHits">0</span></div>
+            <div class="readout"><span class="k">Tries</span><span class="v" id="rTries">0</span></div>
+          </div>
+        </section>
+        <section class="card" aria-labelledby="countTitle">
+          <div class="panel-head">
+            <h2 id="countTitle">The count · Deck A</h2>
+            <button class="btn" id="hideCount" aria-pressed="false">Hide the count</button>
+          </div>
+          <div class="count-live">
+            <p class="section-name" id="secName">Intro</p>
+            <p class="section-sub" id="secSub">Phrase 1 of 6</p>
+            <p class="bigcount" id="bigCount">Bar 1 · Beat 1</p>
+            <ol class="bars" id="barBoxes" aria-hidden="true"><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li></ol>
+            <ol class="beats" id="beatDots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+            <p class="nextchange" id="nextChange">Press Play on Deck A to start.</p>
+            <p class="deckb-line" id="deckBLine"></p>
+          </div>
+          <p class="hidden-msg">Counting by ear now. Say it in your head: 1-2-3-4 is bar one, 2-2-3-4 is bar two, all the way to 8-2-3-4. The change lands on the next 1.</p>
+        </section>
+
+      </div>
+
+      <div class="controls">
+        <section class="card deck deck-a" aria-labelledby="deckAh">
+          <h2 id="deckAh"><span class="badge" aria-hidden="true">A</span>Deck A · House track</h2>
+          <p class="bpm"><strong>124</strong> BPM</p>
+          <div class="row">
+            <button class="btn primary" id="playA">Play</button>
+            <button class="btn" id="cueA">Back to start</button>
+          </div>
+          <ul class="map" aria-label="Deck A sections, 8 bars each"><li>Intro</li><li>Groove</li><li>Breakdown</li><li>Build</li><li>Drop</li><li>Outro</li></ul>
+          <p class="note">In this demo every section is one phrase: 8 bars, 32 beats. Real songs often hold a section for 16 or 32 bars. The track loops so you can keep practicing.</p>
+        </section>
+        <section class="card deck deck-b" aria-labelledby="deckBh">
+          <h2 id="deckBh"><span class="badge" aria-hidden="true">B</span>Deck B · Tech house track</h2>
+          <p class="bpm"><strong>124</strong> BPM · already beat matched</p>
+          <div class="row">
+            <button class="btn primary" id="startB">Start B</button>
+          </div>
+          <ul class="map" aria-label="Deck B sections, 8 bars each"><li>Intro</li><li>Groove</li><li>Peak</li><li>Break</li><li>Drop</li><li>Outro</li></ul>
+          <p class="note">B is cued at the very start of its intro. Start B snaps to the nearest beat. Count through bar 8 (8-2-3-4) and press right on the next 1.</p>
+        </section>
+        <section class="card mixer" aria-labelledby="mixh">
+          <h2 id="mixh">Mixer</h2>
+          <div class="field">
+            <label for="xfader">Crossfader <output id="xfOut" for="xfader" aria-hidden="true">All A</output></label>
+            <input type="range" id="xfader" min="0" max="100" step="1" value="0">
+            <div class="scale" aria-hidden="true"><span>A</span><span>Both</span><span>B</span></div>
+          </div>
+          <div class="field">
+            <label for="master">Master volume <output id="masterOut" for="master" aria-hidden="true">70%</output></label>
+            <input type="range" id="master" min="0" max="100" step="1" value="70">
+          </div>
+          <button class="btn" id="resetBtn" style="width:100%">Start over</button>
+        </section>
+      </div>
+      <p class="note" style="margin-top:12px">Keyboard: every control works with <kbd>Tab</kbd>, <kbd>Enter</kbd> and the arrow keys. Shortcuts: <kbd>A</kbd> play/pause Deck A, <kbd>B</kbd> start/stop Deck B, <kbd>T</kbd> tap on the change. <button class="btn" id="keysToggle" aria-pressed="true" style="min-height:36px;padding:4px 12px;margin-left:4px">Shortcuts on</button></p>
+      <p class="note">No sound on an iPhone? Turn off silent mode.</p>
+    </div>
+  </main>
+</div>
+<footer><div class="wrap">A teaching demo for Learn to DJ with Jeilah. Both tracks are generated in your browser; no recorded music is used. New to beat matching? Start with <a href="../jeilah-beat-matching/">Beat Matching, Visualized</a>.</div></footer>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+/* ---------- Song structure ----------
+   One step = a 16th note, 16 steps = 1 bar, 8 bars = 1 phrase (32 beats), 6 phrases = the loop. */
+const BPM = 124, SPB = 60/BPM;
+const PHRASE = 32, SECTIONS_N = 6, LOOP_BEATS = PHRASE*SECTIONS_N, LOOP_STEPS = LOOP_BEATS*4;
+const K4 = 'x...x...x...x...';
+const ROOTS = [55, 43.65, 65.41, 49];                       // A, F, C, G (4-bar loop, both tracks in A minor)
+const CHORDS = [[220,261.63,329.63],[174.61,220,261.63],[196,261.63,329.63],[196,246.94,293.66]];
+const ROLL = 'xxxxxxxxxxxxxxxx';
+const DECKS = [
+  { id:'A', name:'Deck A', sections:[
+    { name:'Intro',     parts:{ kick:K4, hat:'..x...x...x...x.' } },
+    { name:'Groove',    parts:{ kick:K4, hat:'..x...x...x...x.', bass:'..x...x..x.x..x.', shaker:'x.xxx.xxx.xxx.xx' } },
+    { name:'Breakdown', parts:{ pad:'x...............', shaker:'x.xxx.xxx.xxx.xx' } },
+    { name:'Build',     parts:{ pad:'x...............', shaker:'x.xxx.xxx.xxx.xx', clap:'....x.......x...', ohat:'..x...x...x...x.' }, roll:'snare' },
+    { name:'Drop',      parts:{ kick:K4, ohat:'..x...x...x...x.', bass:'..x...x..x.x..x.', clap:'....x.......x...', shaker:'x.xxx.xxx.xxx.xx', stab:'x.....x.........' } },
+    { name:'Outro',     parts:{ kick:K4, ohat:'..x...x...x...x.', shaker:'x.xxx.xxx.xxx.xx' } }
+  ]},
+  { id:'B', name:'Deck B', sections:[
+    { name:'Intro',  parts:{ kick:K4, rim:'...x..x....x..x.' } },
+    { name:'Groove', parts:{ kick:K4, rim:'...x..x....x..x.', bassB:'x..x..x...x..x..', hat16:ROLL } },
+    { name:'Peak',   parts:{ kick:K4, rim:'...x..x....x..x.', bassB:'x..x..x...x..x..', hat16:ROLL, snare:'....x.......x...', tom:'..........x...x.' } },
+    { name:'Break',  parts:{ padB:'x...............', hat16:ROLL }, roll:'snare' },
+    { name:'Drop',   parts:{ kick:K4, bassB:'x..x..x...x..x..', hat16:ROLL, snare:'....x.......x...', tom:'..........x...x.', rim:'...x..x....x..x.' } },
+    { name:'Outro',  parts:{ kick:K4, rim:'...x..x....x..x.', tom:'..........x...x.' } }
+  ]}
+];
+const SEC_COLOR = { Intro:'#3d3a44', Groove:'#6b2a45', Build:'#93204f', Peak:'#93204f', Breakdown:'#2d4b61', Break:'#2d4b61', Drop:'#c2185b', Outro:'#4f3f48' };
+
+const mod = (x, m) => ((x % m) + m) % m;
+function wrapC(x, m){ return mod(x + m/2, m) - m/2; }      // to [-m/2, m/2)
+
+// Everything that plays on one 16th step of a deck (step counted from the deck's first beat).
+function hitsAt(d, step){
+  if (step < 0) return [];
+  const s = mod(step, LOOP_STEPS), i = s % 16;
+  const bar = Math.floor(s/16), barInPhrase = bar % 8, sec = d.sections[Math.floor(s/128)];
+  const out = [];
+  if (s % 128 === 0 && step > 0) out.push(['crash', 1]);
+  if (sec.roll && barInPhrase === 7) out.push([sec.roll, .22 + .78*i/15]);
+  for (const [inst, pat] of Object.entries(sec.parts)){
+    if (pat[i] === '.') continue;
+    let v = 1;
+    if (inst === 'hat16') v = i % 4 === 2 ? 1 : .5;
+    if (inst === 'shaker') v = i % 2 ? .7 : 1;
+    out.push([inst, v, bar % 4]);
+  }
+  return out;
+}
+
+/* ---------- Picture tables (drawn waveform, one loop) ---------- */
+const RES = 24; // table samples per beat
+const ENV = { // band, amplitude, decay seconds
+  kick:['low',1,.12], bass:['low',.45,.12], bassB:['low',.4,.09], tom:['low',.5,.12],
+  clap:['high',.7,.07], snare:['high',.7,.09], ohat:['high',.4,.07], hat:['high',.3,.03],
+  hat16:['high',.22,.03], shaker:['high',.16,.03], rim:['high',.4,.03], crash:['high',.8,.45],
+  stab:['high',.5,.15], pad:['pad',.32,0], padB:['pad',.28,0]
+};
+function buildTables(d){
+  const N = LOOP_BEATS*RES, low = new Float32Array(N), high = new Float32Array(N);
+  for (let step = 0; step < LOOP_STEPS; step++){
+    for (const [inst, vel] of hitsAt(d, step || LOOP_STEPS)){   // step 0 drawn as the loop restart (with its crash)
+      const [band, amp, dec] = ENV[inst];
+      const i0 = step*RES/4;
+      if (band === 'pad'){ for (let j=0; j<RES*4; j++) high[(i0+j) % N] += amp*(j < 4 ? j/4 : 1); continue; }
+      const arr = band === 'low' ? low : high, span = Math.ceil(dec*6/SPB*RES);
+      for (let j=0; j<span; j++){ const v = amp*vel*Math.exp(-(j/RES*SPB)/dec); arr[(i0+j) % N] += v; }
+    }
+  }
+  for (const a of [low,high]) for (let i=0;i<N;i++) a[i] = Math.min(1, a[i]);
+  d.low = low; d.high = high;
+}
+
+/* ---------- Audio ---------- */
+let ctx = null, master, comp, noiseBuf;
+function ensureAudio(){
+  if (ctx) { if (ctx.state !== 'running') ctx.resume(); return; }
+  const AC = window.AudioContext || window.webkitAudioContext;
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){} // iPhone: play even in silent mode where allowed
+  ctx = new AC();
+  comp = ctx.createDynamicsCompressor();
+  comp.threshold.value = -10; comp.ratio.value = 4;
+  master = ctx.createGain(); master.gain.value = +$('#master').value/100;
+  master.connect(comp); comp.connect(ctx.destination);
+  noiseBuf = ctx.createBuffer(1, ctx.sampleRate*2, ctx.sampleRate);
+  const ch = noiseBuf.getChannelData(0); for (let i=0;i<ch.length;i++) ch[i] = Math.random()*2-1;
+  for (const d of DECKS){
+    d.out = ctx.createGain(); d.out.connect(master);
+    d.gate = ctx.createGain(); d.gate.gain.value = 0; d.gate.connect(d.out);
+  }
+  applyFader();
+  setInterval(schedule, 25);
+}
+function env(g, t, peak, dec){
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t+0.003);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+dec);
+}
+function noise(t, dest, type, freq, q, peak, dec){
+  const s = ctx.createBufferSource(); s.buffer = noiseBuf;
+  const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+  const g = ctx.createGain(); env(g, t, peak, dec);
+  s.connect(f).connect(g).connect(dest); s.start(t); s.stop(t+dec+.02);
+  return [s];
+}
+function tone(t, dest, wave, f0, f1, sweep, peak, dec, lp){
+  const o = ctx.createOscillator(); o.type = wave;
+  o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t+sweep);
+  const g = ctx.createGain(); env(g, t, peak, dec);
+  let n = o;
+  if (lp){ const f = ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value = lp; o.connect(f); n = f; }
+  n.connect(g).connect(dest); o.start(t); o.stop(t+dec+.02);
+  return [o];
+}
+function chord(t, dest, freqs, wave, peak, dur, lp){
+  const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = lp;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t + Math.min(.25, dur*.3));
+  g.gain.setValueAtTime(peak, t + dur*.8);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  f.connect(g).connect(dest);
+  const nodes = [];
+  for (const fr of freqs) for (const det of [-7, 7]){
+    const o = ctx.createOscillator(); o.type = wave; o.frequency.value = fr; o.detune.value = det;
+    o.connect(f); o.start(t); o.stop(t + dur + .02); nodes.push(o);
+  }
+  return nodes;
+}
+const VOICE = {
+  kick:  (t,d,v)=>tone(t,d,'sine',150,45,.11,1.0*v,.42),
+  bass:  (t,d,v,b)=>tone(t,d,'sawtooth',ROOTS[b],ROOTS[b],.01,.3*v,.17,430),
+  bassB: (t,d,v,b)=>tone(t,d,'square',ROOTS[b]*2,ROOTS[b]*2,.01,.13*v,.1,650),
+  tom:   (t,d,v)=>tone(t,d,'sine',190,110,.12,.5*v,.22),
+  clap:  (t,d,v)=>noise(t,d,'bandpass',1400,1.2,.65*v,.16),
+  snare: (t,d,v)=>[...tone(t,d,'triangle',220,160,.05,.3*v,.1), ...noise(t,d,'highpass',1800,.7,.5*v,.15)],
+  ohat:  (t,d,v)=>noise(t,d,'highpass',7500,.7,.22*v,.13),
+  hat:   (t,d,v)=>noise(t,d,'highpass',8500,.7,.18*v,.04),
+  hat16: (t,d,v)=>noise(t,d,'highpass',9000,.7,.13*v,.03),
+  shaker:(t,d,v)=>noise(t,d,'bandpass',6000,1.5,.12*v,.04),
+  rim:   (t,d,v)=>tone(t,d,'square',820,800,.01,.12*v,.03),
+  crash: (t,d,v)=>noise(t,d,'highpass',4500,.5,.3*v,1.5),
+  stab:  (t,d,v,b)=>chord(t,d,CHORDS[b],'sawtooth',.05*v,.22,2400),
+  pad:   (t,d,v,b)=>chord(t,d,CHORDS[b],'sawtooth',.045,SPB*4,1300),
+  padB:  (t,d,v,b)=>chord(t,d,CHORDS[b].map(f=>f*2),'triangle',.06,SPB*4,2200)
+};
+
+/* ---------- Deck state & timing ---------- */
+const now = () => ctx ? ctx.currentTime : performance.now()/1000;
+// position in beats, linear in time (also before the anchor), so nothing jumps
+function posAt(d, t){ return d.playing ? d.anchorPos + (t-d.anchorTime)/SPB : d.pos; }
+function viewPos(d){ // what you hear now (scheduled clock minus output delay)
+  if (!d.playing || !ctx) return posAt(d, now());
+  return posAt(d, ctx.currentTime - (ctx.outputLatency || ctx.baseLatency || 0));
+}
+function stopVoices(d){
+  const t = now();
+  d.gate.gain.cancelScheduledValues(t);
+  d.gate.gain.setTargetAtTime(0, t, .012);
+  for (const s of d.sources){ try{ s.n.stop(t + .08); }catch(e){} }
+  d.sources = [];
+}
+function startAt(d, pos, time){ // play from beat `pos` at audio time `time`
+  d.playing = true; d.anchorPos = pos; d.anchorTime = time;
+  d.nextStep = Math.ceil(pos*4 - 1e-9);
+  const t = now();
+  d.gate.gain.cancelScheduledValues(t);
+  d.gate.gain.setValueAtTime(d.gate.gain.value, t);
+  d.gate.gain.setValueAtTime(1, Math.max(t, time - .002));
+}
+function pause(d){
+  if (!d.playing) return;
+  d.pos = Math.max(0, posAt(d, now())); d.playing = false; stopVoices(d);
+}
+function stepTime(d, s){ return d.anchorTime + (s/4 - d.anchorPos)*SPB; }
+function schedule(){
+  if (!ctx) return;
+  const t = ctx.currentTime, ahead = t + 0.12;
+  for (const d of DECKS){
+    if (!d.playing) continue;
+    d.sources = d.sources.filter(s => s.end > t);
+    let guard = 0;
+    while (stepTime(d, d.nextStep) < ahead && guard++ < 64){
+      const s = d.nextStep, st = stepTime(d, s);
+      if (s >= 0 && st >= t - 0.005){
+        for (const [inst, v, b] of hitsAt(d, s)){
+          for (const n of VOICE[inst](Math.max(st, t), d.gate, v, b)) d.sources.push({ n, end: st + SPB*4 + .1 });
+        }
+      }
+      d.nextStep++;
+    }
+  }
+}
+DECKS.forEach(d => { Object.assign(d, { playing:false, pos:0, anchorPos:0, anchorTime:0, nextStep:0, sources:[], startK:null }); buildTables(d); });
+const [A, B] = DECKS;
+
+/* ---------- Deck controls ---------- */
+const playA = $('#playA'), startBBtn = $('#startB');
+function updateButtons(){
+  playA.textContent = A.playing ? 'Pause' : 'Play';
+  playA.setAttribute('aria-label', (A.playing ? 'Pause' : 'Play') + ' Deck A');
+  startBBtn.textContent = B.playing ? 'Stop and re-cue' : 'Start B';
+  startBBtn.setAttribute('aria-label', B.playing ? 'Stop Deck B and cue it back to the start' : 'Start Deck B');
+}
+function toggleA(){
+  ensureAudio();
+  if (A.playing){ pause(A); }
+  else { startAt(A, A.pos, ctx.currentTime + .03); }
+  updateButtons();
+}
+function cueA(){ pause(A); A.pos = 0; scored.clear(); updateButtons(); }
+let bNote = '';
+function startB(){
+  ensureAudio();
+  if (B.playing) return;
+  if (!A.playing){ bNote = 'Play Deck A first, then start B at the top of one of A\'s phrases.'; showB(); return; }
+  // snap to the beat you hear nearest; B's first beat lands exactly on that beat of A
+  const k = Math.round(viewPos(A));
+  B.startK = k;
+  startAt(B, 0, A.anchorTime + (k - A.anchorPos)*SPB);
+  B.nextStep = Math.max(0, Math.ceil(posAt(B, ctx.currentTime)*4 - 1e-9));
+  bNote = '';
+  updateButtons();
+}
+function stopB(){ pause(B); B.pos = 0; B.nextStep = 0; B.startK = null; bNote = ''; updateButtons(); }
+// Timing buttons act on finger-down, not on lift; Enter/Space still work through click.
+function onPress(btn, fn){
+  let viaPointer = false;
+  btn.addEventListener('pointerdown', e => { if (e.button !== 0) return; viaPointer = true; fn(); });
+  btn.addEventListener('click', () => { if (viaPointer){ viaPointer = false; return; } fn(); });
+}
+onPress(playA, toggleA);
+$('#cueA').addEventListener('click', cueA);
+onPress(startBBtn, () => { B.playing ? stopB() : startB(); });
+
+/* ---------- Mixer ---------- */
+const xf = $('#xfader'), xfOut = $('#xfOut'), mv = $('#master');
+function applyFader(){
+  const x = +xf.value/100;
+  xfOut.textContent = x < .03 ? 'All A' : x > .97 ? 'All B' : Math.abs(x-.5) < .04 ? 'Both' : `${Math.round((1-x)*100)}% A / ${Math.round(x*100)}% B`;
+  xf.setAttribute('aria-valuetext', xfOut.textContent);
+  if (!ctx) return;
+  const t = ctx.currentTime;
+  A.out.gain.setTargetAtTime(Math.cos(x*Math.PI/2), t, .015);
+  B.out.gain.setTargetAtTime(Math.sin(x*Math.PI/2), t, .015);
+}
+xf.addEventListener('input', applyFader);
+mv.addEventListener('input', () => {
+  $('#masterOut').textContent = mv.value + '%';
+  if (master) master.gain.setTargetAtTime(+mv.value/100, ctx.currentTime, .02);
+});
+$('#resetBtn').addEventListener('click', () => {
+  cueA(); stopB(); xf.value = 0; applyFader();
+  if (listening) $('#hideCount').click();
+  hits = 0; tries = 0; updateScore(); tapMsg('Tap the moment a new section starts. Within half a beat counts.', '');
+  lessonStep = 0; doneSteps.clear(); renderLesson();
+});
+
+/* ---------- Tap on the change ---------- */
+const TAP_EARLY = .5, TAP_LATE = .5, TAP_WINDOW = 3; // beats
+let hits = 0, tries = 0; const scored = new Set();
+const tapFb = $('#tapFeedback');
+function tapMsg(txt, cls){ tapFb.textContent = txt; tapFb.className = 'feedback' + (cls ? ' ' + cls : ''); }
+function beatsWord(b){ if (b < 1.25) return `${Math.round(b*SPB*1000)} ms`; const r = Math.round(b*2)/2; return `${r} beats`; }
+function tap(){
+  ensureAudio();
+  if (!A.playing){ tapMsg('Press Play on Deck A first.', 'warn'); return; }
+  const p = viewPos(A), nb = Math.round(p/PHRASE)*PHRASE, err = p - nb;
+  if (nb < PHRASE || Math.abs(err) > TAP_WINDOW){
+    tries++;
+    const left = PHRASE - mod(p, PHRASE);
+    tapMsg(`No change there. In this demo sections change every 8 bars. The next one is ${Math.ceil(left/4)} bar${Math.ceil(left/4) === 1 ? '' : 's'} away: count to 8 and listen for the next 1.`, 'warn');
+  } else if (scored.has(nb)){
+    tapMsg('You already tapped that change. Wait for the next one, 8 bars from now.', '');
+    return;
+  } else {
+    tries++;
+    const name = A.sections[mod(nb/PHRASE, SECTIONS_N)].name;
+    if (err < -TAP_EARLY) tapMsg(`Early by ${beatsWord(-err)}. The ${name} starts on the 1 after bar 8. Try again right on it.`, 'warn'); // early taps don't use up this change
+    else if (err > TAP_LATE){ scored.add(nb); tapMsg(`Late by ${beatsWord(err)}. Count along so you feel bar 8 ending and press as the ${name} lands, not after.`, 'warn'); }
+    else {
+      scored.add(nb); hits++;
+      const ms = Math.round(Math.abs(err)*SPB*1000);
+      tapMsg(`On it. The ${name} started ${ms < 40 ? 'right as you tapped' : ms + ' ms ' + (err < 0 ? 'after you tapped' : 'before you tapped')}.`, 'ok');
+    }
+  }
+  updateScore();
+}
+function updateScore(){
+  $('#rHits').textContent = hits; $('#rTries').textContent = tries;
+  const pill = $('#hitPill');
+  pill.textContent = hits >= 3 ? `${hits} on time` : `${hits} of 3`;
+  pill.className = 'pill' + (hits >= 3 ? ' ok' : '');
+}
+onPress($('#tapBtn'), tap);
+
+/* ---------- Hide the count ---------- */
+let listening = false;
+$('#hideCount').addEventListener('click', e => {
+  listening = !listening;
+  document.body.classList.toggle('listening', listening);
+  e.currentTarget.setAttribute('aria-pressed', String(listening));
+});
+
+/* ---------- Keyboard shortcuts ---------- */
+let keysOn = true;
+$('#keysToggle').addEventListener('click', e => {
+  keysOn = !keysOn;
+  e.currentTarget.setAttribute('aria-pressed', String(keysOn));
+  e.currentTarget.textContent = keysOn ? 'Shortcuts on' : 'Shortcuts off';
+});
+document.addEventListener('keydown', e => {
+  if (!keysOn || e.altKey || e.ctrlKey || e.metaKey || e.repeat) return;
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea') return;
+  const k = e.key.toLowerCase();
+  if (k === 'a'){ toggleA(); }
+  else if (k === 'b'){ B.playing ? stopB() : startB(); }
+  else if (k === 't'){ tap(); }
+});
+
+/* ---------- Theme ---------- */
+const root = document.documentElement;
+try { const th = localStorage.getItem('phr-theme'); if (th) root.dataset.theme = th; } catch(e){}
+$('#themeToggle').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('phr-theme', root.dataset.theme); } catch(e){}
+});
+
+/* ---------- Analysis ---------- */
+function where(p){ // beat position -> section, bar and beat inside the phrase
+  const q = Math.max(0, p), inPhrase = mod(q, PHRASE);
+  return { phrase: Math.floor(q/PHRASE), sec: mod(Math.floor(q/PHRASE), SECTIONS_N), bar: Math.floor(inPhrase/4) + 1, beat: Math.floor(mod(q,4)) + 1, toNext: PHRASE - inPhrase };
+}
+function analyze(){
+  const pa = viewPos(A), pb = viewPos(B);
+  const both = A.playing && B.playing;
+  const lag = mod(pa - pb, PHRASE);                      // beats into A's phrase where B's phrase starts
+  const lagR = Math.round(lag) % PHRASE, onBeat = Math.abs(lag - Math.round(lag)) < .08;
+  const aligned = both && onBeat && lagR === 0;
+  return { pa, pb, both, lag, lagR, onBeat, aligned, wa: where(pa), wb: where(pb) };
+}
+function lagDesc(lagR){ // B's phrases relative to A's
+  return lagR < PHRASE/2 ? `${lagWords(lagR)} after A's` : `${lagWords(PHRASE - lagR)} before A's`;
+}
+function lagWords(lagR){
+  const bars = Math.floor(lagR/4), beats = lagR % 4, parts = [];
+  if (bars) parts.push(`${bars} bar${bars === 1 ? '' : 's'}`);
+  if (beats) parts.push(`${beats} beat${beats === 1 ? '' : 's'}`);
+  return parts.join(' and ');
+}
+
+/* ---------- Canvas ---------- */
+const cv = $('#lanes'), g = cv.getContext('2d');
+let W = 0, H = 0, dpr = 1;
+function resize(){
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = cv.getBoundingClientRect();
+  W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+  cv.width = W*dpr; cv.height = H*dpr; g.setTransform(dpr,0,0,dpr,0,0);
+}
+new ResizeObserver(resize).observe(cv); resize();
+const COL = {
+  A:{ low:'#e0397a', high:'#f3cdd8' }, B:{ low:'#ff86b0', high:'#ffe6ee' },
+  bar:'rgba(255,255,255,.22)', phrase:'rgba(255,255,255,.9)', ok:'#5fe08a', bad:'#ffb347',
+  play:'#ffffff', lane:'#1f1f23', text:'#ffffff', dim:'rgba(255,255,255,.62)'
+};
+const FONT = '"Space Grotesk", system-ui, sans-serif';
+const STRIP = 24;
+function viewBeats(){ return W < 520 ? 40 : 64; }       // 10 or 16 bars across
+
+function drawLane(d, top, h, pos, headX, pxb, cued){
+  g.fillStyle = COL.lane; g.fillRect(0, top, W, h);
+  const waveH = h - STRIP, mid = top + waveH/2 + 2, half = waveH/2 - 8, N = LOOP_BEATS*RES;
+  g.fillStyle = COL[d.id].low; g.beginPath();
+  const hiCols = new Float32Array(W);
+  for (let x=0; x<W; x++){
+    const p0 = pos + (x - headX)/pxb, p1 = pos + (x + 1 - headX)/pxb;
+    if (p1 <= 0) continue;
+    let lo = 0, hi = 0;
+    const i0 = Math.floor(Math.max(0, p0)*RES), i1 = Math.max(i0 + 1, Math.ceil(p1*RES));
+    for (let i=i0; i<i1; i++){ const j = i % N; if (d.low[j] > lo) lo = d.low[j]; if (d.high[j] > hi) hi = d.high[j]; }
+    hiCols[x] = hi;
+    const v = lo*half; if (v > .5) g.rect(x, mid - v, 1, v*2);
+  }
+  g.fill();
+  g.fillStyle = COL[d.id].high; g.beginPath();
+  for (let x=0; x<W; x++){ const v = hiCols[x]*half*.55; if (v > .5) g.rect(x, mid - v, 1, v*2); }
+  g.fill();
+  // section strip
+  const pStart = pos - headX/pxb, pEnd = pos + (W - headX)/pxb;
+  g.font = `700 12px ${FONT}`; g.textBaseline = 'middle';
+  for (let ph = Math.max(0, Math.floor(pStart/PHRASE)); ph*PHRASE <= pEnd; ph++){
+    const x0 = headX + (ph*PHRASE - pos)*pxb, x1 = x0 + PHRASE*pxb;
+    const sec = d.sections[mod(ph, SECTIONS_N)];
+    g.fillStyle = SEC_COLOR[sec.name]; g.fillRect(Math.max(0, x0), top + h - STRIP, Math.min(W, x1) - Math.max(0, x0), STRIP);
+    const label = sec.name, tw = g.measureText(label).width;
+    const lx = Math.max(x0, 0) + 6;
+    if (lx + tw < x1 - 4){ g.fillStyle = COL.text; g.fillText(label, lx, top + h - STRIP/2); }
+  }
+  // bar lines, phrase lines, bar numbers 1-8
+  g.textBaseline = 'top'; g.font = `700 11px ${FONT}`;
+  const barPx = 4*pxb;
+  for (let k = Math.max(0, Math.ceil(pStart/4)); k*4 <= pEnd; k++){
+    const x = headX + (k*4 - pos)*pxb, phraseLine = k % 8 === 0;
+    g.fillStyle = phraseLine ? COL.phrase : COL.bar;
+    g.fillRect(Math.round(x) - (phraseLine ? 1.5 : .5), top, phraseLine ? 3 : 1, h - STRIP);
+    if (barPx >= 18 || phraseLine){
+      g.fillStyle = phraseLine ? COL.text : COL.dim;
+      g.fillText(String(k % 8 + 1), x + 4, top + 4);
+    }
+  }
+  // lane label
+  g.font = `700 12px ${FONT}`;
+  const lbl = `${d.id}${cued ? ' · cued at the start of its intro' : d.playing ? '' : ' · paused'}`;
+  const tw = g.measureText(lbl).width;
+  g.fillStyle = 'rgba(18,18,20,.85)'; g.fillRect(4, top + h - STRIP - 22, tw + 10, 18);
+  g.textBaseline = 'bottom'; g.fillStyle = COL.text; g.fillText(lbl, 9, top + h - STRIP - 7);
+}
+
+function draw(){
+  const a = analyze();
+  const gap = 30, laneH = (H - gap)/2, pxb = W/viewBeats();
+  g.clearRect(0,0,W,H);
+  if (listening){
+    g.fillStyle = COL.lane; g.fillRect(0, 0, W, H);
+    g.fillStyle = COL.text; g.font = `700 16px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('Picture hidden: count it by ear', W/2, H/2 - 10);
+    g.font = `500 13px ${FONT}`; g.fillStyle = COL.dim;
+    g.fillText('Press Hide the count again to bring it back', W/2, H/2 + 14);
+    g.textAlign = 'start';
+    updateCount(a); tickLesson(a);
+    return;
+  }
+  // playhead: fixed in the middle, or (reduced motion) moving across a still page
+  let headX = W/2;
+  if (reduceMotion.matches){
+    const vb = viewBeats(), start = Math.floor(Math.max(0, a.pa)/PHRASE)*PHRASE - (vb - PHRASE)/2; // one phrase per page
+    headX = (a.pa - start)*pxb;
+  }
+  const bCued = !B.playing && B.pos === 0;
+  drawLane(A, 0, laneH, a.pa, headX, pxb, false);
+  drawLane(B, laneH + gap, laneH, a.pb, headX, pxb, bCued);
+  // middle band: do the phrase lines meet?
+  const y0 = laneH, y1 = laneH + gap;
+  g.fillStyle = '#151517'; g.fillRect(0, y0, W, gap);
+  g.font = `700 12px ${FONT}`; g.textBaseline = 'middle';
+  if (a.both){
+    const col = a.aligned ? COL.ok : COL.bad;
+    g.strokeStyle = col; g.lineWidth = 2;
+    const pStart = a.pa - headX/pxb, pEnd = a.pa + (W - headX)/pxb;
+    for (let k = Math.ceil(pStart/PHRASE); k*PHRASE <= pEnd; k++){
+      const xa = headX + (k*PHRASE - a.pa)*pxb, xb = xa + wrapC(a.lag, PHRASE)*pxb; // B's phrase starts `lag` beats after A's
+      g.beginPath(); g.moveTo(xa, y0); g.lineTo(xa, y0 + gap/2); g.lineTo(xb, y0 + gap/2); g.lineTo(xb, y1); g.stroke();
+    }
+    const msg = a.aligned ? 'Phrases line up' : !a.onBeat ? 'B is off the beat' : `B's phrases start ${lagDesc(a.lagR)}`;
+    const tw = g.measureText(msg).width, lx = Math.min(W - tw - 8, Math.max(8, headX + 10));
+    g.fillStyle = '#151517'; g.fillRect(lx - 4, y0 + 4, tw + 8, gap - 8);
+    g.fillStyle = col; g.fillText(msg, lx, y0 + gap/2);
+  } else {
+    const msg = !A.playing ? 'Press Play on Deck A' : W < 520 ? 'Start B on a thick line' : 'Start B at the top of a phrase, the thick white line';
+    const tw = g.measureText(msg).width, lx = Math.max(8, Math.min(W - tw - 8, headX + 10));
+    g.fillStyle = COL.dim; g.fillText(msg, lx, y0 + gap/2);
+  }
+  g.fillStyle = COL.play; g.fillRect(Math.round(headX) - 1, 0, 2, y0); g.fillRect(Math.round(headX) - 1, y1, 2, H - y1); // gap left clear for the label
+  g.beginPath(); g.moveTo(headX-6,0); g.lineTo(headX+6,0); g.lineTo(headX,7); g.fill();
+  g.beginPath(); g.moveTo(headX-6,H); g.lineTo(headX+6,H); g.lineTo(headX,H-7); g.fill();
+  updateCount(a);
+  tickLesson(a);
+}
+
+/* ---------- The count panel ---------- */
+const barBoxes = [...$('#barBoxes').children], beatDots = [...$('#beatDots').children];
+let lastCount = '', lastB = '';
+function updateCount(a){
+  const w = a.wa;
+  const key = `${w.phrase}|${w.bar}|${w.beat}|${A.playing}`;
+  if (key !== lastCount){
+    lastCount = key;
+    $('#secName').textContent = A.sections[w.sec].name;
+    $('#secSub').textContent = `Phrase ${w.sec + 1} of ${SECTIONS_N}`;
+    $('#bigCount').textContent = `Bar ${w.bar} · Beat ${w.beat}`;
+    barBoxes.forEach((li, i) => { li.className = i + 1 < w.bar ? 'past' : i + 1 === w.bar ? 'now' : ''; });
+    beatDots.forEach((li, i) => { li.className = i < w.beat ? 'on' : ''; });
+    const left = Math.ceil(w.toNext - 1e-6), next = A.sections[mod(w.sec + 1, SECTIONS_N)].name;
+    $('#nextChange').textContent = !A.playing && a.pa === 0 ? 'Press Play on Deck A to start.'
+      : left <= 4 ? `${next} in ${left}...` : `Next change: ${next}, in ${Math.ceil(left/4)} bars.`;
+  }
+  let bl;
+  if (B.playing && !A.playing){
+    bl = 'Deck A is paused, so the two decks have drifted apart. Play A, then press Stop and re-cue on B.';
+  } else if (B.playing){
+    bl = `Deck B: ${B.sections[a.wb.sec].name}, bar ${a.wb.bar}. ` + (a.aligned ? 'Its bar 1 lands on A\'s bar 1.' : a.onBeat ? `Its bar 1 lands on A's bar ${Math.floor(a.lagR/4) + 1}, beat ${a.lagR % 4 + 1}.` : 'Off the beat: stop and start it again.');
+  } else bl = bNote;
+  if (bl !== lastB){ $('#deckBLine').textContent = bl; lastB = bl; }
+}
+function showB(){ lastB = null; }
+
+/* ---------- Lesson ---------- */
+const STEPS = [
+  { k:'Start here', h:'What a phrase is',
+    b:`<p>Dance music is built in blocks. <strong>4 beats make a bar. 8 bars make a phrase</strong> (32 beats). When a song changes (the bass comes in, the drums drop out, the drop hits), the change almost always lands on bar 1 of a phrase.</p><p>In this demo every section is one phrase long. Real songs often hold a section for 16 or 32 bars, but the change still lands on a phrase.</p><p>Press <strong>Play on Deck A</strong> and watch the count. Listen for what changes when the count rolls from bar 8 back to bar 1.</p>`,
+    status: a => A.playing && a.pa >= PHRASE + 1 ? ['ok', 'You heard the first change: the bass and shaker came in on bar 1 of the Groove. Tap Next.'] : A.playing ? ['', 'Keep listening for the first change, after bar 8.'] : ['', 'Press Play on Deck A.'],
+    done: a => A.playing && a.pa >= PHRASE + 1 },
+  { k:'Step 1 of 3', h:'Count it, then tap it',
+    b:`<p>Count along in your head: <strong>1-2-3-4, 2-2-3-4, 3-2-3-4</strong>, up to <strong>8-2-3-4</strong>. The change lands on the next 1.</p><p>Tap <strong>That's the change</strong> (or press <kbd>T</kbd>) right as a new section starts. Get three on time. Too easy? Press <strong>Hide the count</strong> and do it by ear.</p>`,
+    status: a => hits >= 3 ? ['ok', `${hits} on time. That counting is what tells a DJ when to move. Tap Next.`] : ['', `${hits} of 3 on time so far.`],
+    done: a => hits >= 3 },
+  { k:'Step 2 of 3', h:'Start Deck B on the phrase',
+    b:`<p>Deck B is cued at the start of its intro and already beat matched. The crossfader is on A, so you won't hear B yet. That's like cueing it in your headphones.</p><p>Count through bar 8 in your head (8-2-3-4) and press <strong>Start B</strong> right on the next <strong>1</strong>, the moment the crash hits. Waiting to hear the crash first usually makes you late. If the middle line turns orange, press <strong>Stop and re-cue</strong> and try the next phrase.</p>`,
+    status: a => {
+      if (a.aligned){
+        const sec = B.startK === null ? -1 : mod(Math.floor(B.startK/PHRASE), SECTIONS_N);
+        return ['ok', 'On the phrase. Every change in B now lands with a change in A.' + (sec === 5 ? ' And B\'s intro is under A\'s outro, the classic spot to start a mix.' : '') + ' Tap Next.'];
+      }
+      if (B.playing && !A.playing) return ['warn', 'Deck A is paused. Play A, then press Stop and re-cue on B and try again.'];
+      if (B.playing && a.onBeat) return ['warn', `B started on bar ${Math.floor(a.lagR/4) + 1}, beat ${a.lagR % 4 + 1} of A's phrase, so its changes land ${lagDesc(a.lagR)}. Press Stop and re-cue, then try again on a bar 1.`];
+      if (B.playing) return ['warn', 'B is off the beat. Press Stop and re-cue, then start it again.'];
+      return ['', A.playing ? 'Wait for bar 1 of a phrase, then press Start B.' : 'Press Play on Deck A first.'];
+    },
+    done: a => a.aligned },
+  { k:'Step 3 of 3', h:'Bring Deck B in',
+    b:`<p>Slide the <strong>crossfader</strong> toward the middle at the top of a phrase. Listen: when B's bass or drums change, A changes at the same moment. That's why phrased mixes feel smooth.</p><p>Want to hear it wrong? Press <strong>Stop and re-cue</strong>, start B a few bars late, and bring the fader in. B's changes now land in the middle of A's phrases, and it sounds like two songs arguing.</p>`,
+    status: a => a.aligned && +xf.value >= 40 ? ['ok', 'That\'s a phrased mix. Nice work.'] : a.aligned ? ['', 'Now slide the crossfader toward the middle.'] : B.playing ? ['', 'B is off the phrase. Hear the changes clash? To fix it, press Stop and re-cue and start B on a 1.'] : ['', 'Start B on the 1 of a phrase, then bring in the crossfader.'],
+    done: a => a.aligned && +xf.value >= 40 }
+];
+let lessonStep = 0; const doneSteps = new Set();
+const lessonBody = $('#lessonBody'), lessonStatus = $('#lessonStatus'), nextBtn = $('#lessonNext'), backBtn = $('#lessonBack');
+let lastStatus = '';
+function renderLesson(focus){
+  if (lessonStep >= STEPS.length){
+    $('#lessonKicker').textContent = 'Done';
+    $('#lessonHeading').textContent = 'You mixed on the phrase';
+    lessonBody.innerHTML = `<p>A common move: start the new song's <strong>intro</strong> when the old song's <strong>outro</strong> begins. When the two are the same length, the new song's main part arrives just as the old one ends.</p><p>Try it: wait for A's Outro, then start B on its first bar. (Here A loops back to its intro instead of ending.) Then try the whole thing with the count hidden.</p><p>Homework: put on five songs you love and count the bars. Notice where the changes land: almost always on bar 1 of a phrase.</p>`;
+    lessonStatus.textContent = 'Tap Start over to run it again.'; lessonStatus.className = 'status ok';
+    nextBtn.textContent = 'Start over'; backBtn.disabled = false;
+  } else {
+    const s = STEPS[lessonStep];
+    $('#lessonKicker').textContent = s.k; $('#lessonHeading').textContent = s.h; lessonBody.innerHTML = s.b;
+    nextBtn.textContent = lessonStep === STEPS.length - 1 ? 'Finish' : 'Next';
+    backBtn.disabled = lessonStep === 0;
+    lastStatus = '';
+  }
+  [...$('#stepBar').children].forEach((li, i) => {
+    li.className = i < lessonStep || doneSteps.has(i) && i !== lessonStep ? 'done' : i === lessonStep ? 'current' : '';
+  });
+  if (focus) $('#lessonHeading').focus();
+}
+let statusT = 0;
+function tickLesson(a){
+  if (lessonStep >= STEPS.length) return;
+  const s = STEPS[lessonStep];
+  if (s.done(a)) doneSteps.add(lessonStep);
+  const tNow = performance.now();
+  if (tNow - statusT < 250) return;
+  statusT = tNow;
+  let [cls, txt] = s.status(a);
+  if (doneSteps.has(lessonStep) && cls !== 'ok' && lessonStep < 2){ [cls, txt] = ['ok', 'Done. Tap Next.']; }
+  const key = cls + txt;
+  if (key !== lastStatus){ lessonStatus.textContent = txt; lessonStatus.className = 'status' + (cls ? ' ' + cls : ''); lastStatus = key; }
+}
+nextBtn.addEventListener('click', () => {
+  if (lessonStep >= STEPS.length){ $('#resetBtn').click(); renderLesson(true); return; }
+  lessonStep++; renderLesson(true);
+});
+backBtn.addEventListener('click', () => { lessonStep = Math.max(0, lessonStep - 1); renderLesson(true); });
+$('#lessonToggle').addEventListener('click', e => {
+  const L = $('#lesson'); L.hidden = !L.hidden;
+  e.currentTarget.textContent = L.hidden ? 'Show lesson' : 'Hide lesson';
+  e.currentTarget.setAttribute('aria-expanded', String(!L.hidden));
+});
+renderLesson(); updateButtons(); updateScore();
+
+/* ---------- Loop ---------- */
+function frame(){ draw(); requestAnimationFrame(frame); }
+requestAnimationFrame(frame);
+window.__phr = { DECKS, analyze, hitsAt, tap, startB, stopB, toggleA, lagDesc, get hits(){ return hits; }, get tries(){ return tries; }, posAt, viewPos };
+})();
+</script>
+</body>
+</html>
